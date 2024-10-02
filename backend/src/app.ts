@@ -7,6 +7,8 @@ const app = express();
 app.use(express.json());
 
 // Rutas
+
+//Ruta para el recurso de usuario
 app.use("/api/v1", userRoutes);
 
 // Inicializa Swagger

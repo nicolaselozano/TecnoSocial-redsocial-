@@ -1,6 +1,7 @@
 import { User } from "../models/userModel";
 import pool from "../../../config/database";
 
+// cambiar a clase y crear un constructor para seleccionar la base de datos
 export const userRepository = {
   findAll: async (): Promise<User[]> => {
     const [rows] = await pool.query("SELECT * FROM users");

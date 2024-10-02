@@ -2,6 +2,7 @@ import { User } from "../models/userModel";
 import { userRepository } from "../repositories/userRepository";
 import { v4 as uuidv4 } from "uuid";
 
+// Servicio de usuario
 export const userService = {
   getAllUsers: async (): Promise<User[]> => userRepository.findAll(),
 

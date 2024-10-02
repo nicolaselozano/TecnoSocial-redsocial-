@@ -9,6 +9,8 @@ import {
 
 const router = Router();
 
+//Configuración de Swagger
+
 /**
  * @swagger
  * tags:
