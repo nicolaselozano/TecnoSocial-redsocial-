@@ -1,9 +1,11 @@
 import express from "express";
 import { setupSwagger } from "./config/swagger";
 import userRoutes from "./features/user/routes/userRoutes";
+import cookie_parser from "cookie-parser";
 
 const app = express();
 
+app.use(cookie_parser());
 app.use(express.json());
 
 // Rutas
