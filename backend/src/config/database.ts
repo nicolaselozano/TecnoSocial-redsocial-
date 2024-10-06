@@ -1,16 +1,16 @@
-import mysql from "mysql2/promise";
-import dotenv from "dotenv";
+import { DataSource } from "typeorm";
+import { User } from "../features/user/userEntity";
+require("dotenv").config();
 
-dotenv.config();
-
-const pool = mysql.createPool({
+const con = new DataSource({
+  type: "mysql",
   host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  port: Number(process.env.DB_PORT),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  synchronize: true,
+  entities: [User],
 });
 
-export default pool;
+export default con;
