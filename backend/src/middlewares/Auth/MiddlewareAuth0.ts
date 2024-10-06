@@ -2,8 +2,62 @@ import { NextFunction, Request, Response } from "express";
 import { ManageToken } from "./utils/ManageToken";
 import { RefreshTokenDTO } from "./interface/RefreshTokenDTO";
 import { CookieConfig } from "./utils/CookieConfig";
-import { Jwt } from "jsonwebtoken";
+import jwt,{ Jwt, JwtPayload } from "jsonwebtoken";
 import { TokenDTO } from "./interface/TokenDTO";
+import { SECRET_KEY } from "@/config/vars_config";
+import { UserDataToken } from "./interface/UserDataToken";
+
+const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
+    const tokenCookieName = "token";
+    try {
+        
+        const token: string = req.cookies[tokenCookieName]
+        .replace("Bearer ", "")
+        .trim();
+
+        if(token){
+            const validateToken: Jwt | null = await ManageToken.ValidateToken(token);
+            if(!validateToken){
+
+                throw new Error("El token no es valido");
+                
+            } 
+            console.log("TOKEN VERIFICADO EN CHECK");
+            
+            const decoded = jwt.verify(token,SECRET_KEY) as JwtPayload;
+
+            const email = decoded["custom_email_claim"];
+            const authName = decoded["custom_name_claim"];
+            const authId = decoded["sub"];
+
+            if(email && authName && authId){
+
+                const userData:UserDataToken = {
+                    authId,
+                    authName,
+                    email,
+                    token
+                }
+
+                res.locals.userData = userData;
+                console.log(res.locals["userData"] as UserDataToken);
+                
+                console.log("Token Validado y Datos de Usuario Agregados al Contexto");
+                
+
+            }else{
+                throw Error("No esta en Email ni el Nombre en el token, chequee la configuracion en auth0");
+            }
+
+        }
+
+    } catch (error) {
+        console.error("Error en el middleware CheckToken:", error);
+        return res.status(401).json({
+            message: error || "Error de autenticación"
+        });
+    }
+}
 
 const SetToken = async (req: Request, res: Response, next: NextFunction) => {
     const tokenCookieName = "token";
@@ -30,7 +84,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
 
                 return next();
 
-            }else{
+            } else {
 
                 console.log("Token Validado en SetToken");
                 return next();
@@ -59,7 +113,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
 
     } catch (error) {
         console.error("Error en el middleware SetToken: ", error);
-        return res.status(500).json({ error: "Error interno en el servidor", message:error?.message});
+        return res.status(401).json({ error: "Error interno en el servidor", message: error });
     }
 };
 
