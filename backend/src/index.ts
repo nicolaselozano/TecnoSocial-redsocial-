@@ -20,19 +20,19 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use("/api/v1", userRouter,authUserRoutes);
 
-app.listen(PORT, () => {
-  console.log(` Servidor corriendo en ${URL}:${PORT}`);
-  console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
-});
-// con
-//   .initialize()
-//   .then(() => {
-//     console.log("Conexión a la base de datos exitosa");
-//     app.listen(PORT, () => {
-//       console.log(` Servidor corriendo en ${URL}:${PORT}`);
-//       console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
-//     });
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
+// app.listen(PORT, () => {
+//   console.log(` Servidor corriendo en ${URL}:${PORT}`);
+//   console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
+// });
+con
+  .initialize()
+  .then(() => {
+    console.log("Conexión a la base de datos exitosa");
+    app.listen(PORT, () => {
+      console.log(` Servidor corriendo en ${URL}:${PORT}`);
+      console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  });
