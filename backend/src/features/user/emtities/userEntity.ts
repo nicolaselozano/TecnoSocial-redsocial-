@@ -6,15 +6,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar", length: 100 })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 150 })
   email: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 100 })
   password: string;
 
   @OneToMany(() => Post, (post) => post.user_id)
-  post: Post[];
+  posts: Post[];
 }
