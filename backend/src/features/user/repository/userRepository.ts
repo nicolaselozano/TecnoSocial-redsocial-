@@ -1,5 +1,5 @@
-import con from "../../config/database";
-import { User } from "./userEntity";
+import con from "../../../config/database";
+import { User } from "../emtities/userEntity";
 
 class UserRopository {
   private repository = con.getRepository(User);

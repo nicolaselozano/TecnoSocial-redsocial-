@@ -1,6 +1,6 @@
 import express from "express";
 import con from "./config/database";
-import userRouter from "./features/user/userRoutes";
+import userRouter from "./features/user/routes/userRoutes";
 import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
 import cookieParser from "cookie-parser";
 const { swaggerUi, swaggerSpecs } = require("./config/swagger");

@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { User } from "../features/user/userEntity";
+import { User } from "../features/user/emtities/userEntity";
 require("dotenv").config();
 
 const con = new DataSource({
