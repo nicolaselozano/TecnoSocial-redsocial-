@@ -16,15 +16,17 @@ class PostController {
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
-    const users = await postRepository.getAllPosts();
-    res.json(users);
+    console.log("GETTING ALL THE POSTS");
+
+    const posts = await postRepository.getAllPosts();
+    res.json(posts);
   }
 
   public async getPostById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const user = await postRepository.getPostById(id);
-    res.json(user);
+    const post = await postRepository.getPostById(id);
+    res.json(post);
   }
 
   public async updatePost(req: Request, res: Response): Promise<void> {

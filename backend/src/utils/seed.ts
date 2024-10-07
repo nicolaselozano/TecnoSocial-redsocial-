@@ -2,6 +2,7 @@ import con from "../config/database";
 import envs from "../config/envs";
 import { Post as PostEntity } from "../features/post/postEntity";
 import { User as UserEntity } from "../features/user/emtities/userEntity";
+import { MOCK_POSTS } from "./constants";
 
 if (!envs.SEED) {
   console.log(envs.SEED);
@@ -25,13 +26,18 @@ if (!envs.SEED) {
 
     await User.insert(newUser);
 
-    const newPost = Post.create({
-      content: "This is a made up post",
-      title: "My first post ever",
-      user_id: newUser,
-    });
+    const posts = await Promise.all(
+      MOCK_POSTS.map(async (post) => {
+        const newPost = Post.create({
+          content: post.content,
+          title: post.title,
+          user_id: newUser,
+        });
+        return newPost;
+      })
+    );
 
-    await Post.insert(newPost);
+    await Post.insert(posts);
 
     console.log("Seeding completed successfully.");
   } catch (error) {
