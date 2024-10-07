@@ -19,7 +19,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/features/**/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
+  apis: ["./src/features/**/emtities/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
 };
 
 // Generar la especificación de Swagger
