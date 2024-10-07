@@ -1,5 +1,6 @@
 import express from "express";
 import con from "./config/database";
+import envs from "./config/envs";
 import userRouter from "./features/user/routes/userRoutes";
 import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
 import cookieParser from "cookie-parser";
@@ -19,9 +20,6 @@ app.use(cors({
   credentials: true
 }));
 
-const PORT = process.env.SERVER_PORT || 3000;
-const URL = process.env.SERVER_URL || "http://localhost";
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use("/api/v1", userRouter,authUserRoutes);
@@ -37,9 +35,11 @@ con
   .initialize()
   .then(() => {
     console.log("Conexión a la base de datos exitosa");
-    app.listen(PORT, () => {
-      console.log(` Servidor corriendo en ${URL}:${PORT}`);
-      console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
+    app.listen(envs.PORT, () => {
+      console.log(` Servidor corriendo en ${envs.URL}:${envs.PORT}`);
+      console.log(
+        ` Documentación disponible en ${envs.URL}:${envs.PORT}/api-docs`
+      );
     });
   })
   .catch((err) => {
