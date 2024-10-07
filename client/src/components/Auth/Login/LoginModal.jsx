@@ -90,15 +90,6 @@ const LoginModal = ({ onClose }) => {
                                 />
                                 <span>Registrarte con Google</span>
                             </button>
-                            <div className="text-lg font-medium text-gray-500 dark:text-gray-300">
-                                No estás registrado?{' '}
-                                <a
-                                    onClick={() => onClose(true)}
-                                    className="text-blue-700 hover:underline dark:text-blue-500"
-                                >
-                                    Crear cuenta
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
