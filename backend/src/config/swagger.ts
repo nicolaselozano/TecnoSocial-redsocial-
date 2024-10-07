@@ -1,31 +1,28 @@
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import { Express } from "express";
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
+// Definir opciones para Swagger
 const swaggerOptions = {
-  definition: {
+  swaggerDefinition: {
     openapi: "3.0.0",
     info: {
-      title: "API de Red Social",
+      title: "Developer Social Network API",
       version: "1.0.0",
-      description: "Documentación de la API para la red social",
+      description: "Documentación de la API usando Swagger",
     },
     servers: [
       {
-        url: "http://localhost:3000",
-        description: "Servidor de desarrollo",
+        url: "http://localhost:3000", // URL base de tu API
+      },
+      {
+        url: "http://ec2-107-23-48-235.compute-1.amazonaws.com",
       },
     ],
   },
-  apis: [
-    // Rutas de los controladores de usuario
-    "./src/features/user/routes/userRoutes.ts",
-    "./src/features/auth_user/routes/authUserRoutes.ts"
-  ],
+  apis: ["./src/features/**/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
 };
 
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
+// Generar la especificación de Swagger
+const swaggerSpecs = swaggerJsdoc(swaggerOptions);
 
-export const setupSwagger = (app: Express) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-};
+module.exports = { swaggerUi, swaggerSpecs };

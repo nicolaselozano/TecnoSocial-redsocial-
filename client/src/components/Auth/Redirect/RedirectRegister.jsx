@@ -28,7 +28,9 @@ const RedirectRegister = () => {
                     });
 
                     const data = await response.json();
-                    if (data.id_user) setChallengesData(JSON.stringify(data.id_user));
+                    console.log(JSON.stringify(data));
+                    
+                    if (data.user.email) setChallengesData(JSON.stringify(data.user.email));
                     else setChallengesData('error');
                 } catch (error) {
                     console.error(
@@ -47,7 +49,7 @@ const RedirectRegister = () => {
     }, [code, challengesData]);
 
     const handleLoginRedirect = () => {
-        navigate('/login'); // Redirigir a la página de login
+        navigate('/');
     };
 
     return (
@@ -60,10 +62,10 @@ const RedirectRegister = () => {
                     </div>
                     <button
                         type="button"
-                        className="mt-4 w-1/3 text-white bg-accents hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        className="mt-4 w-1/3 text-black bg-accents hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         onClick={handleLoginRedirect}
                     >
-                        Iniciar sesión
+                        Volver al Inicio
                     </button>
                 </div>
             ) : challengesData === "error" ? (
@@ -74,10 +76,10 @@ const RedirectRegister = () => {
                     </div>
                     <button
                         type="button"
-                        className="mt-4 w-1/3 text-white bg-accents hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        className="mt-4 w-1/3 text-black bg-black hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         onClick={handleLoginRedirect}
                     >
-                        Iniciar sesión
+                        Volver al Inicio
                     </button>
                 </div>
             ) : (

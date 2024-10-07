@@ -1,15 +1,7 @@
 import { Router } from "express";
-import {
-  getAllUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
-} from "../controllers/userController";
+import { userController } from "./userController";
 
-const router = Router();
-
-//Configuración de Swagger
+const userRouter = Router();
 
 /**
  * @swagger
@@ -20,38 +12,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/v1/users:
- *   get:
- *     summary: Obtiene todos los usuarios
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: Lista de usuarios
- */
-router.get("/users", getAllUsers);
-
-/**
- * @swagger
- * /api/v1/users/{id}:
- *   get:
- *     summary: Obtiene un usuario por ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID del usuario
- *     responses:
- *       200:
- *         description: Usuario encontrado
- *       404:
- *         description: Usuario no encontrado
- */
-router.get("/users/:id", getUserById);
-
-/**
- * @swagger
- * /api/v1/users:
+ * /api/usuario:
  *   post:
  *     summary: Crea un nuevo usuario
  *     tags: [Users]
@@ -72,11 +33,44 @@ router.get("/users/:id", getUserById);
  *       201:
  *         description: Usuario creado
  */
-router.post("/users", createUser);
+userRouter.post("/usuario", userController.createUser);
 
 /**
  * @swagger
- * /api/v1/users/{id}:
+ * /api/usuario:
+ *   get:
+ *     summary: Obtiene todos los usuarios
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ */
+
+userRouter.get("/usuario", userController.getAllUsers);
+
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *   get:
+ *     summary: Obtiene un usuario por ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario encontrado
+ *       404:
+ *         description: Usuario no encontrado
+ */
+
+userRouter.get("/usuario/:id", userController.getUserById);
+
+/**
+ * @swagger
+ * /api/usuario/{id}:
  *   put:
  *     summary: Actualiza un usuario por ID
  *     tags: [Users]
@@ -104,11 +98,11 @@ router.post("/users", createUser);
  *       404:
  *         description: Usuario no encontrado
  */
-router.put("/users/:id", updateUser);
+userRouter.put("/usuario/:id", userController.updateUser);
 
 /**
  * @swagger
- * /api/v1/users/{id}:
+ * /api/usuario/{id}:
  *   delete:
  *     summary: Elimina un usuario por ID
  *     tags: [Users]
@@ -123,6 +117,6 @@ router.put("/users/:id", updateUser);
  *       404:
  *         description: Usuario no encontrado
  */
-router.delete("/users/:id", deleteUser);
+userRouter.delete("/usuario/:id", userController.deleteUser);
 
-export default router;
+export default userRouter;

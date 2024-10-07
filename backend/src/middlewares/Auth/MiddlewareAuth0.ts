@@ -2,9 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { ManageToken } from "./utils/ManageToken";
 import { RefreshTokenDTO } from "./interface/RefreshTokenDTO";
 import { CookieConfig } from "./utils/CookieConfig";
-import jwt,{ Jwt, JwtPayload } from "jsonwebtoken";
+import {  JwtPayload } from "jsonwebtoken";
 import { TokenDTO } from "./interface/TokenDTO";
-import { SECRET_KEY } from "../../config/vars_config";
 import { UserDataToken } from "./interface/UserDataToken";
 
 const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -69,8 +68,9 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
     const refreshTokenCookieName = "refresh-token";
 
     try {
+        console.log(req.cookies[tokenCookieName]);
         
-        if (req.cookies[tokenCookieName]) {
+        if (req.cookies[tokenCookieName] !== undefined) {
             console.log("Existe en las COOKIES EL TOKEN");
             
             let token: string = req.cookies[tokenCookieName];
@@ -100,7 +100,8 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             const code: string | undefined = req.query["code"]?.toString();
-
+            console.log(code);
+            
             if (code) {
                 const createRToken: RefreshTokenDTO = await ManageToken.GetTokenWCode(code);
                 
