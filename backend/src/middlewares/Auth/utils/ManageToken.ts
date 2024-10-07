@@ -1,9 +1,10 @@
 import axios from "axios";
-import { CLIENT_HOST, CLIENT_ID, CLIENT_SECRET, DOMAIN } from "@/config/vars_config";
+import { CLIENT_HOST, CLIENT_ID, CLIENT_SECRET, DOMAIN } from "../../../config/vars_config";
 import { RefreshTokenDTO } from "../interface/RefreshTokenDTO";
 import { TokenDTO } from "../interface/TokenDTO";
-import jwt, { JwtPayload, Jwt, verify } from 'jsonwebtoken';
-import jwksClient from 'jwks-rsa';
+import jwt, { Jwt, JwtPayload } from 'jsonwebtoken';
+import jose from 'node-jose';
+
 
 const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
 
@@ -28,8 +29,8 @@ const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
         return data;
 
 
-    } catch (error) {
-        console.error("Error al obtener el token:", error);
+    } catch (error: any) {
+        console.error("Error al obtener el token:", error.message);
         throw Error("Error al crear el token con el codigo")
     }
 
@@ -58,60 +59,76 @@ const GetTokenWRT = async (refreshToken: string): Promise<TokenDTO> => {
         return data;
 
 
-    } catch (error) {
-        console.error("Error al obtener el token:", error);
+    } catch (error: any) {
+        console.error("Error al obtener el token:", error.message);
         throw Error("Error al crear el token con el codigo")
     }
 
 }
 
-interface OpenIdConfig {
+
+interface OpenIdConnectConfiguration {
+    issuer: string;
     jwks_uri: string;
 }
 
-interface ValidateToken {
-    (token: string): Promise<Jwt | null>;
+interface Jwk {
+    kty: string; // Tipo de clave
+    use: string; // Uso de la clave
+    kid: string; // ID de la clave
+    alg: string; // Algoritmo
+    n: string; // Módulo en Base64
+    e: string; // Exponente en Base64
 }
 
-const ValidateToken: ValidateToken = async (token: string) => {
+interface JwksResponse {
+    keys: Jwk[];
+}
+
+export async function ValidateToken(token: string): Promise<JwtPayload | null> {
     try {
+        console.log(`SOY EL TOKEN VALIDATETOKENASYNC ${token}`);
 
-        const openIdConfigUrl = `https://${DOMAIN}/.well-known/openid-configuration`;
-        const { data: openIdConfig } = await axios.get<OpenIdConfig>(openIdConfigUrl);
+        const authDomain = process.env.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
+        const discoveryUrl = `https://${authDomain}/.well-known/openid-configuration`;
 
-        const client = jwksClient({
-            jwksUri: openIdConfig.jwks_uri
-        });
+        const response = await axios.get<OpenIdConnectConfiguration>(discoveryUrl);
+        const jwksUri = response.data.jwks_uri;
 
-        const getKey = (header: jwt.JwtHeader, callback: jwt.SigningKeyCallback) => {
-            client.getSigningKey(header.kid as string, (err, key) => {
-                const signingKey = key?.getPublicKey();
-                callback(null, signingKey);
-            });
-        };
+        // Obtén las claves de firma del JWKS
+        const jwksResponse = await axios.get<JwksResponse>(jwksUri);
+        const signingKeys = jwksResponse.data.keys;
 
-        const validatedToken = await new Promise<Jwt>((resolve, reject) => {
-            verify(token, getKey, {
-                audience: `https://${DOMAIN}`,
-                issuer: `https://${DOMAIN}/`,
-                algorithms: ['RS256']
-            }, (err, decodedToken) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(decodedToken as Jwt);
-                }
-            });
-        });
+        if (!signingKeys || signingKeys.length === 0) {
+            throw new Error('No signing keys found in the JWKS.');
+        }
 
-        console.log('Token validado correctamente:', validatedToken);
-        return validatedToken;
+        // Busca la clave que coincide con el "kid" del token
+        const decodedToken: any = jwt.decode(token, { complete: true });
+        const key = signingKeys.find(k => k.kid === decodedToken.header.kid);
 
-    } catch (error) {
-        console.error('Error validando el token:', error);
+        if (!key) {
+            throw new Error('No signing key found for the token.');
+        }
+
+        // Convierte la clave en una cadena PEM para la verificación
+        const publicKey = await jose.JWK.asKey({
+            kty: key.kty,
+            n: key.n,
+            e: key.e,
+        }, "json");
+
+        // Verifica el token usando la clave de firma
+        const validatedToken = jwt.verify(token, publicKey.toPEM(), { algorithms: ['RS256'] });
+
+        return validatedToken as JwtPayload; // Retorna el token validado
+
+    } catch (error:any) {
+        console.error('Token validation error:', error.message);
         return null;
     }
-};
+}
+
 
 export const ManageToken = {
     GetTokenWCode,

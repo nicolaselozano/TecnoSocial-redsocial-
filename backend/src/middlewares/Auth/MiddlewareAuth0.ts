@@ -4,31 +4,35 @@ import { RefreshTokenDTO } from "./interface/RefreshTokenDTO";
 import { CookieConfig } from "./utils/CookieConfig";
 import jwt,{ Jwt, JwtPayload } from "jsonwebtoken";
 import { TokenDTO } from "./interface/TokenDTO";
-import { SECRET_KEY } from "@/config/vars_config";
+import { SECRET_KEY } from "../../config/vars_config";
 import { UserDataToken } from "./interface/UserDataToken";
 
 const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     const tokenCookieName = "token";
+    console.log("CHECK TOKEN");
+    
     try {
+        let token: string | undefined = res.locals.token || req.cookies[tokenCookieName];
+        console.log(token);
         
-        const token: string = req.cookies[tokenCookieName]
-        .replace("Bearer ", "")
-        .trim();
-
         if(token){
-            const validateToken: Jwt | null = await ManageToken.ValidateToken(token);
+        
+            token = token.replace("Bearer ", "").trim();
+
+            console.log("TOKEN A VALIDAR : "+token);
+            
+
+            const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
             if(!validateToken){
 
                 throw new Error("El token no es valido");
                 
             } 
             console.log("TOKEN VERIFICADO EN CHECK");
-            
-            const decoded = jwt.verify(token,SECRET_KEY) as JwtPayload;
 
-            const email = decoded["custom_email_claim"];
-            const authName = decoded["custom_name_claim"];
-            const authId = decoded["sub"];
+            const email = validateToken["custom_email_claim"];
+            const authName = validateToken["custom_name_claim"];
+            const authId = validateToken["sub"];
 
             if(email && authName && authId){
 
@@ -43,33 +47,36 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
                 console.log(res.locals["userData"] as UserDataToken);
                 
                 console.log("Token Validado y Datos de Usuario Agregados al Contexto");
-                
+
 
             }else{
                 throw Error("No esta en Email ni el Nombre en el token, chequee la configuracion en auth0");
             }
 
         }
-
-    } catch (error) {
-        console.error("Error en el middleware CheckToken:", error);
-        return res.status(401).json({
-            message: error || "Error de autenticación"
+        next();
+    } catch (error:any) {
+        console.error("Error en el middleware CheckToken:", error.message);
+        res.status(401).json({
+            message: error.message || "Error de autenticación"
         });
     }
 }
 
 const SetToken = async (req: Request, res: Response, next: NextFunction) => {
+    
     const tokenCookieName = "token";
     const refreshTokenCookieName = "refresh-token";
 
     try {
-        const token: string = req.cookies[tokenCookieName]
-            .replace("Bearer ", "")
-            .trim();
+        
+        if (req.cookies[tokenCookieName]) {
+            console.log("Existe en las COOKIES EL TOKEN");
+            
+            let token: string = req.cookies[tokenCookieName];
+            token = token.replace("Bearer ", "").trim();
 
-        if (token) {
-            const validateToken: Jwt | null = await ManageToken.ValidateToken(token);
+            const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
             //si el token no es valido se intenta recrear a travez del refresh token
             if (validateToken == null) {
                 const refreshToken: string = req.cookies[refreshTokenCookieName]
@@ -79,15 +86,13 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
                 res.cookie(refreshTokenCookieName, refreshToken, CookieConfig({
                     maxAge: 214748
                 }));
-
-                console.log("Se creo un nuevo token con RToken")
-
-                return next();
+                res.locals.token = `Bearer ${createToken.accessToken}`; 
+                
+                console.log("Se creo un nuevo token con RToken");
 
             } else {
 
                 console.log("Token Validado en SetToken");
-                return next();
 
             }
 
@@ -98,26 +103,29 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
 
             if (code) {
                 const createRToken: RefreshTokenDTO = await ManageToken.GetTokenWCode(code);
-
-                res.cookie(tokenCookieName, `Bearer ${createRToken.accessToken}`, CookieConfig());
-                res.cookie(refreshTokenCookieName, createRToken.refreshToken, CookieConfig({
+                
+                res.cookie(tokenCookieName, `Bearer ${createRToken.access_token}`, CookieConfig());
+                res.cookie(refreshTokenCookieName, createRToken.refresh_token, CookieConfig({
                     maxAge: 214748
                 }));
-
-                return next();
+                console.log(createRToken.access_token);
+                
+                res.locals.token = `Bearer ${createRToken.access_token}`; 
+                console.log("TOKEN CREADO CON EL CODIGO");
+            }else{
+                throw new Error("No se recibio codigo de registro")
             }
 
         }
-
-        return next();
-
-    } catch (error) {
-        console.error("Error en el middleware SetToken: ", error);
-        return res.status(401).json({ error: "Error interno en el servidor", message: error });
+        next();
+    } catch (error:any) {
+        console.error("Error en el middleware SetToken: ", error.message);
+        res.status(401).json({ error: "Error de autenticación", message: error.message });
     }
 };
 
 
 export const MiddlewareAuth0 = {
-    SetToken
+    SetToken,
+    CheckToken
 };

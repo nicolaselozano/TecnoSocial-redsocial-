@@ -20,6 +20,7 @@ const swaggerOptions = {
   apis: [
     // Rutas de los controladores de usuario
     "./src/features/user/routes/userRoutes.ts",
+    "./src/features/auth_user/routes/authUserRoutes.ts"
   ],
 };
 
