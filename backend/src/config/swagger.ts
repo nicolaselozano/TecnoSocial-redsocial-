@@ -15,7 +15,7 @@ const swaggerOptions = {
         url: "http://localhost:3000", // URL base de tu API
       },
       {
-        url: "http://ec2-107-23-48-235.compute-1.amazonaws.com",
+        url: "http://ec2-100-25-217-101.compute-1.amazonaws.com",
       },
     ],
   },
