@@ -16,8 +16,6 @@ class PostController {
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
-    console.log("GETTING ALL THE POSTS");
-
     const posts = await postRepository.getAllPosts();
     res.json(posts);
   }

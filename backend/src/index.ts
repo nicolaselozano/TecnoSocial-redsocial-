@@ -6,7 +6,7 @@ import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
 import userRouter from "./features/user/routes/userRoutes";
 import { healthcheck } from "./utils/healthcheck";
 import postRouter from "./features/post/postRoutes";
-const { swaggerUi, swaggerSpecs } = require("./config/swagger");
+import { swaggerUi, swaggerSpecs } from "./config/swagger";
 require("dotenv").config();
 
 const cors = require("cors");

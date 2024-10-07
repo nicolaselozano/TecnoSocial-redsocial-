@@ -6,16 +6,16 @@ const postRouter = Router();
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: API para gestionar usuarios
+ *   name: Posts
+ *   description: API para gestionar posts
  */
 
 /**
  * @swagger
- * /api/usuario:
+ * /api/post:
  *   post:
- *     summary: Crea un nuevo usuario
- *     tags: [Users]
+ *     summary: Crea un nuevo post
+ *     tags: [Posts]
  *     requestBody:
  *       required: true
  *       content:
@@ -23,62 +23,62 @@ const postRouter = Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *               email:
+ *               content:
  *                 type: string
- *               password:
+ *               user_id:
  *                 type: string
  *     responses:
  *       201:
- *         description: Usuario creado
+ *         description: post creado
  */
 postRouter.post("/post", postController.createPost);
 
 /**
  * @swagger
- * /api/usuario:
+ * /api/post:
  *   get:
- *     summary: Obtiene todos los usuarios
- *     tags: [Users]
+ *     summary: Obtiene todos los posts
+ *     tags: [Posts]
  *     responses:
  *       200:
- *         description: Lista de usuarios
+ *         description: Lista de posts
  */
 
 postRouter.get("/post", postController.getAllPosts);
 
 /**
  * @swagger
- * /api/usuario/{id}:
+ * /api/post/{id}:
  *   get:
- *     summary: Obtiene un usuario por ID
- *     tags: [Users]
+ *     summary: Obtiene un post por ID
+ *     tags: [Posts]
  *     parameters:
  *       - in: path
- *         name: id
+ *         id: id
  *         required: true
- *         description: ID del usuario
+ *         description: ID del post
  *     responses:
  *       200:
- *         description: Usuario encontrado
+ *         description: post encontrado
  *       404:
- *         description: Usuario no encontrado
+ *         description: post no encontrado
  */
 
 postRouter.get("/post/:id", postController.getPostById);
 
 /**
  * @swagger
- * /api/usuario/{id}:
+ * /api/post/{id}:
  *   put:
- *     summary: Actualiza un usuario por ID
- *     tags: [Users]
+ *     summary: Actualiza un post por ID
+ *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID del usuario
+ *         description: ID del post
  *     requestBody:
  *       required: true
  *       content:
@@ -94,28 +94,28 @@ postRouter.get("/post/:id", postController.getPostById);
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuario actualizado
+ *         description: post actualizado
  *       404:
- *         description: Usuario no encontrado
+ *         description: post no encontrado
  */
 postRouter.put("/post/:id", postController.updatePost);
 
 /**
  * @swagger
- * /api/usuario/{id}:
+ * /api/post/{id}:
  *   delete:
- *     summary: Elimina un usuario por ID
- *     tags: [Users]
+ *     summary: Elimina un post por ID
+ *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID del usuario
+ *         description: ID del post
  *     responses:
  *       204:
- *         description: Usuario eliminado
+ *         description: post eliminado
  *       404:
- *         description: Usuario no encontrado
+ *         description: post no encontrado
  */
 postRouter.delete("/post/:id", postController.deletePost);
 
