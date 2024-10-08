@@ -1,0 +1,30 @@
+post:
+      summary: Crea un nuevo proyecto
+      tags: [Project]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                role:
+                  type: string
+                url:
+                  type: string
+                collaborators: 
+                  type: string  
+      responses:
+        201:
+          description: Proyecto creado
+get:
+      summary: Obtiene todos los proyectos
+      tags: [Project]
+      responses:
+        200:
+          description: Lista de proyectos
+

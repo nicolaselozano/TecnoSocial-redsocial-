@@ -6,7 +6,9 @@
     "start": "tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev ./src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "cross-env SEED=true tsx src/utils/seed.ts",
+    "swagger:build": "npx swagger-cli bundle src/docs/index.yaml --outfile src/docs/build/swagger.yaml --type yaml"
   },
   "keywords": [],
   "author": "",
@@ -31,8 +33,8 @@
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20",
     "typescript": "^5.6.2",
-    "zod": "3.23.8",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
@@ -40,11 +42,16 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.4",
-    "ts-node-dev": "2.0.0",
     "@types/node-jose": "^1.1.13",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "0.2.34",
+    "cross-env": "7.0.3",
+    "swagger-cli": "4.0.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "ts-node-dev": "2.0.0",
+    "tsx": "4.19.1",
+    "typescript": "^5.6.2",
+    "yamljs": "0.3.0"
   }
 }
