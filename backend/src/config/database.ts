@@ -3,8 +3,9 @@ import envs from "./envs";
 
 import { Post } from "../features/post/postEntity";
 import { Project } from "../features/project/projectEntity";
-import { User } from "../features/user/userEntity";
 import { Image } from "@/features/image/imageEntity";
+import { Technology } from "../features/technology/technologyEntity";
+import { User } from "../features/user/userEntity";
 
 const con = new DataSource({
   type: "mysql",
@@ -15,7 +16,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post, Project, Image],
+  entities: [User, Post, Project, Image, Technology],
 });
 
 export default con;

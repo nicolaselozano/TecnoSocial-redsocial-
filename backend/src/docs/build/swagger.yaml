@@ -1,39 +1,146 @@
 openapi: 3.0.0
+
+# Información de la API
 info:
   title: Developer Social Network API
   version: 1.0.0
   description: Documentación de la API usando Swagger
+
+# Servidores
 servers:
-  - url: 'http://ec2-100-25-217-101.compute-1.amazonaws.com'
-  - url: 'http://localhost:3000/api/v1'
-    description: Sandbox server (uses test data)
+  - url: "http://ec2-100-25-217-101.compute-1.amazonaws.com"
+  - url: "http://localhost:3000/api/v1"
+    description: Sandbox server
+
+# Tags y orden de los endpoints
 tags:
+  - name: Users
+    description: API para gestionar usuarios
   - name: Posts
     description: API para gestionar posts
+  - name: Projects
+    description: API para gestionar proyectos
+
+# Rutas de la API
 paths:
+  # ------------ Rutas de usuario
+  /user:
+    # ------------ Rutas de usuario GET
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserGet"
+
+    # ------------ Rutas de usuario POST
+    post:
+      summary: Crea un nuevo usuario
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPost"
+      responses:
+        "201":
+          description: Usuario creado
+
+  "/user/{id}":
+    # ------------ Rutas de usuario GetById
+    get:
+      summary: Obtiene un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserGet"
+        "404":
+          description: Usuario no encontrado
+
+    # ------------ Rutas de usuario PUT
+    put:
+      summary: Actualiza un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPut"
+      responses:
+        "200":
+          description: Usuario actualizado
+        "404":
+          description: Usuario no encontrado
+
+    # ------------ Rutas de usuario DELETE
+    delete:
+      summary: Elimina un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDelete"
+      responses:
+        "204":
+          description: Usuario eliminado
+        "404":
+          description: Usuario no encontrado
+
+  # ------------ Rutas de post
   /post:
+    # ------------ Rutas de post GET
     get:
       summary: Obtiene todos los posts
       tags:
         - Posts
       responses:
-        '200':
+        "200":
           description: Lista de posts
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
-              example:
-                - id: '1'
-                  title: Primer post
-                  content: Contenido del primer post
-                  user_id: '12345'
-                - id: '2'
-                  title: Segundo post
-                  content: Contenido del segundo post
-                  user_id: '67890'
+                  $ref: "#/components/schemas/Post"
+
+    # ------------ Rutas de post POST
     post:
       summary: Crea un nuevo post
       tags:
@@ -43,31 +150,13 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                content:
-                  type: string
-                user_id:
-                  type: number
-            example:
-              title: Mi primer post
-              content: Este es el contenido de mi primer post
-              user_id: 12345
+              $ref: "#/components/schemas/Post"
       responses:
-        '201':
+        "201":
           description: Post creado
-          content:
-            application/json:
-              schema:
-                $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
-              example:
-                id: '1'
-                title: Mi primer post
-                content: Este es el contenido de mi primer post
-                user_id: 12345
-  '/post/{id}':
+
+  "/post/{id}":
+    # ------------ Rutas de post GetById
     get:
       summary: Obtiene un post por ID
       tags:
@@ -76,23 +165,19 @@ paths:
         - in: path
           name: id
           required: true
-          description: ID del post
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Post encontrado
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
-              example:
-                id: '1'
-                title: Mi primer post
-                content: Este es el contenido de mi primer post
-                user_id: '12345'
-        '404':
+                $ref: "#/components/schemas/Post"
+        "404":
           description: Post no encontrado
+
+    # ------------ Rutas de post DELETE
     delete:
       summary: Elimina un post por ID
       tags:
@@ -101,134 +186,282 @@ paths:
         - in: path
           name: id
           required: true
-          description: ID del post
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Post eliminado
+        "404":
+          description: Post no encontrado
+
+    # ------------ Rutas de post PUT
+    put:
+      summary: Actualiza un post por ID
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "200":
+          description: Post actualizado
+        "404":
+          description: Post no encontrado
+
+  # ------------ Rutas de proyecto
+  /project:
+    # ------------ Rutas de proyecto GET
+    get:
+      summary: Obtiene todos los proyectos
+      tags:
+        - Projects
+      responses:
+        "200":
+          description: Lista de proyectos
+
+    # ------------ Rutas de proyecto POST
+    post:
+      summary: Crea un nuevo proyecto
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "201":
+          description: Proyecto creado
+
+  "/project/{id}":
+    # ------------ Rutas de proyecto GetById
+    get:
+      summary: Obtiene un proyecto por ID
+      tags:
+        - Projects
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Proyecto encontrado
+        "404":
+          description: Proyecto no encontrado
+
+    # ------------ Rutas de proyecto PUT
+    put:
+      summary: Actualiza un proyecto por ID
+      tags:
+        - Projects
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "200":
+          description: Proyecto actualizado
+        "404":
+          description: Proyecto no encontrado
+
+    # ------------ Rutas de proyecto DELETE
+    delete:
+      summary: Elimina un proyecto por ID
+      tags:
+        - Projects
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Proyecto eliminado
+        "404":
+          description: Proyecto no encontrado
+          
+  /technology:
+    get:
+      summary: Obtiene todos las tecnologias
+      tags:
+        - Technologies
+      responses:
+        '200':
+          description: Lista de las tecnologias
+          content:
+            application/json:
+              schema:
+              $ref: "#/components/schemas/technology"
+    post:
+      summary: Crea una nueva tecnologia
+      tags:
+        - Technologies
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+              $ref: "#/components/schemas/technology"
+      responses:
+        '201':
+          description: tecnologia creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  color:
+                    type: string
+              example:
+                name: angular
+                color: '#ffffff'
+  '/technology/{name}':
+    get:
+      summary: Obtiene una tecnologia por nombre
+      tags:
+        - Technologies
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: Nombre de la tecnologia
+          schema:
+            type: string
+      responses:
+        '200':
+          description: tecnologia encontrada
+          content:
+            application/json:
+              schema:
+              $ref: "#/components/schemas/technology"
+        '404':
+          description: tecnologia no encontrada
+    delete:
+      summary: Elimina una tecnologia por nombre
+      tags:
+        - Technologies
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: nombre de la tecnologia
           schema:
             type: string
       responses:
         '204':
-          description: Post eliminado
+          description: tecnologia eliminada
         '404':
-          description: Post no encontrado
+          description: tecnologia no encontrada
     put:
-      summary: Modifica un post ya existente
+      summary: Modifica una tecnologia ya existente
       tags:
-        - Posts
+        - Technologies
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                title:
-                  type: string
-                content:
-                  type: string
-                user_id:
-                  type: number
-            example:
-              title: Mi primer post
-              content: Este es el contenido de mi primer post
-              user_id: '12345'
+              schema:
+              $ref: "#/components/schemas/technology"
       responses:
         '201':
-          description: Post modificado
+          description: tecnologia modificada
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
-              example:
-                id: '1'
-                title: Mi primer post
-                content: Este es el contenido de mi primer post
-                user_id: '12345'
-  /project:
-    post:
-      summary: Crea un nuevo proyecto
-      tags:
-        - Project
-      requestBody:
-        required: true
+              $ref: "#/components/schemas/technology"
+
+# Esquemas de usuario
+components:
+  schemas:
+    # ------------------ Esquemas Usuario Get ------------------
+    UserGet:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    # ------------------ Esquemas Usuario Post ------------------
+    UserPost:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    # ------------------ Esquemas Usuario Put ------------------
+    UserPut:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    # ------------------ Esquemas Usuario Delete ------------------
+    UserDelete:
+      type: object
+      properties:
+        id:
+          type: string
+
+    # ------------------ Esquemas Post ------------------
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
         content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                role:
-                  type: string
-                url:
-                  type: string
-                collaborators:
-                  type: string
-      responses:
-        '201':
-          description: Proyecto creado
-    get:
-      summary: Obtiene todos los proyectos
-      tags:
-        - Project
-      responses:
-        '200':
-          description: Lista de proyectos
-  '/project/{id}':
-    get:
-      summary: Obtiene un proyecto por ID
-      tags:
-        - Project
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      responses:
-        '200':
-          description: Proyecto encontrado
-        '404':
-          description: Proyecto no encontrado
-    put:
-      summary: Actualiza un proyecto por ID
-      tags:
-        - Project
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                status:
-                  type: string
-      responses:
-        '200':
-          description: Proyecto actualizado
-        '404':
-          description: Proyecto no encontrado
-    delete:
-      summary: Elimina un proyecto por ID
-      tags:
-        - Project
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      responses:
-        '204':
-          description: Proyecto eliminado
-        '404':
-          description: Proyecto no encontrado
+          type: string
+        user_id:
+          type: number
+
+    # ------------------ Esquemas Proyecto ------------------
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        role:
+          type: string
+        url:
+          type: string
+        collaborators:
+          type: string
