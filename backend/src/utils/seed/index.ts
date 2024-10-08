@@ -1,8 +1,8 @@
-import con from "../config/database";
-import envs from "../config/envs";
-import { Post as PostEntity } from "../features/post/postEntity";
-import { User as UserEntity } from "../features/user/emtities/userEntity";
-import { MOCK_POSTS } from "./constants";
+import con from "@/config/database";
+import envs from "@/config/envs";
+import { Post as PostEntity } from "@/features/post/postEntity";
+import { User as UserEntity } from "@/features/user/userEntity";
+import { MOCK_POSTS } from "./mockups/posts.mock";
 
 if (!envs.SEED) {
   console.log(envs.SEED);
@@ -40,6 +40,7 @@ if (!envs.SEED) {
     await Post.insert(posts);
 
     console.log("Seeding completed successfully.");
+    process.exit();
   } catch (error) {
     console.error("Error during seeding:", error);
   }
