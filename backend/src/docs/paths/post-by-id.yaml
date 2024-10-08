@@ -14,16 +14,7 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              title:
-                type: string
-              content:
-                type: string
-              user_id:
-                type: string
+            $ref: "../schemas/post-schema.yaml"
           example:
             id: "1"
             title: "Mi primer post"
@@ -54,14 +45,7 @@ put:
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            title:
-              type: string
-            content:
-              type: string
-            user_id:
-              type: string
+          $ref: "../schemas/post-schema.yaml"
         example:
           title: "Mi primer post"
           content: "Este es el contenido de mi primer post"
@@ -72,16 +56,7 @@ put:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              title:
-                type: string
-              content:
-                type: string
-              user_id:
-                type: string
+            $ref: "../schemas/post-schema.yaml"
           example:
             id: "1"
             title: "Mi primer post"

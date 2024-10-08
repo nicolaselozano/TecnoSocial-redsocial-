@@ -5,13 +5,15 @@ info:
   description: Documentación de la API usando Swagger
 servers:
   - url: http://ec2-100-25-217-101.compute-1.amazonaws.com
+  - url: http://localhost:4000/api/v1
+    description: Sandbox server (uses test data)
 tags:
   - name: Posts
     description: API para gestionar posts
 paths:
-  /api/v1/post:
+  /post:
     $ref: "./paths/post.yaml"
-  /api/v1/post/{id}:
+  /post/{id}:
     $ref: "./paths/post-by-id.yaml"
   /api/v1/project:
     $ref: "./paths/project.yaml"

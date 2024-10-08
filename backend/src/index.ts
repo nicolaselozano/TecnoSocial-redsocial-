@@ -12,6 +12,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
@@ -27,12 +28,6 @@ app.use("/health", healthcheck);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use("/api/v1", userRouter,authUserRoutes);
-
-// Para usar sin la db
-// app.listen(PORT, () => {
-//   console.log(` Servidor corriendo en ${URL}:${PORT}`);
-//   console.log(` Documentación disponible en ${URL}:${PORT}/api-docs`);
-// });
 
 con
   .initialize()
