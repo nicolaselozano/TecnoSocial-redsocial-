@@ -1,4 +1,4 @@
-import { UserDataToken } from "../../../middlewares/auth/interface/UserDataToken";
+import { UserDataToken } from "../../../middlewares/auth/DTO/UserDataToken";
 import { Request, Response } from "express";
 import { json } from "stream/consumers";
 
@@ -30,14 +30,13 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
   try {
     const userData: UserDataToken = res.locals["userData"];
 
-    // if (req.query.clearCookies === "true") {
-    //   console.log("JJJJJJJJJJJJJJJJJJJJJJ");
+    if (req.query.clearCookies === "true") {
       
-    //   const cookies = req.cookies;
-    //   for (const cookieName in cookies) {
-    //     res.clearCookie(cookieName);
-    //   }
-    // }
+      const cookies = req.cookies;
+      for (const cookieName in cookies) {
+        res.clearCookie(cookieName);
+      }
+    }
 
     if (userData.email) {
       res.status(200).json({

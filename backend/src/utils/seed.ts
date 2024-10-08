@@ -1,7 +1,7 @@
 import con from "../config/database";
 import envs from "../config/envs";
 import { Post as PostEntity } from "../features/post/postEntity";
-import { User as UserEntity } from "../features/user/emtities/userEntity";
+import { User as UserEntity } from "../features/user/userEntity";
 import { MOCK_POSTS } from "./constants";
 
 if (!envs.SEED) {
