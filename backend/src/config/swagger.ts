@@ -14,9 +14,15 @@ const swaggerOptions = {
       {
         url: "http://ec2-100-25-217-101.compute-1.amazonaws.com",
       },
+      {
+        url: "http://localhost:3000",
+      }
     ],
   },
-  apis: ["./src/features/**/emtities/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
+  apis: [
+    // Rutas de los controladores de usuario
+    "./src/features/user/userRoutes.ts",
+  ], // Ruta a todas las subcarpetas dentro de src/features
 };
 
 // Generar la especificación de Swagger

@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import envs from "./envs";
-import { User } from "../features/user/emtities/userEntity";
+import { User } from "../features/user/userEntity";
 
 const con = new DataSource({
   type: "mysql",

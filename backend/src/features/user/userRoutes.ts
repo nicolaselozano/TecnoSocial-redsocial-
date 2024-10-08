@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userController } from "../controller/userController";
+import { userController } from "./userController";
 
 const userRouter = Router();
 
@@ -12,7 +12,7 @@ const userRouter = Router();
 
 /**
  * @swagger
- * /api/usuario:
+ * /api/v1:
  *   post:
  *     summary: Crea un nuevo usuario
  *     tags: [Users]
@@ -33,11 +33,11 @@ const userRouter = Router();
  *       201:
  *         description: Usuario creado
  */
-userRouter.post("/usuario", userController.createUser);
+userRouter.post("/api/v1/user", userController.createUser);
 
 /**
  * @swagger
- * /api/usuario:
+ * /api/v1:
  *   get:
  *     summary: Obtiene todos los usuarios
  *     tags: [Users]
@@ -46,7 +46,7 @@ userRouter.post("/usuario", userController.createUser);
  *         description: Lista de usuarios
  */
 
-userRouter.get("/usuario", userController.getAllUsers);
+userRouter.get("/v1/usuario", userController.getAllUsers);
 
 /**
  * @swagger
@@ -66,11 +66,11 @@ userRouter.get("/usuario", userController.getAllUsers);
  *         description: Usuario no encontrado
  */
 
-userRouter.get("/usuario/:id", userController.getUserById);
+userRouter.get("/v1/usuario", userController.getUserById);
 
 /**
  * @swagger
- * /api/usuario/{id}:
+ * /api/v1/usuario:
  *   put:
  *     summary: Actualiza un usuario por ID
  *     tags: [Users]
@@ -98,11 +98,11 @@ userRouter.get("/usuario/:id", userController.getUserById);
  *       404:
  *         description: Usuario no encontrado
  */
-userRouter.put("/usuario/:id", userController.updateUser);
+userRouter.put("/v1/usuario", userController.updateUser);
 
 /**
  * @swagger
- * /api/usuario/{id}:
+ * /api/v1/usuario:
  *   delete:
  *     summary: Elimina un usuario por ID
  *     tags: [Users]

@@ -1,9 +1,10 @@
 import express from "express";
 import con from "./config/database";
 import envs from "./config/envs";
-import userRouter from "./features/user/routes/userRoutes";
+import userRouter from "./features/user/userRoutes";
 import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
 import cookieParser from "cookie-parser";
+import projectRouter from "./features/project/projectRoutes";
 const { swaggerUi, swaggerSpecs } = require("./config/swagger");
 require("dotenv").config();
 
@@ -22,7 +23,10 @@ app.use(cors({
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
-app.use("/api/v1", userRouter,authUserRoutes);
+app.use("/api/v1", userRouter);
+app.use('/api/v1', projectRouter);
+//app.use('/api/v1/posts', postRoutes);
+//app.use('/api/v1/comments', commentRoutes);
 
 // Para usar sin la db
 // app.listen(PORT, () => {
