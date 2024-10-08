@@ -8,3 +8,7 @@ properties:
     type: string
   user_id:
     type: number
+  labels:
+    type: array
+    items:
+      $ref: "./label-schema.yaml"

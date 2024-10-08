@@ -1,10 +1,10 @@
 import { DataSource } from "typeorm";
 import envs from "./envs";
 
-import { User } from "../features/user/userEntity";
+import { Label } from "../features/label/labelEntity";
 import { Post } from "../features/post/postEntity";
 import { Project } from "../features/project/projectEntity";
-
+import { User } from "../features/user/userEntity";
 
 const con = new DataSource({
   type: "mysql",
@@ -15,7 +15,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post,Project],
+  entities: [User, Post, Project, Label],
 });
 
 export default con;

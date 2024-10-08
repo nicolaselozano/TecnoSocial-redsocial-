@@ -15,10 +15,18 @@ get:
               title: "Primer post"
               content: "Contenido del primer post"
               user_id: "12345"
+              labels:
+                - name: "react"
+                  color: "#ffffff"
+                - name: "express"
+                  color: "#000000"
             - id: "2"
               title: "Segundo post"
               content: "Contenido del segundo post"
               user_id: "67890"
+              labels:
+                - name: "nextjs"
+                  color: "#bbbbbb"
 post:
   summary: Crea un nuevo post
   tags: [Posts]

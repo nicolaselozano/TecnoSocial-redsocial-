@@ -1,5 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
-import { Post } from "../post/postEntity";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Label {
@@ -8,8 +7,4 @@ export class Label {
 
   @Column({ type: "varchar", length: 120 })
   color: string;
-
-  @ManyToMany(() => Post, (post) => post.id)
-  @JoinTable()
-  posts: Post[];
 }
