@@ -12,8 +12,12 @@ post:
                   type: string
                 description:
                   type: string
-                status:
+                role:
                   type: string
+                url:
+                  type: string
+                collaborators: 
+                  type: string  
       responses:
         201:
           description: Proyecto creado

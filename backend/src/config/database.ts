@@ -3,6 +3,7 @@ import envs from "./envs";
 
 import { User } from "../features/user/userEntity";
 import { Post } from "../features/post/postEntity";
+import { Project } from "../features/project/projectEntity";
 
 
 const con = new DataSource({
@@ -14,7 +15,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post],
+  entities: [User, Post,Project],
 });
 
 export default con;

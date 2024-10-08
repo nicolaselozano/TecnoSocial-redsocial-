@@ -5,7 +5,7 @@ class ProjectRepository {
   private repository = con.getRepository(Project);
 
   // Crear un proyecto
-  public async createRepository(project: Project): Promise<Project> {
+  public async createProject(project: Project): Promise<Project> {
     const response = await this.repository.save(project);
     console.log(response);
 

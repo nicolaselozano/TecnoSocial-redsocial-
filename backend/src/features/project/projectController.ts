@@ -6,7 +6,7 @@ import { Project } from "./projectEntity";
 
 class ProjectController {
   public async createProject(req: Request, res: Response): Promise<void> {
-    const { name, role, description, url, created_at, collaborators } = req.body;
+    const { name, role, description, url, collaborators } = req.body;
 
     const project = new Project();
     project.name = name;
@@ -14,9 +14,9 @@ class ProjectController {
     project.role = role;
     project.url = url;
     project.collaborators = collaborators;
-    project.create_at=created_at;
+    
 
-    const response = await projectRepository.createRepository(project);
+    const response = await projectRepository.createProject(project);
     res.json(response);
   }
 
