@@ -10,6 +10,8 @@ servers:
 tags:
   - name: Posts
     description: API para gestionar posts
+  - name: Project
+    description: API para gestionar projects
 paths:
   /post:
     $ref: "./paths/post.yaml"
@@ -19,3 +21,7 @@ paths:
     $ref: "./paths/project.yaml"
   /project/{id}:
     $ref: "./paths/project-by-id.yaml"
+  /label:
+    $ref: "./paths/label.yaml"
+  /label/{id}:
+    $ref: "./paths/label-by-id.yaml"

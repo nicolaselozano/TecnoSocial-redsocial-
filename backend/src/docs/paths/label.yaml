@@ -1,0 +1,39 @@
+get:
+  summary: Obtiene todos los labels
+  tags: [Labels]
+  responses:
+    "200":
+      description: Lista de labels de los labels
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/label-schema.yaml"
+          example:
+            - name: "react"
+              color: "#ffffff"
+            - name: "express"
+              color: "#000000"
+post:
+  summary: Crea un nuevo label
+  tags: [Labels]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/new-label-schema.yaml"
+        example:
+          name: "angular"
+          color: "#ffffff"
+  responses:
+    "201":
+      description: label creado
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/label-schema.yaml"
+          example:
+            name: "angular"
+            color: "#ffffff"

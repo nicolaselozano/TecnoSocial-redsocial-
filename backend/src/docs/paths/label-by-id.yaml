@@ -1,0 +1,59 @@
+get:
+  summary: Obtiene un label por nombre
+  tags: [Labels]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: Nombre del label
+      schema:
+        type: string
+  responses:
+    "200":
+      description: label encontrado
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/label-schema.yaml"
+          example:
+            name: "react"
+            color: "#ffffff"
+    "404":
+      description: label no encontrado
+delete:
+  summary: Elimina un label por nombre
+  tags: [Labels]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: nombre del label
+      schema:
+        type: string
+  responses:
+    "204":
+      description: label eliminado
+    "404":
+      description: label no encontrado
+put:
+  summary: Modifica un label ya existente
+  tags: [Labels]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/new-label-schema.yaml"
+        example:
+          name: "react"
+          color: "#ffffff"
+  responses:
+    "201":
+      description: label modificado
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/label-schema.yaml"
+          example:
+            name: "react"
+            color: "#ffffff"
