@@ -7,7 +7,7 @@ async function dropDB() {
     }
     await con.dropDatabase();
     await con.destroy();
-    console.log("DB Dropped succesfully 🛠️");
+    console.log("🔨 -- DB Dropped succesfully");
   } catch (error) {
     console.log("Error while dropping DB");
   }
