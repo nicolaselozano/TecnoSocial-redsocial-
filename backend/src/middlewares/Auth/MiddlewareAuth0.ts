@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { ManageToken } from "./utils/ManageToken";
-import { RefreshTokenDTO } from "./DTO/RefreshTokenDTO";
+import { RefreshTokenDTO } from "./interface/RefreshTokenDTO";
 import { CookieConfig } from "./utils/CookieConfig";
 import {  JwtPayload } from "jsonwebtoken";
-import { TokenDTO } from "./DTO/TokenDTO";
-import { UserDataToken } from "./DTO/UserDataToken";
+import { TokenDTO } from "./interface/TokenDTO";
+import { UserDataToken } from "./interface/UserDataToken";
 
 const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     const tokenCookieName = "token";
