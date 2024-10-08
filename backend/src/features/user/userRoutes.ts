@@ -3,11 +3,10 @@ import { userController } from "./userController";
 
 const userRouter = Router();
 
-
-userRouter.post("/usuario", userController.createUser);
-userRouter.get("/usuario", userController.getAllUsers);
-userRouter.get("/usuario/:id", userController.getUserById);
-userRouter.put("/usuario/:id", userController.updateUser);
-userRouter.delete("/usuario/:id", userController.deleteUser);
+userRouter.get("/user", userController.getAllUsers);
+userRouter.post("/user", userController.createUser);
+userRouter.get("/user/:id", userController.getUserById);
+userRouter.put("/user/:id", userController.updateUser);
+userRouter.delete("/user/:id", userController.deleteUser);
 
 export default userRouter;

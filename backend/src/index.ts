@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import "express-async-errors";
 
@@ -7,6 +8,7 @@ import { swaggerSpecs, swaggerUi } from "./config/swagger";
 import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
 import postRouter from "./features/post/postRoutes";
 import projectRouter from "./features/project/projectRoutes";
+import technologyRouter from "./features/technology/technologyRoutes";
 import userRouter from "./features/user/userRoutes";
 import { globalErrors } from "./middlewares/GlobalErrors";
 import { setBaseMiddlewares } from "./middlewares/SetBaseMiddlewares";
@@ -14,11 +16,12 @@ import { healthcheck } from "./utils/healthcheck";
 
 const app = express();
 
+
 setBaseMiddlewares(app);
 
 app.use("/health", healthcheck);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use("/api/v1", userRouter, authUserRoutes, projectRouter, postRouter);
+app.use("/api/v1", userRouter, authUserRoutes, projectRouter, postRouter, technologyRouter);
 
 app.use(globalErrors);
 
