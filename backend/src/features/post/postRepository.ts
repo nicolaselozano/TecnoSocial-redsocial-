@@ -1,4 +1,5 @@
 import con from "../../config/database";
+import { NotFoundError } from "../../utils/errors";
 import { Post } from "./postEntity";
 
 class PostRepository {
@@ -12,15 +13,21 @@ class PostRepository {
     return await this.repository.find();
   }
 
-  public async getPostById(id): Promise<Post> {
-    return await this.repository.findOneBy({ id: id });
+  public async getPostById(id: Post["id"]): Promise<Post> {
+    const post = await this.repository.findOneBy({ id: id });
+
+    if (!post) {
+      throw new NotFoundError(`Post with id ${id} not found`);
+    }
+
+    return post;
   }
 
-  public async updatePost(id, post: Post): Promise<Post> {
-    return (await this.repository.update(id, post)).raw;
+  public async updatePost(id: Post["id"], post: Post): Promise<Post> {
+    return (await this.repository.update({ id: id }, post)).raw;
   }
 
-  public async deletePost(id): Promise<boolean> {
+  public async deletePost(id: Post["id"]): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }
