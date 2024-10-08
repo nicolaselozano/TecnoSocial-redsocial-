@@ -9,5 +9,6 @@ export const RESPONSE_TYPE = 'code';
 // export const API_BOOKS = '';
 
 export const REDIRECT_URI = 'http://localhost:5173/redirect';
+export const CLIENT_DOMAIN = 'http://localhost:5173';
 export const APIDOMAIN = 'http://localhost:3000';
 export const APIDOMAIN_VERSION = '/api/v1';

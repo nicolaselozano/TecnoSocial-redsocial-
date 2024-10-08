@@ -11,7 +11,9 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     console.log("CHECK TOKEN");
     
     try {
-        let token: string | undefined = res.locals.token || req.cookies[tokenCookieName];
+        console.log(req.cookies);
+        
+        let token: string | undefined = req.cookies[tokenCookieName] || res.locals.token;
         console.log(token);
         
         if(token){

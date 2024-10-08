@@ -1,3 +1,5 @@
+import { url } from "inspector";
+
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -14,9 +16,12 @@ const swaggerOptions = {
       {
         url: "http://ec2-100-25-217-101.compute-1.amazonaws.com",
       },
+      {
+        url: "http://localhost:3000/"
+      }
     ],
   },
-  apis: ["./src/features/**/emtities/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
+  apis: ["./src/features/**/*.ts"], // Ruta a todas las subcarpetas dentro de src/features
 };
 
 // Generar la especificación de Swagger

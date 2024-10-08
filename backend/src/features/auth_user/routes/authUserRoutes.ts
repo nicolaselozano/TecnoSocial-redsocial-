@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authUserController } from "../controllers/authUserController";
-import { MiddlewareAuth0 } from "../../../middlewares/Auth/MiddlewareAuth0";
+import { MiddlewareAuth0 } from "../../../middlewares/auth/MiddlewareAuth0";
 
 const router = Router();
 const { CheckToken, SetToken } = MiddlewareAuth0;
@@ -48,6 +48,23 @@ router.get(
   SetToken,
   CheckToken,
   authUserController.CreateUserAuthC
+);
+/**
+ * @swagger
+ * /api/v1/auth/me:
+ *   get:
+ *     summary: Verifica si el usuario está autenticado
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Usuario autenticado
+ *       401:
+ *         description: Token no válido o ausente
+ */
+router.get(
+  "/auth/me",
+  CheckToken, 
+  authUserController.GetAuthenticatedUser
 );
 
 export default router;
