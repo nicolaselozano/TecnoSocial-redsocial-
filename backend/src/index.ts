@@ -1,12 +1,13 @@
 import cookieParser from "cookie-parser";
+import { healthcheck } from "./utils/healthcheck";
 import express from "express";
 import con from "./config/database";
 import envs from "./config/envs";
+import userRouter from "./features/user/userRoutes";
+import projectRouter from "./features/project/projectRoutes";
 import authUserRoutes from "./features/auth_user/routes/authUserRoutes";
-import userRouter from "./features/user/routes/userRoutes";
-import { healthcheck } from "./utils/healthcheck";
 import postRouter from "./features/post/postRoutes";
-import { swaggerUi, swaggerSpecs } from "./config/swagger";
+const { swaggerUi, swaggerSpecs } = require("./config/swagger");
 require("dotenv").config();
 
 const cors = require("cors");
@@ -27,7 +28,9 @@ app.use(
 
 app.use("/health", healthcheck);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use("/api/v1", userRouter, authUserRoutes, postRouter);
+
+app.use("/api/v1", userRouter,authUserRoutes,projectRouter,postRouter);
+
 
 con
   .initialize()

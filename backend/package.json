@@ -8,7 +8,7 @@
     "dev": "ts-node-dev ./src/index.ts",
     "build": "tsc",
     "seed": "cross-env SEED=true tsx src/utils/seed.ts",
-    "swagger:build": "pnpm swagger-cli bundle src/docs/index.yaml --outfile src/docs/build/swagger.yaml --type yaml"
+    "swagger:build": "npx swagger-cli bundle src/docs/index.yaml --outfile src/docs/build/swagger.yaml --type yaml"
   },
   "keywords": [],
   "author": "",
