@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "openapi:v3": "file:///home/mario/Documents/Desarrollo/nocountry/s18-25-m-react-agregarback/backend/src/docs/build/swagger.yaml"
+  }
+}
