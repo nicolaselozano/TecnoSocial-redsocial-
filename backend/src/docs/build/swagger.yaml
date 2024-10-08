@@ -8,7 +8,7 @@ info:
 
 # Servidores
 servers:
-  - url: "http://ec2-100-25-217-101.compute-1.amazonaws.com"
+  - url: "http://ec2-100-25-217-101.compute-1.amazonaws.com/api/v1"
   - url: "http://localhost:3000/api/v1"
     description: Sandbox server
 
