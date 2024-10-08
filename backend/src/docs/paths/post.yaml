@@ -9,16 +9,7 @@ get:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                id:
-                  type: string
-                title:
-                  type: string
-                content:
-                  type: string
-                user_id:
-                  type: string
+              $ref: "../schemas/post-schema.yaml"
           example:
             - id: "1"
               title: "Primer post"
@@ -36,36 +27,20 @@ post:
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            title:
-              type: string
-            content:
-              type: string
-            user_id:
-              type: string
+          $ref: "../schemas/new-post-schema.yaml"
         example:
           title: "Mi primer post"
           content: "Este es el contenido de mi primer post"
-          user_id: "12345"
+          user_id: 12345
   responses:
     "201":
       description: Post creado
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              title:
-                type: string
-              content:
-                type: string
-              user_id:
-                type: string
+            $ref: "../schemas/post-schema.yaml"
           example:
             id: "1"
             title: "Mi primer post"
             content: "Este es el contenido de mi primer post"
-            user_id: "12345"
+            user_id: 12345
