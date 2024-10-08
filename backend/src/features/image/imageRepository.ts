@@ -1,6 +1,5 @@
 import con from "../../config/database";
 import { NotFoundError } from "../../utils/errors";
-import { Post } from "../post/postEntity";
 import { Image } from "./imageEntity";
 
 class PostRepository {
@@ -18,20 +17,6 @@ class PostRepository {
     }
 
     return Gallery;
-  }
-
-  public async getImageByPost(post_id: Post["id"]): Promise<Image[]> {
-    const images = await this.repository.find({
-      where: {
-        post_id,
-      },
-    });
-
-    if (!images.length) {
-      throw new NotFoundError(`Image for post id ${post_id} not found`);
-    }
-
-    return images;
   }
 
   public async updateGallery(id: Image["id"], Gallery: Image): Promise<Image> {
