@@ -23,7 +23,7 @@ class PostController {
   public async getPostById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const post = await postRepository.getPostById(id);
+    const post = await postRepository.getPostById(Number(id));
     res.json(post);
   }
 
@@ -36,14 +36,14 @@ class PostController {
     post.content = content;
     post.user_id = user_id;
 
-    const response = await postRepository.updatePost(id, post);
+    const response = await postRepository.updatePost(Number(id), post);
     res.json(response);
   }
 
   public async deletePost(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const response = await postRepository.deletePost(id);
+    const response = await postRepository.deletePost(Number(id));
     res.json(response);
   }
 }
