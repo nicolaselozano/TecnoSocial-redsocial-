@@ -1,3 +1,4 @@
+import { NotFoundError } from "@/utils/errors";
 import con from "../../config/database";
 import { Project } from "./projectEntity";
 
@@ -22,10 +23,12 @@ class ProjectRepository {
 
   // Obtener un proyecto por id
   public async getProjectById(id: number): Promise<Project> {
-    console.log(id);
-
     const project = await this.repository.findOneBy({ id: id });
-    console.log(project);
+
+    if (!project) {
+      throw new NotFoundError(`Project with id ${id} not found`);
+    }
+
     return project;
   }
 
