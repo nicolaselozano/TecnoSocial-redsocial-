@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  title: Developer Social Network API
+  version: 1.0.0
+  description: Documentación de la API usando Swagger
+servers:
+  - url: 'http://ec2-100-25-217-101.compute-1.amazonaws.com'
+tags:
+  - name: Posts
+    description: API para gestionar posts
+paths:
+  /api/v1/post:
+    get:
+      summary: Obtiene todos los posts
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    content:
+                      type: string
+                    user_id:
+                      type: string
+              example:
+                - id: '1'
+                  title: Primer post
+                  content: Contenido del primer post
+                  user_id: '12345'
+                - id: '2'
+                  title: Segundo post
+                  content: Contenido del segundo post
+                  user_id: '67890'
+    post:
+      summary: Crea un nuevo post
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                user_id:
+                  type: string
+            example:
+              title: Mi primer post
+              content: Este es el contenido de mi primer post
+              user_id: '12345'
+      responses:
+        '201':
+          description: Post creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  content:
+                    type: string
+                  user_id:
+                    type: string
+              example:
+                id: '1'
+                title: Mi primer post
+                content: Este es el contenido de mi primer post
+                user_id: '12345'
+  '/api/v1/post/{id}':
+    get:
+      summary: Obtiene un post por ID
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del post
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  content:
+                    type: string
+                  user_id:
+                    type: string
+              example:
+                id: '1'
+                title: Mi primer post
+                content: Este es el contenido de mi primer post
+                user_id: '12345'
+        '404':
+          description: Post no encontrado
+    delete:
+      summary: Elimina un post por ID
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del post
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Post eliminado
+        '404':
+          description: Post no encontrado
+    put:
+      summary: Modifica un post ya existente
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                user_id:
+                  type: string
+            example:
+              title: Mi primer post
+              content: Este es el contenido de mi primer post
+              user_id: '12345'
+      responses:
+        '201':
+          description: Post modificado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  content:
+                    type: string
+                  user_id:
+                    type: string
+              example:
+                id: '1'
+                title: Mi primer post
+                content: Este es el contenido de mi primer post
+                user_id: '12345'
