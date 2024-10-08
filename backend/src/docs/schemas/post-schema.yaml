@@ -8,7 +8,7 @@ properties:
     type: string
   user_id:
     type: number
-  labels:
+  technologies:
     type: array
     items:
-      $ref: "./label-schema.yaml"
+      $ref: "./technology-schema.yaml"

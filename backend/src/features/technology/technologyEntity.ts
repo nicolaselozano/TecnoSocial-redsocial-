@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class Label {
+export class Technology {
   @PrimaryColumn()
   name: number;
 

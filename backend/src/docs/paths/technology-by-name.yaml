@@ -1,59 +1,59 @@
 get:
-  summary: Obtiene un label por nombre
-  tags: [Labels]
+  summary: Obtiene una tecnologia por nombre
+  tags: [Technologies]
   parameters:
     - in: path
       name: name
       required: true
-      description: Nombre del label
+      description: Nombre de la tecnologia
       schema:
         type: string
   responses:
     "200":
-      description: label encontrado
+      description: tecnologia encontrada
       content:
         application/json:
           schema:
-            $ref: "../schemas/label-schema.yaml"
+            $ref: "../schemas/technology-schema.yaml"
           example:
             name: "react"
             color: "#ffffff"
     "404":
-      description: label no encontrado
+      description: tecnologia no encontrada
 delete:
-  summary: Elimina un label por nombre
-  tags: [Labels]
+  summary: Elimina una tecnologia por nombre
+  tags: [Technologies]
   parameters:
     - in: path
       name: name
       required: true
-      description: nombre del label
+      description: nombre de la tecnologia
       schema:
         type: string
   responses:
     "204":
-      description: label eliminado
+      description: tecnologia eliminada
     "404":
-      description: label no encontrado
+      description: tecnologia no encontrada
 put:
-  summary: Modifica un label ya existente
-  tags: [Labels]
+  summary: Modifica una tecnologia ya existente
+  tags: [Technologies]
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: "../schemas/new-label-schema.yaml"
+          $ref: "../schemas/new-technology-schema.yaml"
         example:
           name: "react"
           color: "#ffffff"
   responses:
     "201":
-      description: label modificado
+      description: tecnologia modificada
       content:
         application/json:
           schema:
-            $ref: "../schemas/label-schema.yaml"
+            $ref: "../schemas/technology-schema.yaml"
           example:
             name: "react"
             color: "#ffffff"

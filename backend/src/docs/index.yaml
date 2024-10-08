@@ -21,7 +21,7 @@ paths:
     $ref: "./paths/project.yaml"
   /project/{id}:
     $ref: "./paths/project-by-id.yaml"
-  /label:
-    $ref: "./paths/label.yaml"
-  /label/{id}:
-    $ref: "./paths/label-by-id.yaml"
+  /technology:
+    $ref: "./paths/technology.yaml"
+  /technology/{name}:
+    $ref: "./paths/technology-by-name.yaml"

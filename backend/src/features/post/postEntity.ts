@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Label } from "../label/labelEntity";
+import { Technology } from "../technology/technologyEntity";
 import { User } from "../user/userEntity";
 
 @Entity()
@@ -27,7 +27,7 @@ export class Post {
   @ManyToOne(() => User, (user) => user.id)
   user_id: User;
 
-  @ManyToMany(() => Label, (label) => label.name)
+  @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
-  labels: Label[];
+  labels: Technology[];
 }

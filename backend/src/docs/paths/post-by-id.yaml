@@ -20,7 +20,7 @@ get:
             title: "Mi primer post"
             content: "Este es el contenido de mi primer post"
             user_id: "12345"
-            labels:
+            technologies:
               - name: "nextjs"
                 color: "#bbbbbb"
     "404":

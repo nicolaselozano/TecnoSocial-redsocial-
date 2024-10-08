@@ -32,7 +32,7 @@ paths:
                   title: Primer post
                   content: Contenido del primer post
                   user_id: '12345'
-                  labels:
+                  technologies:
                     - name: react
                       color: '#ffffff'
                     - name: express
@@ -41,7 +41,7 @@ paths:
                   title: Segundo post
                   content: Contenido del segundo post
                   user_id: '67890'
-                  labels:
+                  technologies:
                     - name: nextjs
                       color: '#bbbbbb'
     post:
@@ -101,6 +101,9 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user_id: '12345'
+                technologies:
+                  - name: nextjs
+                    color: '#bbbbbb'
         '404':
           description: Post no encontrado
     delete:
@@ -138,10 +141,10 @@ paths:
                   type: string
                 user_id:
                   type: number
-                labels:
+                technologies:
                   type: array
                   items:
-                    $ref: '#/paths/~1label/post/responses/201/content/application~1json/schema'
+                    $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
             example:
               title: Mi primer post
               content: Este es el contenido de mi primer post
@@ -246,29 +249,29 @@ paths:
           description: Proyecto eliminado
         '404':
           description: Proyecto no encontrado
-  /label:
+  /technology:
     get:
-      summary: Obtiene todos los labels
+      summary: Obtiene todos las tecnologias
       tags:
-        - Labels
+        - Technologies
       responses:
         '200':
-          description: Lista de labels de los labels
+          description: Lista de las tecnologias
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/paths/~1label/post/responses/201/content/application~1json/schema'
+                  $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
               example:
                 - name: react
                   color: '#ffffff'
                 - name: express
                   color: '#000000'
     post:
-      summary: Crea un nuevo label
+      summary: Crea una nueva tecnologia
       tags:
-        - Labels
+        - Technologies
       requestBody:
         required: true
         content:
@@ -285,7 +288,7 @@ paths:
               color: '#ffffff'
       responses:
         '201':
-          description: label creado
+          description: tecnologia creada
           content:
             application/json:
               schema:
@@ -298,66 +301,66 @@ paths:
               example:
                 name: angular
                 color: '#ffffff'
-  '/label/{id}':
+  '/technology/{name}':
     get:
-      summary: Obtiene un label por nombre
+      summary: Obtiene una tecnologia por nombre
       tags:
-        - Labels
+        - Technologies
       parameters:
         - in: path
           name: name
           required: true
-          description: Nombre del label
+          description: Nombre de la tecnologia
           schema:
             type: string
       responses:
         '200':
-          description: label encontrado
+          description: tecnologia encontrada
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1label/post/responses/201/content/application~1json/schema'
+                $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
               example:
                 name: react
                 color: '#ffffff'
         '404':
-          description: label no encontrado
+          description: tecnologia no encontrada
     delete:
-      summary: Elimina un label por nombre
+      summary: Elimina una tecnologia por nombre
       tags:
-        - Labels
+        - Technologies
       parameters:
         - in: path
           name: name
           required: true
-          description: nombre del label
+          description: nombre de la tecnologia
           schema:
             type: string
       responses:
         '204':
-          description: label eliminado
+          description: tecnologia eliminada
         '404':
-          description: label no encontrado
+          description: tecnologia no encontrada
     put:
-      summary: Modifica un label ya existente
+      summary: Modifica una tecnologia ya existente
       tags:
-        - Labels
+        - Technologies
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/paths/~1label/post/requestBody/content/application~1json/schema'
+              $ref: '#/paths/~1technology/post/requestBody/content/application~1json/schema'
             example:
               name: react
               color: '#ffffff'
       responses:
         '201':
-          description: label modificado
+          description: tecnologia modificada
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1label/post/responses/201/content/application~1json/schema'
+                $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
               example:
                 name: react
                 color: '#ffffff'
