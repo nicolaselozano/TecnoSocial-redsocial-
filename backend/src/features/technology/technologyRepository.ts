@@ -1,7 +1,7 @@
 import con from "../../config/database";
 import { Technology } from "./technologyEntity";
 
-class TechonologyRepository {
+class TechnologyRepository {
   private repository = con.getRepository(Technology);
 
   public async createTechnology(user: Technology): Promise<Technology> {
@@ -26,4 +26,4 @@ class TechonologyRepository {
   }
 }
 
-export const technologyRepository = new TechonologyRepository();
+export const technologyRepository = new TechnologyRepository();

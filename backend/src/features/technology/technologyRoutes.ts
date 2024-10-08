@@ -5,8 +5,8 @@ const technologyRouter = Router();
 
 technologyRouter.post("/label", technologyController.createTechnology);
 technologyRouter.get("/label", technologyController.getAllTechnologies);
-technologyRouter.get("/label/:id", technologyController.getTechnologyById);
-technologyRouter.put("/label/:id", technologyController.updateTechnology);
-technologyRouter.delete("/label/:id", technologyController.deleteTechnology);
+technologyRouter.get("/label/:name", technologyController.getTechnologyById);
+technologyRouter.put("/label/:name", technologyController.updateTechnology);
+technologyRouter.delete("/label/:name", technologyController.deleteTechnology);
 
 export default technologyRouter;
