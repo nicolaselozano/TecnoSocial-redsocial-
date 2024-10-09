@@ -27,7 +27,7 @@ export class Post {
   created_at: string;
 
   @ManyToOne(() => User, (user) => user.id)
-  user_id: User;
+  user: User;
 
   @OneToMany(() => Image, (image) => image.post_id)
   images: Image[];

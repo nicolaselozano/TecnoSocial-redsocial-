@@ -9,7 +9,7 @@ export class Comment {
   content: string;
 
   @Column()
-  user_id: number;
+  user: number;
 
   @Column()
   post_id: number;

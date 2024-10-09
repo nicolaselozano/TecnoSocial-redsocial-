@@ -33,7 +33,7 @@ async function seed() {
         const newPost = Post.create({
           content: post.content,
           title: post.title,
-          user_id: newUser,
+          user: newUser,
         });
 
         await Post.save(newPost);

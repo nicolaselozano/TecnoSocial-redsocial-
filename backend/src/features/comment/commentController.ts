@@ -4,12 +4,12 @@ import { Comment } from './commentEntity';
 
 class commentController {
   public async createComment(req: Request, res: Response): Promise<void> {
-    const { id, content, user_id, post_id, create_at } = req.body;
+    const { id, content, user, post_id, create_at } = req.body;
 
     const comment = new Comment();
     comment.id = id;
     comment.content = content;
-    comment.user_id = user_id;
+    comment.user = user;
     comment.post_id = post_id;
     comment.created_at = create_at;
 
@@ -31,11 +31,11 @@ class commentController {
 
   public async updateComment(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const { content, user_id, post_id, create_at } = req.body;
+    const { content, user, post_id, create_at } = req.body;
 
     const updatedComment = new Comment();
     updatedComment.post_id = post_id;
-    updatedComment.user_id = user_id;
+    updatedComment.user = user;
     updatedComment.created_at = create_at;
     updatedComment.content = content;
 

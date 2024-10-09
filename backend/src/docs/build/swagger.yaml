@@ -34,19 +34,33 @@ paths:
                 - id: '1'
                   title: Primer post
                   content: Contenido del primer post
-                  user_id: '12345'
+                  user: '12345'
                   technologies:
                     - name: react
                       color: '#ffffff'
                     - name: express
                       color: '#000000'
+                  images:
+                    - id: 1
+                      url: 'https://image-url'
+                      alt: tecno image
+                      created_at: '2024-10-08T22:28:58.981Z'
+                    - id: 2
+                      url: 'https://image-url'
+                      alt: tecno image
+                      created_at: '2024-10-08T22:28:58.981Z'
                 - id: '2'
                   title: Segundo post
                   content: Contenido del segundo post
-                  user_id: '67890'
+                  user: '67890'
                   technologies:
                     - name: nextjs
                       color: '#bbbbbb'
+                  images:
+                    - id: 3
+                      url: 'https://image-url'
+                      alt: tecno image
+                      created_at: '2024-10-08T22:28:58.981Z'
     post:
       summary: Crea un nuevo post
       tags:
@@ -62,12 +76,12 @@ paths:
                   type: string
                 content:
                   type: string
-                user_id:
+                user:
                   type: number
             example:
               title: Mi primer post
               content: Este es el contenido de mi primer post
-              user_id: 12345
+              user: 12345
       responses:
         '201':
           description: Post creado
@@ -79,7 +93,18 @@ paths:
                 id: '1'
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
-                user_id: 12345
+                user: 12345
+        '401':
+          description: Acceso denegado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Permisos insuficientes para crear un nuevo post
   '/post/{id}':
     get:
       summary: Obtiene un post por ID
@@ -103,12 +128,33 @@ paths:
                 id: '1'
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
-                user_id: '12345'
                 technologies:
                   - name: nextjs
                     color: '#bbbbbb'
+                images:
+                  - id: 1
+                    url: 'https://image-url'
+                    alt: tecno image
+                    created_at: '2024-10-08T22:28:58.981Z'
+                  - id: 2
+                    url: 'https://image-url'
+                    alt: tecno image
+                    created_at: '2024-10-08T22:28:58.981Z'
+                user:
+                  id: 1
+                  name: username
+                  email: email@gmail.com
         '404':
           description: Post no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: post no encontrado
     delete:
       summary: Elimina un post por ID
       tags:
@@ -142,16 +188,29 @@ paths:
                   type: string
                 content:
                   type: string
-                user_id:
+                user:
                   type: number
                 technologies:
                   type: array
                   items:
                     $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
+                images:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      url:
+                        type: string
+                      alt:
+                        type: string
+                      created_at:
+                        type: string
             example:
               title: Mi primer post
               content: Este es el contenido de mi primer post
-              user_id: '12345'
+              user: '12345'
       responses:
         '201':
           description: Post modificado
@@ -163,7 +222,7 @@ paths:
                 id: '1'
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
-                user_id: '12345'
+                user: '12345'
   /project:
     post:
       summary: Crea un nuevo proyecto
