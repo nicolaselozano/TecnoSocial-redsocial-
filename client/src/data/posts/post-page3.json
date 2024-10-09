@@ -1,0 +1,120 @@
+{
+  "page": 3,
+  "posts": [
+    {
+      "id": 21,
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "frontend"]
+      },
+      "content": "El uso de TypeScript mejora la calidad del código en JavaScript.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 10,
+      "comments": []
+    },
+    {
+      "id": 22,
+      "user": {
+        "name": "Ana Gutierrez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ui"]
+      },
+      "content": "Las animaciones sutiles mejoran la experiencia de usuario.",
+      "likes": 15,
+      "comments": []
+    },
+    {
+      "id": 23,
+      "user": {
+        "name": "Miguel Garcia",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "Integrar pruebas en el pipeline de CI/CD es crucial.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 8,
+      "comments": []
+    },
+    {
+      "id": 24,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ux"]
+      },
+      "content": "Las métricas de uso son esenciales para la mejora continua.",
+      "likes": 20,
+      "comments": []
+    },
+    {
+      "id": 25,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "devops"]
+      },
+      "content": "La modularidad del código facilita su mantenimiento.",
+      "likes": 12,
+      "comments": []
+    },
+    {
+      "id": 26,
+      "user": {
+        "name": "Carlos Ruiz",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["tester"]
+      },
+      "content": "Un buen testing reduce el riesgo de fallos en producción.",
+      "likes": 9,
+      "comments": []
+    },
+    {
+      "id": 27,
+      "user": {
+        "name": "Daniela Martinez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "El uso de componentes reutilizables ahorra tiempo y esfuerzo.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 11,
+      "comments": []
+    },
+    {
+      "id": 28,
+      "user": {
+        "name": "Pedro Martinez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend"]
+      },
+      "content": "La gestión de estado es fundamental en aplicaciones complejas.",
+      "likes": 14,
+      "comments": []
+    },
+    {
+      "id": 29,
+      "user": {
+        "name": "Miguel Garcia",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "El uso de herramientas de diseño facilita la colaboración entre equipos.",
+      "likes": 13,
+      "comments": []
+    },
+    {
+      "id": 30,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ui"]
+      },
+      "content": "La usabilidad debe ser una prioridad en todo diseño.",
+      "likes": 10,
+      "comments": []
+    }
+  ],
+  "totalPosts": 10,
+  "totalPages": 4
+}
