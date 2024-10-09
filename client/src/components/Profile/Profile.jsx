@@ -1,13 +1,11 @@
+import ProfileDetail from "./ProfileDetail/ProfileDetail";
 
 
 const Profile = () => {
     return (
         <div>
-            <div>
-                <div>
-                    <img src="" alt="" />
-                </div>
-            </div>
+            <div></div>
+            <ProfileDetail/>
         </div>
     )
 }

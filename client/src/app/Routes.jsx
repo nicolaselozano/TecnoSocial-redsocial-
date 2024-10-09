@@ -7,12 +7,14 @@ const AllRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/profile" element={<Profile/>}/>
+
       <Route path="/" element={<AuthModal/>}/>
       {/* Login */}
       <Route path="/redirect" element={<RedirectRegister />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />
+      {/* perfil */}
+      <Route path="/profile" element={<Profile/>}/>
     </Routes>
   );
 };
