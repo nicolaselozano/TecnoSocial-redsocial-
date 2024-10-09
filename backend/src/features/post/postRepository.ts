@@ -1,5 +1,5 @@
-import con from "../../config/database";
-import { NotFoundError } from "../../utils/errors";
+import con from "@/config/database";
+import { NotFoundError } from "@/utils/errors";
 import { Post } from "./postEntity";
 
 class PostRepository {

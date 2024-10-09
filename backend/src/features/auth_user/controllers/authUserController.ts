@@ -1,4 +1,4 @@
-import { UserDataToken } from "../../../middlewares/auth/interface/UserDataToken";
+import { UserDataToken } from "@/middlewares/Auth/interface/UserDataToken";
 import { Request, Response } from "express";
 import { json } from "stream/consumers";
 
@@ -31,7 +31,6 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
     const userData: UserDataToken = res.locals["userData"];
 
     if (req.query.clearCookies === "true") {
-      
       const cookies = req.cookies;
       for (const cookieName in cookies) {
         res.clearCookie(cookieName);
@@ -42,15 +41,15 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
       res.status(200).json({
         user: userData.authName,
         email: userData.email,
-        authId: userData.authId
+        authId: userData.authId,
       });
     }
   } catch (error) {
     res.status(401).json({ message: "No estás autenticado" });
   }
-}
+};
 
 export const authUserController = {
   CreateUserAuthC,
-  GetAuthenticatedUser
+  GetAuthenticatedUser,
 };

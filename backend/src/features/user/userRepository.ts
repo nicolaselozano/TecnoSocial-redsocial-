@@ -1,4 +1,4 @@
-import con from "../../config/database";
+import con from "@/config/database";
 import { User } from "./userEntity";
 
 class UserRopository {

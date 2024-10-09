@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { ApiError } from "../utils/errors";
+import { ApiError } from "@/utils/errors";
+import { StatusCodes } from "http-status-codes";
 
 export function globalErrors(
   error: ApiError,
@@ -9,8 +10,8 @@ export function globalErrors(
 ) {
   console.log("EJECUTANDO EL MIDDLEWARE GLOBAL");
 
-  res.status(error.statusCode).json({
-    message: error.message,
+  res.status(error.statusCode ?? StatusCodes.INTERNAL_SERVER_ERROR).json({
+    message: error.message ?? "There was an unexpected error",
   });
 
   next(error);

@@ -1,9 +1,9 @@
-import con from "../../config/database"; 
-import { NotFoundError } from "../../utils/errors";
-import { Comment } from "./commentEntity"; 
+import con from "@/config/database";
+import { NotFoundError } from "@/utils/errors";
+import { Comment } from "./commentEntity";
 
 class CommentRepository {
-  private repository = con.getRepository(Comment); 
+  private repository = con.getRepository(Comment);
 
   public async createComment(comment: Comment): Promise<Comment> {
     return await this.repository.save(comment);
@@ -16,16 +16,19 @@ class CommentRepository {
   public async getCommentsById(id: Comment["id"]): Promise<Comment> {
     const comment = await this.repository.findOneBy({ id: id });
 
-    if (!comment) { 
+    if (!comment) {
       throw new NotFoundError(`Comment with id ${id} not found`);
     }
 
     return comment;
   }
 
-  public async updateComment(id: Comment["id"], comment: Comment): Promise<Comment> {
+  public async updateComment(
+    id: Comment["id"],
+    comment: Comment
+  ): Promise<Comment> {
     await this.repository.update({ id: id }, comment);
-    return await this.getCommentsById(id); 
+    return await this.getCommentsById(id);
   }
 
   public async deleteComment(id: Comment["id"]): Promise<boolean> {
@@ -34,4 +37,4 @@ class CommentRepository {
   }
 }
 
-export const commentRepository = new CommentRepository(); 
+export const commentRepository = new CommentRepository();
