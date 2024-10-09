@@ -1,15 +1,15 @@
-import { DataSource } from "typeorm";
-import envs from "./envs";
+import { DataSource } from 'typeorm';
+import envs from './envs';
 
-import { Post } from "../features/post/postEntity";
-import { Project } from "../features/project/projectEntity";
-import { Image } from "@/features/image/imageEntity";
-import { Technology } from "../features/technology/technologyEntity";
-import { User } from "../features/user/userEntity";
+import { Post } from '../features/post/postEntity';
+import { Project } from '../features/project/projectEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Technology } from '../features/technology/technologyEntity';
+import { User } from '../features/user/userEntity';
 
 const con = new DataSource({
-  type: "mysql",
-  driver: require("mysql2"),
+  type: 'mysql',
+  driver: require('mysql2'),
   host: envs.DB.HOST,
   port: envs.DB.PORT,
   username: envs.DB.USER,

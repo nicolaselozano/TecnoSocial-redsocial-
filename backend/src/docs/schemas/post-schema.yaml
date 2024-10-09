@@ -11,4 +11,4 @@ properties:
   technologies:
     type: array
     items:
-      $ref: "./technology-schema.yaml"
+      $ref: './technology-schema.yaml'

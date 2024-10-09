@@ -1,6 +1,6 @@
-import con from "../../config/database";
-import { NotFoundError } from "../../utils/errors";
-import { Post } from "./postEntity";
+import con from '@/config/database';
+import { NotFoundError } from '@/utils/errors';
+import { Post } from './postEntity';
 
 class PostRepository {
   private repository = con.getRepository(Post);
@@ -28,11 +28,11 @@ class PostRepository {
     return post;
   }
 
-  public async updatePost(id: Post["id"], post: Post): Promise<Post> {
+  public async updatePost(id: Post['id'], post: Post): Promise<Post> {
     return (await this.repository.update({ id: id }, post)).raw;
   }
 
-  public async deletePost(id: Post["id"]): Promise<boolean> {
+  public async deletePost(id: Post['id']): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }

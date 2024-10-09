@@ -1,0 +1,28 @@
+{
+  "roles": [
+    {
+      "name": "backend",
+      "color": "#283A60"
+    },
+    {
+      "name": "frontend",
+      "color": "#5C2E5B"
+    },
+    {
+      "name": "ui",
+      "color": "#4A3620"
+    },
+    {
+      "name": "ux",
+      "color": "#364D2B"
+    },
+    {
+      "name": "tester",
+      "color": "#274C48"
+    },
+    {
+      "name": "devops",
+      "color": "#4E2925"
+    }
+  ]
+}

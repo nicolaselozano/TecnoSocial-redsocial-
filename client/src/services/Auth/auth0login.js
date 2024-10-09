@@ -13,7 +13,7 @@ const Auth0Login = async () => {
       connection: null,
       clientID: `${CLIENT_ID}`,
       responseType: `${RESPONSE_TYPE}`,
-      redirectUri: `${REDIRECT_URI}`,
+      redirectUri: `${REDIRECT_URI}/login`,
       scope: `${SCOPE}`,
       audience: `${AUDIENCE}`,
     });

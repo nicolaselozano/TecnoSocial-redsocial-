@@ -1,9 +1,9 @@
-import { CorsOptions } from "cors";
+import { CorsOptions } from 'cors';
 
 export const corsConfig: CorsOptions = {
   origin: (origin, callback) => {
-    callback(null, origin || "*");
+    callback(null, origin || '*');
   },
   credentials: true,
-  methods: ["GET", "POST", "DELETE", "PUT"],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
 };
