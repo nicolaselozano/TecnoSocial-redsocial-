@@ -28,7 +28,7 @@ async function seed() {
       gitlab: 'https://gitlbab.com',
     });
 
-    await SocialNetwork.insert(newSocialsNetworks);
+    await SocialNetwork.save(newSocialsNetworks);
 
     const newUser = User.create({
       email: 'email@gmail.com',
@@ -37,7 +37,7 @@ async function seed() {
       social_networks: newSocialsNetworks,
     });
 
-    await User.insert(newUser);
+    await User.save(newUser);
 
     const posts = await Promise.all(
       MOCK_POSTS.map(async (post) => {

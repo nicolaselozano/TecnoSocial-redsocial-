@@ -21,14 +21,12 @@ class UserRopository {
   }
 
   // Obtener un usuario por id
-  public async getUserById(id): Promise<User> {
-    console.log(id);
-
+  public async getUserById(id: User['id']): Promise<User> {
     const user = await this.repository.findOne({
-      where: id,
-      relations: { social_networks: true },
+      where: { id },
+      relations: ['social_networks'],
     });
-    console.log(user);
+
     return user;
   }
 
