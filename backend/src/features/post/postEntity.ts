@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Image } from '@/features/image/imageEntity';
 import { Technology } from '@/features/technology/technologyEntity';
 import { User } from '@/features/user/userEntity';
 
@@ -19,6 +20,10 @@ export class Post {
   @ManyToOne(() => User, (user) => user.id)
   user_id: User;
 
+
+  @OneToMany(() => Image, (image) => image.post_id)
+  images: Image[];
+  
   @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
   labels: Technology[];

@@ -10,11 +10,16 @@ class PostRepository {
   }
 
   public async getAllPosts(): Promise<Post[]> {
-    return await this.repository.find();
+    return await this.repository.find({
+      relations: ["images", "user_id"],
+    });
   }
 
-  public async getPostById(id: Post['id']): Promise<Post> {
-    const post = await this.repository.findOneBy({ id: id });
+  public async getPostById(id: Post["id"]): Promise<Post> {
+    const post = await this.repository.findOne({
+      where: { id },
+      relations: ["images", "user_id"],
+    });
 
     if (!post) {
       throw new NotFoundError(`Post with id ${id} not found`);

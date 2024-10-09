@@ -5,6 +5,7 @@ import con from './config/database';
 import envs from './config/envs';
 import { swaggerSpecs, swaggerUi } from './config/swagger';
 import authUserRoutes from './features/auth_user/routes/authUserRoutes';
+import imageRouter from '/features/image/imageRoutes'
 import postRouter from './features/post/postRoutes';
 import projectRouter from './features/project/projectRoutes';
 import technologyRouter from './features/technology/technologyRoutes';
@@ -21,7 +22,7 @@ setBaseMiddlewares(app);
 app.get('/', redirectToDocs);
 app.use('/health', healthcheck);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use('/api/v1', userRouter, authUserRoutes, projectRouter, postRouter, technologyRouter);
+app.use('/api/v1', userRouter, authUserRoutes, projectRouter, postRouter, technologyRouter, imageRouter)
 
 app.use(globalErrors);
 

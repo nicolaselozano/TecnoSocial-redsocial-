@@ -1,4 +1,13 @@
-export const MOCK_POSTS = [
+import { Image } from "@/features/image/imageEntity";
+import { Post } from "@/features/post/postEntity";
+
+type ImageInsert = Pick<Image, "url" | "alt">;
+
+type PostInsert = Pick<Post, "content" | "title"> & {
+  images: ImageInsert[];
+};
+
+export const MOCK_POSTS: PostInsert[] = [
   {
     content: 'Exploring TypeORM in-depth with some practical examples.',
     title: 'Understanding TypeORM Basics',
