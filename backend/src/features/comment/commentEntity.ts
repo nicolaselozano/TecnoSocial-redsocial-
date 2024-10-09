@@ -2,6 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
   } from "typeorm";
   
@@ -21,4 +22,6 @@ import {
   
     @CreateDateColumn({ type: "datetime" })
     created_at: Date;
+
+      
   }

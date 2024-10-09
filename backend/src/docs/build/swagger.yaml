@@ -5,6 +5,7 @@ info:
   description: Documentación de la API usando Swagger
 servers:
   - url: 'http://ec2-100-25-217-101.compute-1.amazonaws.com'
+    description: Production server
   - url: 'http://localhost:3000/api/v1'
     description: Sandbox server (uses test data)
 tags:
@@ -12,6 +13,8 @@ tags:
     description: API para gestionar posts
   - name: Project
     description: API para gestionar projects
+  - name: Authentication
+    description: API para autenticar usuarios
 paths:
   /post:
     get:
@@ -364,3 +367,23 @@ paths:
               example:
                 name: react
                 color: '#ffffff'
+  /auth/register:
+    post:
+      summary: Registra un nuevo usuario
+      tags:
+        - Authentication
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+        '400':
+          description: Error en la petición
+  /auth/login:
+    get:
+      summary: Autenticar usuario y generar token
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Login exitoso
+        '401':
+          description: Error de autenticación
