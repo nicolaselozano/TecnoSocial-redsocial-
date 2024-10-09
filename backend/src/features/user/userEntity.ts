@@ -16,10 +16,10 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @OneToOne(() => SocialNetworks)
+  @OneToOne(() => SocialNetworks, { cascade: true })
   @JoinColumn()
   social_networks: SocialNetworks;
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.user, { cascade: true })
   posts: Post[];
 }
