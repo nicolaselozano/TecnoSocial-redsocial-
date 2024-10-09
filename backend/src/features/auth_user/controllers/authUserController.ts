@@ -1,6 +1,5 @@
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 import { Request, Response } from 'express';
-import { json } from 'stream/consumers';
 
 const CreateUserAuthC = (req: Request, res: Response): void => {
   console.log('Creando el usuario desde Auth0');

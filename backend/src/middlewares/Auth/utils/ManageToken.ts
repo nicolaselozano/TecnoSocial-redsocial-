@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CLIENT_HOST, CLIENT_ID, CLIENT_SECRET, DOMAIN } from '../../../config/vars_config';
 import { RefreshTokenDTO } from '../interface/RefreshTokenDTO';
 import { TokenDTO } from '../interface/TokenDTO';
-import jwt, { Jwt, JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import jose from 'node-jose';
 
 const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {

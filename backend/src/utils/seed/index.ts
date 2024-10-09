@@ -1,6 +1,6 @@
 import con from '@/config/database';
 import envs from '@/config/envs';
-import { Image as ImageEntity } from '/features/image/imageEntity'
+import { Image as ImageEntity } from '/features/image/imageEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
 import { MOCK_POSTS } from './mockups/posts.mock';
@@ -43,7 +43,7 @@ async function seed() {
             alt: image.alt,
             url: image.url,
             post_id: newPost,
-          })
+          }),
         );
 
         await Image.save(images);

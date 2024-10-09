@@ -1,4 +1,4 @@
-import { NotFoundError } from '/utils/errors'
+import { NotFoundError } from '@/utils/errors';
 import con from '@/config/database';
 import { Project } from './projectEntity';
 

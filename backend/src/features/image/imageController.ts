@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { imageRepository } from "./imageRepository";
+import { Request, Response } from 'express';
+import { imageRepository } from './imageRepository';
 
 class ImageController {
   async deleteImage(req: Request, res: Response) {

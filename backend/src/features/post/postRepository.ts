@@ -11,14 +11,14 @@ class PostRepository {
 
   public async getAllPosts(): Promise<Post[]> {
     return await this.repository.find({
-      relations: ["images", "user_id"],
+      relations: ['images', 'user_id'],
     });
   }
 
-  public async getPostById(id: Post["id"]): Promise<Post> {
+  public async getPostById(id: Post['id']): Promise<Post> {
     const post = await this.repository.findOne({
       where: { id },
-      relations: ["images", "user_id"],
+      relations: ['images', 'user_id'],
     });
 
     if (!post) {

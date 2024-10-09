@@ -1,9 +1,9 @@
-import { Image } from "@/features/image/imageEntity";
-import { Post } from "@/features/post/postEntity";
+import { Image } from '@/features/image/imageEntity';
+import { Post } from '@/features/post/postEntity';
 
-type ImageInsert = Pick<Image, "url" | "alt">;
+type ImageInsert = Pick<Image, 'url' | 'alt'>;
 
-type PostInsert = Pick<Post, "content" | "title"> & {
+type PostInsert = Pick<Post, 'content' | 'title'> & {
   images: ImageInsert[];
 };
 

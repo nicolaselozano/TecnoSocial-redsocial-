@@ -1,24 +1,18 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { Post } from "../post/postEntity";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from '@/features/post/postEntity';
 
 @Entity()
 export class Image {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   url: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: 'varchar', length: 100 })
   alt: string;
 
-  @CreateDateColumn({ type: "datetime" })
+  @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
   @ManyToOne(() => Post, (post) => post.id)
