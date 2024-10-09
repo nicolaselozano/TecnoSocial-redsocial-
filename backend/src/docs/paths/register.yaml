@@ -1,0 +1,8 @@
+post:
+  summary: Registra un nuevo usuario
+  tags: [Authentication]
+  responses:
+    201:
+      description: Usuario registrado exitosamente
+    400:
+      description: Error en la petición

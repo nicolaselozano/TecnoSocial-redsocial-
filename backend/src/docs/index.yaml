@@ -5,6 +5,7 @@ info:
   description: Documentación de la API usando Swagger
 servers:
   - url: http://ec2-100-25-217-101.compute-1.amazonaws.com
+    description: Production server
   - url: http://localhost:3000/api/v1
     description: Sandbox server (uses test data)
 tags:
@@ -12,6 +13,8 @@ tags:
     description: API para gestionar posts
   - name: Project
     description: API para gestionar projects
+  - name: Authentication
+    description: API para autenticar usuarios
 paths:
   /post:
     $ref: "./paths/post.yaml"
@@ -25,3 +28,7 @@ paths:
     $ref: "./paths/technology.yaml"
   /technology/{name}:
     $ref: "./paths/technology-by-name.yaml"
+  /auth/register:
+    $ref: "./paths/register.yaml"
+  /auth/login:
+    $ref: "./paths/login.yaml"
