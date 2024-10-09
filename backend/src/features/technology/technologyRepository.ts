@@ -1,5 +1,5 @@
-import con from "@/config/database";
-import { Technology } from "./technologyEntity";
+import con from '@/config/database';
+import { Technology } from './technologyEntity';
 
 class TechnologyRepository {
   private repository = con.getRepository(Technology);

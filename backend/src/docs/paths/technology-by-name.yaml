@@ -9,16 +9,16 @@ get:
       schema:
         type: string
   responses:
-    "200":
+    '200':
       description: tecnologia encontrada
       content:
         application/json:
           schema:
-            $ref: "../schemas/technology-schema.yaml"
+            $ref: '../schemas/technology-schema.yaml'
           example:
-            name: "react"
-            color: "#ffffff"
-    "404":
+            name: 'react'
+            color: '#ffffff'
+    '404':
       description: tecnologia no encontrada
 delete:
   summary: Elimina una tecnologia por nombre
@@ -31,9 +31,9 @@ delete:
       schema:
         type: string
   responses:
-    "204":
+    '204':
       description: tecnologia eliminada
-    "404":
+    '404':
       description: tecnologia no encontrada
 put:
   summary: Modifica una tecnologia ya existente
@@ -43,17 +43,17 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../schemas/new-technology-schema.yaml"
+          $ref: '../schemas/new-technology-schema.yaml'
         example:
-          name: "react"
-          color: "#ffffff"
+          name: 'react'
+          color: '#ffffff'
   responses:
-    "201":
+    '201':
       description: tecnologia modificada
       content:
         application/json:
           schema:
-            $ref: "../schemas/technology-schema.yaml"
+            $ref: '../schemas/technology-schema.yaml'
           example:
-            name: "react"
-            color: "#ffffff"
+            name: 'react'
+            color: '#ffffff'

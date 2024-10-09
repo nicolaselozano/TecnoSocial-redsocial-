@@ -1,4 +1,4 @@
-import con from "@/config/database";
+import con from '@/config/database';
 
 async function dropDB() {
   try {
@@ -7,9 +7,9 @@ async function dropDB() {
     }
     await con.dropDatabase();
     await con.destroy();
-    console.log("🔨 -- DB Dropped succesfully");
+    console.log('🔨 -- DB Dropped succesfully');
   } catch (error) {
-    console.log("Error while dropping DB");
+    console.log('Error while dropping DB');
   }
 }
 

@@ -1,5 +1,5 @@
-import { config } from "dotenv";
-import { z } from "zod";
+import { config } from 'dotenv';
+import { z } from 'zod';
 config();
 
 const envsSchema = z.object({
@@ -17,7 +17,7 @@ const envsSchema = z.object({
 
 export default envsSchema.parse({
   PORT: process.env.SERVER_PORT || 3000,
-  URL: process.env.SERVER_URL || "http://localhost",
+  URL: process.env.SERVER_URL || 'http://localhost',
   SEED: process.env.SEED || false,
   DB: {
     PORT: process.env.DB_PORT,

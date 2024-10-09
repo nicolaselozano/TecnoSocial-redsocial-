@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { Technology } from "./technologyEntity";
-import { technologyRepository } from "./technologyRepository";
+import { Request, Response } from 'express';
+import { Technology } from './technologyEntity';
+import { technologyRepository } from './technologyRepository';
 
 class TechnologyController {
   public async createTechnology(req: Request, res: Response): Promise<void> {
@@ -34,10 +34,7 @@ class TechnologyController {
     technology.name = name;
     technology.color = color;
 
-    const response = await technologyRepository.updateTechnology(
-      id,
-      technology
-    );
+    const response = await technologyRepository.updateTechnology(id, technology);
     res.json(response);
   }
 

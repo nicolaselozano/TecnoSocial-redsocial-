@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
-import { commentRepository } from "./commentRepository"; 
-import { Comment } from "./commentEntity";
-
-
+import { Request, Response } from 'express';
+import { commentRepository } from './commentRepository';
+import { Comment } from './commentEntity';
 
 class commentController {
   public async createComment(req: Request, res: Response): Promise<void> {
@@ -14,7 +12,6 @@ class commentController {
     comment.user_id = user_id;
     comment.post_id = post_id;
     comment.created_at = create_at;
-    
 
     const response = await commentRepository.createComment(comment);
     res.json(response);
@@ -37,11 +34,10 @@ class commentController {
     const { content, user_id, post_id, create_at } = req.body;
 
     const updatedComment = new Comment();
-    updatedComment.post_id =post_id;
+    updatedComment.post_id = post_id;
     updatedComment.user_id = user_id;
-    updatedComment.created_at= create_at;
-    updatedComment.content=content
-   
+    updatedComment.created_at = create_at;
+    updatedComment.content = content;
 
     const response = await commentRepository.updateComment(Number(id), updatedComment);
     res.json(response);

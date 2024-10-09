@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { Post } from "./postEntity";
-import { postRepository } from "./postRepository";
+import { Request, Response } from 'express';
+import { Post } from './postEntity';
+import { postRepository } from './postRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {

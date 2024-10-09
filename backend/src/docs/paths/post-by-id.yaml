@@ -9,21 +9,21 @@ get:
       schema:
         type: string
   responses:
-    "200":
+    '200':
       description: Post encontrado
       content:
         application/json:
           schema:
-            $ref: "../schemas/post-schema.yaml"
+            $ref: '../schemas/post-schema.yaml'
           example:
-            id: "1"
-            title: "Mi primer post"
-            content: "Este es el contenido de mi primer post"
-            user_id: "12345"
+            id: '1'
+            title: 'Mi primer post'
+            content: 'Este es el contenido de mi primer post'
+            user_id: '12345'
             technologies:
-              - name: "nextjs"
-                color: "#bbbbbb"
-    "404":
+              - name: 'nextjs'
+                color: '#bbbbbb'
+    '404':
       description: Post no encontrado
 delete:
   summary: Elimina un post por ID
@@ -36,9 +36,9 @@ delete:
       schema:
         type: string
   responses:
-    "204":
+    '204':
       description: Post eliminado
-    "404":
+    '404':
       description: Post no encontrado
 put:
   summary: Modifica un post ya existente
@@ -48,20 +48,20 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../schemas/post-schema.yaml"
+          $ref: '../schemas/post-schema.yaml'
         example:
-          title: "Mi primer post"
-          content: "Este es el contenido de mi primer post"
-          user_id: "12345"
+          title: 'Mi primer post'
+          content: 'Este es el contenido de mi primer post'
+          user_id: '12345'
   responses:
-    "201":
+    '201':
       description: Post modificado
       content:
         application/json:
           schema:
-            $ref: "../schemas/post-schema.yaml"
+            $ref: '../schemas/post-schema.yaml'
           example:
-            id: "1"
-            title: "Mi primer post"
-            content: "Este es el contenido de mi primer post"
-            user_id: "12345"
+            id: '1'
+            title: 'Mi primer post'
+            content: 'Este es el contenido de mi primer post'
+            user_id: '12345'

@@ -1,5 +1,5 @@
-import con from "@/config/database";
-import { Project } from "./projectEntity";
+import con from '@/config/database';
+import { Project } from './projectEntity';
 
 class ProjectRepository {
   private repository = con.getRepository(Project);
