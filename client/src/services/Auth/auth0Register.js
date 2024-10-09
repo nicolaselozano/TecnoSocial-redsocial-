@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import { DOMAIN, CLIENT_ID, REDIRECT_URI, SCOPE, AUDIENCE, RESPONSE_TYPE } from '../../../vars';
 
-const Auth0Login = async () => {
+const Auth0Register = async () => {
   try {
     let webAuth = new auth0.WebAuth({
       domain: `${DOMAIN}`,
@@ -13,7 +13,7 @@ const Auth0Login = async () => {
       connection: null,
       clientID: `${CLIENT_ID}`,
       responseType: `${RESPONSE_TYPE}`,
-      redirectUri: `${REDIRECT_URI}/login`,
+      redirectUri: `${REDIRECT_URI}`,
       scope: `${SCOPE}`,
       audience: `${AUDIENCE}`,
     });
@@ -24,4 +24,4 @@ const Auth0Login = async () => {
   }
 }
 
-export default Auth0Login;
+export default Auth0Register;
