@@ -5,11 +5,16 @@ info:
   description: Documentación de la API usando Swagger
 servers:
   - url: 'http://ec2-100-25-217-101.compute-1.amazonaws.com'
+    description: Production server
   - url: 'http://localhost:3000/api/v1'
     description: Sandbox server (uses test data)
 tags:
   - name: Posts
     description: API para gestionar posts
+  - name: Project
+    description: API para gestionar projects
+  - name: Authentication
+    description: API para autenticar usuarios
 paths:
   /post:
     get:
@@ -30,10 +35,18 @@ paths:
                   title: Primer post
                   content: Contenido del primer post
                   user_id: '12345'
+                  technologies:
+                    - name: react
+                      color: '#ffffff'
+                    - name: express
+                      color: '#000000'
                 - id: '2'
                   title: Segundo post
                   content: Contenido del segundo post
                   user_id: '67890'
+                  technologies:
+                    - name: nextjs
+                      color: '#bbbbbb'
     post:
       summary: Crea un nuevo post
       tags:
@@ -91,6 +104,9 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user_id: '12345'
+                technologies:
+                  - name: nextjs
+                    color: '#bbbbbb'
         '404':
           description: Post no encontrado
     delete:
@@ -128,6 +144,10 @@ paths:
                   type: string
                 user_id:
                   type: number
+                technologies:
+                  type: array
+                  items:
+                    $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
             example:
               title: Mi primer post
               content: Este es el contenido de mi primer post
@@ -232,3 +252,138 @@ paths:
           description: Proyecto eliminado
         '404':
           description: Proyecto no encontrado
+  /technology:
+    get:
+      summary: Obtiene todos las tecnologias
+      tags:
+        - Technologies
+      responses:
+        '200':
+          description: Lista de las tecnologias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
+              example:
+                - name: react
+                  color: '#ffffff'
+                - name: express
+                  color: '#000000'
+    post:
+      summary: Crea una nueva tecnologia
+      tags:
+        - Technologies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                color:
+                  type: string
+            example:
+              name: angular
+              color: '#ffffff'
+      responses:
+        '201':
+          description: tecnologia creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  color:
+                    type: string
+              example:
+                name: angular
+                color: '#ffffff'
+  '/technology/{name}':
+    get:
+      summary: Obtiene una tecnologia por nombre
+      tags:
+        - Technologies
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: Nombre de la tecnologia
+          schema:
+            type: string
+      responses:
+        '200':
+          description: tecnologia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
+              example:
+                name: react
+                color: '#ffffff'
+        '404':
+          description: tecnologia no encontrada
+    delete:
+      summary: Elimina una tecnologia por nombre
+      tags:
+        - Technologies
+      parameters:
+        - in: path
+          name: name
+          required: true
+          description: nombre de la tecnologia
+          schema:
+            type: string
+      responses:
+        '204':
+          description: tecnologia eliminada
+        '404':
+          description: tecnologia no encontrada
+    put:
+      summary: Modifica una tecnologia ya existente
+      tags:
+        - Technologies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1technology/post/requestBody/content/application~1json/schema'
+            example:
+              name: react
+              color: '#ffffff'
+      responses:
+        '201':
+          description: tecnologia modificada
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1technology/post/responses/201/content/application~1json/schema'
+              example:
+                name: react
+                color: '#ffffff'
+  /auth/register:
+    post:
+      summary: Registra un nuevo usuario
+      tags:
+        - Authentication
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+        '400':
+          description: Error en la petición
+  /auth/login:
+    get:
+      summary: Autenticar usuario y generar token
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Login exitoso
+        '401':
+          description: Error de autenticación

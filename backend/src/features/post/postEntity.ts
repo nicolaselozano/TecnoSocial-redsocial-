@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Technology } from "../technology/technologyEntity";
 import { User } from "../user/userEntity";
 
 @Entity()
@@ -23,4 +26,8 @@ export class Post {
 
   @ManyToOne(() => User, (user) => user.id)
   user_id: User;
+
+  @ManyToMany(() => Technology, (label) => label.name)
+  @JoinTable()
+  labels: Technology[];
 }

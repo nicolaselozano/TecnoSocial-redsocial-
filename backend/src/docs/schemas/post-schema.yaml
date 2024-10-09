@@ -8,3 +8,7 @@ properties:
     type: string
   user_id:
     type: number
+  technologies:
+    type: array
+    items:
+      $ref: "./technology-schema.yaml"
