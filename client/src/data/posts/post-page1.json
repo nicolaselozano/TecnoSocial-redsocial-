@@ -1,0 +1,192 @@
+{
+  "page": 1,
+  "posts": [
+    {
+      "id": 1,
+      "user": {
+        "name": "Manuel Rodriguez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "frontend"]
+      },
+      "content": "Angular es compatible con TypeScript isolatedModules.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 10,
+      "comments": [
+        {
+          "id": 1,
+          "user": "Laura Fernandez",
+          "comment": "Muy útil, gracias por compartir."
+        },
+        {
+          "id": 2,
+          "user": "Miguel Garcia",
+          "comment": "Justo lo que necesitaba saber."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "user": {
+        "name": "Maria Sanchez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ui"]
+      },
+      "content": "El diseño minimalista mejora la experiencia de usuario.",
+      "likes": 15,
+      "comments": [
+        {
+          "id": 3,
+          "user": "Sofia Perez",
+          "comment": "Totalmente de acuerdo!"
+        },
+        {
+          "id": 4,
+          "user": "Carlos Ruiz",
+          "comment": "Aplicaré esto en mi próximo proyecto."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "user": {
+        "name": "Luis Gomez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ux", "tester"]
+      },
+      "content": "Probar una aplicación es clave para una buena experiencia.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 8,
+      "comments": [
+        {
+          "id": 5,
+          "user": "Daniela Martinez",
+          "comment": "Muy buen consejo."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "React y Angular son herramientas poderosas para el frontend.",
+      "likes": 20,
+      "comments": [
+        {
+          "id": 6,
+          "user": "Miguel Garcia",
+          "comment": "Difícil decidir entre ambas."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "user": {
+        "name": "Carlos Ruiz",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "La automatización de despliegue ahorra tiempo y reduce errores.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 7,
+      "comments": [
+        {
+          "id": 7,
+          "user": "Andres Lopez",
+          "comment": "Automatizar es clave para la eficiencia."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend"]
+      },
+      "content": "La escalabilidad en el backend es esencial para grandes proyectos.",
+      "likes": 12,
+      "comments": [
+        {
+          "id": 8,
+          "user": "Manuel Rodriguez",
+          "comment": "Totalmente de acuerdo!"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "user": {
+        "name": "Miguel Garcia",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "ux"]
+      },
+      "content": "Un buen diseño de UX facilita la navegación de una aplicación.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 9,
+      "comments": [
+        {
+          "id": 9,
+          "user": "Sofia Perez",
+          "comment": "Diseño es todo!"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "user": {
+        "name": "Daniela Martinez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ui", "tester"]
+      },
+      "content": "Testear una interfaz garantiza que funcione en todas las resoluciones.",
+      "likes": 11,
+      "comments": [
+        {
+          "id": 10,
+          "user": "Luis Gomez",
+          "comment": "Exacto, las pruebas son clave."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "devops"]
+      },
+      "content": "Los microservicios son fundamentales para la escalabilidad.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 14,
+      "comments": [
+        {
+          "id": 11,
+          "user": "Carlos Ruiz",
+          "comment": "Microservicios son el futuro."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "user": {
+        "name": "Ana Gutierrez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "ui"]
+      },
+      "content": "CSS Grid y Flexbox simplifican el diseño de interfaces web.",
+      "likes": 13,
+      "comments": [
+        {
+          "id": 12,
+          "user": "Sofia Perez",
+          "comment": "Genial, aplicaré esto!"
+        }
+      ]
+    }
+  ],
+  "totalPosts": 10,
+  "totalPages": 4
+}
