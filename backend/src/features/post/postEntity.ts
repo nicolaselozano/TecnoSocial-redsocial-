@@ -27,6 +27,7 @@ export class Post {
   @ManyToOne(() => User, (user) => user.id)
   user_id: User;
 
+  
   @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
   labels: Technology[];

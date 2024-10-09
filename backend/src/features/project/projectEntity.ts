@@ -24,6 +24,6 @@ export class Project {
   @Column({type: "varchar"})
     collaborators: string 
 
-  @ManyToMany(() => User, (user) => user.id)
+  @ManyToMany(() => User)
     projects: Project[];
 }

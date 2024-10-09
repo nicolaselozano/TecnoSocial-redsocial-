@@ -2,28 +2,31 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
     ManyToOne,
     PrimaryGeneratedColumn,
-  } from "typeorm";
+  } from "typeorm";  
+import { User } from "../user/userEntity";
 import { Post } from "../post/postEntity";
-  
+   
   @Entity()
-  export class Comment {
+  export class Like {
     @PrimaryGeneratedColumn()
     id: number;
   
     @Column({ type: "varchar", length: 255 })
-    content: string;
+    user_id: User;
   
-    @Column()
-    user_id: number;
-  
-    @Column()
-    post_id: number;
+    @Column({ type: "varchar", length: 100 })
+    post_id: Post;
   
     @CreateDateColumn({ type: "datetime" })
-    created_at: Date;
+    created_at: string;
 
     @ManyToOne(() => Post, post => post.id) 
     post: Post;
+  
+    @JoinTable()
+    labels: Post[];
+    
   }
