@@ -24,7 +24,10 @@ class UserRopository {
   public async getUserById(id): Promise<User> {
     console.log(id);
 
-    const user = await this.repository.findOneBy({ id: id });
+    const user = await this.repository.findOne({
+      where: id,
+      relations: { social_networks: true },
+    });
     console.log(user);
     return user;
   }

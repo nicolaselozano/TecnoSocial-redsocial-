@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Post } from '@/features/post/postEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -14,6 +15,10 @@ export class User {
 
   @Column({ type: 'varchar', length: 100 })
   password: string;
+
+  @OneToOne(() => SocialNetworks)
+  @JoinColumn()
+  social_networks: SocialNetworks;
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
