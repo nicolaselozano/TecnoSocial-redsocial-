@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { userRepository } from "./userRepository";
-import { User } from "./userEntity";
+import { Request, Response } from 'express';
+import { userRepository } from './userRepository';
+import { User } from './userEntity';
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<void> {

@@ -1,0 +1,11 @@
+{
+  "yaml.schemas": {
+    "openapi:v3": "file:///home/mario/Documents/Desarrollo/nocountry/s18-25-m-react-agregarback/backend/src/docs/build/swagger.yaml"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "[json]": { "editor.formatOnSave": true },
+  "[javascript]": { "editor.formatOnSave": true },
+  "[typescript]": { "editor.formatOnSave": true }
+}
