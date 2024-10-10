@@ -1,0 +1,132 @@
+{
+  "page": 4,
+  "posts": [
+    {
+      "id": 31,
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "frontend"]
+      },
+      "content": "La implementación de GraphQL simplifica la obtención de datos.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 10,
+      "comments": []
+    },
+    {
+      "id": 32,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "ui"]
+      },
+      "content": "Utilizar diseño modular mejora la escalabilidad.",
+      "likes": 15,
+      "comments": [
+        {
+          "id": 1,
+          "user": "Carlos Ruiz",
+          "comment": "Totalmente de acuerdo, ayuda mucho."
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "user": {
+        "name": "Miguel Garcia",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "El uso de herramientas de automatización reduce errores.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 8,
+      "comments": []
+    },
+    {
+      "id": 34,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ux"]
+      },
+      "content": "La empatía en el diseño es clave para el éxito.",
+      "likes": 20,
+      "comments": [
+        {
+          "id": 2,
+          "user": "Andres Lopez",
+          "comment": "Definitivamente, entender al usuario es crucial."
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "user": {
+        "name": "Ana Gutierrez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "ui"]
+      },
+      "content": "El uso de color en UX puede guiar la atención del usuario.",
+      "likes": 12,
+      "comments": []
+    },
+    {
+      "id": 36,
+      "user": {
+        "name": "Pedro Martinez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend"]
+      },
+      "content": "Las pruebas de usabilidad son esenciales para mejorar el producto.",
+      "likes": 9,
+      "comments": []
+    },
+    {
+      "id": 37,
+      "user": {
+        "name": "Carlos Ruiz",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "La integración continua es clave para el desarrollo ágil.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 11,
+      "comments": []
+    },
+    {
+      "id": 38,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "La accesibilidad web mejora la experiencia de todos los usuarios.",
+      "likes": 14,
+      "comments": []
+    },
+    {
+      "id": 39,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ux"]
+      },
+      "content": "El feedback de los usuarios es fundamental para iterar en el diseño.",
+      "likes": 13,
+      "comments": []
+    },
+    {
+      "id": 40,
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "frontend"]
+      },
+      "content": "La colaboración entre diseñadores y desarrolladores es esencial.",
+      "likes": 10,
+      "comments": []
+    }
+  ],
+  "totalPosts": 10,
+  "totalPages": 4
+}

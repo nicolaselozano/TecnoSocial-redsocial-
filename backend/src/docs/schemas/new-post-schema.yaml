@@ -4,5 +4,5 @@ properties:
     type: string
   content:
     type: string
-  user_id:
+  user:
     type: number

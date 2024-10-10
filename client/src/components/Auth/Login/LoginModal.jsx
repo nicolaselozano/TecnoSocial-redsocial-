@@ -15,7 +15,7 @@ const LoginModal = ({ onClose }) => {
                 connection: 'google-oauth2',
                 clientID: `${CLIENT_ID}`,
                 responseType: 'code',
-                redirectUri: `${REDIRECT_URI}`,
+                redirectUri: `${REDIRECT_URI}/login`,
                 scope: `${SCOPE}`,
                 audience: `${AUDIENCE}`
             });
@@ -39,7 +39,7 @@ const LoginModal = ({ onClose }) => {
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                Registrarte
+                                Inicia Sesion con:
                             </h3>
                             <button
                                 onClick={() => onClose(false)}
@@ -62,7 +62,7 @@ const LoginModal = ({ onClose }) => {
                                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                     />
                                 </svg>
-                                <span className="sr-only">Close modal</span>
+                                <span className="sr-only">Volver</span>
                             </button>
                         </div>
                         <div className="p-4 md:p-5">
@@ -76,7 +76,7 @@ const LoginModal = ({ onClose }) => {
                                     loading="lazy"
                                     alt="auth0 logo"
                                 />
-                                Registrarte con Auth0
+                                Login con Auth0
                             </button>
                             <button
                                 className="mb-4 w-full px-4 py-2 border flex justify-center items-center gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
@@ -88,7 +88,7 @@ const LoginModal = ({ onClose }) => {
                                     loading="lazy"
                                     alt="google logo"
                                 />
-                                <span>Registrarte con Google</span>
+                                <span>Login con Google</span>
                             </button>
                         </div>
                     </div>

@@ -1,53 +1,52 @@
 get:
-      summary: Obtiene un proyecto por ID
-      tags: [Project]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      responses:
-        200:
-          description: Proyecto encontrado
-        404:
-          description: Proyecto no encontrado
+  summary: Obtiene un proyecto por ID
+  tags: [Project]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del proyecto
+  responses:
+    200:
+      description: Proyecto encontrado
+    404:
+      description: Proyecto no encontrado
 put:
-      summary: Actualiza un proyecto por ID
-      tags: [Project]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                status:
-                  type: string
-      responses:
-        200:
-          description: Proyecto actualizado
-        404:
-          description: Proyecto no encontrado
+  summary: Actualiza un proyecto por ID
+  tags: [Project]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del proyecto
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            status:
+              type: string
+  responses:
+    200:
+      description: Proyecto actualizado
+    404:
+      description: Proyecto no encontrado
 delete:
-      summary: Elimina un proyecto por ID
-      tags: [Project]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      responses:
-        204:
-          description: Proyecto eliminado
-        404:
-          description: Proyecto no encontrado
- 
+  summary: Elimina un proyecto por ID
+  tags: [Project]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del proyecto
+  responses:
+    204:
+      description: Proyecto eliminado
+    404:
+      description: Proyecto no encontrado
