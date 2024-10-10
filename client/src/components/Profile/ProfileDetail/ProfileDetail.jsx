@@ -1,6 +1,6 @@
 const ProfileDetail = () => {
     return (
-        <div className="max-w-sm mx-auto bg-gray-800 text-white rounded-xl shadow-md overflow-hidden">
+        <div className="mx-4 bg-gray-800 text-white rounded-xl shadow-md overflow-hidden">
             <div className="relative">
                 <img
                     src="https://placehold.co/600"
