@@ -14,7 +14,7 @@ export const PostCard = ({ post }) => {
   };
 
   return (
-    <div className="w-full bg-[#25252A] text-white p-6 rounded-lg shadow-md mb-6">
+    <div className="w-full bg-secondBlack-700 text-white p-6 rounded-lg shadow-md mb-6">
       {/* Header */}
       <div className="flex items-center mb-4">
         <img
@@ -52,12 +52,12 @@ export const PostCard = ({ post }) => {
         </figure>
       )}
 
-      <hr className="border-t border-[#43AA8B] my-4" />
+      <hr className="border-t border-primaryGreen-400 my-4" />
 
       {/* Footer */}
-      <div className="flex justify-between items-center text-gray-400 text-sm">
+      <div className="flex justify-between items-center text-sm">
         <div className="flex space-x-4">
-          <button className="border border-[#43AA8B] text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-[#43AA8B] hover:text-white">
+          <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
             <div className="flex gap-2 items-center">
               <AiOutlineLike size={20} />
               <span>{post.likes}</span>
@@ -65,7 +65,7 @@ export const PostCard = ({ post }) => {
           </button>
           <button
             onClick={handleComment}
-            className="border border-[#43AA8B] text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-[#43AA8B] hover:text-white"
+            className="border border-primaryGreen-400 text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
           >
             <div className="flex gap-2 items-center">
               <AiOutlineComment size={20} />
@@ -82,9 +82,9 @@ export const PostCard = ({ post }) => {
             <input
               type="text"
               placeholder="Añadir un comentario..."
-              className="bg-[#393941] border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-[#43AA8B] w-full"
+              className="bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full"
             />
-            <button className="border border-[#43AA8B] text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-[#43AA8B] hover:text-white">
+            <button className="border border-primaryGreen-400  text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
               <BiSend size={20} />
             </button>
           </div>
