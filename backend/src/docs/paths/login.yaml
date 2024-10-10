@@ -1,3 +1,5 @@
+# Falta documentar
+
 get:
   summary: Autenticar usuario y generar token
   tags: [Authentication]

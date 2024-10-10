@@ -19,6 +19,8 @@ tags:
     description: API para gestionar usuarios
   - name: Technologies
     description: API para gestionar tecnologias
+  - name: Comment
+    description: API para gestionar comentarios
 paths:
   /post:
     $ref: './paths/post.yaml'
@@ -36,3 +38,13 @@ paths:
     $ref: './paths/user.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
+  /comment:
+    $ref: './paths/comment.yaml'
+  /comment/{id}:
+    $ref: './paths/comment-by-id.yaml'
+  /auth/register:
+    $ref: './paths/register.yaml'
+  /auth/login:
+    $ref: './paths/login.yaml'
+  /auth/me:
+    $ref: './paths/login.yaml'

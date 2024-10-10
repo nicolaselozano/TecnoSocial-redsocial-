@@ -19,6 +19,8 @@ tags:
     description: API para gestionar usuarios
   - name: Technologies
     description: API para gestionar tecnologias
+  - name: Comment
+    description: API para gestionar comentarios
 paths:
   /post:
     get:
@@ -82,12 +84,24 @@ paths:
                   type: string
                 content:
                   type: string
-                user:
-                  type: number
+                technologies:
+                  type: array
+                  items:
+                    type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
             example:
               title: Mi primer post
               content: Este es el contenido de mi primer post
-              user: 12345
+              technologies:
+                - react
+                - nextjs
+              images:
+                - image-1.png
+                - image-2.png
       responses:
         '201':
           description: Post creado
@@ -234,10 +248,30 @@ paths:
       summary: Crea un nuevo proyecto
       tags:
         - Project
+      parameters:
+        - name: user_id
+          in: cookie
+          required: true
+          schema:
+            type: number
+          description: The user ID is sent via cookie for authentication or identification purposes.
       requestBody:
         required: true
         content:
           application/json:
+            example:
+              name: E-commerce
+              description: Descubri una nueva forma de hacer compras online
+              role: frontend
+              url: 'https://github-pages.com'
+              technologies:
+                - astro
+                - react
+                - nextjs
+              collaborators:
+                - Martin
+                - Sofia
+                - Marcos
             schema:
               type: object
               properties:
@@ -349,11 +383,8 @@ paths:
               properties:
                 name:
                   type: string
-                color:
-                  type: string
             example:
               name: angular
-              color: '#ffffff'
       responses:
         '201':
           description: tecnologia creada
@@ -587,3 +618,126 @@ paths:
                 title: Mi primer usuario
                 content: Este es el contenido de mi primer usuario
                 user: '12345'
+  /comment:
+    post:
+      summary: Crea un nuevo comentario
+      tags:
+        - Comment
+      parameters:
+        - name: user_id
+          in: cookie
+          required: true
+          schema:
+            type: number
+          description: The user ID is sent via cookie for authentication or identification purposes.
+        - name: post_id
+          in: path
+          required: true
+          description: ID del post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              content: Este es un nuevo comentario
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '201':
+          description: tecnologia creada
+          content:
+            application/json:
+              example:
+                message: comentario creado exitosamente
+    get:
+      summary: Obtiene todos los comentarios
+      tags:
+        - Comment
+      responses:
+        '200':
+          description: Lista de comentarios
+  '/comment/{id}':
+    get:
+      summary: Obtiene un comment por ID
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del comment
+      responses:
+        '200':
+          description: Proyecto encontrado
+        '404':
+          description: Proyecto no encontrado
+    put:
+      summary: Actualiza un comment por ID
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del proyecto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                content:
+                  type: string
+                user_id:
+                  type: number
+                post_id:
+                  type: number
+                created_at:
+                  type: date
+      responses:
+        '200':
+          description: comentario actualizado
+        '404':
+          description: comentario no encontrado
+    delete:
+      summary: Elimina un comentario por ID
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del comentario
+      responses:
+        '204':
+          description: comentario eliminado
+        '404':
+          description: comentario no encontrado
+  /auth/register:
+    post:
+      summary: Registra un nuevo usuario
+      tags:
+        - Authentication
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+        '400':
+          description: Error en la petición
+  /auth/login:
+    $ref: '#/paths/~1auth~1me'
+  /auth/me:
+    get:
+      summary: Autenticar usuario y generar token
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Login exitoso
+        '401':
+          description: Error de autenticación
