@@ -3,6 +3,7 @@ import RedirectRegister from '../components/Auth/Register/RedirectRegister';
 import RedirectLogin from '../components/Auth/Login/RedirectLogin';
 import Profile from '../components/Profile/Profile';
 import AuthModal from '../components/AuthModals/AuthModal';
+import { ExplorePage } from '../components/Explore/ExplorePage';
 const AllRoutes = () => {
 
   return (
@@ -15,6 +16,7 @@ const AllRoutes = () => {
       <Route path="/redirect/login" element={<RedirectLogin />} />
       {/* perfil */}
       <Route path="/profile" element={<Profile/>}/>
+      <Route path="/explore" element={<ExplorePage />} />
     </Routes>
   );
 };

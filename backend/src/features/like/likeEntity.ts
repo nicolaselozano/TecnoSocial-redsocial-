@@ -1,17 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Post } from '../post/postEntity';
 import { User } from '../user/userEntity';
 
 @Entity()
-export class Comment {
+export class Like {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  content: string;
-
   @CreateDateColumn({ type: 'datetime' })
-  created_at: Date;
+  created_at: string;
 
   @ManyToOne(() => Post, (post) => post.id)
   post: Post;

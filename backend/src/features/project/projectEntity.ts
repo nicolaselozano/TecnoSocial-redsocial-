@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany } from 'typeorm';
+import { User } from '../user/userEntity';
 
 @Entity()
 export class Project {
@@ -22,4 +23,7 @@ export class Project {
 
   @Column({ type: 'varchar' })
   collaborators: string;
+
+  @ManyToMany(() => User)
+  projects: Project[];
 }

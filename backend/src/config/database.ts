@@ -1,9 +1,12 @@
 import { DataSource } from 'typeorm';
 import envs from './envs';
 
+import { Comment } from '@/features/comment/commentEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Like } from '@/features/like/likeEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { Post } from '../features/post/postEntity';
 import { Project } from '../features/project/projectEntity';
-import { Image } from '@/features/image/imageEntity';
 import { Technology } from '../features/technology/technologyEntity';
 import { User } from '../features/user/userEntity';
 
@@ -16,7 +19,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post, Project, Image, Technology],
+  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment],
 });
 
 export default con;
