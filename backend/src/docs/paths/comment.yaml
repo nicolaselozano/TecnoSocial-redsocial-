@@ -1,0 +1,29 @@
+post:
+  summary: Crea un nuevo comentario
+  tags: [Comment]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: number
+            content:
+              type: string
+            user_id:
+              type: number
+            post_id:
+              type: number
+            create_at:
+              type: date
+  responses:
+    201:
+      description: comentarios creados
+get:
+  summary: Obtiene todos los comentarios
+  tags: [Comment]
+  responses:
+    200:
+      description: Lista de comentarios

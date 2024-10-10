@@ -53,18 +53,20 @@ paths:
                       url: 'https://image-url'
                       alt: tecno image
                       created_at: '2024-10-08T22:28:58.981Z'
-                - id: '2'
-                  title: Segundo post
-                  content: Contenido del segundo post
-                  user: '67890'
-                  technologies:
-                    - name: nextjs
-                      color: '#bbbbbb'
-                  images:
-                    - id: 3
-                      url: 'https://image-url'
-                      alt: tecno image
-                      created_at: '2024-10-08T22:28:58.981Z'
+                  likes:
+                    - null
+                    - id: '2'
+                      title: Segundo post
+                      content: Contenido del segundo post
+                      user: '67890'
+                      technologies:
+                        - name: nextjs
+                          color: '#bbbbbb'
+                      images:
+                        - id: 3
+                          url: 'https://image-url'
+                          alt: tecno image
+                          created_at: '2024-10-08T22:28:58.981Z'
     post:
       summary: Crea un nuevo post
       tags:

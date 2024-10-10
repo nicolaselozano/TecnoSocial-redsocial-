@@ -29,6 +29,8 @@ get:
                   url: 'https://image-url'
                   alt: 'tecno image'
                   created_at: '2024-10-08T22:28:58.981Z'
+              likes: 
+                -
             - id: '2'
               title: 'Segundo post'
               content: 'Contenido del segundo post'

@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Post } from '../post/postEntity';
 
 @Entity()
 export class Comment {
@@ -8,12 +9,15 @@ export class Comment {
   @Column({ type: 'varchar', length: 255 })
   content: string;
 
-  @Column()
-  user: number;
+  @Column({type :"integer"})
+  user_id: number;
 
-  @Column()
+  @Column({type :"integer"})
   post_id: number;
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: Date;
+
+  @ManyToOne(() => Post, (post) => post.id)
+  post: Post;
 }
