@@ -1,5 +1,6 @@
 import con from '@/config/database';
 import { User } from './userEntity';
+import { NotFoundError } from '@/utils/errors';
 
 class UserRopository {
   private repository = con.getRepository(User);
@@ -14,7 +15,9 @@ class UserRopository {
 
   // Obtener todos los usuarios
   public async getAllUsers(): Promise<User[]> {
-    const users = await this.repository.find();
+    const users = await this.repository.find({
+      relations: ['social_networks', 'posts'],
+    });
     console.log(users);
 
     return users;
@@ -24,8 +27,12 @@ class UserRopository {
   public async getUserById(id: User['id']): Promise<User> {
     const user = await this.repository.findOne({
       where: { id },
-      relations: ['social_networks'],
+      relations: ['social_networks', 'posts'],
     });
+
+    if (!user) {
+      throw new NotFoundError(`user with id ${id} not found`);
+    }
 
     return user;
   }

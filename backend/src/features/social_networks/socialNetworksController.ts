@@ -16,7 +16,7 @@ class SocialNetworksController {
       twitter,
     };
 
-    const user = await userRepository.getUserById(userid);
+    const user = await userRepository.getUserById(Number(userid));
     const result = await socialNetworksRepository.update(user.social_networks.id, updatedSocialNetworks);
     res.json(result);
   }
