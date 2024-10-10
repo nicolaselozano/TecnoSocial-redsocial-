@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { Like } from "./likeEntity";
-import { likeRepository } from "./likeRepository";
+import { Request, Response } from 'express';
+import { Like } from './likeEntity';
+import { likeRepository } from './likeRepository';
 
 class LikeController {
   public async createLike(req: Request, res: Response): Promise<void> {
@@ -9,7 +9,7 @@ class LikeController {
 
       // Validaciones
       if (!post_id || !user_id || !created_at) {
-        res.status(400).json({ message: "post_id, user_id y created_at son requeridos" });
+        res.status(400).json({ message: 'post_id, user_id y created_at son requeridos' });
         return;
       }
 
@@ -21,7 +21,7 @@ class LikeController {
       const response = await likeRepository.createLike(like);
       res.status(201).json(response); // Código de estado 201 para recurso creado
     } catch (error) {
-      res.status(500).json({ message: "Error al crear el like", error });
+      res.status(500).json({ message: 'Error al crear el like', error });
     }
   }
 
@@ -30,7 +30,7 @@ class LikeController {
       const likes = await likeRepository.getAllLikes();
       res.json(likes);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener los likes", error });
+      res.status(500).json({ message: 'Error al obtener los likes', error });
     }
   }
 
@@ -40,12 +40,12 @@ class LikeController {
 
       const like = await likeRepository.getLikeById(Number(id));
       if (!like) {
-        res.status(404).json({ message: "Like no encontrado" });
+        res.status(404).json({ message: 'Like no encontrado' });
         return;
       }
       res.json(like);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener el like", error });
+      res.status(500).json({ message: 'Error al obtener el like', error });
     }
   }
 
@@ -62,12 +62,12 @@ class LikeController {
 
       const response = await likeRepository.updateLike(Number(id), like);
       if (!response) {
-        res.status(404).json({ message: "Like no encontrado para actualizar" });
+        res.status(404).json({ message: 'Like no encontrado para actualizar' });
         return;
       }
       res.json(response);
     } catch (error) {
-      res.status(500).json({ message: "Error al actualizar el like", error });
+      res.status(500).json({ message: 'Error al actualizar el like', error });
     }
   }
 
@@ -77,12 +77,12 @@ class LikeController {
 
       const response = await likeRepository.deleteLike(Number(id));
       if (!response) {
-        res.status(404).json({ message: "Like no encontrado para eliminar" });
+        res.status(404).json({ message: 'Like no encontrado para eliminar' });
         return;
       }
-      res.json({ message: "Like eliminado correctamente" });
+      res.json({ message: 'Like eliminado correctamente' });
     } catch (error) {
-      res.status(500).json({ message: "Error al eliminar el like", error });
+      res.status(500).json({ message: 'Error al eliminar el like', error });
     }
   }
 }

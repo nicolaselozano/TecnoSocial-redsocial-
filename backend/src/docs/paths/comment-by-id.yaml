@@ -1,56 +1,56 @@
 get:
-      summary: Obtiene un comment por ID
-      tags: [comment]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del comment
-      responses:
-        200:
-          description: Proyecto encontrado
-        404:
-          description: Proyecto no encontrado
+  summary: Obtiene un comment por ID
+  tags: [comment]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del comment
+  responses:
+    200:
+      description: Proyecto encontrado
+    404:
+      description: Proyecto no encontrado
 put:
-      summary: Actualiza un comment por ID
-      tags: [comment]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del proyecto
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: number
-                content:
-                  type: string
-                user_id:
-                  type: number
-                post_id:
-                  type: number
-                created_at:
-                  type: date
-      responses:
-        200:
-          description: comentario actualizado
-        404:
-          description: comentario no encontrado
+  summary: Actualiza un comment por ID
+  tags: [comment]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del proyecto
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: number
+            content:
+              type: string
+            user_id:
+              type: number
+            post_id:
+              type: number
+            created_at:
+              type: date
+  responses:
+    200:
+      description: comentario actualizado
+    404:
+      description: comentario no encontrado
 delete:
-      summary: Elimina un comentario por ID
-      tags: [comentario]
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID del comentario
-      responses:
-        204:
-          description: comentario eliminado
-        404:
-          description: comentario no encontrado
+  summary: Elimina un comentario por ID
+  tags: [comentario]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del comentario
+  responses:
+    204:
+      description: comentario eliminado
+    404:
+      description: comentario no encontrado

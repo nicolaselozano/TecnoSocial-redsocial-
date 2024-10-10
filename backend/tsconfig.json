@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
+    "noUnusedLocals": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

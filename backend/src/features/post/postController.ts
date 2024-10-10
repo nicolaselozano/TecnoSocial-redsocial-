@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
-import { Post } from "./postEntity";
-import { postRepository } from "./postRepository";
+import { Request, Response } from 'express';
+import { Post } from './postEntity';
+import { postRepository } from './postRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
-    const { title, content, user_id } = req.body;
+    const { title, content, user } = req.body;
 
     const post = new Post();
     post.title = title;
     post.content = content;
-    post.user_id = user_id;
+    post.user = user;
 
     const response = await postRepository.createPost(post);
     res.json(response);
@@ -29,12 +29,12 @@ class PostController {
 
   public async updatePost(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const { title, content, user_id } = req.body;
+    const { title, content, user } = req.body;
 
     const post = new Post();
     post.title = title;
     post.content = content;
-    post.user_id = user_id;
+    post.user = user;
 
     const response = await postRepository.updatePost(Number(id), post);
     res.json(response);

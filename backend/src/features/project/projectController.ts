@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
-import { projectRepository } from "./projectRepository"; 
-import { Project } from "./projectEntity";
-
-
+import { Request, Response } from 'express';
+import { projectRepository } from './projectRepository';
+import { Project } from './projectEntity';
 
 class ProjectController {
   public async createProject(req: Request, res: Response): Promise<void> {
@@ -14,7 +12,6 @@ class ProjectController {
     project.role = role;
     project.url = url;
     project.collaborators = collaborators;
-    
 
     const response = await projectRepository.createProject(project);
     res.json(response);

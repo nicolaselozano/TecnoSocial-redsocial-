@@ -1,0 +1,162 @@
+{
+  "page": 2,
+  "posts": [
+    {
+      "id": 11,
+      "user": {
+        "name": "Pedro Martinez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend"]
+      },
+      "content": "Optimizar consultas SQL es crucial para el rendimiento.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 10,
+      "comments": [
+        {
+          "id": 1,
+          "user": "Laura Fernandez",
+          "comment": "Esto es muy útil, gracias!"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend", "ui"]
+      },
+      "content": "Un diseño responsive mejora la experiencia del usuario.",
+      "likes": 15,
+      "comments": [
+        {
+          "id": 2,
+          "user": "Miguel Garcia",
+          "comment": "Totalmente de acuerdo!"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "user": {
+        "name": "Carlos Ruiz",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "La implementación de CI/CD acelera el proceso de desarrollo.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 8,
+      "comments": [
+        {
+          "id": 3,
+          "user": "Daniela Martinez",
+          "comment": "Necesito implementar esto en mi equipo."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ux"]
+      },
+      "content": "Realizar pruebas A/B es clave para entender al usuario.",
+      "likes": 20,
+      "comments": [
+        {
+          "id": 4,
+          "user": "Luis Gomez",
+          "comment": "Cierto, esto ayuda mucho!"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend", "frontend"]
+      },
+      "content": "Los microservicios facilitan la escalabilidad de la aplicación.",
+      "likes": 12,
+      "comments": []
+    },
+    {
+      "id": 16,
+      "user": {
+        "name": "Ana Gutierrez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["ui", "devops"]
+      },
+      "content": "El uso de Docker simplifica el despliegue de aplicaciones.",
+      "likes": 9,
+      "comments": [
+        {
+          "id": 5,
+          "user": "Maria Sanchez",
+          "comment": "Estoy explorando esto, suena prometedor."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "user": {
+        "name": "Miguel Garcia",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "El uso de APIs RESTful es fundamental en la arquitectura moderna.",
+      "image": "https://via.placeholder.com/500x200",
+      "likes": 11,
+      "comments": []
+    },
+    {
+      "id": 18,
+      "user": {
+        "name": "Laura Fernandez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["backend"]
+      },
+      "content": "La seguridad en el desarrollo de software es esencial.",
+      "likes": 14,
+      "comments": [
+        {
+          "id": 6,
+          "user": "Daniela Martinez",
+          "comment": "No podemos pasar por alto esto."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "user": {
+        "name": "Carlos Ruiz",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["devops"]
+      },
+      "content": "La automatización de pruebas reduce los errores en producción.",
+      "likes": 13,
+      "comments": []
+    },
+    {
+      "id": 20,
+      "user": {
+        "name": "Sofia Perez",
+        "avatar": "https://via.placeholder.com/150",
+        "roles": ["frontend"]
+      },
+      "content": "El uso de diseño centrado en el usuario es la clave del éxito.",
+      "likes": 10,
+      "comments": [
+        {
+          "id": 7,
+          "user": "Miguel Garcia",
+          "comment": "Siempre lo he creído!"
+        }
+      ]
+    }
+  ],
+  "totalPosts": 10,
+  "totalPages": 4
+}

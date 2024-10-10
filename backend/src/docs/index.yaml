@@ -17,18 +17,18 @@ tags:
     description: API para autenticar usuarios
 paths:
   /post:
-    $ref: "./paths/post.yaml"
+    $ref: './paths/post.yaml'
   /post/{id}:
-    $ref: "./paths/post-by-id.yaml"
+    $ref: './paths/post-by-id.yaml'
   /project:
-    $ref: "./paths/project.yaml"
+    $ref: './paths/project.yaml'
   /project/{id}:
-    $ref: "./paths/project-by-id.yaml"
+    $ref: './paths/project-by-id.yaml'
   /technology:
-    $ref: "./paths/technology.yaml"
+    $ref: './paths/technology.yaml'
   /technology/{name}:
-    $ref: "./paths/technology-by-name.yaml"
+    $ref: './paths/technology-by-name.yaml'
   /auth/register:
-    $ref: "./paths/register.yaml"
+    $ref: './paths/register.yaml'
   /auth/login:
-    $ref: "./paths/login.yaml"
+    $ref: './paths/login.yaml'
