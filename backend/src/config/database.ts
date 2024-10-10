@@ -8,6 +8,7 @@ import { Technology } from '../features/technology/technologyEntity';
 import { User } from '../features/user/userEntity';
 import { Like } from '@/features/like/likeEntity';
 import { Comment } from '@/features/comment/commentEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 
 const con = new DataSource({
   type: 'mysql',
@@ -18,7 +19,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post, Project, Image, Technology, Like, Comment],
+  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment],
 });
 
 export default con;
