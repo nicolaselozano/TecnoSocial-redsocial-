@@ -72,7 +72,7 @@ export const PostsGrid = ({
           {Array.from({ length: 4 }).map((_, index) => (
             <div
               key={index}
-              className="flex flex-col p-4 bg-[#25252A] border border-neutral-700 rounded-md shadow-md"
+              className="flex flex-col p-4 bg-secondBlack-700 border border-neutral-700 rounded-md shadow-md"
             >
               <div className="h-8 bg-neutral-700 animate-pulse rounded-md mb-2 w-1/2" />
               <div className="h-4 bg-neutral-700 animate-pulse rounded-md mb-2 w-full" />
