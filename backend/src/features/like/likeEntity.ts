@@ -1,17 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../user/userEntity';
+import { CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Post } from '../post/postEntity';
+import { User } from '../user/userEntity';
 
 @Entity()
 export class Like {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ type: 'varchar', length: 255 })
-  user_id: User;
-
-  @Column({ type: 'varchar', length: 100 })
-  post_id: Post;
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
@@ -19,4 +13,6 @@ export class Like {
   @ManyToOne(() => Post, (post) => post.id)
   post: Post;
 
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 }

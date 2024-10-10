@@ -18,7 +18,7 @@ class PostRepository {
   public async getPostById(id: Post['id']): Promise<Post> {
     const post = await this.repository.findOne({
       where: { id },
-      relations: ['images', 'user'],
+      relations: ['images', 'user', 'likes', 'comments'],
     });
 
     if (!post) {

@@ -1,16 +1,26 @@
+import { Comment } from '@/features/comment/commentEntity';
 import { Image } from '@/features/image/imageEntity';
 import { Post } from '@/features/post/postEntity';
 
 type ImageInsert = Pick<Image, 'url' | 'alt'>;
-
+type CommentInsert = Pick<Comment, 'content'>;
 type PostInsert = Pick<Post, 'content' | 'title'> & {
   images: ImageInsert[];
+  comments?: CommentInsert[];
 };
 
 export const MOCK_POSTS: PostInsert[] = [
   {
     content: 'Exploring TypeORM in-depth with some practical examples.',
     title: 'Understanding TypeORM Basics',
+    comments: [
+      {
+        content: 'hola este es un comentario',
+      },
+      {
+        content: 'hola este es el segundo comentario',
+      },
+    ],
     images: [
       {
         url: 'http://image-url-1',

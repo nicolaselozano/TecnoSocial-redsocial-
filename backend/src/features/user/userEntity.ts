@@ -1,6 +1,7 @@
 import { Post } from '@/features/post/postEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Comment } from '../comment/commentEntity';
 
 @Entity()
 export class User {
@@ -22,4 +23,7 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.user, { cascade: true })
   posts: Post[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, { cascade: true })
+  comments: Comment[];
 }

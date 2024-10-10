@@ -1,5 +1,6 @@
 import con from '@/config/database';
 import envs from '@/config/envs';
+import { Comment as CommentEntity } from '@/features/comment/commentEntity';
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
@@ -22,9 +23,10 @@ async function seed() {
     const Post = con.getRepository(PostEntity);
     const Image = con.getRepository(ImageEntity);
     const User = con.getRepository(UserEntity);
+    const Comment = con.getRepository(CommentEntity);
 
     // Seed users
-    Promise.all(
+    const seededUsers = await Promise.all(
       USERS_MOCK.map(async (user) => {
         const { email, name, password } = user;
 
@@ -40,6 +42,7 @@ async function seed() {
         });
 
         await User.save(newUser);
+        return newUser;
       }),
     );
 
@@ -60,7 +63,8 @@ async function seed() {
 
     await User.save(newUser);
 
-    const posts = await Promise.all(
+    // CREACION DE POSTS - COMENTARIOS - IMAGENES
+    await Promise.all(
       MOCK_POSTS.map(async (post) => {
         const newPost = Post.create({
           content: post.content,
@@ -68,25 +72,34 @@ async function seed() {
           user: newUser,
         });
 
+        // Cuando lo guardo, se le asigna un ID automatico
         await Post.save(newPost);
 
-        const images = post.images.map((image) =>
-          Image.create({
-            alt: image.alt,
-            url: image.url,
-            post_id: newPost,
-          }),
-        );
+        if (post.comments) {
+          const comments = post.comments.map((com) =>
+            Comment.create({
+              content: com.content,
+              post: newPost,
+              user: seededUsers[0],
+            }),
+          );
+          // Cuando lo guardo, se le asigna un ID automatico
+          await Comment.save(comments);
+        }
 
-        await Image.save(images);
+        if (post.images) {
+          const images = post.images.map((image) =>
+            Image.create({
+              alt: image.alt,
+              url: image.url,
+              post_id: newPost,
+            }),
+          );
 
-        newPost.images = images;
-
-        return newPost;
+          await Image.save(images);
+        }
       }),
     );
-
-    await Post.save(posts);
 
     console.log('🌱 -- Seeding completed successfully.');
     process.exit();

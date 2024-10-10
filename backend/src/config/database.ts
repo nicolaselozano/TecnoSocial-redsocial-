@@ -1,14 +1,14 @@
 import { DataSource } from 'typeorm';
 import envs from './envs';
 
+import { Comment } from '@/features/comment/commentEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Like } from '@/features/like/likeEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { Post } from '../features/post/postEntity';
 import { Project } from '../features/project/projectEntity';
-import { Image } from '@/features/image/imageEntity';
 import { Technology } from '../features/technology/technologyEntity';
 import { User } from '../features/user/userEntity';
-import { Like } from '@/features/like/likeEntity';
-import { Comment } from '@/features/comment/commentEntity';
-import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 
 const con = new DataSource({
   type: 'mysql',

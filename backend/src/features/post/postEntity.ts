@@ -11,6 +11,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Comment } from '../comment/commentEntity';
+import { Like } from '../like/likeEntity';
 
 @Entity()
 export class Post {
@@ -35,4 +37,10 @@ export class Post {
   @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
   labels: Technology[];
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like;
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment;
 }
