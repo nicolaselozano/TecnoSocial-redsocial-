@@ -15,6 +15,10 @@ tags:
     description: API para gestionar projects
   - name: Authentication
     description: API para autenticar usuarios
+  - name: Users
+    description: API para gestionar usuarios
+  - name: Technologies
+    description: API para gestionar tecnologias
 paths:
   /post:
     get:
@@ -430,7 +434,7 @@ paths:
     get:
       summary: Obtiene todos los usuarios
       tags:
-        - Usuarios
+        - Users
       responses:
         '200':
           description: Lista de usuarios
@@ -470,7 +474,7 @@ paths:
     get:
       summary: Obtiene un usuario por ID
       tags:
-        - Usuarios
+        - Users
       parameters:
         - in: path
           name: id
@@ -512,7 +516,7 @@ paths:
     delete:
       summary: Elimina un usuario por ID
       tags:
-        - Usuarios
+        - Users
       parameters:
         - in: path
           name: id
@@ -528,7 +532,7 @@ paths:
     put:
       summary: Modifica un usuario ya existente
       tags:
-        - Usuarios
+        - Users
       requestBody:
         required: true
         content:

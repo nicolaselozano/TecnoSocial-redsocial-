@@ -1,6 +1,6 @@
 get:
   summary: Obtiene todos los usuarios
-  tags: [Usuarios]
+  tags: [Users]
   responses:
     '200':
       description: Lista de usuarios

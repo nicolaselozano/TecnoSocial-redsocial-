@@ -1,6 +1,6 @@
 get:
   summary: Obtiene un usuario por ID
-  tags: [Usuarios]
+  tags: [Users]
   parameters:
     - in: path
       name: id
@@ -42,7 +42,7 @@ get:
             message: usuario no encontrado
 delete:
   summary: Elimina un usuario por ID
-  tags: [Usuarios]
+  tags: [Users]
   parameters:
     - in: path
       name: id
@@ -57,7 +57,7 @@ delete:
       description: usuario no encontrado
 put:
   summary: Modifica un usuario ya existente
-  tags: [Usuarios]
+  tags: [Users]
   requestBody:
     required: true
     content:

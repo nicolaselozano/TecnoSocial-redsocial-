@@ -15,6 +15,10 @@ tags:
     description: API para gestionar projects
   - name: Authentication
     description: API para autenticar usuarios
+  - name: Users
+    description: API para gestionar usuarios
+  - name: Technologies
+    description: API para gestionar tecnologias
 paths:
   /post:
     $ref: './paths/post.yaml'
