@@ -2,7 +2,9 @@ const ProfileNav = () => {
 
     return (
         <div>
-            
+            <ul>
+                <li></li>
+            </ul>
         </div>
     )
 

@@ -6,19 +6,17 @@ const Profile = () => {
     const { fetchUserDetail, userInstance, loading } = userProfileStore();
     const [isLoading, setIsLoading] = useState(true);
 
-    // Este efecto solo debe depender de `loading`
     useEffect(() => {
         setIsLoading(loading);
         console.log(userInstance);
     }, [loading]);
 
-    // Este efecto solo necesita ejecutarse una vez al cargar el componente
     useEffect(() => {
         const fetchUserData = async () => {
             await fetchUserDetail();
         };
         fetchUserData();
-    }, [fetchUserDetail]); // Eliminamos `isLoading` como dependencia
+    }, [fetchUserDetail]);
 
     return (
         <div>

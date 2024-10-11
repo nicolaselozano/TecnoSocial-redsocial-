@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { FaCalendarAlt } from "react-icons/fa";
 import { getRoleColor } from "../../../helpers/get-role-color";
+import ProfileNav from "../ProfileNav";
 
 const ProfileDetail = ({
     user,
@@ -92,6 +93,7 @@ const ProfileDetail = ({
                     </div>
                 </div>
             </div>
+            <ProfileNav/>
         </div>
     );
 
