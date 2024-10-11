@@ -1,6 +1,8 @@
 import con from '@/config/database';
 import { NotFoundError } from '@/utils/errors';
+import { Like } from 'typeorm';
 import { Post } from './postEntity';
+import { GetPostsConfig } from './postInterface';
 
 class PostRepository {
   private repository = con.getRepository(Post);
@@ -9,9 +11,14 @@ class PostRepository {
     return await this.repository.save(user);
   }
 
-  public async getAllPosts(): Promise<Post[]> {
+  public async getAllPosts({ limit, skip, search }: GetPostsConfig): Promise<Post[]> {
     return await this.repository.find({
       relations: ['images', 'user'],
+      take: limit,
+      skip,
+      where: {
+        title: Like(`%${search}%`),
+      },
     });
   }
 
