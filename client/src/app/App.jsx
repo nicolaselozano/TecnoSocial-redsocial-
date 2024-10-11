@@ -3,10 +3,10 @@ import AllRoutes from './Routes';
 function App() {
 
   return (
-    <body>
+    <div>
       {/* todas las rutas */}
       <AllRoutes />
-    </body>
+    </div>
   );
 }
 
