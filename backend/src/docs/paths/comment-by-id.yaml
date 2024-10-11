@@ -1,6 +1,6 @@
 get:
   summary: Obtiene un comment por ID
-  tags: [comment]
+  tags: [Comment]
   parameters:
     - in: path
       name: id
@@ -13,7 +13,7 @@ get:
       description: Proyecto no encontrado
 put:
   summary: Actualiza un comment por ID
-  tags: [comment]
+  tags: [Comment]
   parameters:
     - in: path
       name: id
@@ -43,7 +43,7 @@ put:
       description: comentario no encontrado
 delete:
   summary: Elimina un comentario por ID
-  tags: [comentario]
+  tags: [Comment]
   parameters:
     - in: path
       name: id

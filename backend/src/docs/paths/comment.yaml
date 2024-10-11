@@ -1,26 +1,36 @@
 post:
   summary: Crea un nuevo comentario
   tags: [Comment]
+  parameters:
+    - name: user_id
+      in: cookie
+      required: true
+      schema:
+        type: number
+      description: The user ID is sent via cookie for authentication or identification purposes.
+    - name: post_id
+      in: path
+      required: true
+      description: ID del post
   requestBody:
     required: true
     content:
       application/json:
+        example:
+          content: 'Este es un nuevo comentario'
         schema:
           type: object
           properties:
-            id:
-              type: number
             content:
               type: string
-            user_id:
-              type: number
-            post_id:
-              type: number
-            create_at:
-              type: date
   responses:
     201:
-      description: comentarios creados
+      description: tecnologia creada
+      content:
+        application/json:
+          example:
+            message: 'comentario creado exitosamente'
+
 get:
   summary: Obtiene todos los comentarios
   tags: [Comment]

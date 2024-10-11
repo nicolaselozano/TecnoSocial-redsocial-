@@ -29,7 +29,7 @@ get:
                   url: 'https://image-url'
                   alt: 'tecno image'
                   created_at: '2024-10-08T22:28:58.981Z'
-              likes: 
+              likes:
                 -
             - id: '2'
               title: 'Segundo post'
@@ -55,7 +55,12 @@ post:
         example:
           title: 'Mi primer post'
           content: 'Este es el contenido de mi primer post'
-          user: 12345
+          technologies:
+            - 'react'
+            - 'nextjs'
+          images:
+            - 'image-1.png'
+            - 'image-2.png'
   responses:
     '201':
       description: Post creado

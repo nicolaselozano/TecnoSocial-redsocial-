@@ -26,7 +26,6 @@ post:
           $ref: '../schemas/new-technology-schema.yaml'
         example:
           name: 'angular'
-          color: '#ffffff'
   responses:
     '201':
       description: tecnologia creada

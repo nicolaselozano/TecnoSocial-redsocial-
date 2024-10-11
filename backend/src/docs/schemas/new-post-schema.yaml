@@ -4,5 +4,12 @@ properties:
     type: string
   content:
     type: string
-  user:
-    type: number
+  technologies:
+    type: array
+    items:
+      type: string
+  images:
+    type: array
+    items:
+      type: string
+      format: binary
