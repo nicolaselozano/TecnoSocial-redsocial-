@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import userProfileStore from "../../context/users/user-store";
 import ProfileDetail from "./ProfileDetail/ProfileDetail";
+import ProfileNav from "./ProfileNav";
 
 const Profile = () => {
     const { fetchUserDetail, userInstance, loading } = userProfileStore();
@@ -20,12 +21,17 @@ const Profile = () => {
 
     return (
         <div>
-            <div></div>
+            <div>
+                
+            </div>
             {isLoading ? (
                 <span>isLoading...</span>
             ) : (
                 <ProfileDetail user={userInstance.user} redes={userInstance.redes} />
             )}
+            <div >
+                <ProfileNav user={userInstance.user} />
+            </div>
         </div>
     );
 };
