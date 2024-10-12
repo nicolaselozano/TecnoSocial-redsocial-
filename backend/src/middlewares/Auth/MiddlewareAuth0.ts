@@ -5,49 +5,47 @@ import { CookieConfig } from './utils/CookieConfig';
 import { JwtPayload } from 'jsonwebtoken';
 import { TokenDTO } from './interface/TokenDTO';
 import { UserDataToken } from './interface/UserDataToken';
+import { UnauthorizedError } from '@/utils/errors';
+
+const tokenCookieName = 'token';
 
 const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
-  const tokenCookieName = 'token';
-  console.log('CHECK TOKEN');
-
   try {
     console.log(req.cookies);
 
     let token: string | undefined = req.cookies[tokenCookieName] || res.locals.token;
     console.log(token);
 
-    if (token) {
-      token = token.replace('Bearer ', '').trim();
+    if (!token) {
+      throw new UnauthorizedError('No token provided');
+    }
 
-      console.log('TOKEN A VALIDAR : ' + token);
+    token = token.replace('Bearer ', '').trim();
 
-      const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
-      if (!validateToken) {
-        throw new Error('El token no es valido');
-      }
-      console.log('TOKEN VERIFICADO EN CHECK');
+    const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
+    if (!validateToken) {
+      throw new UnauthorizedError('El token no es valido');
+    }
 
-      const email = validateToken['custom_email_claim'];
-      const authName = validateToken['custom_name_claim'];
-      const authId = validateToken['sub'];
+    const email = validateToken['custom_email_claim'];
+    const authName = validateToken['custom_name_claim'];
+    const authId = validateToken['sub'];
 
-      if (email && authName && authId) {
-        const userData: UserDataToken = {
-          authId,
-          authName,
-          email,
-          token,
-        };
+    if (email && authName && authId) {
+      const userData: UserDataToken = {
+        authId,
+        authName,
+        email,
+        token,
+      };
 
-        res.locals.userData = userData;
-        console.log(res.locals['userData'] as UserDataToken);
+      res.locals.userData = userData;
+      console.log(res.locals['userData'] as UserDataToken);
 
-        console.log('Token Validado y Datos de Usuario Agregados al Contexto');
-      } else {
-        throw Error('No esta en Email ni el Nombre en el token, chequee la configuracion en auth0');
-      }
+      console.log('Token Validado y Datos de Usuario Agregados al Contexto');
     }
     next();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error en el middleware CheckToken:', error.message);
     res.status(401).json({
@@ -113,6 +111,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
     next();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error en el middleware SetToken: ', error.message);
     res.status(401).json({ error: 'Error de autenticación', message: error.message });
