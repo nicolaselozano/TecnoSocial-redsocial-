@@ -1,24 +1,26 @@
+import { Link } from "react-router-dom";
+
 const ProfileNav = ({
     user
 }) => {
     return (
-        <div className="mx-2 bg-secondBlack-700 text-white rounded-b-xl shadow-md overflow-hidden
+        <nav className="mx-2 bg-secondBlack-700 text-white rounded-b-xl shadow-md overflow-hidden
         border-solid border-t-2 border-primaryGreen-400">
             <ul className="flex w-full">
                 <li className="flex-1 text-center hover:bg-primaryGreen-950 hover:text-white px-2 py-3 cursor-pointer transition-colors duration-200 h-full">
-                    Posteo
+                    <Link to="post">Posteo</Link>
                 </li>
                 <li className="flex-1 text-center hover:bg-primaryGreen-950 hover:text-white px-2 py-3 cursor-pointer transition-colors duration-200 h-full">
-                    Seguidores
+                    <Link to="followers">Seguidores</Link>
                 </li>
                 <li className="flex-1 text-center hover:bg-primaryGreen-950 hover:text-white px-2 py-3 cursor-pointer transition-colors duration-200 h-full">
-                    Seguidos
+                    <Link to="follows">Seguidos</Link>
                 </li>
                 <li className="flex-1 text-center hover:bg-primaryGreen-950 hover:text-white px-2 py-3 cursor-pointer transition-colors duration-200 h-full">
-                    Me Gusta
+                <Link to="likes">Me gusta</Link>
                 </li>
             </ul>
-        </div>
+        </nav>
     );
 };
 

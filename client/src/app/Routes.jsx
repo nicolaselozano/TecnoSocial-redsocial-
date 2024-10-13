@@ -15,7 +15,7 @@ const AllRoutes = () => {
       <Route path="/redirect/login" element={<RedirectLogin />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />
       {/* perfil */}
-      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/profile/*" element={<Profile/>}/>
       <Route path="/explore" element={<ExplorePage />} />
     </Routes>
   );
