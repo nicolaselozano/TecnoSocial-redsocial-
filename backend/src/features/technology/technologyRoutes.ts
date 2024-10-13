@@ -5,7 +5,7 @@ const technologyRouter = Router();
 
 technologyRouter.post('/label', technologyController.createTechnology);
 technologyRouter.get('/label', technologyController.getAllTechnologies);
-technologyRouter.get('/label/:name', technologyController.getTechnologyById);
+technologyRouter.get('/label/:name', technologyController.getTechnologyByName);
 technologyRouter.put('/label/:name', technologyController.updateTechnology);
 technologyRouter.delete('/label/:name', technologyController.deleteTechnology);
 

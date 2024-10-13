@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { userRepository } from './userRepository';
 import { User } from './userEntity';
+import { userRepository } from './userRepository';
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<void> {
@@ -36,14 +36,14 @@ class UserController {
     user.email = email;
     user.password = password;
 
-    const response = await userRepository.updateUser(id, user);
+    const response = await userRepository.updateUser(Number(id), user);
     res.json(response);
   }
 
   public async deleteUser(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    const response = await userRepository.deleteUser(id);
+    const response = await userRepository.deleteUser(Number(id));
     res.json(response);
   }
 }

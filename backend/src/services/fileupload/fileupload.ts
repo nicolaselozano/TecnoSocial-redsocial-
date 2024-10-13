@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 //import formidable, { Fields, Files } from "formidable";
-import formidable, { Files } from "formidable";
-import path from "path";
-import fs from "fs";
+import formidable, { Files } from 'formidable';
+import path from 'path';
+import fs from 'fs';
 
 // Ruta para manejar la subida de archivos
 const FileUpload = (req: Request, res: Response, next: NextFunction) => {
-  const uploadDir = path.join(__dirname, "../uploads"); // Definir el directorio de destino
+  const uploadDir = path.join(__dirname, '../uploads'); // Definir el directorio de destino
 
   // Asegurarse de que la carpeta de destino exista
   if (!fs.existsSync(uploadDir)) {
@@ -42,9 +42,7 @@ const FileUpload = (req: Request, res: Response, next: NextFunction) => {
     // Crear URLs de los archivos subidos
     const fileUrls = uploadedFiles.map((file) => {
       return {
-        fileUrl: `${req.protocol}://${req.get("host")}/uploads/${path.basename(
-          (file as any).newFilename
-        )}`, // Acceder a la nueva propiedad
+        fileUrl: `${req.protocol}://${req.get('host')}/uploads/${path.basename((file as any).newFilename)}`, // Acceder a la nueva propiedad
       };
     });
 

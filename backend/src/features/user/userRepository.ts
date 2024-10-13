@@ -38,13 +38,13 @@ class UserRopository {
   }
 
   // Actualizar un usuario
-  public async updateUser(id, user: User): Promise<User> {
+  public async updateUser(id: User['id'], user: User): Promise<User> {
     await this.repository.update(id, user);
     return user;
   }
 
   // Eliminar un usuario
-  public async deleteUser(id): Promise<boolean> {
+  public async deleteUser(id: User['id']): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }

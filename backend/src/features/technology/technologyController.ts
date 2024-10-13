@@ -19,10 +19,10 @@ class TechnologyController {
     res.json(posts);
   }
 
-  public async getTechnologyById(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
+  public async getTechnologyByName(req: Request, res: Response): Promise<void> {
+    const { name } = req.params;
 
-    const post = await technologyRepository.getTechnologyByName(id);
+    const post = await technologyRepository.getTechnologyByName(name);
     res.json(post);
   }
 
