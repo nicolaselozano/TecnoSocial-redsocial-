@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import RedirectRegister from '../components/Auth/Register/RedirectRegister';
 import RedirectLogin from '../components/Auth/Login/RedirectLogin';
-import Profile from '../components/Profile/Profile';
 import AuthModal from '../components/AuthModals/AuthModal';
 import { ExplorePage } from '../components/Explore/ExplorePage';
+import Profile from '../layout/Profile';
 const AllRoutes = () => {
 
   return (

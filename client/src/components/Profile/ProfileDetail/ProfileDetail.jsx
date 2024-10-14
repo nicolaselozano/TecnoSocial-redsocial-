@@ -17,10 +17,10 @@ const ProfileDetail = ({
                 <img
                     src="https://t4.ftcdn.net/jpg/04/95/28/65/240_F_495286577_rpsT2Shmr6g81hOhGXALhxWOfx1vOQBa.jpg"
                     alt="Background"
-                    className="w-full h-32 object-cover"
+                    className="w-full h-52 object-cover"
                 />
                 {/* Imagen de perfil del usuario */}
-                <div className="absolute top-20 left-4 rounded-xl border-4 border-gray-800">
+                <div className="absolute top-36 left-4 rounded-xl border-4 border-gray-800">
                     {
                         user?.avatar ?
                             <img
