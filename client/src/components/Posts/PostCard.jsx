@@ -5,7 +5,7 @@ import {
   AiOutlineComment,
   AiOutlineHeart,
 } from "react-icons/ai";
-import { HiArrowsExpand } from "react-icons/hi";
+/* import { HiArrowsExpand } from "react-icons/hi"; */
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
 import { PostModal } from "./PostModal";
@@ -53,18 +53,20 @@ export const PostCard = ({ post }) => {
       </div>
 
       {/* Content */}
-      <p className="text-sm mb-4">{post.content}</p>
+      <div className="cursor-pointer" onClick={() => setIsOpenModal(true)}>
+        <p className="text-sm mb-4">{post.content}</p>
 
-      {/* Image */}
-      {post.image && (
-        <figure>
-          <img
-            className="w-full rounded-xl"
-            src={post.image}
-            alt="Post content"
-          />
-        </figure>
-      )}
+        {/* Image */}
+        {post.image && (
+          <figure>
+            <img
+              className="w-full rounded-xl"
+              src={post.image}
+              alt="Post content"
+            />
+          </figure>
+        )}
+      </div>
 
       <hr className="border-t border-primaryGreen-400 my-4" />
 
@@ -102,21 +104,21 @@ export const PostCard = ({ post }) => {
               <BiSend size={20} />
             </button>
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             {post.comments.map((comment) => (
               <div key={`${comment.id}`} className="text-gray-400 text-sm mb-2">
                 <strong>{comment.user}:</strong> {comment.comment}
               </div>
             ))}
-          </div>
+          </div> */}
         </>
       )}
 
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <button className="flex items-center justify-center p-2 bg-secondBlack-400 hover:text-primaryGreen-400 text-white rounded-full shadow-md mt-4">
           <HiArrowsExpand size={20} onClick={() => setIsOpenModal(true)} />
         </button>
-      </div>
+      </div> */}
 
       {isOpenModal && (
         <PostModal
