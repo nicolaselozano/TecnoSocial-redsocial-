@@ -1,0 +1,46 @@
+{
+  "id": 1,
+  "user": {
+    "name": "Erica Lopez",
+    "avatar": "https://via.placeholder.com/150",
+    "roles": ["ui", "ux"],
+    "username": "@manuRod6677"
+  },
+  "content": "Angular ahora es compatible con TypeScript isolatedModules a partir de Angular 18.2. Con esta compatibilidad, hemos visto mejoras de rendimiento de hasta un 10% en los tiempos de compilación de producción.",
+  "image": "https://via.placeholder.com/500x200",
+  "likes": 10,
+  "comments": [
+    {
+      "id": 1,
+      "user": {
+        "name": "Eugeena Quevedo",
+        "avatar": "https://via.placeholder.com/150"
+      },
+      "comment": "Muy interesante :)"
+    },
+    {
+      "id": 2,
+      "user": {
+        "name": "Angela Leiva",
+        "avatar": "https://via.placeholder.com/150"
+      },
+      "comment": "Me encanta, espero ver más de Angular."
+    },
+    {
+      "id": 3,
+      "user": {
+        "name": "Carlitos Garris",
+        "avatar": "https://via.placeholder.com/150"
+      },
+      "comment": "Prefiero React, pero si Angular va de esta manera, considero aprenderlo."
+    },
+    {
+      "id": 4,
+      "user": {
+        "name": "Alverto Ignacio Gonzalez",
+        "avatar": "https://via.placeholder.com/150"
+      },
+      "comment": "¡Aguante COBOL!"
+    }
+  ]
+}

@@ -1,11 +1,18 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { AiOutlineLike, AiOutlineComment } from "react-icons/ai";
+import {
+  AiOutlineLike,
+  AiOutlineComment,
+  AiOutlineHeart,
+} from "react-icons/ai";
+import { HiArrowsExpand } from "react-icons/hi";
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
+import { PostModal } from "./PostModal";
 
 export const PostCard = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleComment = () => {
     if (!showComment) {
@@ -16,25 +23,32 @@ export const PostCard = ({ post }) => {
   return (
     <div className="w-full bg-secondBlack-700 text-white p-6 rounded-lg shadow-md mb-6">
       {/* Header */}
-      <div className="flex items-center mb-4">
-        <img
-          className="w-16 h-16 rounded-xl mr-4"
-          src={post.user.avatar}
-          alt="User avatar"
-        />
-        <div>
-          <h2 className="text-lg font-bold">{post.user.name}</h2>
-          <div className="flex gap-3 mt-1">
-            {post.user.roles.map((role, index) => (
-              <span
-                key={index}
-                className={`text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                style={{ backgroundColor: getRoleColor(role) }}
-              >
-                {role}
-              </span>
-            ))}
+      <div className="flex justify-between items-start">
+        <div className="flex items-center mb-4">
+          <img
+            className="w-16 h-16 rounded-xl mr-4"
+            src={post.user.avatar}
+            alt="User avatar"
+          />
+          <div>
+            <h2 className="text-lg font-bold">{post.user.name}</h2>
+            <div className="flex gap-3 mt-1">
+              {post.user.roles.map((role, index) => (
+                <span
+                  key={index}
+                  className={`text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                  style={{ backgroundColor: getRoleColor(role) }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
           </div>
+        </div>
+        <div>
+          <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent p-1 rounded-md hover:bg-primaryGreen-400 hover:text-white self-end">
+            <AiOutlineHeart size={16} />
+          </button>
         </div>
       </div>
 
@@ -97,6 +111,19 @@ export const PostCard = ({ post }) => {
           </div>
         </>
       )}
+
+      <div className="flex justify-end">
+        <button className="flex items-center justify-center p-2 bg-secondBlack-400 hover:text-primaryGreen-400 text-white rounded-full shadow-md mt-4">
+          <HiArrowsExpand size={20} onClick={() => setIsOpenModal(true)} />
+        </button>
+      </div>
+
+      {isOpenModal && (
+        <PostModal
+          setIsOpenModal={setIsOpenModal}
+          /* postId={post.id} */ postId={1}
+        />
+      )}
     </div>
   );
 };
@@ -104,6 +131,7 @@ export const PostCard = ({ post }) => {
 // PropTypes
 PostCard.propTypes = {
   post: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     user: PropTypes.shape({
       avatar: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
