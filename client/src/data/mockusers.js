@@ -1,4 +1,3 @@
-
 export const mock_user = {
   id: 1,
   name: "Juan Pérez",
@@ -14,11 +13,197 @@ export const mock_user = {
     { id: 2, linkedin: "juan-perez-123" }
   ],
   projects: [
-    { id: 1, name: "Proyecto A", description: "Descripción del proyecto A" },
-    { id: 2, name: "Proyecto B", description: "Descripción del proyecto B" }
+    {
+      id: 1,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "Angular es compatible con TypeScript isolatedModules.",
+      image: "https://via.placeholder.com/500x200",
+      likes: 10,
+      comments: [
+        {
+          id: 1,
+          user: "Laura Fernandez",
+          comment: "Muy útil, gracias por compartir."
+        },
+        {
+          id: 2,
+          user: "Miguel Garcia",
+          comment: "Justo lo que necesitaba saber."
+        }
+      ]
+    },
+    {
+      id: 2,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "El diseño minimalista mejora la experiencia de usuario.",
+      likes: 15,
+      comments: [
+        {
+          id: 3,
+          user: "Sofia Perez",
+          comment: "Totalmente de acuerdo!"
+        },
+        {
+          id: 4,
+          user: "Carlos Ruiz",
+          comment: "Aplicaré esto en mi próximo proyecto."
+        }
+      ]
+    },
+    {
+      id: 3,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "Probar una aplicación es clave para una buena experiencia.",
+      image: "https://via.placeholder.com/500x200",
+      likes: 8,
+      comments: [
+        {
+          id: 5,
+          user: "Daniela Martinez",
+          comment: "Muy buen consejo."
+        }
+      ]
+    },
+    {
+      id: 4,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "React y Angular son herramientas poderosas para el frontend.",
+      likes: 20,
+      comments: [
+        {
+          id: 6,
+          user: "Miguel Garcia",
+          comment: "Difícil decidir entre ambas."
+        }
+      ]
+    },
+    {
+      id: 5,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "La automatización de despliegue ahorra tiempo y reduce errores.",
+      image: "https://via.placeholder.com/500x200",
+      likes: 7,
+      comments: [
+        {
+          id: 7,
+          user: "Andres Lopez",
+          comment: "Automatizar es clave para la eficiencia."
+        }
+      ]
+    },
+    {
+      id: 6,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "La escalabilidad en el backend es esencial para grandes proyectos.",
+      likes: 12,
+      comments: [
+        {
+          id: 8,
+          user: "Manuel Rodriguez",
+          comment: "Totalmente de acuerdo!"
+        }
+      ]
+    },
+    {
+      id: 7,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "Un buen diseño de UX facilita la navegación de una aplicación.",
+      image: "https://via.placeholder.com/500x200",
+      likes: 9,
+      comments: [
+        {
+          id: 9,
+          user: "Sofia Perez",
+          comment: "Diseño es todo!"
+        }
+      ]
+    },
+    {
+      id: 8,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "Testear una interfaz garantiza que funcione en todas las resoluciones.",
+      likes: 11,
+      comments: [
+        {
+          id: 10,
+          user: "Luis Gomez",
+          comment: "Exacto, las pruebas son clave."
+        }
+      ]
+    },
+    {
+      id: 9,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "Los microservicios son fundamentales para la escalabilidad.",
+      image: "https://via.placeholder.com/500x200",
+      likes: 14,
+      comments: [
+        {
+          id: 11,
+          user: "Carlos Ruiz",
+          comment: "Microservicios son el futuro."
+        }
+      ]
+    },
+    {
+      id: 10,
+      user: {
+        name: "Juan Pérez",
+        avatar: "https://picsum.photos/id/1009/400/400", // Imagen del usuario
+        roles: ["backend", "frontend"]
+      },
+      content: "CSS Grid y Flexbox simplifican el diseño de interfaces web.",
+      likes: 13,
+      comments: [
+        {
+          id: 12,
+          user: "Sofia Perez",
+          comment: "Genial, aplicaré esto!"
+        }
+      ]
+    }
   ],
-  createdAt: "2023-10-01"
-}
+  createdAt: "2023-10-01",
+  page:1,
+  totalPosts: 10,
+  totalPages: 1,
+};
 
 export const mock_users = [
   {
@@ -175,5 +360,6 @@ export const mock_users = [
     ],
     createdAt: "2023-02-25"
   }
+  ,
 ];
 

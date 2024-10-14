@@ -6,7 +6,7 @@ const userProfileStore = create((set) => ({
         user: {},
         proyects: [],
         redes: [],
-
+        page:0
     },
     loading: false,
     error: "",
@@ -21,7 +21,8 @@ const userProfileStore = create((set) => ({
                     userInstance: {
                         user: data.userData,
                         proyects: data.projects,
-                        redes: data.redes
+                        redes: data.redes,
+                        page:data.page
                     },
                     loading: false,
                     error:""

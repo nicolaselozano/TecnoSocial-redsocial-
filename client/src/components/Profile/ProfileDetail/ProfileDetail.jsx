@@ -5,11 +5,12 @@ import perfilImg from "../../../assets/perfil/avatardeejemplo.svg";
 
 const ProfileDetail = ({
     user,
-    redes
+    redes,
+    onEditProfile
 }) => {
 
     return (
-        <section className="mx-2 bg-secondBlack-700 text-white rounded-t-xl shadow-md overflow-hidden">
+        <section className=" bg-secondBlack-700 text-white rounded-t-xl shadow-md overflow-hidden">
             {/* Sección del encabezado del perfil */}
             <header className="relative">
                 {/* Imagen de fondo del perfil */}
@@ -19,13 +20,13 @@ const ProfileDetail = ({
                     className="w-full h-32 object-cover"
                 />
                 {/* Imagen de perfil del usuario */}
-                <div className="absolute top-20 left-4 rounded-full border-4 border-gray-800">
+                <div className="absolute top-20 left-4 rounded-xl border-4 border-gray-800">
                     {
                         user?.avatar ?
                             <img
                                 src={user.avatar}
                                 alt="Profile"
-                                className="w-24 h-24 rounded-full object-cover"
+                                className="w-24 h-24 rounded-xl object-cover"
                             />
                             :
                             <img src={perfilImg}
@@ -41,13 +42,25 @@ const ProfileDetail = ({
             <article className="flex-row justify-between items-end m-4">
                 <div className="px-6">
                     {/* Correo electrónico del usuario */}
-                    <address className="text-gray-400 ml-24 not-italic">{user.email}</address>
+                    <address className="text-secondBlack-100 ml-24 not-italic">{user.email}</address>
 
                     {/* Información del usuario (nombre y roles) */}
                     <div className="flex flex-row items-center justify-between">
                         <div>
-                            {/* Nombre del usuario */}
-                            <h1 className="text-xl font-semibold">{user.name}</h1>
+                            <div className="flex items-center
+                            ">
+                                {/* Nombre del usuario */}
+                                <h1 className="text-xl font-semibold">{user.name}</h1>
+                                <div className="ml-4 flex justify-end">
+                                    <button
+                                        onClick={onEditProfile} // Llamamos la función para abrir el modal
+                                        className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
+                                    >
+                                        Editar perfil
+                                    </button>
+                                </div>
+                            </div>
+
                             {/* Roles del usuario */}
                             <div className="mt-2">
                                 {user.roles.map((role, index) => (
@@ -88,11 +101,12 @@ const ProfileDetail = ({
                         </div>
                     </div>
 
+
                     {/* Información adicional (trabajo, seguidores, seguidos, publicaciones) */}
                     <div className="flex justify-between items-end space-x-6">
-                        {/* Trabajo del usuario */}
+                        {/* Rol del perfil */}
                         <div className="">
-                            <p className="text-gray-400 mt-3 text-sm">
+                            <p className="text-white mt-3 text-sm">
                                 {user.job}
                             </p>
                         </div>
