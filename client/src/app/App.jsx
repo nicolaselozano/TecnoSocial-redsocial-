@@ -9,8 +9,8 @@ function App() {
   const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <button
+    <div /* className="min-h-screen flex items-center justify-center" */ className='min-h-full '>
+      {/* <button
         onClick={() => setIsModalOpen(true)}
         className="p-2 bg-blue-500 text-white rounded"
       >
@@ -27,7 +27,7 @@ function App() {
         className="p-2 bg-blue-500 text-white rounded"
       >
         Logout
-      </button>
+      </button> */}
       {/* todas las rutas */}
       <AllRoutes />
 
