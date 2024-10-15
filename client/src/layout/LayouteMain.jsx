@@ -1,8 +1,7 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const LayouteMain = ({ children }) => {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <main className="min-h-screen pt-16 text-white">
       <div className=" max-w-[1210px] mx-auto min-h-screen flex items-start gap-x-6">
