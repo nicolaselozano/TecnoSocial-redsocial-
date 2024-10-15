@@ -42,9 +42,13 @@ const Navbar = () => {
   return (
     <header className="w-full h-[90px] bg-secondBlack-700 text-white relative">
       <nav className="max-w-[1210px] w-full h-full mx-auto flex items-center justify-between relative">
-        <h2 className="text-xl font-semibold tracking-widest">
+        <Link
+          to={"/"}
+          onClick={() => setIsIndex(0)}
+          className="text-xl font-semibold tracking-widest"
+        >
           <span className="text-primaryGreen-400">Tech</span>Social
-        </h2>
+        </Link>
         {/* Lista de navegacion */}
         <section className=" flex items-center h-full gap-x-10">
           <ul className={`flex items-center gap-x-8 relative h-full`}>
@@ -52,7 +56,7 @@ const Navbar = () => {
               <Link
                 key={index}
                 to={item.url}
-                className={`flex items-center gap-x-1 z-10 transition-all duration-100 ${
+                className={`relative flex items-center gap-x-1 z-10 transition-all duration-100 ${
                   isIndex === index ? "text-primaryGreen-400" : ""
                 }`}
                 onClick={() => setIsIndex(index)}
@@ -69,6 +73,9 @@ const Navbar = () => {
                   ""
                 )}
                 <span className="text-xl font-normal">{item.name}</span>
+                {(item.icon === "notification" || item.icon === "message") && (
+                  <div className="size-2 rounded-full bg-primaryGreen-400 absolute -right-2 -top-1" />
+                )}
               </Link>
             ))}
             <div
