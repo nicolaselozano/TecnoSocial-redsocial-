@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import auth0 from 'auth0-js';
-import { DOMAIN, CLIENT_ID, REDIRECT_URI, SCOPE, AUDIENCE } from '../../../../vars';
+import { DOMAIN, CLIENT_ID, REDIRECT_URI, SCOPE, AUDIENCE, CLIENT_DOMAIN } from '../../../../vars';
 import auth0Login from '../../../services/Auth/auth0login';
 
 const LoginModal = ({ onClose }) => {
@@ -15,7 +15,7 @@ const LoginModal = ({ onClose }) => {
                 connection: 'google-oauth2',
                 clientID: `${CLIENT_ID}`,
                 responseType: 'code',
-                redirectUri: `${REDIRECT_URI}/login`,
+                redirectUri: `${CLIENT_DOMAIN}/login`,
                 scope: `${SCOPE}`,
                 audience: `${AUDIENCE}`
             });
@@ -99,3 +99,4 @@ const LoginModal = ({ onClose }) => {
 };
 
 export default LoginModal;
+
