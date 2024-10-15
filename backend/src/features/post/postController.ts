@@ -1,7 +1,6 @@
 import { BadRequestError } from '@/utils/errors';
 import { Request, Response } from 'express';
 import { Post } from './postEntity';
-import { GetPostsConfig } from './postInterface';
 import { postRepository } from './postRepository';
 
 class PostController {
@@ -18,31 +17,26 @@ class PostController {
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
-    const { search } = req.query;
-
-    const aux = parseInt(req.query.page as string) || 1;
+    const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 5;
+    const search = req.query.search ? String(req.query.search) : '';
 
-    const config: GetPostsConfig = {
-      limit: Number(limit),
-      search: search ? String(search) : '',
-      skip: (aux - 1) * Number(limit),
-    };
+    const { posts, totalPages } = await postRepository.getAllPosts({
+      skip: (page - 1) * limit,
+      limit,
+      search,
+    });
 
-    const { posts, totalPosts } = await postRepository.getAllPosts(config);
-
-    const totalPages = Math.ceil(totalPosts / config.limit!);
-
-    if (totalPages < aux) {
-      throw new BadRequestError('página fuera de index');
+    if (page > totalPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
     }
 
     res.json({
       results: posts,
       info: {
         results: posts.length,
+        currentPage: page,
         totalPages,
-        currentPage: aux,
       },
     });
   }

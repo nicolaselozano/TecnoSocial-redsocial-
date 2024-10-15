@@ -12,7 +12,19 @@ class PostRepository {
   }
 
   public async getAllPosts({ limit, skip, search }: GetPostsConfig) {
-    const totalPosts = await this.repository.count();
+    console.log({ search });
+
+    const totalPosts = await this.repository.count({
+      where: {
+        title: Like(`%${search}%`),
+      },
+    });
+
+    const totalPages = Math.ceil(totalPosts / limit!);
+
+    if (totalPosts === 0) {
+      return { posts: [], totalPages: 0 };
+    }
 
     const posts = await this.repository.find({
       relations: ['images', 'user'],
@@ -24,7 +36,7 @@ class PostRepository {
     });
 
     return {
-      totalPosts,
+      totalPages,
       posts,
     };
   }
