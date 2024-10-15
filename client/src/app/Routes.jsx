@@ -1,10 +1,10 @@
-import { Routes, Route } from 'react-router-dom';
-import RedirectRegister from '../components/Auth/Register/RedirectRegister';
+import { Route, Routes } from 'react-router-dom';
 import RedirectLogin from '../components/Auth/Login/RedirectLogin';
-import Profile from '../components/Profile/Profile';
+import RedirectRegister from '../components/Auth/Register/RedirectRegister';
 import AuthModal from '../components/AuthModals/AuthModal';
 import { ExplorePage } from '../components/Explore/ExplorePage';
-import Notificate from '../view/Notificate/Notificate';
+import Profile from '../components/Profile/Profile';
+import Notification from '../view/Notificate/Notificate';
 const AllRoutes = () => {
 
   return (
@@ -18,7 +18,7 @@ const AllRoutes = () => {
       {/* perfil */}
       <Route path="/profile/*" element={<Profile/>}/>
       <Route path="/explore" element={<ExplorePage />} />
-      <Route path="/notificate" element={<Notificate />} />
+      <Route path="/notificate" element={<Notification />} />
     </Routes>
   );
 };

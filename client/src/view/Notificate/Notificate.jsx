@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-//const listFilterNotify = ["Todos", "Seguidores", "Posteos"];
+import FilterOptions from "../../components/Notifications/FilterOptions";
+import CardNotification from "../../components/Notifications/CardNotification";
 
 const listFilterNotify = [
   {
@@ -77,9 +77,10 @@ const listNotify = [
   },
 ];
 
-const Notificate = () => {
+const Notification = () => {
   //const [isActive, setIsActive] = useState(false);
   const [isIndex, setIsIndex] = useState(0);
+  //const [isNewNotify,setIsNewNotify] = useState(false);
   return (
     <main className="min-h-screen pt-16 text-white">
       <div className=" max-w-[1210px] mx-auto min-h-screen flex items-start gap-x-6">
@@ -87,34 +88,29 @@ const Notificate = () => {
         <section className=" max-w-[688px] w-full h-fit flex flex-col gap-y-5">
           <ul className="bg-secondBlack-700 w-full h-[45px] rounded-xl flex items-center gap-x-5 px-4 relative overflow-hidden">
             {listFilterNotify.map((item, index) => (
-              <li
-                className={`${
-                  isIndex === index ? "text-primaryGreen-400" : "text-white"
-                }  font-normal text-base z-10`}
-              >
-                <Link to={`/notificate/${item.link}`}>{item.name}</Link>
-              </li>
+              <FilterOptions
+                key={index}
+                link={item.link}
+                name={item.name}
+                index={index}
+                isIndex={isIndex}
+              />
             ))}
             <div className="absolute left-0 top-0 w-[70px] h-full bg-primaryGreen-950"></div>
           </ul>
           <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
             <ul className="flex flex-col h-fit">
-              {listNotify.map((item) => (
-                <Link
-                  to={item.url}
-                  className={`flex items-center gap-x-4 border-b border-secondBlack-400 px-8 py-4 ${
-                    item.new ? "bg-primaryGreen-950 text-primaryGreen-400" : ""
-                  }`}
-                >
-                  <div className="size-[80px] bg-green-400 rounded-xl "></div>
-                  <div className=" flex flex-col gap-y-2 w-[80%]">
-                    <h3 className=" text-xl font-semibold">{item.title}</h3>
-                    <p className=" text-xs font-normal">{item.description}</p>
-                  </div>
-                  {item.new && (
-                    <div className="size-3 bg-primaryGreen-400 rounded-full"></div>
-                  )}
-                </Link>
+              {listNotify.map((item,index) => (
+                <CardNotification
+                  key={index}
+                  url={item.url}
+                  isNew={item.new}
+                  title={item.title}
+                  description={item.description}
+                  type={item.type}
+                  /* setIsNewNotify={setIsNewNotify}
+                  isNewNotify={isNewNotify} */
+                />
               ))}
             </ul>
           </article>
@@ -125,4 +121,4 @@ const Notificate = () => {
   );
 };
 
-export default Notificate;
+export default Notification;
