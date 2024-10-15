@@ -11,8 +11,10 @@ class PostRepository {
     return await this.repository.save(user);
   }
 
-  public async getAllPosts({ limit, skip, search }: GetPostsConfig): Promise<Post[]> {
-    return await this.repository.find({
+  public async getAllPosts({ limit, skip, search }: GetPostsConfig) {
+    const totalPosts = await this.repository.count();
+
+    const posts = await this.repository.find({
       relations: ['images', 'user'],
       take: limit,
       skip,
@@ -20,6 +22,11 @@ class PostRepository {
         title: Like(`%${search}%`),
       },
     });
+
+    return {
+      totalPosts,
+      posts,
+    };
   }
 
   public async getPostById(id: Post['id']): Promise<Post> {

@@ -11,7 +11,7 @@ get:
       required: false
       description: Limita el número de posts devueltos (por defecto devuelve todos)
     - in: query
-      name: skip
+      name: page
       schema:
         type: integer
         minimum: 0
