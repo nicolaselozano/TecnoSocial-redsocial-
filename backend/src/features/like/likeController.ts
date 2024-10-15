@@ -14,8 +14,8 @@ class LikeController {
       }
 
       const like = new Like();
-      like.user_id = user_id;
-      like.post_id = post_id;
+      like.user.id = user_id;
+      like.post.id = post_id;
       like.created_at = created_at;
 
       const response = await likeRepository.createLike(like);
@@ -56,8 +56,8 @@ class LikeController {
 
       const like = new Like();
       like.id = Number(id); // Asegúrate de que `id` sea un número
-      like.user_id = user_id;
-      like.post_id = post_id;
+      like.user.id = user_id;
+      like.post.id = post_id;
       like.created_at = created_at;
 
       const response = await likeRepository.updateLike(Number(id), like);
