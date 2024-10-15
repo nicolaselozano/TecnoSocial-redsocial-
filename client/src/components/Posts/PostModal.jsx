@@ -63,7 +63,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md z-20"
       onClick={() => setIsOpenModal(false)}
     >
       <div
@@ -72,7 +72,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
       >
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 text-white z-20"
+          className="absolute top-4 right-4 text-white z-30"
           onClick={() => setIsOpenModal(false)}
         >
           <IoMdClose size={24} />
@@ -89,15 +89,19 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
         ) : (
           /* Modal Content */
           <div className="flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/2 flex items-center justify-center bg-black p-4 mb-4 sm:mb-0">
+            <div
+              className={`${
+                post?.image ? "sm:w-1/2" : "w-full hidden"
+              } flex items-center justify-center bg-black p-4 mb-4 sm:mb-0`}
+            >
               <img
-                src={post?.image || "https://via.placeholder.com/500x200"}
-                alt="Angular isolatedModules"
+                src={post?.image}
+                alt={post?.content || ""}
                 className="w-full h-auto rounded-md"
               />
             </div>
 
-            <div className="w-full sm:w-1/2 p-4">
+            <div className={`${post?.image ? "sm:w-1/2" : "w-full"} p-4`}>
               {/* Header */}
               <div className="flex justify-between items-start">
                 <div className="flex items-center mb-2">

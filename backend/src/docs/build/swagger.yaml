@@ -267,6 +267,44 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user: '12345'
+  '/post/user/{userid}':
+    get:
+      summary: Obtiene todos los posts asociados a un usuario
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                id: 1
+                name: Martin
+                email: email@gmail.com
+                posts:
+                  - id: '1'
+                    title: Primer post
+                    content: Contenido del primer post
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   /project:
     post:
       summary: Crea un nuevo proyecto
@@ -642,6 +680,44 @@ paths:
                 title: Mi primer usuario
                 content: Este es el contenido de mi primer usuario
                 user: '12345'
+  '/user/{id}/post':
+    get:
+      summary: Obtiene todos los posts asociados a un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                id: 1
+                name: Martin
+                email: email@gmail.com
+                posts:
+                  - id: '1'
+                    title: Primer post
+                    content: Contenido del primer post
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   /comment:
     post:
       summary: Crea un nuevo comentario

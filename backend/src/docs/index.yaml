@@ -26,6 +26,8 @@ paths:
     $ref: './paths/post.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
+  /post/user/{userid}:
+    $ref: './paths/post-user.yaml'
   /project:
     $ref: './paths/project.yaml'
   /project/{id}:

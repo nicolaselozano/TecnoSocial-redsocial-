@@ -41,6 +41,12 @@ class PostController {
     });
   }
 
+  public async getAllPostsByUser(req: Request, res: Response): Promise<void> {
+    const { userid } = req.params;
+    const results = await postRepository.getAllPostsByUser(Number(userid));
+    res.json(results);
+  }
+
   public async getPostById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
