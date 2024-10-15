@@ -1,6 +1,7 @@
 import con from '@/config/database';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
+import { User } from '../user/userEntity';
 import { Post } from './postEntity';
 import { GetPostsConfig } from './postInterface';
 
@@ -9,6 +10,12 @@ class PostRepository {
 
   public async createPost(user: Post): Promise<Post> {
     return await this.repository.save(user);
+  }
+
+  public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
+    console.log(userId);
+    const posts = await this.repository.find({ where: { user: { id: userId } } });
+    return posts;
   }
 
   public async getAllPosts({ limit, skip, search }: GetPostsConfig) {
