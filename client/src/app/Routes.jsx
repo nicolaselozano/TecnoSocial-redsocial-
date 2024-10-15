@@ -17,7 +17,7 @@ const AllRoutes = () => {
       <Route path="/profile/*" element={<Profile />} />
       {/* Paginas generales */}
       <Route path="/explore" element={<ExplorePage />} />
-      <Route path="/notificate" element={<Notification />} />
+      <Route path="/notifications" element={<Notification />} />
     </Routes>
   );
 };

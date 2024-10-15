@@ -1,6 +1,6 @@
+import { MiddlewareAuth0 } from '@/middlewares/Auth/MiddlewareAuth0';
 import { Router } from 'express';
 import { postController } from './postController';
-import { MiddlewareAuth0 } from '@/middlewares/Auth/MiddlewareAuth0';
 
 const postRouter = Router();
 

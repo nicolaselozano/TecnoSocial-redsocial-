@@ -1,5 +1,5 @@
 export interface GetPostsConfig {
-  limit?: number;
-  skip?: number;
+  limit: number;
+  skip: number;
   search?: string;
 }

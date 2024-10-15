@@ -1,22 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
-//import formidable, { Fields, Files } from "formidable";
+import envs from '@/config/envs';
+import { NextFunction, Request, Response } from 'express';
 import formidable, { Files } from 'formidable';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 
 // Ruta para manejar la subida de archivos
 const FileUpload = (req: Request, res: Response, next: NextFunction) => {
-  const uploadDir = path.join(__dirname, '../uploads'); // Definir el directorio de destino
+  const uploadDir = path.join(__dirname, envs.UPLOAD_DIR);
 
-  // Asegurarse de que la carpeta de destino exista
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
 
   const form = formidable({
-    uploadDir: uploadDir, // Directorio donde se guardarán los archivos
-    keepExtensions: true, // Mantener las extensiones originales
-    multiples: true, // Permitir la subida de múltiples archivos
+    uploadDir: uploadDir,
+    keepExtensions: true,
+    multiples: true,
   });
 
   //form.parse(req, (err: Error | null, fields: Fields, files: Files) => {
@@ -27,6 +26,7 @@ const FileUpload = (req: Request, res: Response, next: NextFunction) => {
     }
 
     // Obtener el archivo o archivos
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadedFiles: any[] = [];
 
     Object.keys(files).forEach((key) => {
@@ -42,6 +42,7 @@ const FileUpload = (req: Request, res: Response, next: NextFunction) => {
     // Crear URLs de los archivos subidos
     const fileUrls = uploadedFiles.map((file) => {
       return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fileUrl: `${req.protocol}://${req.get('host')}/uploads/${path.basename((file as any).newFilename)}`, // Acceder a la nueva propiedad
       };
     });
