@@ -51,13 +51,13 @@ class UserController {
   async getAllFollowers(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const followers = await connectionRepository.getAllFollowers(Number(id));
-    res.json(followers);
+    res.json({ followers });
   }
 
   async getAllFollowings(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const followed = await connectionRepository.getAllFollowings(Number(id));
-    res.json(followed);
+    res.json({ followed });
   }
 }
 

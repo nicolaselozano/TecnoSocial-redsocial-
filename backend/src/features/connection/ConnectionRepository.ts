@@ -11,10 +11,10 @@ class ConnectionRepository {
       where: {
         follower: { id },
       },
-      relations: ['follower'],
+      relations: ['following'],
     });
 
-    return results.map((res) => res.follower);
+    return results.map((res) => res.following);
   }
 
   // Usuarios al que el usuario sigue
@@ -23,7 +23,7 @@ class ConnectionRepository {
       where: {
         following: { id },
       },
-      relations: ['following'],
+      relations: ['follower'],
     });
 
     return results.map((res) => res.follower);

@@ -687,7 +687,7 @@ paths:
         - Users
       parameters:
         - in: path
-          name: userid
+          name: id
           required: true
           description: ID del usuario
           schema:
@@ -725,7 +725,7 @@ paths:
         - Users
       parameters:
         - in: path
-          name: userid
+          name: id
           required: true
           description: ID del usuario
           schema:

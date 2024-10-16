@@ -3,7 +3,7 @@ get:
   tags: [Users]
   parameters:
     - in: path
-      name: userid
+      name: id
       required: true
       description: ID del usuario
       schema:
