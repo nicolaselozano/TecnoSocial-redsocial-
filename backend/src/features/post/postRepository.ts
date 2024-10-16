@@ -13,7 +13,6 @@ class PostRepository {
   }
 
   public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
-    console.log(userId);
     const posts = await this.repository.find({ where: { user: { id: userId } } });
     return posts;
   }

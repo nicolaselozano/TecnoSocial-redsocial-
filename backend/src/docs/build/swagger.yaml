@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: Documentación de la API usando Swagger
 servers:
-  - url: 'http://ec2-100-25-217-101.compute-1.amazonaws.com'
+  - url: 'https://mrmolanodev.site/api/v1'
     description: Production server
   - url: 'http://localhost:3000/api/v1'
     description: Sandbox server (uses test data)
@@ -680,7 +680,7 @@ paths:
                 title: Mi primer usuario
                 content: Este es el contenido de mi primer usuario
                 user: '12345'
-  '/user/{id}/post':
+  '/user/{id}/followers':
     get:
       summary: Obtiene todos los posts asociados a un usuario
       tags:
@@ -700,13 +700,51 @@ paths:
               schema:
                 $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
-                id: 1
-                name: Martin
-                email: email@gmail.com
-                posts:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                followers:
+                  - id: 1
+                    name: Martin
+                    email: email@gmail.com
+                  - id: 2
+                    name: Sofia
+                    email: email@gmail.com
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
+  '/user/{id}/followed':
+    get:
+      summary: Obtiene todos los usuarios a los que sigue el usuario cliente
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                followers:
+                  - id: 1
+                    name: Martin
+                    email: email@gmail.com
+                  - id: 2
+                    name: Sofia
+                    email: email@gmail.com
         '404':
           description: usuario no encontrado
           content:
@@ -841,3 +879,37 @@ paths:
           description: Login exitoso
         '401':
           description: Error de autenticación
+  '/like/user/{userid}':
+    get:
+      summary: Obtiene todos los Like asociados a un usuario
+      tags:
+        - Like
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                id: 1
+                post: '1'
+                created_at: '2024-10-16'
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
