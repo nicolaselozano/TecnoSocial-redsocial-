@@ -18,6 +18,8 @@ const AllRoutes = () => {
       {/* Paginas generales */}
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/notifications" element={<Notification />} />
+      {/* mensajes */}
+      <Route path="/messages" element={<Messages/>}/>
     </Routes>
   );
 };

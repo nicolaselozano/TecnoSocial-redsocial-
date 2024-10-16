@@ -5,6 +5,7 @@ const userProfileStore = create((set) => ({
     userInstance: {
         user: {},
         proyects: [],
+        likedProyects:[],
         redes: [],
         page:0
     },
