@@ -21,9 +21,9 @@ const app = express();
 
 setBaseMiddlewares(app);
 
-app.get('/', redirectToDocs);
-app.use('/health', healthcheck);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+app.get('/api/', redirectToDocs);
+app.use('/api/health', healthcheck);
+app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use(
   '/api/v1',
   userRouter,

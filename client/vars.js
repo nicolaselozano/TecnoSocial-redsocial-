@@ -11,4 +11,4 @@ export const RESPONSE_TYPE = 'code';
 export const REDIRECT_URI = 'https://client-tecno.web.app/redirect';
 export const CLIENT_DOMAIN = 'https://client-tecno.web.app';
 export const APIDOMAIN = 'https://mrmolanodev.site';
-export const APIDOMAIN_VERSION = '';
+export const APIDOMAIN_VERSION = '/api/v1';

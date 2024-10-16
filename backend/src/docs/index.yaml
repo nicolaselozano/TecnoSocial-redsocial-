@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: Documentación de la API usando Swagger
 servers:
-  - url: http://ec2-100-25-217-101.compute-1.amazonaws.com
+  - url: https://mrmolanodev.site/api/v1
     description: Production server
   - url: http://localhost:3000/api/v1
     description: Sandbox server (uses test data)
