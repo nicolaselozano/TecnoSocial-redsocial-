@@ -1,3 +1,4 @@
+import { BadRequestError } from '@/utils/errors';
 import { Request, Response } from 'express';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
@@ -16,8 +17,34 @@ class PostController {
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
-    const posts = await postRepository.getAllPosts();
-    res.json(posts);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+    const search = req.query.search ? String(req.query.search) : '';
+
+    const { posts, totalPages } = await postRepository.getAllPosts({
+      skip: (page - 1) * limit,
+      limit,
+      search,
+    });
+
+    if (page > totalPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
+    res.json({
+      results: posts,
+      info: {
+        results: posts.length,
+        currentPage: page,
+        totalPages,
+      },
+    });
+  }
+
+  public async getAllPostsByUser(req: Request, res: Response): Promise<void> {
+    const { userid } = req.params;
+    const results = await postRepository.getAllPostsByUser(Number(userid));
+    res.json(results);
   }
 
   public async getPostById(req: Request, res: Response): Promise<void> {

@@ -6,6 +6,7 @@ const envsSchema = z.object({
   PORT: z.coerce.number(),
   URL: z.string(),
   SEED: z.coerce.boolean(),
+  UPLOAD_DIR: z.string(),
   DB: z.object({
     PORT: z.coerce.number(),
     HOST: z.string(),
@@ -18,6 +19,7 @@ const envsSchema = z.object({
 export default envsSchema.parse({
   PORT: process.env.SERVER_PORT || 3000,
   URL: process.env.SERVER_URL || 'http://localhost',
+  UPLOAD_DIR: process.env.UPLOAD_DIR,
   SEED: process.env.SEED || false,
   DB: {
     PORT: process.env.DB_PORT,

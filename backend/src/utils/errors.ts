@@ -14,6 +14,12 @@ export class NotFoundError extends ApiError {
   }
 }
 
+export class BadRequestError extends ApiError {
+  constructor(message: string) {
+    super(StatusCodes.BAD_REQUEST, message);
+  }
+}
+
 export class UnauthorizedError extends ApiError {
   constructor(message: string) {
     super(StatusCodes.UNAUTHORIZED, message);

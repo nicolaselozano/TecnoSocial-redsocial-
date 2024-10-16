@@ -31,7 +31,7 @@ export const checkAuth = async () => {
   
 export const logOut = async () => {
     try {
-      const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/auth/me?clearCookies=true`, {
+      const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/auth/me?clear=true`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

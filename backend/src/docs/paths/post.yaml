@@ -1,6 +1,30 @@
 get:
   summary: Obtiene todos los posts
   tags: [Posts]
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        description: Número máximo de posts a devolver
+      required: false
+      description: Limita el número de posts devueltos (por defecto devuelve todos)
+    - in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 0
+        description: Número de posts a saltar antes de comenzar a devolver los resultados
+      required: false
+      description: Saltar los primeros 'n' posts (para paginación)
+    - in: query
+      name: search
+      schema:
+        type: string
+        description: Buscar posts por el título
+      required: false
+      description: Buscar posts cuyo título contenga el término de búsqueda proporcionado
   responses:
     '200':
       description: Lista de posts
