@@ -16,6 +16,7 @@ const CreateUserAuthC = (req: Request, res: Response): void => {
       message: 'Usuario creado exitosamente',
       user: userData,
     });
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   } catch (error: any) {
     console.error('Error al crear el usuario: ', error.message);
     res.status(500).json({
@@ -31,10 +32,9 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
 
     //agregar clear al la query para borrar la cookie
     if (req.query.clear == 'true') {
-      console.log("Borrando cookie");
+      console.log('Borrando cookie');
       const cookies = req.cookies;
       for (const cookieName in cookies) {
-        
         res.clearCookie(cookieName);
       }
     }
@@ -47,6 +47,7 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(401).json({ message: 'No estás autenticado' });
   }
 };
