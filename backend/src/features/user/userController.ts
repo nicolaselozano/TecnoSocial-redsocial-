@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { connectionRepository } from '../connection/ConnectionRepository';
 import { User } from './userEntity';
 import { userRepository } from './userRepository';
 
@@ -45,6 +46,18 @@ class UserController {
 
     const response = await userRepository.deleteUser(Number(id));
     res.json(response);
+  }
+
+  async getAllFollowers(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const followers = await connectionRepository.getAllFollowers(Number(id));
+    res.json(followers);
+  }
+
+  async getAllFollowings(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const followed = await connectionRepository.getAllFollowings(Number(id));
+    res.json(followed);
   }
 }
 
