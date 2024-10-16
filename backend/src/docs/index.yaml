@@ -50,3 +50,5 @@ paths:
     $ref: './paths/login.yaml'
   /auth/me:
     $ref: './paths/login.yaml'
+  /like/user/{userid}:
+    $ref: './paths/user-like.yaml'

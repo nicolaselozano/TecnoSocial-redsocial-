@@ -15,6 +15,7 @@ import { globalErrors } from './middlewares/GlobalErrors';
 import { setBaseMiddlewares } from './middlewares/SetBaseMiddlewares';
 import { healthcheck } from './utils/healthcheck';
 import { redirectToDocs } from './utils/redirectToDocs';
+import likeRouter from './features/like/likeRoutes';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(
   technologyRouter,
   imageRouter,
   socialNetworksRouter,
+  likeRouter,
 );
 
 app.use(globalErrors);
