@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    type: number
+  url:
+    type: string
+  alt:
+    type: string
+  created_at:
+    type: string

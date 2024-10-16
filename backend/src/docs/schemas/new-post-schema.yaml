@@ -1,0 +1,15 @@
+type: object
+properties:
+  title:
+    type: string
+  content:
+    type: string
+  technologies:
+    type: array
+    items:
+      type: string
+  images:
+    type: array
+    items:
+      type: string
+      format: binary

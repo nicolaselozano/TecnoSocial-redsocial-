@@ -1,10 +1,16 @@
 {
   "hosting": {
-    "public": "client/dist",
+    "public": "client/dist",  // Esta es la carpeta que contiene los archivos compilados de tu aplicación
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }

@@ -1,0 +1,38 @@
+get:
+  summary: Obtiene todos las tecnologias
+  tags: [Technologies]
+  responses:
+    '200':
+      description: Lista de las tecnologias
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/technology-schema.yaml'
+          example:
+            - name: 'react'
+              color: '#ffffff'
+            - name: 'express'
+              color: '#000000'
+post:
+  summary: Crea una nueva tecnologia
+  tags: [Technologies]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/new-technology-schema.yaml'
+        example:
+          name: 'angular'
+  responses:
+    '201':
+      description: tecnologia creada
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/technology-schema.yaml'
+          example:
+            name: 'angular'
+            color: '#ffffff'

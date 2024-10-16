@@ -1,0 +1,88 @@
+get:
+  summary: Obtiene un post por ID
+  tags: [Posts]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del post
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Post encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/post-schema.yaml'
+          example:
+            id: '1'
+            title: 'Mi primer post'
+            content: 'Este es el contenido de mi primer post'
+            technologies:
+              - name: 'nextjs'
+                color: '#bbbbbb'
+            images:
+              - id: 1
+                url: 'https://image-url'
+                alt: 'tecno image'
+                created_at: '2024-10-08T22:28:58.981Z'
+              - id: 2
+                url: 'https://image-url'
+                alt: 'tecno image'
+                created_at: '2024-10-08T22:28:58.981Z'
+            user:
+              id: 1
+              name: 'username'
+              email: 'email@gmail.com'
+    '404':
+      description: Post no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: post no encontrado
+delete:
+  summary: Elimina un post por ID
+  tags: [Posts]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del post
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Post eliminado
+    '404':
+      description: Post no encontrado
+put:
+  summary: Modifica un post ya existente
+  tags: [Posts]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/post-schema.yaml'
+        example:
+          title: 'Mi primer post'
+          content: 'Este es el contenido de mi primer post'
+          user: '12345'
+  responses:
+    '201':
+      description: Post modificado
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/post-schema.yaml'
+          example:
+            id: '1'
+            title: 'Mi primer post'
+            content: 'Este es el contenido de mi primer post'
+            user: '12345'

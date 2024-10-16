@@ -1,0 +1,59 @@
+get:
+  summary: Obtiene una tecnologia por nombre
+  tags: [Technologies]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: Nombre de la tecnologia
+      schema:
+        type: string
+  responses:
+    '200':
+      description: tecnologia encontrada
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/technology-schema.yaml'
+          example:
+            name: 'react'
+            color: '#ffffff'
+    '404':
+      description: tecnologia no encontrada
+delete:
+  summary: Elimina una tecnologia por nombre
+  tags: [Technologies]
+  parameters:
+    - in: path
+      name: name
+      required: true
+      description: nombre de la tecnologia
+      schema:
+        type: string
+  responses:
+    '204':
+      description: tecnologia eliminada
+    '404':
+      description: tecnologia no encontrada
+put:
+  summary: Modifica una tecnologia ya existente
+  tags: [Technologies]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/new-technology-schema.yaml'
+        example:
+          name: 'react'
+          color: '#ffffff'
+  responses:
+    '201':
+      description: tecnologia modificada
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/technology-schema.yaml'
+          example:
+            name: 'react'
+            color: '#ffffff'

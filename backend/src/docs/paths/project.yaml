@@ -1,0 +1,49 @@
+post:
+  summary: Crea un nuevo proyecto
+  tags: [Project]
+  parameters:
+    - name: user_id
+      in: cookie
+      required: true
+      schema:
+        type: number
+      description: The user ID is sent via cookie for authentication or identification purposes.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        example:
+          name: 'E-commerce'
+          description: 'Descubri una nueva forma de hacer compras online'
+          role: 'frontend'
+          url: 'https://github-pages.com'
+          technologies:
+            - 'astro'
+            - 'react'
+            - 'nextjs'
+          collaborators:
+            - 'Martin'
+            - 'Sofia'
+            - 'Marcos'
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            role:
+              type: string
+            url:
+              type: string
+            collaborators:
+              type: string
+  responses:
+    201:
+      description: Proyecto creado
+get:
+  summary: Obtiene todos los proyectos
+  tags: [Project]
+  responses:
+    200:
+      description: Lista de proyectos

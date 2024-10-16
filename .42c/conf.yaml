@@ -1,0 +1,3 @@
+apis:
+  backend/src/docs/build/swagger.yaml:
+    alias: developer-social-network-api

@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    type: string
+  title:
+    type: string
+  content:
+    type: string
+  user:
+    type: number
+  technologies:
+    type: array
+    items:
+      $ref: './technology-schema.yaml'
+  images:
+    type: array
+    items:
+      $ref: './image-schema.yaml'

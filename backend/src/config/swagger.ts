@@ -1,30 +1,7 @@
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import { Express } from "express";
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
+import path from 'node:path';
 
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "API de Red Social",
-      version: "1.0.0",
-      description: "Documentación de la API para la red social",
-    },
-    servers: [
-      {
-        url: "http://localhost:3000",
-        description: "Servidor de desarrollo",
-      },
-    ],
-  },
-  apis: [
-    // Rutas de los controladores de usuario
-    "./src/features/user/routes/userRoutes.ts",
-  ],
-};
+const swaggerSpecs = yaml.load(path.resolve(__dirname, '../docs/build/swagger.yaml'));
 
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
-export const setupSwagger = (app: Express) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-};
+export { swaggerUi, swaggerSpecs };

@@ -1,0 +1,10 @@
+# Falta documentar
+
+get:
+  summary: Autenticar usuario y generar token
+  tags: [Authentication]
+  responses:
+    200:
+      description: Login exitoso
+    401:
+      description: Error de autenticación

@@ -1,16 +1,25 @@
-import mysql from "mysql2/promise";
-import dotenv from "dotenv";
+import { DataSource } from 'typeorm';
+import envs from './envs';
 
-dotenv.config();
+import { Comment } from '@/features/comment/commentEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Like } from '@/features/like/likeEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { Post } from '../features/post/postEntity';
+import { Project } from '../features/project/projectEntity';
+import { Technology } from '../features/technology/technologyEntity';
+import { User } from '../features/user/userEntity';
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+const con = new DataSource({
+  type: 'mysql',
+  driver: require('mysql2'),
+  host: envs.DB.HOST,
+  port: envs.DB.PORT,
+  username: envs.DB.USER,
+  password: envs.DB.PASS,
+  database: envs.DB.NAME,
+  synchronize: true,
+  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment],
 });
 
-export default pool;
+export default con;
