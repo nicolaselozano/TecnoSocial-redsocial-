@@ -1,6 +1,7 @@
 import con from '@/config/database';
 import envs from '@/config/envs';
 import { Comment as CommentEntity } from '@/features/comment/commentEntity';
+import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
@@ -24,6 +25,7 @@ async function seed() {
     const Image = con.getRepository(ImageEntity);
     const User = con.getRepository(UserEntity);
     const Comment = con.getRepository(CommentEntity);
+    const Connection = con.getRepository(ConnectionEntity);
 
     // Seed users
     const seededUsers = await Promise.all(
@@ -43,6 +45,22 @@ async function seed() {
 
         await User.save(newUser);
         return newUser;
+      }),
+    );
+
+    const connections = [
+      { follower: seededUsers[0], following: seededUsers[1] }, // User 0 follows User 1
+      { follower: seededUsers[1], following: seededUsers[0] }, // User 1 follows User 0
+      { follower: seededUsers[0], following: seededUsers[2] }, // User 0 follows User 2
+    ];
+
+    await Promise.all(
+      connections.map(async (connection) => {
+        const newConnection = Connection.create({
+          follower: connection.follower,
+          following: connection.following,
+        });
+        await Connection.save(newConnection);
       }),
     );
 

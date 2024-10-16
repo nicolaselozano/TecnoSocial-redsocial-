@@ -1,0 +1,37 @@
+get:
+  summary: Obtiene todos los posts asociados a un usuario
+  tags: [Users]
+  parameters:
+    - in: path
+      name: userid
+      required: true
+      description: ID del usuario
+      schema:
+        type: string
+  responses:
+    '200':
+      description: usuario encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/user-schema.yaml'
+          example:
+            followers:
+              - id: 1
+                name: 'Martin'
+                email: 'email@gmail.com'
+              - id: 2
+                name: 'Sofia'
+                email: 'email@gmail.com'
+
+    '404':
+      description: usuario no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no encontrado
