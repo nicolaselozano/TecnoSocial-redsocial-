@@ -19,6 +19,12 @@ export class User {
   @Column({ type: 'varchar', length: 150 })
   authId: string;
 
+  @Column({ type: 'varchar', length: 150 })
+  authName: string;
+
+  @Column({ type: 'varchar', length: 150 })
+  token: string;
+
   @Column({ type: 'varchar', length: 100 })
   role: string;
 

@@ -7,10 +7,8 @@ type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
 class UserRopository {
   private repository = con.getRepository(User);
 
-  public async createUser(user: User): Promise<User> {
+  public async createUser(user: Partial<User>): Promise<User> {
     const response = await this.repository.save(user);
-    console.log(response);
-
     return response;
   }
 
