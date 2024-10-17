@@ -1,5 +1,5 @@
 export interface PaginatedConfig {
-  limit: number;
+  limit?: number;
   skip?: number;
   search?: string;
 }

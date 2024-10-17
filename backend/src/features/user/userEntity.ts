@@ -29,8 +29,8 @@ export class User {
   comments: Comment[];
 
   @OneToMany(() => Connection, (connection) => connection.follower)
-  following: Connection[];
+  followed: Connection[];
 
-  @OneToMany(() => Connection, (connection) => connection.following)
+  @OneToMany(() => Connection, (connection) => connection.followed)
   followers: Connection[];
 }

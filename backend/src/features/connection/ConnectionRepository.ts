@@ -1,6 +1,12 @@
 import con from '@/config/database';
+import { PaginatedConfig } from '@/types/paginatedConfig.type';
+import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Connection } from './ConnectionEntity';
+
+type ConnectionPaginatedConfig = PaginatedConfig & {
+  userid: User['id'];
+};
 
 class ConnectionRepository {
   private repository = con.getRepository(Connection);
@@ -9,24 +15,42 @@ class ConnectionRepository {
   async getAllFollowers(id: User['id']) {
     const results = await this.repository.find({
       where: {
-        follower: { id },
-      },
-      relations: ['following'],
-    });
-
-    return results.map((res) => res.following);
-  }
-
-  // Usuarios al que el usuario sigue
-  async getAllFollowings(id: User['id']) {
-    const results = await this.repository.find({
-      where: {
-        following: { id },
+        followed: { id },
       },
       relations: ['follower'],
     });
 
     return results.map((res) => res.follower);
+  }
+
+  // Usuarios al que el usuario sigue
+  async getAllFollowed({ limit, userid, search, skip }: ConnectionPaginatedConfig) {
+    const results = await this.repository.find({
+      relations: ['followed'],
+      take: limit,
+      skip,
+      where: {
+        followed: {
+          name: Like(`%${search}%`),
+        },
+        follower: { id: userid },
+      },
+    });
+
+    return results.map((res) => res.followed);
+  }
+
+  async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
+    const followingCount = await this.repository.count({
+      where: {
+        followed: { id: userid },
+        follower: {
+          name: Like(`%${search}%`),
+        },
+      },
+    });
+
+    return followingCount;
   }
 }
 

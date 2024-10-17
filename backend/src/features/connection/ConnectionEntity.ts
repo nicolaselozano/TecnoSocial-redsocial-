@@ -6,11 +6,11 @@ export class Connection {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.following)
+  @ManyToOne(() => User, (user) => user.followed)
   follower: User;
 
   @ManyToOne(() => User, (user) => user.followers)
-  following: User;
+  followed: User;
 
   @CreateDateColumn({ type: 'timestamp' })
   timestamp: Date;

@@ -41,7 +41,7 @@ async function seed() {
       connections.map(async (connection) => {
         const newConnection = Connection.create({
           follower: connection.follower,
-          following: connection.following,
+          followed: connection.following,
         });
         await Connection.save(newConnection);
       }),

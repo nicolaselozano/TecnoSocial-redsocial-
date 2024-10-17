@@ -1,5 +1,5 @@
 get:
-  summary: Obtiene todos los posts asociados a un usuario
+  summary: Obtiene todos los usuarios que siguen al usuario cliente
   tags: [Users]
   parameters:
     - in: path
