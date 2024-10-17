@@ -16,8 +16,20 @@ export class User {
   @Column({ type: 'varchar', length: 150 })
   email: string;
 
+  @Column({ type: 'varchar', length: 150 })
+  authId: string;
+
   @Column({ type: 'varchar', length: 100 })
-  password: string;
+  role: string;
+
+  @Column({ type: 'varchar', length: 150 })
+  avatar: string;
+
+  @Column({ type: 'varchar', length: 150 })
+  location: string;
+
+  @Column({ type: 'varchar', length: 150 })
+  job: string;
 
   @OneToOne(() => SocialNetworks, { cascade: true })
   @JoinColumn()

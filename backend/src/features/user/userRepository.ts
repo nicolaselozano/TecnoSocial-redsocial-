@@ -2,6 +2,8 @@ import con from '@/config/database';
 import { NotFoundError } from '@/utils/errors';
 import { User } from './userEntity';
 
+type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
+
 class UserRopository {
   private repository = con.getRepository(User);
 
@@ -34,9 +36,18 @@ class UserRopository {
     return user;
   }
 
-  public async updateUser(id: User['id'], user: User): Promise<User> {
-    await this.repository.update(id, user);
-    return user;
+  public async updateUser(authId: User['authId'], user: UserPut): Promise<User> {
+    const results = await this.repository.update(
+      { authId },
+      {
+        avatar: user.avatar,
+        job: user.job,
+        location: user.location,
+        name: user.name,
+        role: user.role,
+      },
+    );
+    return results.raw;
   }
 
   public async deleteUser(id: User['id']): Promise<boolean> {

@@ -1,5 +1,5 @@
 import con from '@/config/database';
-import { PaginatedConfig } from '@/types/paginatedConfig.type';
+import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Connection } from './ConnectionEntity';
