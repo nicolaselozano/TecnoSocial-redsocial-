@@ -1,5 +1,5 @@
-export interface GetPostsConfig {
+export interface PaginatedConfig {
   limit: number;
-  skip: number;
+  skip?: number;
   search?: string;
 }

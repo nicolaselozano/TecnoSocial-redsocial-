@@ -3,6 +3,7 @@ import envs from '@/config/envs';
 import { Comment as CommentEntity } from '@/features/comment/commentEntity';
 import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
 import { Image as ImageEntity } from '@/features/image/imageEntity';
+import { Like as LikeEntity } from '@/features/like/likeEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
@@ -15,6 +16,7 @@ const Image = con.getRepository(ImageEntity);
 const User = con.getRepository(UserEntity);
 const Comment = con.getRepository(CommentEntity);
 const Connection = con.getRepository(ConnectionEntity);
+const Like = con.getRepository(LikeEntity);
 
 async function seed() {
   if (!envs.SEED) {
@@ -47,7 +49,15 @@ async function seed() {
 
     const newUser = seededUsers[0];
 
-    await seedPosts(newUser);
+    const seededPosts = await seedPosts(newUser);
+
+    // User with id 1 likes post with id 1
+    const newLike = Like.create({
+      post: seededPosts[0],
+      user: newUser,
+    });
+
+    await Like.save(newLike);
 
     console.log('🌱 -- Seeding completed successfully.');
     process.exit();
@@ -56,7 +66,7 @@ async function seed() {
   }
 }
 
-async function seedUsers() {
+async function seedUsers(): Promise<UserEntity[]> {
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
       const { email, name, password } = user;
@@ -80,8 +90,8 @@ async function seedUsers() {
   return users;
 }
 
-async function seedPosts(user: UserEntity) {
-  await Promise.all(
+async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
+  const posts = await Promise.all(
     MOCK_POSTS.map(async (post) => {
       const newPost = Post.create({
         content: post.content,
@@ -115,9 +125,12 @@ async function seedPosts(user: UserEntity) {
 
         await Image.save(images);
       }
+
+      return newPost;
     }),
   );
   console.log('📝 -- Posts seeded succesfully.');
+  return posts;
 }
 
 seed();
