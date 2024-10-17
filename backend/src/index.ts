@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import express from 'express';
 import 'express-async-errors';
 
@@ -43,8 +44,8 @@ con
   .then(() => {
     console.log('Conexión a la base de datos exitosa');
     app.listen(envs.PORT, () => {
-      console.log(` Servidor corriendo en ${envs.URL}:${envs.PORT}`);
-      console.log(` Documentación disponible en ${envs.URL}:${envs.PORT}/api/docs`);
+      console.log(chalk.blue(`🚀 -- Servidor corriendo en ${envs.URL}:${envs.PORT}`));
+      console.log(chalk.green(`📝 -- Documentación disponible en ${envs.URL}:${envs.PORT}/api/docs`));
     });
   })
   .catch((err) => {
