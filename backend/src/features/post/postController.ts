@@ -1,5 +1,6 @@
 import { BadRequestError } from '@/utils/errors';
 import { Request, Response } from 'express';
+import { likeRepository } from '../like/likeRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
 
@@ -21,18 +22,31 @@ class PostController {
     const limit = parseInt(req.query.limit as string) || 5;
     const search = req.query.search ? String(req.query.search) : '';
 
-    const { posts, totalPages } = await postRepository.getAllPosts({
-      skip: (page - 1) * limit,
-      limit,
-      search,
-    });
+    const totalPages = await postRepository.getPostsPages({ limit, search });
 
     if (page > totalPages || page < 1) {
       throw new BadRequestError('Página fuera de índice');
     }
 
+    const { posts } = await postRepository.getAllPosts({
+      skip: (page - 1) * limit,
+      limit,
+      search,
+    });
+
+    // TODO - ver como obtenemos el id del usuario realizando la peticion
+    //        a lo mejor se usa el middleware que checkea el token.
+    const userid = 1;
+
+    const postWithLikedProperty = await Promise.all(
+      posts.map(async (post) => ({
+        ...post,
+        isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
+      })),
+    );
+
     res.json({
-      results: posts,
+      results: postWithLikedProperty,
       info: {
         results: posts.length,
         currentPage: page,
