@@ -32,6 +32,16 @@ class CommentRepository {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }
+  public async countComments(postId: number): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        post: {
+          id: postId,
+        },
+      },
+    });
+    return count;
+  }
 }
 
 export const commentRepository = new CommentRepository();

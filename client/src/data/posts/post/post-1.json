@@ -7,7 +7,26 @@
     "username": "@manuRod6677"
   },
   "content": "Angular ahora es compatible con TypeScript isolatedModules a partir de Angular 18.2. Con esta compatibilidad, hemos visto mejoras de rendimiento de hasta un 10% en los tiempos de compilación de producción.",
-  "image": "https://via.placeholder.com/500x200",
+  "images": [
+    {
+      "id": 1,
+      "url": "https://via.placeholder.com/500x200",
+      "alt": "Imagen del post 1",
+      "created_at": "2024-10-16T01:49:41.693Z"
+    },
+    {
+      "id": 2,
+      "url": "https://via.placeholder.com/500x300",
+      "alt": "Imagen del post 2",
+      "created_at": "2024-10-16T01:50:41.693Z"
+    },
+    {
+      "id": 3,
+      "url": "https://via.placeholder.com/500x400",
+      "alt": "Imagen del post 2",
+      "created_at": "2024-10-16T01:52:41.693Z"
+    }
+  ],
   "likes": 10,
   "comments": [
     {

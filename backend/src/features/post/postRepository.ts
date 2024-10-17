@@ -3,7 +3,7 @@ import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Post } from './postEntity';
-import { GetPostsConfig } from './postInterface';
+import { PaginatedConfig } from './postInterface';
 
 class PostRepository {
   private repository = con.getRepository(Post);
@@ -17,9 +17,7 @@ class PostRepository {
     return posts;
   }
 
-  public async getAllPosts({ limit, skip, search }: GetPostsConfig) {
-    console.log({ search });
-
+  public async getPostsPages({ limit, search }: PaginatedConfig): Promise<number> {
     const totalPosts = await this.repository.count({
       where: {
         title: Like(`%${search}%`),
@@ -28,10 +26,10 @@ class PostRepository {
 
     const totalPages = Math.ceil(totalPosts / limit!);
 
-    if (totalPosts === 0) {
-      return { posts: [], totalPages: 0 };
-    }
+    return totalPages;
+  }
 
+  public async getAllPosts({ limit, skip, search }: PaginatedConfig) {
     const posts = await this.repository.find({
       relations: ['images', 'user'],
       take: limit,
@@ -42,7 +40,6 @@ class PostRepository {
     });
 
     return {
-      totalPages,
       posts,
     };
   }

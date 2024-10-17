@@ -1,5 +1,12 @@
-import { Like } from './likeEntity'; // Asegúrate de que esta entidad esté correctamente definida
 import con from '../../config/database'; // Asegúrate de que esta ruta sea correcta
+import { Post } from '../post/postEntity';
+import { User } from '../user/userEntity';
+import { Like } from './likeEntity'; // Asegúrate de que esta entidad esté correctamente definida
+
+type UserHasLikedPost = {
+  userid: User['id'];
+  postid: Post['id'];
+};
 
 class LikeRepository {
   // Usamos TypeOrmLike para referirnos a la entidad de TypeORM
@@ -50,6 +57,21 @@ class LikeRepository {
     });
 
     return likes;
+  }
+
+  public async userHasLikedPost({ postid, userid }: UserHasLikedPost) {
+    const results = await this.repository.findOne({
+      where: {
+        post: {
+          id: postid,
+        },
+        user: {
+          id: userid,
+        },
+      },
+    });
+
+    return results !== null;
   }
   public async countLikes(postId: number): Promise<number> {
     const count = await this.repository.count({

@@ -40,6 +40,10 @@ paths:
     $ref: './paths/user.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
+  /user/{id}/followers:
+    $ref: './paths/user/user-followers.yaml'
+  /user/{id}/followed:
+    $ref: './paths/user/user-followed.yaml'
   /comment:
     $ref: './paths/comment.yaml'
   /comment/{id}:

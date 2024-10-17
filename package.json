@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "workspaces": [
+    "client",
     "backend"
   ],
   "scripts": {
-    "lint": "npm run --workspace backend lint:staged"
+    "lint": "npm run --workspace backend lint:staged",
+    "dev": "npm run docker:compose && lerna run db:seed --scope=backend && lerna run dev",
+    "docker:compose": "docker compose up -d"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "husky": "9.1.6"
+    "husky": "9.1.6",
+    "lerna": "8.1.8"
   }
 }
