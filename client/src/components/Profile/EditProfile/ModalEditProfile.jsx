@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const EditProfileModal = ({ show, handleClose }) => {
   const [formData, setFormData] = useState({
     name: 'Manuel Rodríguez',
-    username: 'manuRod687',
     country: 'Estados Unidos',
     description: 'Recibido en la UNLAM | Javascript | CSS',
     roles: ['Frontend', 'Backend'],
@@ -89,20 +88,6 @@ const EditProfileModal = ({ show, handleClose }) => {
               </div>
 
               <div className="mb-2">
-                <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="username">
-                  Usuario
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="shadow appearance-none border border-secondBlack-400 rounded w-full py-1 px-1 bg-secondBlack-700 text-secondBlack-100 leading-tight focus:outline-none focus:border-primaryGreen-400 text-xs"
-                />
-              </div>
-
-              <div className="mb-2">
                 <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="country">
                   País
                 </label>
@@ -150,20 +135,6 @@ const EditProfileModal = ({ show, handleClose }) => {
                 </span>
               ))}
             </div>
-          </div>
-
-          <div className="mb-2">
-            <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="shadow appearance-none border border-secondBlack-400 rounded w-full py-1 px-1 bg-secondBlack-700 text-secondBlack-100 leading-tight focus:outline-none focus:border-primaryGreen-400 text-xs"
-            />
           </div>
 
           <div className="mb-2">

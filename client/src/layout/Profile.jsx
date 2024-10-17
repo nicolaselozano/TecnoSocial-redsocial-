@@ -5,7 +5,7 @@ import ProfileDetail from "../components/Profile/ProfileDetail/ProfileDetail";
 import ProfileNav from "../components/Profile/ProfileNav";
 const UserList = React.lazy(() => import('../components/Profile/UserList'));
 import { PostsGrid } from "../components/Posts/PostsGrid";
-import EditProfileModal from "../components/Profile/ModalEditProfile";
+import EditProfileModal from "../components/Profile/EditProfile/ModalEditProfile";
 
 const Profile = () => {
     const { fetchUserDetail, userInstance, loading } = userProfileStore();

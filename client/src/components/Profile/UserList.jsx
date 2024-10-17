@@ -34,7 +34,7 @@ const UserList = () => {
         console.log("Followed list updated:", followed);
     }, [followed]);
 
-    const desiredColumns = 4; // Número de columnas deseadas
+    const desiredColumns = 4;
     const ghostDivCount = (Math.ceil(followed.list.length / desiredColumns) * desiredColumns) - followed.list.length;
 
     return (

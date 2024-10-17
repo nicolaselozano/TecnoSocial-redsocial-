@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ProfileService } from "../../services/Profile/get-profile";
+import { getProfileService } from "../../services/Profile/get-profile";
 
 const userFollowsStore = create((set) => ({
     followers:{
@@ -18,7 +18,7 @@ const userFollowsStore = create((set) => ({
     error: "",
     fetchUserFollowed: async (page =1) => {
         set({ loading: true });
-        const data = await ProfileService.getUserFollowed(page);
+        const data = await getProfileService.getUserFollowed(page);
         console.log(data);
         
         if (data) {
@@ -42,7 +42,7 @@ const userFollowsStore = create((set) => ({
     },
     fetchUserFollowers: async () => {
         set({ loading: true });
-        const data = await ProfileService.getUserFollowers();
+        const data = await getProfileService.getUserFollowers();
         if (data) {
             set((state) => {
                 console.log(data);

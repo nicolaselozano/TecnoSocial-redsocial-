@@ -61,7 +61,7 @@ const getUserFollowers = async (page) => {
     }
 
 }
-export const ProfileService = {
+export const getProfileService = {
     getUserProfile,
     getUserFollowers,
     getUserFollowed,
