@@ -10,7 +10,16 @@ class SocialNetworksController {
     const user = await userRepository.getUserByAuthId(authId);
     const updatedSocialNetworks = getSocialNetworksPutData(req.body);
     const result = await socialNetworksRepository.update(user.social_networks.id, updatedSocialNetworks);
-    res.json(result);
+
+    if (!result) {
+      res.status(400).json({
+        message: 'hubo un error al modificar las redes sociales del usuario',
+      });
+    }
+
+    res.status(201).json({
+      message: 'redes sociales modificadas exitosamente',
+    });
   }
 }
 

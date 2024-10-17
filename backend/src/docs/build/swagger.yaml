@@ -21,6 +21,8 @@ tags:
     description: API para gestionar tecnologias
   - name: Comment
     description: API para gestionar comentarios
+  - name: Social Networks
+    description: API para gestionar las redes sociales de un usuario
 paths:
   /post:
     get:
@@ -378,9 +380,16 @@ paths:
                 $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
                 projects:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                  - id: 1
+                    name: ecommerce
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+                  - id: 2
+                    name: refugio de mascotas
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
         '404':
           description: usuario no encontrado
           content:
@@ -413,9 +422,16 @@ paths:
                 $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
                 projects:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                  - id: 1
+                    name: ecommerce
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+                  - id: 2
+                    name: refugio de mascotas
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
         '404':
           description: usuario no encontrado
           content:
@@ -735,9 +751,12 @@ paths:
                   items:
                     $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
             example:
-              title: Mi primer usuario
-              content: Este es el contenido de mi primer usuario
-              user: '12345'
+              name: Martin
+              username: martin2024
+              role: diseñador ux/ui
+              avatar: 'https://image.png'
+              location: Buenos Aires
+              job: Freelance
       responses:
         '201':
           description: usuario modificado
@@ -1035,3 +1054,33 @@ paths:
                     type: string
               example:
                 message: usuario no encontrado
+  /social-networks:
+    put:
+      summary: Modifica las redes sociales de un usuario
+      tags:
+        - Social Networks
+      parameters:
+        - in: cookie
+          name: authId
+          description: Indica el id del usuario que desea modificar sus redes sociales
+          schema:
+            type: string
+            required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              linkedin: 'https://network.com'
+              github: 'https://network.com'
+              facebook: 'https://network.com'
+              instagram: 'https://network.com'
+              gitlab: 'https://network.com'
+              twitter: 'https://network.com'
+      responses:
+        '201':
+          description: redes sociales modificadas
+          content:
+            application/json:
+              example:
+                message: redes sociales modificadas exitosamente
