@@ -43,6 +43,15 @@ class UserRopository {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }
+
+  public async findUsersByRole(role: string): Promise<User[]> {
+    const users = await this.repository.find({
+      where: { role },
+      relations: ['social_networks'],
+    });
+    
+    return users;
+  }
 }
 
 export const userRepository = new UserRopository();

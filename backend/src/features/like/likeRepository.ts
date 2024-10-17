@@ -1,10 +1,9 @@
-import { Like as TypeOrmLike } from 'typeorm'; // Renombramos para evitar confusión con la entidad de TypeORM
 import { Like } from './likeEntity'; // Asegúrate de que esta entidad esté correctamente definida
 import con from '../../config/database'; // Asegúrate de que esta ruta sea correcta
 
 class LikeRepository {
   // Usamos TypeOrmLike para referirnos a la entidad de TypeORM
-  private repository = con.getRepository(TypeOrmLike);
+  private repository = con.getRepository(Like);
 
   // Método para crear un nuevo like
   public async createLike(like: Like): Promise<Like> {
@@ -44,6 +43,14 @@ class LikeRepository {
     const result = await this.repository.delete(id); // Elimina el like por ID
     return result.affected === 1; // Devuelve true si se eliminó el like
   }
+
+  public async getLikesByUser(userId: number) {
+    const likes = await this.repository.find({
+      where: { user: { id: userId } },
+    });
+
+    return likes;
+  }
 }
 
-export const likeRepository = new LikeRepository(); // Exportamos una instancia de LikeRepository
+export const likeRepository = new LikeRepository();

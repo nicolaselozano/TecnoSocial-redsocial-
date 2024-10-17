@@ -8,5 +8,5 @@ likeRouter.get('/like', likeController.getAllLikes);
 likeRouter.get('/like/:id', likeController.getLikeById);
 likeRouter.put('/like/:id', likeController.updateLike);
 likeRouter.delete('/like/:id', likeController.deleteLike);
-
+likeRouter.get('/like/user/:userid', likeController.getUserLikes);
 export default likeRouter;

@@ -85,6 +85,20 @@ class LikeController {
       res.status(500).json({ message: 'Error al eliminar el like', error });
     }
   }
-}
+  public async getUserLikes(req: Request, res: Response): Promise<void> {
+    try {
+      const { userid } = req.params;
 
+      const likes = await likeRepository.getLikesByUser(Number(userid));
+
+      if (likes.length === 0) {
+        res.status(404).json({ message: 'No se encontraron likes para el usuario.' });
+        return;
+      }
+      res.json(likes);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener los likes del usuario', error });
+    }
+  }
+}
 export const likeController = new LikeController();

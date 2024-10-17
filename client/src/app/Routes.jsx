@@ -5,6 +5,8 @@ import AuthModal from "../components/AuthModals/AuthModal";
 import { ExplorePage } from "../components/Explore/ExplorePage";
 import Profile from "../components/Profile/Profile";
 import Notification from "../view/Notificate/Notificate";
+import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage"; // Importa la nueva página
+
 const AllRoutes = () => {
   return (
     <Routes>
@@ -18,6 +20,8 @@ const AllRoutes = () => {
       {/* Paginas generales */}
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/notifications" element={<Notification />} />
+      {/* Ruta Perfiles Similares */}
+      <Route path="/similar/:userId" element={<SimilarProfilesPage />} />
     </Routes>
   );
 };

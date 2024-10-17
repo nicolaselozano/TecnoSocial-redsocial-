@@ -5,6 +5,7 @@ import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
 import { IoMdClose } from "react-icons/io";
 import usePostStore from "../../context/posts/post-store";
+import { PostSliderImages } from "./PostSliderImages";
 
 export const PostModal = ({ setIsOpenModal, postId }) => {
   const { post, fetchPost, isLoading } = usePostStore();
@@ -91,17 +92,17 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
           <div className="flex flex-col sm:flex-row">
             <div
               className={`${
-                post?.image ? "sm:w-1/2" : "w-full hidden"
+                post?.images?.length > 0 ? "sm:w-1/2" : "w-full hidden"
               } flex items-center justify-center bg-black p-4 mb-4 sm:mb-0`}
             >
-              <img
-                src={post?.image}
-                alt={post?.content || ""}
-                className="w-full h-auto rounded-md"
-              />
+              {post?.images && (
+                <figure className="w-full h-auto flex items-center">
+                  <PostSliderImages images={post.images} />
+                </figure>
+              )}
             </div>
 
-            <div className={`${post?.image ? "sm:w-1/2" : "w-full"} p-4`}>
+            <div className={`${post?.images ? "sm:w-1/2" : "w-full"} p-4`}>
               {/* Header */}
               <div className="flex justify-between items-start">
                 <div className="flex items-center mb-2">
