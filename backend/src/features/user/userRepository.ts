@@ -47,7 +47,7 @@ class UserRopository {
   public async findUsersByRole(role: string): Promise<User[]> {
     const users = await this.repository.find({
       where: { role },
-      relations: ['social_networks'],
+      relations: [],
     });
     
     return users;

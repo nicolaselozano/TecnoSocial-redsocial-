@@ -16,7 +16,7 @@ class SimilarProfilesController {
       const filteredProfiles = similarProfiles.filter((profile) => profile.id !== user.id);
 
       if (filteredProfiles.length === 0) {
-        return res.status(204).send(); // No Content
+        return res.status(204).send();
       }
 
       return res.json(filteredProfiles);
