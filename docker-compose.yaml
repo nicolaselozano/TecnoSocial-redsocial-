@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: test
     ports:
-      - 3306:3306
+      - 3308:3306
     volumes:
       - mysql_data:/var/lib/mysql
 
