@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
+import { userProjectRepository } from '../userProject/userProjectRepository';
 import { Project } from './projectEntity';
 import { projectRepository } from './projectRepository';
 
 class ProjectController {
   public async createProject(req: Request, res: Response): Promise<void> {
-    const { name, role, description, url } = req.body;
+    const { name, description, url } = req.body;
 
     const project = new Project();
     project.name = name;
     project.description = description;
-    project.role = role;
     project.url = url;
 
     const response = await projectRepository.createProject(project);
@@ -30,12 +30,11 @@ class ProjectController {
 
   public async updateProject(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const { name, role, description, url } = req.body;
+    const { name, description, url } = req.body;
 
     const updatedProject = new Project();
     updatedProject.name = name;
     updatedProject.description = description;
-    updatedProject.role = role;
     updatedProject.url = url;
 
     const response = await projectRepository.updateProject(Number(id), updatedProject);
@@ -50,8 +49,14 @@ class ProjectController {
   }
 
   public async getAllProjectsLikedByUser(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const projects = await projectRepository.getProjectsLikedByUser(Number(id));
+    const { userid } = req.params;
+    const projects = await projectRepository.getProjectsLikedByUser(Number(userid));
+    res.json({ projects });
+  }
+
+  public async getAllProjectsByUser(req: Request, res: Response): Promise<void> {
+    const { userid } = req.params;
+    const projects = await userProjectRepository.getAllProjectsByUser(Number(userid));
     res.json({ projects });
   }
 }

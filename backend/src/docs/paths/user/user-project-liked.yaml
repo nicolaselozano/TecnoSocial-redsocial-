@@ -1,0 +1,41 @@
+get:
+  summary: Obtiene todos los proyectos likeados por el usuario
+  tags: [Project]
+  parameters:
+    - in: path
+      name: userid
+      required: true
+      description: ID del usuario
+      schema:
+        type: string
+  responses:
+    '200':
+      description: proyectos encontrados
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/user-schema.yaml'
+          example:
+            projects:
+              - id: 1
+                name: 'ecommerce'
+                description: 'Ecommerce destinado a productos hogareños'
+                url: 'https://proyecto-1.com'
+                created_at: '2024-10-17T21:37:15.023Z'
+              - id: 2
+                name: 'refugio de mascotas'
+                description: 'Ecommerce destinado a productos hogareños'
+                url: 'https://proyecto-1.com'
+                created_at: '2024-10-17T21:37:15.023Z'
+
+    '404':
+      description: usuario no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no encontrado

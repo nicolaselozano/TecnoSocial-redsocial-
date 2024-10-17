@@ -30,6 +30,10 @@ paths:
     $ref: './paths/post-user.yaml'
   /project:
     $ref: './paths/project.yaml'
+  /project/user/{userid}:
+    $ref: './paths/user/user-project.yaml'
+  /project/user/{userid}/liked:
+    $ref: './paths/user/user-project-liked.yaml'
   /project/{id}:
     $ref: './paths/project-by-id.yaml'
   /technology:

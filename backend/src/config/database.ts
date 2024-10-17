@@ -5,8 +5,8 @@ import { Comment } from '@/features/comment/commentEntity';
 import { Connection } from '@/features/connection/ConnectionEntity';
 import { Image } from '@/features/image/imageEntity';
 import { Like } from '@/features/like/likeEntity';
-import { ProjectLike } from '@/features/projectLike/ProjectLikeEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { UserProject } from '@/features/userProject/userProjectEntity';
 import mysql2 from 'mysql2';
 import { Post } from '../features/post/postEntity';
 import { Project } from '../features/project/projectEntity';
@@ -22,7 +22,7 @@ const con = new DataSource({
   password: envs.DB.PASS,
   database: envs.DB.NAME,
   synchronize: true,
-  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment, Connection, ProjectLike],
+  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment, Connection, UserProject],
 });
 
 export default con;

@@ -13,8 +13,6 @@ class ProjectRepository {
 
   public async getAllProjects(): Promise<Project[]> {
     const projects = await this.repository.find();
-    console.log(projects);
-
     return projects;
   }
 

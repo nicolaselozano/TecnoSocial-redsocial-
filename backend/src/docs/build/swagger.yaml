@@ -357,6 +357,76 @@ paths:
       responses:
         '200':
           description: Lista de proyectos
+  '/project/user/{userid}':
+    get:
+      summary: Obtiene todos los proyectos asociados a un usuario
+      tags:
+        - Project
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: proyectos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                projects:
+                  - id: '1'
+                    title: Primer post
+                    content: Contenido del primer post
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
+  '/project/user/{userid}/liked':
+    get:
+      summary: Obtiene todos los proyectos likeados por el usuario
+      tags:
+        - Project
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: proyectos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                projects:
+                  - id: '1'
+                    title: Primer post
+                    content: Contenido del primer post
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/project/{id}':
     get:
       summary: Obtiene un proyecto por ID
