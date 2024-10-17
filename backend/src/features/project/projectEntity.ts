@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/userEntity';
 
 @Entity()
@@ -19,11 +19,13 @@ export class Project {
   url: string;
 
   @CreateDateColumn({ type: 'datetime' })
-  create_at: string;
-
-  @Column({ type: 'varchar' })
-  collaborators: string;
+  created_at: string;
 
   @ManyToMany(() => User)
-  projects: Project[];
+  @JoinTable()
+  users: User[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  liked_users: User[];
 }

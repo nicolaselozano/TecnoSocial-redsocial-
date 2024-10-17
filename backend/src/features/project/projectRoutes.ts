@@ -9,4 +9,6 @@ projectRouter.get('/project/:id', projectController.getProjectById);
 projectRouter.put('/project/:id', projectController.updateProject);
 projectRouter.delete('/project/:id', projectController.deleteProject);
 
+projectRouter.get('/project/user/:userid/liked', projectController.getProjectById);
+
 export default projectRouter;
