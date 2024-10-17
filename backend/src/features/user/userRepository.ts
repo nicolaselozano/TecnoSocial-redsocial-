@@ -36,6 +36,19 @@ class UserRopository {
     return user;
   }
 
+  public async getUserByAuthId(authId: User['authId']): Promise<User> {
+    const user = await this.repository.findOne({
+      where: { authId },
+      relations: ['social_networks'],
+    });
+
+    if (!user) {
+      throw new NotFoundError(`user not found`);
+    }
+
+    return user;
+  }
+
   public async updateUser(authId: User['authId'], user: UserPut): Promise<User> {
     const results = await this.repository.update(
       { authId },
