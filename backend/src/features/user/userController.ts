@@ -51,9 +51,23 @@ class UserController {
   }
 
   async getAllFollowers(req: Request, res: Response): Promise<void> {
+    const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
+
+    const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    const totalFollowersPages = Math.ceil(totalFollowers / limit);
+
+    if (page > totalFollowersPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
     const followers = await connectionRepository.getAllFollowers(Number(id));
-    res.json({ followers });
+
+    res.json({
+      followers,
+      currentPage: page,
+      totalUsers: totalFollowers,
+      totalPages: totalFollowersPages,
+    });
   }
 
   async getAllFollowed(req: Request, res: Response): Promise<void> {

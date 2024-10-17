@@ -40,8 +40,21 @@ class ConnectionRepository {
     return results.map((res) => res.followed);
   }
 
+  async getFollowersCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        followed: {
+          name: Like(`%${search}%`),
+        },
+        follower: { id: userid },
+      },
+    });
+
+    return count;
+  }
+
   async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
-    const followingCount = await this.repository.count({
+    const count = await this.repository.count({
       where: {
         followed: { id: userid },
         follower: {
@@ -50,7 +63,7 @@ class ConnectionRepository {
       },
     });
 
-    return followingCount;
+    return count;
   }
 }
 
