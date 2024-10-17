@@ -10,8 +10,8 @@ const listFilterNotify = [
     link: "",
   },
   {
-    name: "Seguidores",
-    link: "mefollows",
+    name: "Comentarios",
+    link: "comment",
   },
   {
     name: "Posteos",
@@ -21,60 +21,60 @@ const listFilterNotify = [
 
 const listNotify = [
   {
-    type: "post",
-    title: "Nuevo Posteo",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: true,
+    date: "2024-10-17",
   },
   {
-    type: "mefollow",
-    title: "Nuevo Seguidor",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: false,
+    date: "2024-06-01",
   },
   {
-    type: "post",
-    title: "Nuevo Posteo",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: true,
+    date: "2024-10-17",
   },
   {
-    type: "mefollow",
-    title: "Nuevo Seguidor",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: false,
+    date: "2024-10-02",
   },
   {
-    type: "mefollow",
-    title: "Nuevo Seguidor",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: false,
+    date: "2024-04-8",
   },
   {
-    type: "mefollow",
-    title: "Nuevo Seguidor",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: false,
+    date: "2024-09-17",
   },
   {
-    type: "mefollow",
-    title: "Nuevo Seguidor",
+    type: "comment",
+    title: "Comentario",
     description:
       "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
     url: "#",
-    new: false,
+    date: "2024-10-10",
   },
 ];
 
@@ -83,19 +83,25 @@ const Notification = () => {
   const [filterList, setFilterList] = useState(listNotify);
 
   useEffect(() => {
-    let newList = listNotify.filter(
-      (item) =>
-        item.type === (isIndex === 2 ? "post" : isIndex === 1 ? "mefollow" : "")
-    );
+    let newList = listNotify.filter((item) => {
+      //console.log(item.type);
+      return (
+        item.type === (isIndex === 2 ? "post" : isIndex === 1 ? "comment" : "")
+      );
+    });
     if (newList.length === 0) {
       newList = listNotify;
     }
+    //console.log(newList)
     setFilterList(newList);
   }, [isIndex]);
+
+  //console.log(filterList);
+
   return (
     <LayouteMain>
       <section className=" max-w-[688px] w-full h-fit flex flex-col gap-y-5">
-        <ul className="bg-secondBlack-700 w-full h-[45px] rounded-xl flex items-center gap-x-5 px-4 relative overflow-hidden">
+        {/* <ul className="bg-secondBlack-700 w-full h-[45px] rounded-xl flex items-center gap-x-5 px-4 relative overflow-hidden">
           {listFilterNotify.map((item, index) => (
             <FilterOptions
               key={index}
@@ -115,20 +121,18 @@ const Notification = () => {
                 : "left-40 w-[85px]"
             } h-full bg-primaryGreen-950 transition-all duration-300 `}
           ></div>
-        </ul>
+        </ul> */}
         <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
           <ul className="flex flex-col h-fit">
             {filterList.map((item, index) => (
               <CardNotification
                 key={index}
                 url={item.url}
-                isNew={item.new}
+                isNew={item.date}
                 title={item.title}
                 description={item.description}
                 type={item.type}
                 filter={isIndex}
-                /* setIsNewNotify={setIsNewNotify}
-                  isNewNotify={isNewNotify} */
               />
             ))}
           </ul>

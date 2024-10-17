@@ -6,8 +6,8 @@ const DropNav = ({ setIsIndex, setIsActiveDrop, isActiveDrop }) => {
   return (
     <section
       className={`${
-        isActiveDrop ? " opacity-100" : " opacity-0"
-      } z-20 transition-all duration-300 absolute top w-[120px] h-[85px] bg-secondBlack-700 rounded-xl top-20 right-0 flex flex-col items-center justify-center shadow-[0_0px_8px_0px_rgba(0,0,0,0.25)]`}
+        isActiveDrop ? " opacity-100 z-20" : " opacity-0 -z-50"
+      }  transition-all duration-300 absolute top w-[120px] h-[85px] bg-secondBlack-700 rounded-xl top-20 right-0 flex flex-col items-center justify-center shadow-[0_0px_8px_0px_rgba(0,0,0,0.25)]`}
     >
       <ul className="flex flex-col size-fit gap-y-3">
         <Link
