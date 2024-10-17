@@ -1,5 +1,5 @@
 get:
-  summary: Obtiene todos los posts asociados a un usuario
+  summary: Obtiene todos los usuarios que siguen al usuario cliente
   tags: [Users]
   parameters:
     - in: path
@@ -23,6 +23,9 @@ get:
               - id: 2
                 name: 'Sofia'
                 email: 'email@gmail.com'
+            currentPage: 1
+            totalUsers: 10
+            totalPages: 2
 
     '404':
       description: usuario no encontrado

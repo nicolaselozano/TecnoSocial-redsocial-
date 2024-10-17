@@ -1,3 +1,5 @@
+import { BadRequestError } from '@/utils/errors';
+import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { connectionRepository } from '../connection/ConnectionRepository';
 import { User } from './userEntity';
@@ -49,15 +51,44 @@ class UserController {
   }
 
   async getAllFollowers(req: Request, res: Response): Promise<void> {
+    const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
+
+    const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    const totalFollowersPages = Math.ceil(totalFollowers / limit);
+
+    if (page > totalFollowersPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
     const followers = await connectionRepository.getAllFollowers(Number(id));
-    res.json({ followers });
+
+    res.json({
+      followers,
+      currentPage: page,
+      totalUsers: totalFollowers,
+      totalPages: totalFollowersPages,
+    });
   }
 
-  async getAllFollowings(req: Request, res: Response): Promise<void> {
+  async getAllFollowed(req: Request, res: Response): Promise<void> {
+    const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
-    const followed = await connectionRepository.getAllFollowings(Number(id));
-    res.json({ followed });
+
+    const totalFollowing = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    const totalFollowingPages = Math.ceil(totalFollowing / limit);
+
+    if (page > totalFollowingPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
+    const followed = await connectionRepository.getAllFollowed({ search, userid: Number(id), limit });
+
+    res.json({
+      followed,
+      currentPage: page,
+      totalUsers: totalFollowing,
+      totalPages: totalFollowingPages,
+    });
   }
 }
 
