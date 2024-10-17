@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Like } from './likeEntity';
 import { likeRepository } from './likeRepository';
-
 class LikeController {
   public async createLike(req: Request, res: Response): Promise<void> {
     try {
@@ -100,5 +99,15 @@ class LikeController {
       res.status(500).json({ message: 'Error al obtener los likes del usuario', error });
     }
   }
+
+  /*public async getCountLikes(req: Request, res: Response): Promise<void> {
+    try {
+      const { postId } = req.params; // El ID del post vendrá como parámetro en la URL
+      const count = await likeRepository.countLikes(Number(postId)); // Contamos los likes del post
+      res.json({ postId, likesCount: count });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al contar los likes', error });
+    }
+  }*/
 }
 export const likeController = new LikeController();

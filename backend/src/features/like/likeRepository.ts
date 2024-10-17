@@ -51,6 +51,16 @@ class LikeRepository {
 
     return likes;
   }
+  public async countLikes(postId: number): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        post: {
+          id: postId,
+        },
+      },
+    });
+    return count;
+  }
 }
 
 export const likeRepository = new LikeRepository();
