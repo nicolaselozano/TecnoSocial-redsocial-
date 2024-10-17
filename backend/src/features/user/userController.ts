@@ -55,12 +55,29 @@ class UserController {
     const { id } = req.params;
 
     const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+
+    if (totalFollowers === 0) {
+      res.json({
+        followers: [],
+        currentPage: page,
+        totalUsers: 0,
+        totalPages: 0,
+      });
+      return;
+    }
+
     const totalFollowersPages = Math.ceil(totalFollowers / limit);
 
     if (page > totalFollowersPages || page < 1) {
       throw new BadRequestError('Página fuera de índice');
     }
-    const followers = await connectionRepository.getAllFollowers(Number(id));
+
+    const followers = await connectionRepository.getAllFollowers({
+      search,
+      userid: Number(id),
+      limit,
+      skip: (page - 1) * limit,
+    });
 
     res.json({
       followers,
@@ -74,19 +91,35 @@ class UserController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
-    const totalFollowing = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
-    const totalFollowingPages = Math.ceil(totalFollowing / limit);
+    const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+
+    if (totalFollowed === 0) {
+      res.json({
+        followed: [],
+        currentPage: page,
+        totalUsers: 0,
+        totalPages: 0,
+      });
+      return;
+    }
+
+    const totalFollowingPages = Math.ceil(totalFollowed / limit);
 
     if (page > totalFollowingPages || page < 1) {
       throw new BadRequestError('Página fuera de índice');
     }
 
-    const followed = await connectionRepository.getAllFollowed({ search, userid: Number(id), limit });
+    const followed = await connectionRepository.getAllFollowed({
+      search,
+      userid: Number(id),
+      limit,
+      skip: (page - 1) * limit,
+    });
 
     res.json({
       followed,
       currentPage: page,
-      totalUsers: totalFollowing,
+      totalUsers: totalFollowed,
       totalPages: totalFollowingPages,
     });
   }

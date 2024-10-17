@@ -12,12 +12,17 @@ class ConnectionRepository {
   private repository = con.getRepository(Connection);
 
   // Usuarios que siguen al usuario cliente
-  async getAllFollowers(id: User['id']) {
+  async getAllFollowers({ limit, userid, search, skip }: ConnectionPaginatedConfig) {
     const results = await this.repository.find({
       where: {
-        followed: { id },
+        followed: { id: userid },
+        follower: {
+          name: Like(`%${search}%`),
+        },
       },
       relations: ['follower'],
+      take: limit,
+      skip,
     });
 
     return results.map((res) => res.follower);
@@ -43,10 +48,10 @@ class ConnectionRepository {
   async getFollowersCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
     const count = await this.repository.count({
       where: {
-        followed: {
+        followed: { id: userid },
+        follower: {
           name: Like(`%${search}%`),
         },
-        follower: { id: userid },
       },
     });
 
@@ -56,10 +61,10 @@ class ConnectionRepository {
   async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
     const count = await this.repository.count({
       where: {
-        followed: { id: userid },
-        follower: {
+        followed: {
           name: Like(`%${search}%`),
         },
+        follower: { id: userid },
       },
     });
 
