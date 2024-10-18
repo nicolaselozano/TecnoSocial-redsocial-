@@ -5,15 +5,16 @@ import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
 import { UserProject } from '../userProject/userProjectEntity';
 
+const defaultUserValue = '';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, default: defaultUserValue })
   name: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, default: defaultUserValue })
   email: string;
 
   @Column({ type: 'varchar', length: 150 })
@@ -22,20 +23,20 @@ export class User {
   @Column({ type: 'varchar', length: 150 })
   authName: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, default: defaultUserValue })
   token: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, default: defaultUserValue })
   role: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, default: defaultUserValue })
   avatar: string;
 
-  @Column({ type: 'varchar', length: 150 })
-  location: string;
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  location?: string;
 
-  @Column({ type: 'varchar', length: 150 })
-  job: string;
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  job?: string;
 
   @OneToOne(() => SocialNetworks, { cascade: true })
   @JoinColumn()

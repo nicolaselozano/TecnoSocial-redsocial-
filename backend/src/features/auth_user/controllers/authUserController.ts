@@ -7,7 +7,7 @@ const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise
   console.log('Creando el usuario desde Auth0');
 
   try {
-    const userData = res.locals.userData!;
+    const userData: UserDataToken | undefined = res.locals['userData'];
 
     if (!userData) {
       throw new Error('No se encontró información del usuario');
