@@ -22,7 +22,6 @@ class UserRopository {
     const users = await this.repository.find({
       relations: ['social_networks'],
     });
-    console.log(users);
 
     return users;
   }

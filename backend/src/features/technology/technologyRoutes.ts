@@ -3,10 +3,10 @@ import { technologyController } from './technologyController';
 
 const technologyRouter = Router();
 
-technologyRouter.post('/label', technologyController.createTechnology);
-technologyRouter.get('/label', technologyController.getAllTechnologies);
-technologyRouter.get('/label/:name', technologyController.getTechnologyByName);
-technologyRouter.put('/label/:name', technologyController.updateTechnology);
-technologyRouter.delete('/label/:name', technologyController.deleteTechnology);
+technologyRouter.post('/technology', technologyController.createTechnology);
+technologyRouter.get('/technology', technologyController.getAllTechnologies);
+technologyRouter.get('/technology/:name', technologyController.getTechnologyByName);
+technologyRouter.put('/technology/:name', technologyController.updateTechnology);
+technologyRouter.delete('/technology/:name', technologyController.deleteTechnology);
 
 export default technologyRouter;

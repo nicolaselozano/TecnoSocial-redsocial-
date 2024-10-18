@@ -36,7 +36,7 @@ export class Post {
 
   @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
-  labels: Technology[];
+  technologies: Technology[];
 
   @OneToMany(() => Like, (like) => like.user)
   likes: Like;
