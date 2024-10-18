@@ -175,7 +175,7 @@ const Notification = () => {
         </article> */}
         {isLoading ? (
           <article className=" h-full rounded-xl overflow-hidden">
-            <ul className="flex flex-col h-fit">
+            <ul className="flex flex-col h-fit animate-pulse">
               <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
                 <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
                 <div className="flex flex-col gap-y-1">
