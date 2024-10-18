@@ -1,5 +1,4 @@
 import con from '@/config/database';
-import { NotFoundError } from '@/utils/errors';
 import { Technology } from './technologyEntity';
 
 class TechnologyRepository {
@@ -13,14 +12,9 @@ class TechnologyRepository {
     return await this.repository.find();
   }
 
-  public async getTechnologyByName(name: Technology['name']): Promise<Technology> {
-    const technoloy = await this.repository.findOneBy({ name });
-
-    if (!technoloy) {
-      throw new NotFoundError(`Technology ${name} not found`);
-    }
-
-    return technoloy;
+  public async getTechnologyByName(name: Technology['name']): Promise<Technology | null> {
+    const technology = await this.repository.findOneBy({ name });
+    return technology;
   }
 
   public async updateTechnology(name: Technology['name'], technology: Technology): Promise<Technology> {

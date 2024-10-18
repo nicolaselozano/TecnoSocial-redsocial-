@@ -1,16 +1,12 @@
 import { Request, Response } from 'express';
 import { Technology } from './technologyEntity';
 import { technologyRepository } from './technologyRepository';
+import { technologyService } from './technologyService';
 
 class TechnologyController {
   public async createTechnology(req: Request, res: Response): Promise<void> {
-    const { name, color } = req.body;
-
-    const technology = new Technology();
-    technology.name = name;
-    technology.color = color;
-
-    const response = await technologyRepository.createTechnology(technology);
+    const { name } = req.body;
+    const response = await technologyService.createTechnology(name);
     res.json(response);
   }
 
