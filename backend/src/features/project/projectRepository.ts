@@ -1,5 +1,6 @@
-import { NotFoundError } from '@/utils/errors';
 import con from '@/config/database';
+import { NotFoundError } from '@/utils/errors';
+import { User } from '../user/userEntity';
 import { Project } from './projectEntity';
 
 class ProjectRepository {
@@ -12,8 +13,6 @@ class ProjectRepository {
 
   public async getAllProjects(): Promise<Project[]> {
     const projects = await this.repository.find();
-    console.log(projects);
-
     return projects;
   }
 
@@ -35,6 +34,19 @@ class ProjectRepository {
   public async deleteProject(id: number): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
+  }
+
+  public async getProjectsLikedByUser(userid: User['id']): Promise<Project[]> {
+    const projects = await this.repository.find({
+      where: {
+        liked_users: {
+          id: userid,
+        },
+      },
+      relations: ['liked_users'],
+    });
+
+    return projects;
   }
 }
 

@@ -1,16 +1,19 @@
+import { userRepository } from '@/features/user/userRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
 import { Request, Response } from 'express';
 
-const CreateUserAuthC = (req: Request, res: Response): void => {
+const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise<void> => {
   console.log('Creando el usuario desde Auth0');
 
   try {
-    const userData: UserDataToken = res.locals['userData'];
-    console.log('USER DATA: ' + JSON.stringify(userData));
+    const userData = res.locals.userData!;
 
     if (!userData) {
       throw new Error('No se encontró información del usuario');
     }
+
+    await userRepository.createUser(userData);
 
     res.status(201).json({
       message: 'Usuario creado exitosamente',

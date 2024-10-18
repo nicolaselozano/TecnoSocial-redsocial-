@@ -4,6 +4,6 @@ import { socialNetworkController } from './socialNetworksController';
 
 const socialNetworksRouter = Router();
 
-socialNetworksRouter.put('/social-networks/user/:userid', MiddlewareAuth0.CheckToken, socialNetworkController.update);
+socialNetworksRouter.put('/social-networks', MiddlewareAuth0.CheckToken, socialNetworkController.update);
 
 export default socialNetworksRouter;

@@ -65,9 +65,12 @@ put:
         schema:
           $ref: '../schemas/user-schema.yaml'
         example:
-          title: 'Mi primer usuario'
-          content: 'Este es el contenido de mi primer usuario'
-          user: '12345'
+          name: 'Martin'
+          username: 'martin2024'
+          role: 'diseñador ux/ui'
+          avatar: 'https://image.png'
+          location: 'Buenos Aires'
+          job: 'Freelance'
   responses:
     '201':
       description: usuario modificado

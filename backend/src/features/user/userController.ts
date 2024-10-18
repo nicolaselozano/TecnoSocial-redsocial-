@@ -1,5 +1,7 @@
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
 import { BadRequestError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
+import { getUserPutData } from '@/utils/getUserPutData';
 import { Request, Response } from 'express';
 import { connectionRepository } from '../connection/ConnectionRepository';
 import { User } from './userEntity';
@@ -7,12 +9,11 @@ import { userRepository } from './userRepository';
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<void> {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
 
     const user = new User();
     user.name = name;
     user.email = email;
-    user.password = password;
 
     const response = await userRepository.createUser(user);
     res.json(response);
@@ -31,16 +32,9 @@ class UserController {
     res.json({ ...user, followeds: await connectionRepository.getAllFollowed({ userid: Number(id) }) });
   }
 
-  public async updateUser(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const { name, email, password } = req.body;
-
-    const user = new User();
-    user.name = name;
-    user.email = email;
-    user.password = password;
-
-    const response = await userRepository.updateUser(Number(id), user);
+  public async updateUser(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { authId } = res.locals.userData!;
+    const response = await userRepository.updateUser(authId, getUserPutData(req.body));
     res.json(response);
   }
 

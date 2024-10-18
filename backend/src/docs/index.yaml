@@ -21,21 +21,34 @@ tags:
     description: API para gestionar tecnologias
   - name: Comment
     description: API para gestionar comentarios
+  - name: Social Networks
+    description: API para gestionar las redes sociales de un usuario
 paths:
+  # Post endpoints
   /post:
     $ref: './paths/post.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
   /post/user/{userid}:
     $ref: './paths/post-user.yaml'
+
+  # Project endpoints
   /project:
     $ref: './paths/project.yaml'
+  /project/user/{userid}:
+    $ref: './paths/user/user-project.yaml'
+  /project/user/{userid}/liked:
+    $ref: './paths/user/user-project-liked.yaml'
   /project/{id}:
     $ref: './paths/project-by-id.yaml'
+
+  # Technology endpoints
   /technology:
     $ref: './paths/technology.yaml'
   /technology/{name}:
     $ref: './paths/technology-by-name.yaml'
+
+  # User endpoints
   /user:
     $ref: './paths/user.yaml'
   /user/{id}:
@@ -44,15 +57,25 @@ paths:
     $ref: './paths/user/user-followers.yaml'
   /user/{id}/followed:
     $ref: './paths/user/user-followed.yaml'
+
+  # Comment endpoints
   /comment:
     $ref: './paths/comment.yaml'
   /comment/{id}:
     $ref: './paths/comment-by-id.yaml'
+
+  # Auth endpoints
   /auth/register:
     $ref: './paths/register.yaml'
   /auth/login:
     $ref: './paths/login.yaml'
   /auth/me:
     $ref: './paths/login.yaml'
+
+  # Like endpoints
   /like/user/{userid}:
     $ref: './paths/user-like.yaml'
+
+  # Social networks endpoints
+  /social-networks:
+    $ref: './paths/social-networks.yaml'

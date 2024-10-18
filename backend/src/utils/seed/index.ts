@@ -5,9 +5,12 @@ import { Connection as ConnectionEntity } from '@/features/connection/Connection
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Like as LikeEntity } from '@/features/like/likeEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
+import { Project as ProjectEntity } from '@/features/project/projectEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
+import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
 import { MOCK_POSTS } from './mockups/posts.mock';
+import { PROJECTS_MOCK } from './mockups/projects.mock';
 import { USERS_MOCK } from './mockups/users.mock';
 
 const SocialNetwork = con.getRepository(SocialNetworkEntity);
@@ -17,6 +20,8 @@ const User = con.getRepository(UserEntity);
 const Comment = con.getRepository(CommentEntity);
 const Connection = con.getRepository(ConnectionEntity);
 const Like = con.getRepository(LikeEntity);
+const Project = con.getRepository(ProjectEntity);
+const UserProject = con.getRepository(UserProjectEntity);
 
 async function seed() {
   if (!envs.SEED) {
@@ -59,6 +64,27 @@ async function seed() {
 
     await Like.save(newLike);
 
+    // Add projects
+    await Promise.all(
+      PROJECTS_MOCK.map(async (project) => {
+        const newProject = Project.create({
+          description: project.description,
+          name: project.name,
+          url: project.url,
+        });
+
+        await Project.save(newProject);
+
+        const userProject = UserProject.create({
+          user: newUser,
+          project: newProject,
+          role: 'Developer',
+        });
+
+        await UserProject.save(userProject);
+      }),
+    );
+
     console.log('🌱 -- Seeding completed successfully.');
     process.exit();
   } catch (error) {
@@ -69,7 +95,7 @@ async function seed() {
 async function seedUsers(): Promise<UserEntity[]> {
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
-      const { email, name, password } = user;
+      const { email, name } = user;
 
       const newSocialsNetworks = SocialNetwork.create(user.social_networks);
 
@@ -78,7 +104,6 @@ async function seedUsers(): Promise<UserEntity[]> {
       const newUser = User.create({
         email,
         name,
-        password,
         social_networks: newSocialsNetworks,
       });
 
