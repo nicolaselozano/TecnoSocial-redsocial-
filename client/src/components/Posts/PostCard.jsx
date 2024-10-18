@@ -5,7 +5,6 @@ import {
   AiOutlineComment,
   AiOutlineHeart,
 } from "react-icons/ai";
-/* import { HiArrowsExpand } from "react-icons/hi"; */
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
 import { PostModal } from "./PostModal";
@@ -27,13 +26,15 @@ export const PostCard = ({ post }) => {
         <div className="flex items-center mb-4">
           <img
             className="w-16 h-16 rounded-xl mr-4"
-            src={post.user.avatar}
+            src={post?.user?.avatar || "https://via.placeholder.com/150"}
             alt="User avatar"
           />
           <div>
-            <h2 className="text-lg font-bold">{post.user.name}</h2>
+            <h2 className="text-lg font-bold">
+              {post?.user?.name || "Usuario desconocido"}
+            </h2>
             <div className="flex gap-3 mt-1">
-              {post.user.roles.map((role, index) => (
+              {post?.user?.roles?.map((role, index) => (
                 <span
                   key={index}
                   className={`text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
@@ -54,15 +55,16 @@ export const PostCard = ({ post }) => {
 
       {/* Content */}
       <div className="cursor-pointer" onClick={() => setIsOpenModal(true)}>
-        <p className="text-sm mb-4">{post.content}</p>
+        <h3 className="text-sm font-semibold">{post?.title || ""}</h3>
+        <p className="text-sm mb-4">{post?.content || ""}</p>
 
         {/* Image */}
-        {post.image && (
+        {post?.images?.[0]?.url && (
           <figure>
             <img
               className="w-full rounded-xl"
-              src={post.image}
-              alt="Post content"
+              src={post.images[0].url}
+              alt={post.images[0].alt || "Imagen"}
             />
           </figure>
         )}
@@ -76,7 +78,7 @@ export const PostCard = ({ post }) => {
           <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
             <div className="flex gap-2 items-center">
               <AiOutlineLike size={20} />
-              <span>{post.likes}</span>
+              <span>{post?.likeCount ?? 0}</span>
             </div>
           </button>
           <button
@@ -85,7 +87,7 @@ export const PostCard = ({ post }) => {
           >
             <div className="flex gap-2 items-center">
               <AiOutlineComment size={20} />
-              <span>{post.comments.length}</span>
+              <span>{post?.commentsCount ?? 0}</span>
             </div>
           </button>
         </div>
@@ -104,27 +106,11 @@ export const PostCard = ({ post }) => {
               <BiSend size={20} />
             </button>
           </div>
-          {/* <div className="mt-4">
-            {post.comments.map((comment) => (
-              <div key={`${comment.id}`} className="text-gray-400 text-sm mb-2">
-                <strong>{comment.user}:</strong> {comment.comment}
-              </div>
-            ))}
-          </div> */}
         </>
       )}
 
-      {/* <div className="flex justify-end">
-        <button className="flex items-center justify-center p-2 bg-secondBlack-400 hover:text-primaryGreen-400 text-white rounded-full shadow-md mt-4">
-          <HiArrowsExpand size={20} onClick={() => setIsOpenModal(true)} />
-        </button>
-      </div> */}
-
       {isOpenModal && (
-        <PostModal
-          setIsOpenModal={setIsOpenModal}
-          /* postId={post.id} */ postId={1}
-        />
+        <PostModal setIsOpenModal={setIsOpenModal} postId={post?.id || 1} />
       )}
     </div>
   );
@@ -135,19 +121,21 @@ PostCard.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number.isRequired,
     user: PropTypes.shape({
-      avatar: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      roles: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    content: PropTypes.string.isRequired,
-    image: PropTypes.string,
-    likes: PropTypes.number.isRequired,
-    comments: PropTypes.arrayOf(
+      id: PropTypes.number,
+      avatar: PropTypes.string,
+      name: PropTypes.string,
+      roles: PropTypes.arrayOf(PropTypes.string),
+    }),
+    content: PropTypes.string,
+    title: PropTypes.string,
+    images: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.any.isRequired,
-        user: PropTypes.string.isRequired,
-        comment: PropTypes.string.isRequired,
+        id: PropTypes.number,
+        url: PropTypes.string,
+        alt: PropTypes.string,
       })
-    ).isRequired,
-  }).isRequired,
+    ),
+    likeCount: PropTypes.number,
+    commentsCount: PropTypes.number,
+  }),
 };
