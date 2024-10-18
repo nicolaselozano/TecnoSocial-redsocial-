@@ -1,8 +1,12 @@
 {
+  "page": 1,
   "notifications": [
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-10-10"
@@ -10,6 +14,9 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-10-17"
@@ -17,6 +24,9 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-11-17"
@@ -24,6 +34,9 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-03-10"
@@ -31,6 +44,9 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-10-17"
@@ -38,6 +54,9 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-11-17"
@@ -45,9 +64,14 @@
     {
       "type": "comment",
       "title": "Comentario",
+      "user": {
+        "username": "jperez"
+      },
       "description": "Lorem ipsum dolor sit amet consectetur. Integer enim ac lorem mauris at quam aenean leo amet. Platea et hendrerit velit gravida quis neque nec. Ut amet tempor quam eu mauris leo morbi amet. Nisl sed est amet tortor suspendisse nulla varius dictum.",
       "url": "#",
       "date": "2024-03-10"
     }
-  ]
+  ],
+  "totalNotifications": 7,
+  "totalpage": 4
 }

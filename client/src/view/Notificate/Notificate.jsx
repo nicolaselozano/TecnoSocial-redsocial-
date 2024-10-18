@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import FilterOptions from "../../components/Notifications/FilterOptions";
 import CardNotification from "../../components/Notifications/CardNotification";
 import LayouteMain from "../../layout/LayouteMain";
+import { getNotification } from "../../services/Notification/get-notifications";
 
 const listFilterNotify = [
   {
@@ -81,8 +82,11 @@ const listNotify = [
 const Notification = () => {
   const [isIndex, setIsIndex] = useState(0);
   const [filterList, setFilterList] = useState(listNotify);
+  const [listNotifications, setListNotifications] = useState([]);
+  const [isPage, setIspage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  /* useEffect(() => {
     let newList = listNotify.filter((item) => {
       //console.log(item.type);
       return (
@@ -94,9 +98,36 @@ const Notification = () => {
     }
     //console.log(newList)
     setFilterList(newList);
-  }, [isIndex]);
+  }, [isIndex]); */
 
-  //console.log(filterList);
+  const handlesGetNotifications = async () => {
+    const list = await getNotification(isPage);
+    //setTotalPage(list.totalpage);
+    if (isPage < list.totalpage) {
+      setIsLoading(false);
+      setListNotifications((prev) => [...prev, ...list.notifications]);
+    }
+  };
+
+  const handlesScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const currentSroll =
+      document.documentElement.scrollTop + window.innerHeight;
+    if (currentSroll + 1 >= scrollHeight /* && isPage <= totalPage */) {
+      setIspage((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handlesScroll);
+    return () => window.removeEventListener("scroll", handlesScroll);
+  }, []);
+
+  useEffect(() => {
+    handlesGetNotifications();
+  }, [isPage]);
+
+  //console.log(isPage);
 
   return (
     <LayouteMain>
@@ -122,11 +153,83 @@ const Notification = () => {
             } h-full bg-primaryGreen-950 transition-all duration-300 `}
           ></div>
         </ul> */}
-        <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
+        {/* <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
           <ul className="flex flex-col h-fit">
-            {filterList.map((item, index) => (
+            {listNotifications ? (
+              listNotifications?.map((item, index) => (
+                <CardNotification
+                  key={index}
+                  username={item.user.username}
+                  url={item.url}
+                  isNew={item.date}
+                  title={item.title}
+                  description={item.description}
+                  type={item.type}
+                  filter={isIndex}
+                />
+              ))
+            ) : (
+              <div className="text-white text-2xl">No hay notificaciones</div>
+            )}
+          </ul>
+        </article> */}
+        {isLoading ? (
+          <article className=" h-full rounded-xl overflow-hidden">
+            <ul className="flex flex-col h-fit">
+              <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
+                <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
+                <div className="flex flex-col gap-y-1">
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                </div>
+              </li>
+              <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
+                <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
+                <div className="flex flex-col gap-y-1">
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                </div>
+              </li>
+              <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
+                <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
+                <div className="flex flex-col gap-y-1">
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                </div>
+              </li>
+              <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
+                <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
+                <div className="flex flex-col gap-y-1">
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                </div>
+              </li>
+              <li className=" bg-secondBlack-400 w-full h-24 border-b border-neutral-600 px-8 py-4 flex flex-col justify-between">
+                <div className=" w-36 bg-neutral-600 h-4 rounded-full"></div>
+                <div className="flex flex-col gap-y-1">
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                  <div className=" w-full rounded-full h-2 bg-neutral-600"></div>
+                </div>
+              </li>
+            </ul>
+          </article>
+        ) : <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
+        <ul className="flex flex-col h-fit">
+          {listNotifications ? (
+            listNotifications?.map((item, index) => (
               <CardNotification
                 key={index}
+                username={item.user.username}
                 url={item.url}
                 isNew={item.date}
                 title={item.title}
@@ -134,9 +237,12 @@ const Notification = () => {
                 type={item.type}
                 filter={isIndex}
               />
-            ))}
-          </ul>
-        </article>
+            ))
+          ) : (
+            <div className="text-white text-2xl">No hay notificaciones</div>
+          )}
+        </ul>
+      </article>}
       </section>
     </LayouteMain>
   );

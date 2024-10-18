@@ -1,9 +1,17 @@
-import { Link } from "react-router-dom";
-import { BsFilePost } from "react-icons/bs";
-import { AiOutlineHeart } from "react-icons/ai";
 import { useState } from "react";
+import { AiOutlineComment } from "react-icons/ai";
+import { BsFilePost } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-const CardNotification = ({ url, isNew, title, description, type, filter }) => {
+const CardNotification = ({
+  url,
+  isNew,
+  title,
+  description,
+  type,
+  filter,
+  username,
+}) => {
   const dateNow = () => {
     let date = new Date();
     let day = date.getDate();
@@ -15,7 +23,7 @@ const CardNotification = ({ url, isNew, title, description, type, filter }) => {
       return `${year}-${month}-${day}`;
     }
   };
-
+  //console.log(username);
   const [isNewNotify, setIsNewNotify] = useState(true);
 
   return (
@@ -34,13 +42,19 @@ const CardNotification = ({ url, isNew, title, description, type, filter }) => {
         </div>
       ) : (
         <div className="size-[80px] bg-gradient-to-tl from-[#4356AA] to-[#22255A] rounded-xl flex items-center justify-center">
-          <AiOutlineHeart className="text-white size-6" />
+          <AiOutlineComment className="text-white size-6" />
         </div>
       )}
 
       <div className=" flex flex-col gap-y-2 w-[80%]">
-        <h3 className=" text-xl font-semibold">{title}</h3>
-        <p className=" text-xs font-normal">{description}</p>
+        <div className="flex items-center w-full justify-between">
+          <h3 className=" text-xl font-semibold w-fit">{title}</h3>
+          <p className="text-secondBlack-100/30">{isNew}</p>
+        </div>
+        <p className=" text-xs font-normal">
+          <span className="font-semibold text-sm">{username}</span>:{" "}
+          {description}
+        </p>
       </div>
       {isNew === dateNow() && isNewNotify ? (
         <div className="size-3 bg-primaryGreen-400 rounded-full"></div>

@@ -72,7 +72,7 @@ const Navbar = () => {
                 ) : (
                   ""
                 )}
-                <span className="text-xl font-normal">{item.name}</span>
+                <span className="text-lg font-normal">{item.name}</span>
                 {(item.icon === "notification" || item.icon === "message") && (
                   <span className="absolute -right-2 -top-1 flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primaryGreen-400 opacity-75"></span>
@@ -86,11 +86,11 @@ const Navbar = () => {
                 pathname === "/"
                   ? "w-28 -left-4"
                   : pathname === "/explore"
-                  ? "w-32 left-24"
+                  ? "w-28 left-24"
                   : pathname === "/notifications"
-                  ? "w-48 left-56"
+                  ? "w-40 left-56"
                   : pathname === "/messages"
-                  ? "w-36 left-[415px]"
+                  ? "w-32 left-[395px]"
                   : ""
               } h-full bg-primaryGreen-950`}
             ></div>
