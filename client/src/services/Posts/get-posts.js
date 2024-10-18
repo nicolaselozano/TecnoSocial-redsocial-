@@ -1,9 +1,9 @@
 import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
-export const getPostById = async (id) => {
+export const getPosts = async (limit, page) => {
   try {
     const response = await fetch(
-      `${APIDOMAIN}${APIDOMAIN_VERSION}/post/${id}`,
+      `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -20,7 +20,7 @@ export const getPostById = async (id) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error al obtener el post por ID:", error);
+    console.error("Error al obtener los posts:", error);
     return null;
   }
 };

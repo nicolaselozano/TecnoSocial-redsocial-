@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getPosts } from "../../services/Posts/get-post";
+import { getPosts } from "../../services/Posts/get-posts";
 
 const usePostsStore = create((set) => ({
   posts: [],
@@ -8,18 +8,18 @@ const usePostsStore = create((set) => ({
   hasMore: true,
   fetchPosts: async (page) => {
     set({ loading: true });
-    const data = await getPosts(page);
+    const data = await getPosts(10, page);
     if (data) {
       set((state) => {
         const existingIds = new Set(state.posts.map((post) => post.id));
-
-        const newPosts = data.posts.filter((post) => !existingIds.has(post.id));
+        
+        const newPosts = data.results.filter((post) => !existingIds.has(post.id));
 
         return {
           posts: [...state.posts, ...newPosts],
           loading: false,
-          page: data.page,
-          hasMore: data.page < data.totalPages,
+          page: data.info.currentPage,
+          hasMore: data.info.currentPage < data.info.totalPages,
         };
       });
     } else {
