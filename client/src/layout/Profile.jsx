@@ -5,7 +5,7 @@ import ProfileDetail from "../components/Profile/ProfileDetail/ProfileDetail";
 import ProfileNav from "../components/Profile/ProfileNav";
 const UserList = React.lazy(() => import('../components/Profile/UserList'));
 import { PostsGrid } from "../components/Posts/PostsGrid";
-import EditProfileModal from "../components/Profile/EditProfile/ModalEditProfile";
+const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
     const { fetchUserDetail, userInstance, loading } = userProfileStore();
@@ -29,6 +29,10 @@ const Profile = () => {
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
+    const handleSubmitModal = async () => {
+        setIsModalOpen(false);
+        await fetchUserDetail();
+    };
     return (
         <div className="flex flex-row mx-12 my-6">
             <div>
@@ -46,15 +50,25 @@ const Profile = () => {
                 <div >
                     <ProfileNav user={userInstance.user} />
                 </div>
+                <Suspense fallback={<span>Loading...</span>}>
+                    {/* EDITAR PERFIL */}
+                    {
+                        isModalOpen &&
+                        <EditProfileModal show={isModalOpen}
+                        handleClose={handleCloseModal}
+                        handleSubmitModal={handleSubmitModal}
+                        userData={userInstance} />
+                    }
 
-                {/* EDITAR PERFIL */}
-                <EditProfileModal show={isModalOpen} handleClose={handleCloseModal} />
+
+                </Suspense>
 
                 {/* RUTAS DE LA NAVBAR */}
                 {isLoading ? (
                     <span>isLoading...</span>
                 ) : (
                     <Suspense fallback={<span>Loading...</span>}>
+
                         <Routes>
                             {/* Ruta para mostrar los seguidores */}
                             <Route
@@ -103,12 +117,12 @@ const Profile = () => {
                         </Routes>
                     </Suspense>
                 )}
-            {/* ejemplo de los componentes de notificaciones y perfiles  */}
+                {/* ejemplo de los componentes de notificaciones y perfiles  */}
             </div>
             <div className="flex flex-col mx-2">
-            <div className="bg-slate-400 w-[238px] h-[354px]
+                <div className="bg-slate-400 w-[238px] h-[354px]
             mb-4"/>
-            <div className="bg-slate-400 w-[238px] h-[354px]"/>
+                <div className="bg-slate-400 w-[238px] h-[354px]" />
             </div>
 
         </div>

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const EditProfileModal = ({ show, handleClose }) => {
+import TagsInput from './TagsInput';
+
+const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   const [formData, setFormData] = useState({
-    name: 'Manuel Rodríguez',
-    country: 'Estados Unidos',
-    description: 'Recibido en la UNLAM | Javascript | CSS',
-    roles: ['Frontend', 'Backend'],
-    email: 'manuel121@gmail.com',
+    name: userData.user.name,
+    country: userData.user.location,
+    job: userData.user.job,
+    roles:[...userData.user.roles],
+    email: userData.user.email,
     socialLinks: {
       github: 'www.github.com',
       linkedin: 'www.linkedin.com',
@@ -18,6 +20,11 @@ const EditProfileModal = ({ show, handleClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+  const handleRolesChange = (newRoles) => {
+    console.log(newRoles);
+    
+    setFormData((prevData) => ({ ...prevData, roles: newRoles }));
   };
 
   const handleSocialLinkChange = (e) => {
@@ -31,7 +38,7 @@ const EditProfileModal = ({ show, handleClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Datos actualizados:', formData);
-    handleClose();
+    handleSubmitModal();
   };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -54,7 +61,7 @@ const EditProfileModal = ({ show, handleClose }) => {
                 type="file"
                 id="fileInput"
                 className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
-                onChange={handleFileUpload} // función para manejar el archivo seleccionado
+                onChange={handleFileUpload}
               />
               <label
                 htmlFor="fileInput"
@@ -110,14 +117,14 @@ const EditProfileModal = ({ show, handleClose }) => {
 
 
           <div className="mb-2">
-            <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="description">
-              Descripción
+            <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="job">
+              Descripcion del perfil profesional
             </label>
             <textarea
-              id="description"
-              name="description"
+              id="job"
+              name="job"
               rows="1"
-              value={formData.description}
+              value={formData.job}
               onChange={handleChange}
               className="shadow appearance-none border border-secondBlack-400 rounded w-full py-1 px-1 bg-secondBlack-700 text-secondBlack-100 leading-tight focus:outline-none focus:border-primaryGreen-400 text-xs"
             ></textarea>
@@ -136,6 +143,9 @@ const EditProfileModal = ({ show, handleClose }) => {
               ))}
             </div>
           </div>
+
+          <TagsInput roles={formData.roles}
+          onChange={handleRolesChange}/>
 
           <div className="mb-2">
             <label className="block text-secondBlack-100 text-xs font-bold mb-1">Redes sociales</label>

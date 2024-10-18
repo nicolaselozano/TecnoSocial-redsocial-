@@ -104,7 +104,7 @@ const ProfileDetail = ({
 
                     {/* Información adicional (trabajo, seguidores, seguidos, publicaciones) */}
                     <div className="flex justify-between items-end space-x-6">
-                        {/* Rol del perfil */}
+                        {/* Descripcion del perfil profesional del usuario */}
                         <div className="">
                             <p className="text-white mt-3 text-sm">
                                 {user.job}
