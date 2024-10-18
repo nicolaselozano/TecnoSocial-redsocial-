@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Like } from './likeEntity';
 import { likeRepository } from './likeRepository';
-
 class LikeController {
   public async createLike(req: Request, res: Response): Promise<void> {
     try {

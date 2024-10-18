@@ -1,8 +1,16 @@
-export const USERS_MOCK = [
+import { User } from '@/features/user/userEntity';
+
+type UserMock = Pick<User, 'name' | 'email' | 'role' | 'location' | 'job'> & {
+  social_networks: { [k: string]: string };
+};
+
+export const USERS_MOCK: UserMock[] = [
   {
     email: 'martin@gmail.com',
     name: 'martin',
-    password: 'password',
+    job: 'Diseñador Freelance',
+    role: 'ux/ui',
+    location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
       linkedin: 'https://linkedin.com',
@@ -12,7 +20,9 @@ export const USERS_MOCK = [
   {
     email: 'ezequiel@gmail.com',
     name: 'ezequiel',
-    password: 'password',
+    job: 'Consultora',
+    role: 'Desarrollador Backend',
+    location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
       linkedin: 'https://linkedin.com',
@@ -22,7 +32,9 @@ export const USERS_MOCK = [
   {
     email: 'email@gmail.com',
     name: 'username',
-    password: 'password',
+    job: 'Mercado libre',
+    role: 'Ingeniero devops',
+    location: 'Buenos Aires',
     social_networks: {
       facebook: 'https://facebook.com',
       github: 'https://github.com',
