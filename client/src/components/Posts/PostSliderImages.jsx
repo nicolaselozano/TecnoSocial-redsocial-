@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PropTypes from "prop-types";
 import "swiper/css";
@@ -12,13 +11,7 @@ const Skeleton = () => (
   <div className="w-full h-52 bg-neutral-700 animate-pulse rounded-md"></div>
 );
 
-export const PostSliderImages = ({ images }) => {
-  const [loading, setLoading] = useState(true);
-
-  const handleImageLoad = () => {
-    setLoading(false);
-  };
-
+export const PostSliderImages = ({ images, loading }) => {
   return (
     <Swiper
       pagination={{
@@ -31,16 +24,31 @@ export const PostSliderImages = ({ images }) => {
       modules={[Pagination, Navigation]}
       className="mySwiper rounded-md"
     >
-      {images.map((image) => (
-        <SwiperSlide key={image.id} className="flex items-center justify-center"> 
-          {loading && <Skeleton />}
-          <img
-            src={image.url}
-            alt={image.alt}
-            style={loading ? { display: "none" } : {}}
-            onLoad={handleImageLoad}
-            className="rounded-md" 
-          />
+      {images?.map((image) => (
+        <SwiperSlide
+          key={image.id}
+          className="flex items-center justify-center"
+        >
+          <div className="flex items-center justify-center w-full h-full">
+            {loading && (
+              <div className="flex items-center justify-center w-full h-full">
+                <Skeleton className="w-full h-full" />
+              </div>
+            )}
+            <img
+              src={image?.url}
+              alt={image?.alt}
+              style={loading ? {} : { display: "block" }}
+              onLoad={(e) => {
+                e.target.style.opacity = 1;
+                e.target.style.transform = "translateY(0)";
+              }}
+              onError={(e) =>
+                (e.target.src = "https://via.placeholder.com/400x300")
+              }
+              className="rounded-md max-w-full max-h-full opacity-0 translate-y-4 transition-all duration-700 ease-in-out"
+            />
+          </div>
         </SwiperSlide>
       ))}
 
@@ -58,9 +66,10 @@ export const PostSliderImages = ({ images }) => {
 PostSliderImages.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      url: PropTypes.string.isRequired,
+      id: PropTypes.number,
+      url: PropTypes.string,
       alt: PropTypes.string,
     })
-  ).isRequired,
+  ),
+  loading: PropTypes.bool,
 };

@@ -62,9 +62,16 @@ export const PostCard = ({ post }) => {
         {post?.images?.[0]?.url && (
           <figure>
             <img
-              className="w-full rounded-xl"
+              className="w-full rounded-xl opacity-0 translate-y-4 transition-all duration-700 ease-in-out"
               src={post.images[0].url}
               alt={post.images[0].alt || "Imagen"}
+              onLoad={(e) => {
+                e.target.style.opacity = 1;
+                e.target.style.transform = "translateY(0)";
+              }}
+              onError={(e) =>
+                (e.target.src = "https://via.placeholder.com/500x200")
+              }
             />
           </figure>
         )}
