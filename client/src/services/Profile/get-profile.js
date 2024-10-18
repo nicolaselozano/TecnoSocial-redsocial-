@@ -2,7 +2,6 @@ import { mock_user } from "../../data/profile/mockusers";
 
 const getUserProfile = async () => {
     try {
-
         const { projects, redes, page, totalPages, totalPosts, ...userData } = mock_user
         return {
             userData,
@@ -19,7 +18,7 @@ const getUserProfile = async () => {
 }
 const getUserLikedProyects = async (page) => {
     try {
-        
+
         const { projects, page, totalPages, totalPosts, ...userData } = mock_user
 
         return {
@@ -36,9 +35,9 @@ const getUserLikedProyects = async (page) => {
 const getUserFollowed = async (page) => {
 
     try {
-        
+
         const followedUsers = await import(`../../data/profile/mock-followed-profile.json`);
-        
+
         return followedUsers.default;
 
     } catch (error) {
@@ -50,8 +49,8 @@ const getUserFollowed = async (page) => {
 const getUserFollowers = async (page) => {
 
     try {
-        
-        
+
+
         const followersUsers = await import(`../../data/profile/mock-followers-profile.json`);
 
         return followersUsers.default;
