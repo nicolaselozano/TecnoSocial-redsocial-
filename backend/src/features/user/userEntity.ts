@@ -10,31 +10,31 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   name: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   authId: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   authName: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   token: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   role: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   avatar: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   location: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   job: string;
 
   @OneToOne(() => SocialNetworks, { cascade: true })
