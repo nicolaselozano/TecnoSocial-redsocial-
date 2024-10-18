@@ -1,5 +1,7 @@
 import con from '@/config/database';
+import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
+import { Like } from 'typeorm';
 import { User } from './userEntity';
 
 type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
@@ -12,9 +14,22 @@ class UserRopository {
     return response;
   }
 
-  public async getAllUsers(): Promise<User[]> {
+  public async getAllUsersCount({ search }: PaginatedConfig): Promise<number> {
+    return await this.repository.count({
+      where: {
+        name: Like(`%${search}%`),
+      },
+    });
+  }
+
+  public async getAllUsers({ limit, search, skip }: PaginatedConfig): Promise<User[]> {
     const users = await this.repository.find({
       relations: ['social_networks'],
+      where: {
+        name: Like(`%${search}%`),
+      },
+      take: limit,
+      skip,
     });
 
     return users;

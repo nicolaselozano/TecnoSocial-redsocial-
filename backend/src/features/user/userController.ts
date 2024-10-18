@@ -20,8 +20,19 @@ class UserController {
   }
 
   public async getAllUsers(req: Request, res: Response): Promise<void> {
-    const users = await userRepository.getAllUsers();
-    res.json(users);
+    const props = getPaginatedParams(req);
+
+    const options = {
+      ...props,
+      skip: (props.page - 1) * props.limit,
+    };
+
+    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search });
+
+    const totalPages = Math.ceil(totalUsersCount / props.limit);
+
+    const users = await userRepository.getAllUsers(options);
+    res.json({ users, totalPages, currentPage: props.page, totalUsers: totalUsersCount });
   }
 
   public async getUserById(req: Request, res: Response): Promise<void> {
