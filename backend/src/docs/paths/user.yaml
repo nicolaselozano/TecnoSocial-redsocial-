@@ -1,6 +1,30 @@
 get:
   summary: Obtiene todos los usuarios
   tags: [Users]
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        description: Número máximo de usuarios a devolver
+      required: false
+      description: Limita el número de usuarios devueltos
+    - in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 0
+        description: Número de usuarios a saltar antes de comenzar a devolver los resultados
+      required: false
+      description: Saltar los primeros 'n' usuarios
+    - in: query
+      name: search
+      schema:
+        type: string
+        description: Buscar usuarios por el nombre
+      required: false
+      description: Buscar usuarios cuyo nombre contenga el término de búsqueda proporcionado
   responses:
     '200':
       description: Lista de usuarios
