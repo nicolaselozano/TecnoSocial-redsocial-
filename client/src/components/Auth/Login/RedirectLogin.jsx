@@ -30,6 +30,7 @@ const RedirectLogin = () => {
 
                     const data = await response.json();
                     console.log(JSON.stringify(data));
+                    //Metodo para chequear el login
                     await checkAuth();
                     
                     if (data.user.email) setChallengesData(JSON.stringify(data.user.email));

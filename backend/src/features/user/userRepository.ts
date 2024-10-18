@@ -3,14 +3,20 @@ import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from './userEntity';
+import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 
 type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
 
 class UserRopository {
   private repository = con.getRepository(User);
 
-  public async createUser(user: Partial<User>): Promise<User> {
-    const response = await this.repository.save(user);
+  public async createUser(user: Partial<UserDataToken>): Promise<User> {
+    const response = await this.repository.save({
+      authId: user.authId,
+      authName: user.authName,
+      email: user.email,
+      name: user.authName,
+    });
     return response;
   }
 

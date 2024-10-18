@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { ProfileService } from "../../services/Profile/get-profile";
+import { getProfileService } from "../../services/Profile/get-profile";
 
 const userProfileStore = create((set) => ({
     userInstance: {
         user: {},
         proyects: [],
+        likedProyects:[],
         redes: [],
         page:0
     },
@@ -12,7 +13,7 @@ const userProfileStore = create((set) => ({
     error: "",
     fetchUserDetail: async () => {
         set({ loading: true });
-        const data = await ProfileService.getUserProfile();
+        const data = await getProfileService.getUserProfile();
         if (data) {
             set(() => {
                 console.log(data);
