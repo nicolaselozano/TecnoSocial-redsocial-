@@ -14,8 +14,9 @@ class SocialNetworksRepository {
     await this.repository.delete({ id });
   }
 
-  async update(id: SocialNetworks['id'], payload: SocialNetworksUpdate) {
-    await this.repository.update({ id }, payload);
+  async update(id: SocialNetworks['id'], payload: SocialNetworksUpdate): Promise<boolean> {
+    const results = await this.repository.update({ id }, payload);
+    return results.affected === 1;
   }
 }
 

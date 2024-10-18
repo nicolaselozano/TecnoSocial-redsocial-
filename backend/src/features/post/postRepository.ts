@@ -1,9 +1,9 @@
 import con from '@/config/database';
+import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Post } from './postEntity';
-import { PaginatedConfig } from './postInterface';
 
 class PostRepository {
   private repository = con.getRepository(Post);

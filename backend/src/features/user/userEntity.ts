@@ -3,20 +3,39 @@ import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity'
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
+import { UserProject } from '../userProject/userProjectEntity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   name: string;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column({ type: 'varchar', length: 150, nullable: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  password: string;
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  authId: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  authName: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  token: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  role: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  avatar: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  location: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  job: string;
 
   @OneToOne(() => SocialNetworks, { cascade: true })
   @JoinColumn()
@@ -29,8 +48,11 @@ export class User {
   comments: Comment[];
 
   @OneToMany(() => Connection, (connection) => connection.follower)
-  following: Connection[];
+  followed: Connection[];
 
-  @OneToMany(() => Connection, (connection) => connection.following)
+  @OneToMany(() => Connection, (connection) => connection.followed)
   followers: Connection[];
+
+  @OneToMany(() => UserProject, (userProject) => userProject.user)
+  projects: UserProject[];
 }

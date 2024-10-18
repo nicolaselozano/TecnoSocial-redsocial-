@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/userEntity';
+import { UserProject } from '../userProject/userProjectEntity';
 
 @Entity()
 export class Project {
@@ -13,17 +14,15 @@ export class Project {
   description: string;
 
   @Column({ type: 'varchar' })
-  role: string;
-
-  @Column({ type: 'varchar' })
   url: string;
 
   @CreateDateColumn({ type: 'datetime' })
-  create_at: string;
+  created_at: string;
 
-  @Column({ type: 'varchar' })
-  collaborators: string;
+  @OneToMany(() => UserProject, (userProject) => userProject.project)
+  users: UserProject[];
 
   @ManyToMany(() => User)
-  projects: Project[];
+  @JoinTable()
+  liked_users: User[];
 }

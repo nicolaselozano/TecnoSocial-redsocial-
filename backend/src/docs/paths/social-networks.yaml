@@ -1,0 +1,28 @@
+put:
+  summary: Modifica las redes sociales de un usuario
+  tags: [Social Networks]
+  parameters:
+    - in: cookie
+      name: authId
+      description: Indica el id del usuario que desea modificar sus redes sociales
+      schema:
+        type: string
+        required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        example:
+          linkedin: https://network.com
+          github: https://network.com
+          facebook: https://network.com
+          instagram: https://network.com
+          gitlab: https://network.com
+          twitter: https://network.com
+  responses:
+    '201':
+      description: redes sociales modificadas
+      content:
+        application/json:
+          example:
+            message: 'redes sociales modificadas exitosamente'

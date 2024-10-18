@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { likeController } from './likeController';
-
 const likeRouter = Router();
 
 likeRouter.post('/like', likeController.createLike);

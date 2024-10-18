@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { likeRepository } from '../like/likeRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
+import { commentRepository } from '../comment/commentRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
@@ -42,6 +43,8 @@ class PostController {
       posts.map(async (post) => ({
         ...post,
         isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
+        likeCount: await likeRepository.countLikes(post.id),
+        commentsCount: await commentRepository.countComments(post.id),
       })),
     );
 
