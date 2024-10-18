@@ -27,7 +27,8 @@ class UserController {
     const { id } = req.params;
 
     const user = await userRepository.getUserById(Number(id));
-    res.json(user);
+    res.json({ ...user, followerscount: await connectionRepository.getFollowersCount({ userid: Number(id) }) });
+    res.json({ ...user, followeds: await connectionRepository.getAllFollowed({ userid: Number(id) }) });
   }
 
   public async updateUser(req: Request, res: Response): Promise<void> {
