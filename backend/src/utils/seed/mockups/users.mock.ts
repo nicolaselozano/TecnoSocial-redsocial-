@@ -1,4 +1,5 @@
 import { User } from '@/features/user/userEntity';
+import { ITRole } from '@/types/roles.enum';
 
 type UserMock = Pick<User, 'name' | 'email' | 'role' | 'location' | 'job'> & {
   social_networks: { [k: string]: string };
@@ -9,7 +10,7 @@ export const USERS_MOCK: UserMock[] = [
     email: 'martin@gmail.com',
     name: 'martin',
     job: 'Diseñador Freelance',
-    role: 'ux/ui',
+    role: ITRole.CLOUD_ARCHITECT,
     location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
@@ -21,7 +22,7 @@ export const USERS_MOCK: UserMock[] = [
     email: 'ezequiel@gmail.com',
     name: 'ezequiel',
     job: 'Consultora',
-    role: 'Desarrollador Backend',
+    role: ITRole.DATABASE_ADMINISTRATOR,
     location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
@@ -33,7 +34,7 @@ export const USERS_MOCK: UserMock[] = [
     email: 'email@gmail.com',
     name: 'username',
     job: 'Mercado libre',
-    role: 'Ingeniero devops',
+    role: ITRole.BUSINESS_ANALYST,
     location: 'Buenos Aires',
     social_networks: {
       facebook: 'https://facebook.com',

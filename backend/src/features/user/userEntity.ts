@@ -1,5 +1,6 @@
 import { Post } from '@/features/post/postEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { ITRole } from '@/types/roles.enum';
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
@@ -25,7 +26,7 @@ export class User {
   @Column({ type: 'varchar', length: 150, nullable: true })
   token: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'enum', enum: ITRole, nullable: true })
   role: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true })

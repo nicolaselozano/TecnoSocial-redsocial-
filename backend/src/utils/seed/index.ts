@@ -95,7 +95,7 @@ async function seed() {
 async function seedUsers(): Promise<UserEntity[]> {
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
-      const { email, name } = user;
+      const { email, name, job, location, role } = user;
 
       const newSocialsNetworks = SocialNetwork.create(user.social_networks);
 
@@ -104,6 +104,9 @@ async function seedUsers(): Promise<UserEntity[]> {
       const newUser = User.create({
         email,
         name,
+        job,
+        location,
+        role,
         social_networks: newSocialsNetworks,
       });
 
