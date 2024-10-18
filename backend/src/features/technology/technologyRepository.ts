@@ -1,6 +1,8 @@
 import con from '@/config/database';
 import { Technology } from './technologyEntity';
 
+type TechnologyPut = Pick<Technology, 'color'>;
+
 class TechnologyRepository {
   private repository = con.getRepository(Technology);
 
@@ -17,8 +19,12 @@ class TechnologyRepository {
     return technology;
   }
 
-  public async updateTechnology(name: Technology['name'], technology: Technology): Promise<Technology> {
-    return (await this.repository.update(name, technology)).raw;
+  public async updateTechnology(name: Technology['name'], { color }: TechnologyPut): Promise<Technology> {
+    return (
+      await this.repository.update(name, {
+        color,
+      })
+    ).raw;
   }
 
   public async deleteTechnology(id: Technology['name']): Promise<boolean> {
