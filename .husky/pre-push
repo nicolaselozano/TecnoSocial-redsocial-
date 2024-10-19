@@ -1,1 +1,14 @@
-npm run test
+echo "Running script"
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Check for changes in the 'backend' directory since the last push
+CHANGED_FILES=$(git diff origin/$BRANCH --name-only --diff-filter=ACMR | grep '^backend/')
+
+# If there are changes in the 'backend' directory, run the tests
+if [ -n "$CHANGED_FILES" ]; then
+  echo "Backend changes detected since last push. Running tests..."
+  npm run test
+else
+  echo "No changes in backend since last push. Skipping tests."
+fi
