@@ -17,7 +17,9 @@ const config: Config = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   globalSetup: './__tests__/helpers/globalSetup.ts',
   globalTeardown: './__tests__/helpers/globalTeardown.ts',
-  // collectCoverage: true,
+  verbose: true,
+  coveragePathIgnorePatterns: ['node_modules/', 'dist/', 'src/config/', 'src/docs/', 'src/types/'],
+  setupFiles: ['dotenv/config'],
 };
 
 export default config;

@@ -1,7 +1,7 @@
-import { upAll } from 'docker-compose';
+import { upOne } from 'docker-compose';
 
 export default async () => {
-  await upAll({
+  await upOne('tecno-db-test', {
     log: true,
   });
 };
