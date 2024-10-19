@@ -1,23 +1,26 @@
+import { StatusCodes } from 'http-status-codes';
 import { request } from './app.test';
 
-describe('/user endpoint', () => {
+describe('GET /api/v1/user', () => {
   const url = '/api/v1/user';
 
   it('should get all users', async () => {
     await request
       .get(url)
-      .expect(200)
+      .expect(StatusCodes.OK)
       .expect(({ body }) => {
-        expect(body.currentPage).toBe(1);
-        expect(body.totalPages).toBe(1);
-        expect(body.totalUsers).toBe(3);
+        expect(body).toMatchObject({
+          currentPage: 1,
+          totalPages: 1,
+          totalUsers: 3,
+        });
       });
   });
 
-  it('should get one user using query params', async () => {
+  it('should get one user using limit query param', async () => {
     await request
       .get(url + '?limit=1')
-      .expect(200)
+      .expect(StatusCodes.OK)
       .expect(({ body }) => {
         expect(body.users.length).toBe(1);
       });
@@ -26,9 +29,21 @@ describe('/user endpoint', () => {
   it('should fail to get user with invalid id', async () => {
     await request
       .get(url + '/4')
-      .expect(404)
+      .expect(StatusCodes.NOT_FOUND)
       .expect(({ body }) => {
-        expect(body.message).toMatchInlineSnapshot(`"user with id 4 not found"`);
+        expect(body).toMatchObject({
+          message: 'user with id 4 not found',
+        });
+      });
+  });
+
+  it.skip('should get all user with role = Software engineer', async () => {
+    await request
+      .get(url + '?role=software-engineer')
+      .expect(StatusCodes.OK)
+      .expect(({ body }) => {
+        expect(Array.isArray(body.users)).toBe(true);
+        expect(body.users.length).toBe(0);
       });
   });
 });
