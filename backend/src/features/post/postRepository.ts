@@ -3,13 +3,14 @@ import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
+import { PostDelete, PostInsert, PostPut, PostSelect } from './post.types';
 import { Post } from './postEntity';
 
 class PostRepository {
   private repository = con.getRepository(Post);
 
-  public async createPost(user: Post): Promise<Post> {
-    return await this.repository.save(user);
+  public async createPost(post: PostInsert): Promise<Post> {
+    return await this.repository.save(post);
   }
 
   public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
@@ -44,7 +45,7 @@ class PostRepository {
     };
   }
 
-  public async getPostById(id: Post['id']): Promise<Post> {
+  public async getPostById(id: PostSelect): Promise<Post> {
     const post = await this.repository.findOne({
       where: { id },
       relations: ['images', 'user', 'likes', 'comments'],
@@ -57,11 +58,11 @@ class PostRepository {
     return post;
   }
 
-  public async updatePost(id: Post['id'], post: Post): Promise<Post> {
+  public async updatePost(id: PostSelect, post: PostPut): Promise<Post> {
     return (await this.repository.update({ id: id }, post)).raw;
   }
 
-  public async deletePost(id: Post['id']): Promise<boolean> {
+  public async deletePost(id: PostDelete): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }

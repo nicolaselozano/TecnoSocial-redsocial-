@@ -12,6 +12,7 @@ const config: Config = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  testMatch: ['**/__tests__/**/*.test.ts'],
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   // collectCoverage: true,
