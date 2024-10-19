@@ -19,6 +19,6 @@
     "resolveJsonModule": true,
     "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
+  "include": ["src/**/*.ts", "__tests__/**/*.ts", "__tests__/helpers/globalSetup.js"],
   "exclude": ["node_modules"]
 }

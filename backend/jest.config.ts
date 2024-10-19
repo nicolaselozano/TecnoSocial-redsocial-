@@ -15,6 +15,8 @@ const config: Config = {
   testMatch: ['**/__tests__/**/*.test.ts'],
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  globalSetup: './__tests__/helpers/globalSetup.ts',
+  globalTeardown: './__tests__/helpers/globalTeardown.ts',
   // collectCoverage: true,
 };
 
