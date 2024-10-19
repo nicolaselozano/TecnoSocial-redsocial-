@@ -10,7 +10,7 @@ const ProfileDetail = ({
 }) => {
 
     return (
-        <section className=" bg-secondBlack-700 text-white rounded-t-xl shadow-md overflow-hidden">
+        <section className=" bg-secondBlack-700 min-w-[153vh] text-white rounded-t-xl shadow-md overflow-hidden">
             {/* Sección del encabezado del perfil */}
             <header className="relative">
                 {/* Imagen de fondo del perfil */}
