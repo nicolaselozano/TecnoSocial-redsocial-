@@ -14,6 +14,12 @@ const envsSchema = z.object({
     PASS: z.string(),
     NAME: z.string(),
   }),
+  AUTH0: z.object({
+    DOMAIN: z.string(),
+    CLIENT_ID: z.string(),
+    CLIENT_SECRET: z.string(),
+    CLIENT_HOST: z.string().url(),
+  }),
 });
 
 export default envsSchema.parse({
@@ -27,5 +33,11 @@ export default envsSchema.parse({
     USER: process.env.DB_USER,
     NAME: process.env.DB_NAME,
     PASS: process.env.DB_PASS,
+  },
+  AUTH0: {
+    DOMAIN: process.env.DOMAIN || '',
+    CLIENT_ID: process.env.CLIENT_ID || '',
+    CLIENT_SECRET: process.env.CLIENT_SECRET || '',
+    CLIENT_HOST: process.env.CLIENT_HOST || '',
   },
 });

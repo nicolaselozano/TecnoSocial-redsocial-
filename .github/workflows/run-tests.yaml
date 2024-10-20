@@ -8,6 +8,15 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASS }}
+          MYSQL_DATABASE: ${{ env.DB_NAME }}
+        ports:
+          - 3306:3306
+        options: --health-cmd "mysqladmin ping --silent" --health-interval 10s --health-timeout 5s --health-retries 3
     defaults:
       run:
         working-directory: ./backend
@@ -28,7 +37,25 @@ jobs:
           cache_dependency_path: ./backend/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm i --filter . --no-frozen-lockfile
 
       - name: Run Jest tests
+        env:
+          UPLOAD_DIR: "../assets"
+          DB_PORT: ${{ env.DB_PORT }}
+          DB_HOST: ${{ env.DB_HOST }}
+          DB_USER: ${{ env.DB_USER }}
+          DB_PASS: ${{ env.DB_PASS }}
+          DB_NAME: ${{ env.DB_NAME }}
+          DOMAIN: ${{ secrets.DOMAIN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          CLIENT_HOST: "http://localhost:5173/"
         run: pnpm test
+
+env:
+  DB_PORT: 3306
+  DB_HOST: localhost
+  DB_USER: root
+  DB_PASS: rootpass
+  DB_NAME: testdb
