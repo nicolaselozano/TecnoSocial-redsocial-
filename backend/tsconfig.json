@@ -11,14 +11,14 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["jest"],
+    "types": ["@types/jest"],
     "resolveJsonModule": true,
     "moduleResolution": "NodeNext"
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist/"]
 }
