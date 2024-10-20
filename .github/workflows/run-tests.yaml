@@ -51,7 +51,7 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           CLIENT_HOST: "http://localhost:5173/"
-        run: pnpm test
+        run: pnpm test:ci
 
 env:
   DB_PORT: 3306
