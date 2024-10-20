@@ -11,7 +11,7 @@ export default async () => {
     // Nuestra configuracion de la github actions
     // Inicia el servicio de mysql automaticamente
     // Por lo que no hace falta iniciar el contenedor de docker
-    if (isCI) {
+    if (!isCI) {
       await upOne('tecno-db-test', {
         log: true,
       });
