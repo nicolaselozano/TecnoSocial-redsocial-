@@ -21,8 +21,8 @@ const con = new DataSource({
   username: envs.DB.USER,
   password: envs.DB.PASS,
   database: envs.DB.NAME,
-  synchronize: true,
   entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment, Connection, UserProject],
+  synchronize: true,
 });
 
 export default con;

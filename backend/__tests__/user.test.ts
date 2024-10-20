@@ -1,5 +1,17 @@
+import con from '@/config/database';
+import { USERS_MOCK } from '@/utils/seed/mockups/users.mock';
 import { StatusCodes } from 'http-status-codes';
-import { request } from './app.test';
+import { request } from './jest.setup';
+
+beforeAll(async () => {
+  if (!con.isInitialized) {
+    await con.initialize();
+  }
+});
+
+afterAll(async () => {
+  await con.destroy();
+});
 
 describe('GET /api/v1/user', () => {
   const url = '/api/v1/user';
@@ -12,7 +24,7 @@ describe('GET /api/v1/user', () => {
         expect(body).toMatchObject({
           currentPage: 1,
           totalPages: 1,
-          totalUsers: 3,
+          totalUsers: USERS_MOCK.length,
         });
       });
   });
