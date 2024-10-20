@@ -1,9 +1,9 @@
 import { BadRequestError } from '@/utils/errors';
 import { Request, Response } from 'express';
+import { commentRepository } from '../comment/commentRepository';
 import { likeRepository } from '../like/likeRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
-import { commentRepository } from '../comment/commentRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
@@ -23,7 +23,9 @@ class PostController {
     const limit = parseInt(req.query.limit as string) || 5;
     const search = req.query.search ? String(req.query.search) : '';
 
-    const totalPages = await postRepository.getPostsPages({ limit, search });
+    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+
+    const totalPages = Math.ceil(totalPosts / limit!);
 
     if (page > totalPages || page < 1) {
       throw new BadRequestError('Página fuera de índice');
@@ -50,11 +52,9 @@ class PostController {
 
     res.json({
       results: postWithLikedProperty,
-      info: {
-        results: posts.length,
-        currentPage: page,
-        totalPages,
-      },
+      currentPage: page,
+      totalPages,
+      totalPosts,
     });
   }
 
