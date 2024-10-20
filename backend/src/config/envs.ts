@@ -3,6 +3,7 @@ import { z } from 'zod';
 config();
 
 const envsSchema = z.object({
+  MODE: z.enum(['dev', 'prod']).default('dev'),
   PORT: z.coerce.number(),
   URL: z.string(),
   SEED: z.coerce.boolean(),
@@ -23,6 +24,7 @@ const envsSchema = z.object({
 });
 
 export default envsSchema.parse({
+  MODE: process.env.MODE,
   PORT: process.env.SERVER_PORT || 3000,
   URL: process.env.SERVER_URL || 'http://localhost',
   UPLOAD_DIR: process.env.UPLOAD_DIR,
