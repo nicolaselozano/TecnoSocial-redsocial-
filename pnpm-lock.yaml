@@ -204,6 +204,9 @@ importers:
       jest:
         specifier: 29.5.0
         version: 29.5.0(@types/node@22.7.4)(ts-node@10.9.2(@types/node@22.7.4)(typescript@5.6.2))
+      jest-ctrf-json-reporter:
+        specifier: 0.0.9
+        version: 0.0.9
       lint-staged:
         specifier: 15.2.10
         version: 15.2.10
@@ -3475,6 +3478,9 @@ packages:
         optional: true
       ts-node:
         optional: true
+
+  jest-ctrf-json-reporter@0.0.9:
+    resolution: {integrity: sha512-mxuUPZ/npUEoPyjE/vHQhdNVhuxV3NzdIPIWjoreW4rMisaDKlD7x4oERU4HEC9mlI7dQkwcOHo9BJzGIgieKw==}
 
   jest-diff@29.7.0:
     resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
@@ -9463,6 +9469,8 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
+
+  jest-ctrf-json-reporter@0.0.9: {}
 
   jest-diff@29.7.0:
     dependencies:

@@ -25,6 +25,8 @@ const config: Config = {
   coveragePathIgnorePatterns: ['node_modules/', 'dist/', 'src/config/', 'src/docs/', 'src/types/'],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+  // Reporter
+  reporters: ['default', ['jest-ctrf-json-reporter', {}]],
 };
 
 export default config;

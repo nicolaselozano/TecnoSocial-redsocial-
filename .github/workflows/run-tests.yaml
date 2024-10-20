@@ -53,6 +53,9 @@ jobs:
           CLIENT_HOST: "http://localhost:5173/"
         run: pnpm test:ci
 
+      - name: Publish Test Summary Results
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
+
 env:
   DB_PORT: 3306
   DB_HOST: localhost
