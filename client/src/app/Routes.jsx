@@ -21,7 +21,7 @@ const AllRoutes = () => {
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/notifications" element={<Notification />} />
       {/* Ruta Perfiles Similares */}
-      <Route path="/similar/:userId" element={<SimilarProfilesPage />} />
+      <Route path="/similar" element={<SimilarProfilesPage />} />
     </Routes>
   );
 };

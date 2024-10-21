@@ -18,9 +18,6 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @Column({ type: 'varchar', length: 50 }) 
-  role: string;
-
   @OneToOne(() => SocialNetworks, { cascade: true })
   @JoinColumn()
   social_networks: SocialNetworks;

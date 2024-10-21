@@ -6,7 +6,6 @@ const SimilarProfilesPage = () => {
   const { userId } = useParams();
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Perfiles Similares</h1>
       <SimilarProfiles userId={userId} />
     </div>
   );

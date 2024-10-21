@@ -1,6 +1,5 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { userController } from './userController';
-import { similarProfilesController } from './similarProfilesController';
 
 const userRouter = Router();
 
@@ -12,9 +11,5 @@ userRouter.delete('/user/:id', userController.deleteUser);
 
 userRouter.get('/user/:id/followers', userController.getAllFollowers);
 userRouter.get('/user/:id/followed', userController.getAllFollowings);
-
-userRouter.get('/user/:id/similar', (req: Request, res: Response) => {
-  similarProfilesController.getSimilarProfiles(req, res);
-});
 
 export default userRouter;
