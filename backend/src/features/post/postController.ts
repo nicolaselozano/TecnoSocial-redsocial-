@@ -1,5 +1,6 @@
 import { BadRequestError } from '@/utils/errors';
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { commentRepository } from '../comment/commentRepository';
 import { likeRepository } from '../like/likeRepository';
 import { Post } from './postEntity';
@@ -15,7 +16,7 @@ class PostController {
     post.user = user;
 
     const response = await postRepository.createPost(post);
-    res.json(response);
+    res.status(StatusCodes.CREATED).json(response);
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {

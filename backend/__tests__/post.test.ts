@@ -1,7 +1,16 @@
+import { app } from '@/app';
 import con from '@/config/database';
+import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
 import { MOCK_POSTS } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
+import supertest from 'supertest';
 import { request } from './jest.setup';
+
+jest.mock('@/middlewares/Auth/utils/ManageToken');
+
+// const authMock = {
+//   CheckToken: jest.fn(), // Ensure this is a mock function
+// };
 
 beforeAll(async () => {
   if (!con.isInitialized) {
@@ -23,6 +32,28 @@ describe('POST /api/v1/post', () => {
         title: 'Nuevo post',
       })
       .expect(StatusCodes.UNAUTHORIZED);
+  });
+
+  it('should get an 201 response', async () => {
+    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
+      custom_email_claim: 'test-email@gmail.com',
+      custom_name_claim: 'test-user',
+      sub: '1',
+    });
+    const agent = supertest.agent(app);
+    const post = MOCK_POSTS[0];
+
+    await agent
+      .post(url)
+      .set('Cookie', ['token=mytoken'])
+      .send({
+        title: post.title,
+        content: post.content,
+      })
+      .expect(StatusCodes.CREATED)
+      .expect(({ body }) => {
+        expect(body.id).toBe(MOCK_POSTS.length + 1);
+      });
   });
 });
 
