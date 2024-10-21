@@ -50,15 +50,15 @@ const useProfileStore = create((set) => ({
 const getRoleColorClass = (role) => {
   switch (role.trim()) {
     case "Backend":
-      return "bg-blue-600 text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-blue-900 text-white px-2 py-1 rounded-md text-xs inline-block";
     case "Frontend":
-      return "bg-purple-600 text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-purple-900 text-white px-2 py-1 rounded-md text-xs inline-block";
     case "Devop":
-      return "bg-red-600 text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-red-900 text-white px-2 py-1 rounded-md text-xs inline-block";
     case "Tester":
-      return "bg-green-600 text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-green-900 text-white px-2 py-1 rounded-md text-xs inline-block";
     default:
-      return "bg-gray-600 text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-gray-900 text-white px-2 py-1 rounded-md text-xs inline-block";
   }
 };
 
