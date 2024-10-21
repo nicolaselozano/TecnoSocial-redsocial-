@@ -9,7 +9,7 @@ import HomePage from "../view/Home";
 const AllRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/*" element={<HomePage />} />
       {/* Login */}
       <Route path="/redirect" element={<RedirectRegister />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />

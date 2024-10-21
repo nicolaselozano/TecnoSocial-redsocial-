@@ -4,7 +4,7 @@ import SideProfileCard from "../components/SideProfileCard/SideProfileCard";
 const LayouteMain = ({ children }) => {
   const { pathname } = useLocation();
   return (
-    <main className="min-h-screen pt-16 text-white">
+    <main className="min-h-screen pt-16 text-white relative">
       <div className=" max-w-[1210px] mx-auto min-h-screen flex items-start gap-x-6">
         {/*card de informacion de usuario*/}
         <section className="bg-gray-400 h-auto rounded-xl">
