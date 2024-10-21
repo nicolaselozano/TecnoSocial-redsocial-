@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import TagsInput from './TagsInput';
+import { SetProfileService } from '../../../services/Profile/set-profile';
 
 const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   const [formData, setFormData] = useState({
     name: userData.user.name,
-    country: userData.user.location,
+    username:"ejemplo",
+    location: userData.user.location,
     job: userData.user.job,
-    roles:[...userData.user.roles],
+    roles:[userData.user.roles],
     email: userData.user.email,
+    avatar:"https://via.placeholder.com/150",
     socialLinks: {
       github: 'www.github.com',
       linkedin: 'www.linkedin.com',
@@ -35,10 +38,17 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Datos actualizados:', formData);
-    handleSubmitModal();
+
+    const update =SetProfileService.updateProfile(formData)
+    if(update){
+      handleSubmitModal();
+    }else{
+      alert("No se actualizo el usuario");
+    }
+
   };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -95,13 +105,13 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
               </div>
 
               <div className="mb-2">
-                <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="country">
+                <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="location">
                   País
                 </label>
                 <select
-                  id="country"
-                  name="country"
-                  value={formData.country}
+                  id="location"
+                  name="location"
+                  value={formData.location}
                   onChange={handleChange}
                   className="shadow appearance-none border border-secondBlack-400 rounded w-full py-1 px-1 bg-secondBlack-700 text-secondBlack-100 leading-tight focus:outline-none focus:border-primaryGreen-400 text-xs"
                 >
@@ -133,7 +143,7 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
           <div className="mb-2">
             <label className="block text-secondBlack-100 text-xs font-bold mb-1">Rol</label>
             <div className="flex space-x-1">
-              {formData.roles.map((role, index) => (
+              {formData?.roles?.map((role, index) => (
                 <span
                   key={index}
                   className="inline-block bg-primaryGreen-400 text-secondBlack-900 text-xs font-semibold rounded-full px-2 py-1"

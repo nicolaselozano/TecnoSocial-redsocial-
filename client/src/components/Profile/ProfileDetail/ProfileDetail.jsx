@@ -9,6 +9,8 @@ const ProfileDetail = ({
     onEditProfile
 }) => {
 
+
+
     return (
         <section className=" bg-secondBlack-700 min-w-[153vh] text-white rounded-t-xl shadow-md overflow-hidden">
             {/* Sección del encabezado del perfil */}
@@ -63,15 +65,23 @@ const ProfileDetail = ({
 
                             {/* Roles del usuario */}
                             <div className="mt-2">
-                                {user.roles.map((role, index) => (
-                                    <span
-                                        key={index}
-                                        className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                        style={{ backgroundColor: getRoleColor(role) }}
-                                    >
-                                        {role}
-                                    </span>
-                                ))}
+                                {
+                                // user.roles.length > 0 ? user.roles.map((role, index) => (
+                                //     <span
+                                //         key={index}
+                                //         className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                //         style={{ backgroundColor: getRoleColor(role) }}
+                                //     >
+                                //         {role}
+                                //     </span>
+                                // )):
+                                <span
+                                className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                style={{ backgroundColor: getRoleColor(user.roles) }}
+                            >
+                                {user.roles}
+                            </span>
+                                }
                             </div>
                         </div>
 
