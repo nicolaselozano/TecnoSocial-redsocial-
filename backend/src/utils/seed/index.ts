@@ -13,6 +13,15 @@ import { MOCK_POSTS } from './mockups/posts.mock';
 import { PROJECTS_MOCK } from './mockups/projects.mock';
 import { USERS_MOCK } from './mockups/users.mock';
 
+const Project = con.getRepository(ProjectEntity);
+const UserProject = con.getRepository(UserProjectEntity);
+const Connection = con.getRepository(ConnectionEntity);
+const Like = con.getRepository(LikeEntity);
+const SocialNetwork = con.getRepository(SocialNetworkEntity);
+const Post = con.getRepository(PostEntity);
+const Image = con.getRepository(ImageEntity);
+const Comment = con.getRepository(CommentEntity);
+
 interface Options {
   exit?: boolean;
 }
@@ -23,15 +32,16 @@ export async function seed({ exit = true }: Options) {
       await con.initialize();
     }
 
-    const Connection = con.getRepository(ConnectionEntity);
-    const Like = con.getRepository(LikeEntity);
-
     const seededUsers = await seedUsers();
 
+    const newUser = seededUsers.find((u) => u.name === 'username')!;
+    const secondUser = seededUsers.find((u) => u.name === 'ezequiel')!;
+    const thirdUser = seededUsers.find((u) => u.name === 'martin')!;
+
     const connections = [
-      { follower: seededUsers[0], following: seededUsers[1] }, // User 0 follows User 1
-      { follower: seededUsers[1], following: seededUsers[0] }, // User 1 follows User 0
-      { follower: seededUsers[0], following: seededUsers[2] }, // User 0 follows User 2
+      { follower: newUser, following: secondUser }, // User 0 follows User 1
+      { follower: newUser, following: thirdUser }, // User 0 follows User 2
+      { follower: secondUser, following: newUser }, // User 1 follows User 0
     ];
 
     await Promise.all(
@@ -44,9 +54,16 @@ export async function seed({ exit = true }: Options) {
       }),
     );
 
-    const newUser = seededUsers[0];
-
     const seededPosts = await seedPosts(newUser);
+
+    // User Ezequiel has a single post
+    const secondUserPost = Post.create({
+      title: 'Post for user with 2',
+      content: 'placeholder',
+      user: seededUsers.find((u) => u.name === 'ezequiel'),
+    });
+
+    await Post.save(secondUserPost);
 
     // User with id 1 likes post with id 1
     const newLike = Like.create({
@@ -70,8 +87,6 @@ export async function seed({ exit = true }: Options) {
 }
 
 async function seedUsers(): Promise<UserEntity[]> {
-  const SocialNetwork = con.getRepository(SocialNetworkEntity);
-
   const User = con.getRepository(UserEntity);
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
@@ -99,10 +114,6 @@ async function seedUsers(): Promise<UserEntity[]> {
 }
 
 async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
-  const Post = con.getRepository(PostEntity);
-  const Image = con.getRepository(ImageEntity);
-  const Comment = con.getRepository(CommentEntity);
-
   const posts = await Promise.all(
     MOCK_POSTS.map(async (post) => {
       const newPost = Post.create({
@@ -146,9 +157,6 @@ async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
 }
 
 async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {
-  const Project = con.getRepository(ProjectEntity);
-  const UserProject = con.getRepository(UserProjectEntity);
-
   const projects = await Promise.all(
     PROJECTS_MOCK.map(async (project) => {
       const newProject = Project.create({

@@ -1,5 +1,6 @@
 import { app } from '@/app';
 import con from '@/config/database';
+import { Post } from '@/features/post/postEntity';
 import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
 import { MOCK_POSTS } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
@@ -32,7 +33,7 @@ describe('POST /api/v1/post', () => {
 
   it('should get an 201 response', async () => {
     (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
+      custom_email_claim: 'email@gmail.com',
       custom_name_claim: 'test-user',
       sub: '1',
     });
@@ -48,7 +49,7 @@ describe('POST /api/v1/post', () => {
       })
       .expect(StatusCodes.CREATED)
       .expect(({ body }) => {
-        expect(body.id).toBe(MOCK_POSTS.length + 1);
+        expect(body.id).toBe(MOCK_POSTS.length + 2);
       });
   });
 });
@@ -93,7 +94,7 @@ describe('DELETE /api/v1/post', () => {
 
   it('should return a 204 when deleting a post with authenticated user', async () => {
     (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
+      custom_email_claim: 'email@gmail.com',
       custom_name_claim: 'test-user',
       sub: '1',
     });
@@ -106,10 +107,22 @@ describe('DELETE /api/v1/post', () => {
       .expect(StatusCodes.NO_CONTENT);
   });
 
-  // TODO - Figure out a way to bypass 0auth token validation
-  it.skip('should return a 401 error when deleting other users post', async () => {
-    const otherUserPost = 1;
-    await request.delete(url + '/' + otherUserPost).expect(StatusCodes.UNAUTHORIZED);
+  it('should return a 403 error when deleting other users post', async () => {
+    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
+      custom_email_claim: 'email@gmail.com',
+      custom_name_claim: 'test-user',
+      sub: '1',
+    });
+
+    const agent = supertest.agent(app);
+
+    const post = await con.getRepository(Post).findOne({ where: { user: { name: 'ezequiel' } } });
+    const otherUserPost = post?.id;
+
+    await agent
+      .delete(url + '/' + otherUserPost)
+      .set('Cookie', ['token=mytoken'])
+      .expect(StatusCodes.FORBIDDEN);
   });
 
   it('should fail when no auth token is provided', async () => {
@@ -118,7 +131,7 @@ describe('DELETE /api/v1/post', () => {
 
   it('should fail when post id is out of range', async () => {
     (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
+      custom_email_claim: 'email@gmail.com',
       custom_name_claim: 'test-user',
       sub: '1',
     });

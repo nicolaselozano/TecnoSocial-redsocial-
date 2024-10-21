@@ -62,7 +62,8 @@ class UserController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
-    const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    await userRepository.getUserById(Number(id));
+    const totalFollowers = await connectionRepository.getFollowersCount({ search, userid: Number(id) });
 
     if (totalFollowers === 0) {
       res.json({
@@ -99,6 +100,7 @@ class UserController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
+    await userRepository.getUserById(Number(id));
     const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
 
     if (totalFollowed === 0) {
