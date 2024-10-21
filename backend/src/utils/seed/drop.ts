@@ -1,6 +1,7 @@
 import con from '@/config/database';
+import envs from '@/config/envs';
 
-async function dropDB() {
+export async function dropDB() {
   try {
     if (!con.isInitialized) {
       await con.initialize();
@@ -9,8 +10,12 @@ async function dropDB() {
     await con.destroy();
     console.log('🔨 -- DB Dropped succesfully');
   } catch (error) {
-    console.log('Error while dropping DB');
+    console.log('Error while dropping DB', error);
   }
 }
 
-dropDB();
+if (envs.SEED) {
+  dropDB().finally(() => {
+    process.exit();
+  });
+}
