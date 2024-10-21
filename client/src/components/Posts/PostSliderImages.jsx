@@ -65,7 +65,7 @@ const ImageWithLoading = ({ src, alt }) => {
         }}
         onError={(e) => {
           setLoading(false);
-          e.target.src = "/images/not-found/image-not-found.svg";
+          e.target.src = "/images/not-found/image-not-found.png";
           e.target.alt = "Imagen no disponible";
         }}
         className={`rounded-md max-w-full max-h-full opacity-0 translate-y-4 transition-all duration-700 ease-in-out ${
