@@ -87,9 +87,13 @@ class PostController {
 
   public async deletePost(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
+    console.log('TEST');
+
+    // Check post exists
+    await postRepository.getPostById(Number(id));
 
     const response = await postRepository.deletePost(Number(id));
-    res.json(response);
+    res.status(StatusCodes.NO_CONTENT).json(response);
   }
 }
 

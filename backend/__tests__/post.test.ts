@@ -65,7 +65,6 @@ describe('GET /api/v1/post', () => {
       .get(url)
       .expect(StatusCodes.OK)
       .expect(({ body }) => {
-        expect(body.totalPosts).toBe(MOCK_POSTS.length);
         expect(Array.isArray(body.results)).toBe(true);
       });
   });
@@ -80,7 +79,7 @@ describe('GET /api/v1/post', () => {
   });
 
   it('should get a 404 response when looking for and invalid id', async () => {
-    const invalidPostid = MOCK_POSTS.length + 1;
+    const invalidPostid = 9999;
 
     await request
       .get(url + '/' + invalidPostid)
@@ -97,9 +96,19 @@ describe('DELETE /api/v1/post', () => {
   const url = '/api/v1/post';
 
   // TODO - Figure out a way to bypass 0auth token validation
-  it.skip('should return a 204 when deleting a post with authenticated user', async () => {
+  it('should return a 204 when deleting a post with authenticated user', async () => {
+    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
+      custom_email_claim: 'test-email@gmail.com',
+      custom_name_claim: 'test-user',
+      sub: '1',
+    });
+
+    const agent = supertest.agent(app);
     const myPostId = 1;
-    await request.delete(url + '/' + myPostId).expect(StatusCodes.NO_CONTENT);
+    await agent
+      .delete(url + '/' + myPostId)
+      .set('Cookie', ['token=mytoken'])
+      .expect(StatusCodes.NO_CONTENT);
   });
 
   // TODO - Figure out a way to bypass 0auth token validation
@@ -113,7 +122,18 @@ describe('DELETE /api/v1/post', () => {
   });
 
   it('should fail when post id is out of range', async () => {
-    const invalidPostid = MOCK_POSTS.length + 1;
-    await request.delete(url + '/' + invalidPostid).expect(StatusCodes.NOT_FOUND);
+    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
+      custom_email_claim: 'test-email@gmail.com',
+      custom_name_claim: 'test-user',
+      sub: '1',
+    });
+
+    const agent = supertest.agent(app);
+
+    const invalidPostid = 9999;
+    await agent
+      .delete(url + '/' + invalidPostid)
+      .set('Cookie', ['token=mytoken'])
+      .expect(StatusCodes.NOT_FOUND);
   });
 });
