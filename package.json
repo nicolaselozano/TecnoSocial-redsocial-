@@ -20,5 +20,8 @@
     "@commitlint/config-conventional": "^19.5.0",
     "husky": "9.1.6",
     "lerna": "8.1.8"
+  },
+  "dependencies": {
+    "build-css": "^0.2.0"
   }
 }
