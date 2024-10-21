@@ -8,10 +8,6 @@ import { request } from './jest.setup';
 
 jest.mock('@/middlewares/Auth/utils/ManageToken');
 
-// const authMock = {
-//   CheckToken: jest.fn(), // Ensure this is a mock function
-// };
-
 beforeAll(async () => {
   if (!con.isInitialized) {
     await con.initialize();
@@ -95,7 +91,6 @@ describe('GET /api/v1/post', () => {
 describe('DELETE /api/v1/post', () => {
   const url = '/api/v1/post';
 
-  // TODO - Figure out a way to bypass 0auth token validation
   it('should return a 204 when deleting a post with authenticated user', async () => {
     (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
       custom_email_claim: 'test-email@gmail.com',

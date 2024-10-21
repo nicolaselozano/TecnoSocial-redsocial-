@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/index.js",
-    "test": "DOTENV_CONFIG_PATH=./.env.test jest --silent",
+    "test": "DOTENV_CONFIG_PATH=./.env.test jest",
     "test:ci": "jest --silent",
     "dev": "npm run swagger:build && ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "build": "tsc && tsc-alias -p tsconfig.json && mkdir -p ./dist/docs/build && cp ./src/docs/build/swagger.yaml ./dist/docs/build",

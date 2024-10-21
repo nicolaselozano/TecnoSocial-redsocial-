@@ -49,9 +49,25 @@ describe('GET /api/v1/user', () => {
       });
   });
 
-  it.skip('should get all user with role = Software engineer', async () => {
+  it('should get one user with role cloud arquitect', async () => {
+    const validRole = 'cloud%20architect';
     await request
-      .get(url + '?role=software-engineer')
+      .get(url + '?role=' + validRole)
+      .expect(StatusCodes.OK)
+      .expect(({ body }) => {
+        expect(Array.isArray(body.users)).toBe(true);
+        expect(body).toMatchObject({
+          currentPage: 1,
+          totalPages: 1,
+          totalUsers: 1,
+        });
+      });
+  });
+
+  it('should fail to get user when role is incorrect', async () => {
+    const invalidRole = 'invalid%20role';
+    await request
+      .get(url + '?role=' + invalidRole)
       .expect(StatusCodes.OK)
       .expect(({ body }) => {
         expect(Array.isArray(body.users)).toBe(true);

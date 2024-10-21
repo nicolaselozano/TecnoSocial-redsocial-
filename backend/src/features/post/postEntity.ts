@@ -42,7 +42,9 @@ export class Post {
   @JoinTable()
   technologies: Technology[];
 
-  @OneToMany(() => Like, (like) => like.user)
+  @OneToMany(() => Like, (like) => like.user, {
+    cascade: true,
+  })
   likes: Like;
 
   @OneToMany(() => Comment, (comment) => comment.post, {

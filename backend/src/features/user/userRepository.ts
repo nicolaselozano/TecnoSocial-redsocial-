@@ -1,11 +1,15 @@
 import con from '@/config/database';
+import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from './userEntity';
-import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 
 type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
+
+type UserFilters = {
+  role?: string;
+};
 
 class UserRopository {
   private repository = con.getRepository(User);
@@ -20,19 +24,21 @@ class UserRopository {
     return response;
   }
 
-  public async getAllUsersCount({ search }: PaginatedConfig): Promise<number> {
+  public async getAllUsersCount({ search, role }: PaginatedConfig & UserFilters): Promise<number> {
     return await this.repository.count({
       where: {
         name: Like(`%${search}%`),
+        role: Like(`%${role}%`),
       },
     });
   }
 
-  public async getAllUsers({ limit, search, skip }: PaginatedConfig): Promise<User[]> {
+  public async getAllUsers({ limit, search, skip, role }: PaginatedConfig & UserFilters): Promise<User[]> {
     const users = await this.repository.find({
       relations: ['social_networks'],
       where: {
         name: Like(`%${search}%`),
+        role: Like(`%${role}%`),
       },
       take: limit,
       skip,
