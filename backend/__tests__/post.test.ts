@@ -1,10 +1,8 @@
-import { app } from '@/app';
 import con from '@/config/database';
 import { Post } from '@/features/post/postEntity';
-import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
 import { MOCK_POSTS } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
-import supertest from 'supertest';
+import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
 
 jest.mock('@/middlewares/Auth/utils/ManageToken');
@@ -32,17 +30,10 @@ describe('POST /api/v1/post', () => {
   });
 
   it('should get an 201 response', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
-    });
-    const agent = supertest.agent(app);
     const post = MOCK_POSTS[0];
 
-    await agent
+    await authRequest()
       .post(url)
-      .set('Cookie', ['token=mytoken'])
       .send({
         title: post.title,
         content: post.content,
@@ -93,35 +84,19 @@ describe('DELETE /api/v1/post', () => {
   const url = '/api/v1/post';
 
   it('should return a 204 when deleting a post with authenticated user', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
-    });
-
-    const agent = supertest.agent(app);
     const myPostId = 1;
-    await agent
+
+    await authRequest()
       .delete(url + '/' + myPostId)
-      .set('Cookie', ['token=mytoken'])
       .expect(StatusCodes.NO_CONTENT);
   });
 
   it('should return a 403 error when deleting other users post', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
-    });
-
-    const agent = supertest.agent(app);
-
     const post = await con.getRepository(Post).findOne({ where: { user: { name: 'ezequiel' } } });
     const otherUserPost = post?.id;
 
-    await agent
+    await authRequest()
       .delete(url + '/' + otherUserPost)
-      .set('Cookie', ['token=mytoken'])
       .expect(StatusCodes.FORBIDDEN);
   });
 
@@ -130,18 +105,19 @@ describe('DELETE /api/v1/post', () => {
   });
 
   it('should fail when post id is out of range', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
-    });
+    // (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
+    //   custom_email_claim: 'email@gmail.com',
+    //   custom_name_claim: 'test-user',
+    //   sub: '1',
+    // });
 
-    const agent = supertest.agent(app);
+    // const agent = supertest.agent(app);
 
     const invalidPostid = 9999;
-    await agent
+    // await agent
+    //   .set('Cookie', ['token=mytoken'])
+    authRequest()
       .delete(url + '/' + invalidPostid)
-      .set('Cookie', ['token=mytoken'])
       .expect(StatusCodes.NOT_FOUND);
   });
 });
