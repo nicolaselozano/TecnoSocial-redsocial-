@@ -3,12 +3,13 @@ import RedirectLogin from "../components/Auth/Login/RedirectLogin";
 import RedirectRegister from "../components/Auth/Register/RedirectRegister";
 import AuthModal from "../components/AuthModals/AuthModal";
 import { ExplorePage } from "../components/Explore/ExplorePage";
-import Profile from '../layout/Profile';
+import Profile from "../layout/Profile";
 import Notification from "../view/Notificate/Notificate";
+import HomePage from "../view/Home";
 const AllRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<AuthModal />} />
+      <Route path="/" element={<HomePage />} />
       {/* Login */}
       <Route path="/redirect" element={<RedirectRegister />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />

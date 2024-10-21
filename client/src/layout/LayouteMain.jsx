@@ -11,14 +11,14 @@ const LayouteMain = ({ children }) => {
           <SideProfileCard/>
         </section>
         {children}
-        <div className=" flex flex-col gap-y-5">
+        <section className=" flex flex-col gap-y-5">
           {/*card de perfiles similares*/}
           <section className="bg-gray-400 w-[237px] h-[400px] rounded-xl"></section>
           {/*card de notificaciones*/}
           {pathname !== "/notificate" && (
             <section className="bg-gray-400 w-[237px] h-[400px] rounded-xl"></section>
           )}
-        </div>
+        </section>
       </div>
     </main>
   );
