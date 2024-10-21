@@ -1,9 +1,23 @@
-import { useState } from "react";
 import LayouteMain from "../layout/LayouteMain";
+import { useEffect, useState } from "react";
+import usePostsStore from "../context/posts/posts-store";
+import { PostsGrid } from "../components/Posts/PostsGrid";
 
 const HomePage = () => {
-  const [isModalOpenRegister, setIsModalOpenRegister] = useState(false);
-  const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
+  const {
+    posts,
+    page,
+    hasMore,
+    loading: isLoading,
+    fetchPosts,
+  } = usePostsStore();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
   return (
     <LayouteMain>
       <section className="h-full w-full flex flex-col gap-y-5">
@@ -23,7 +37,14 @@ const HomePage = () => {
           </button>
         </article>
         <article>
-            
+          <PostsGrid
+            posts={posts}
+            page={page}
+            isLoading={loading}
+            fetchPosts={fetchPosts}
+            hasMore={hasMore}
+            isTwoColumns={false}
+          />
         </article>
       </section>
     </LayouteMain>
