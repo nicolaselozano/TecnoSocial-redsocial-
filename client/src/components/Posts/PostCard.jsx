@@ -26,7 +26,7 @@ export const PostCard = ({ post }) => {
         <div className="flex items-center mb-4">
           <img
             className="w-16 h-16 rounded-xl mr-4"
-            src={post?.user?.avatar || "https://via.placeholder.com/150"}
+            src={post?.user?.avatar || "/images/not-found/avatar-not-found.svg"}
             alt="User avatar"
           />
           <div>
@@ -69,9 +69,7 @@ export const PostCard = ({ post }) => {
                 e.target.style.opacity = 1;
                 e.target.style.transform = "translateY(0)";
               }}
-              onError={(e) =>
-                (e.target.src = "https://via.placeholder.com/500x200")
-              }
+              onError={(e) => (e.target.src = "/images/not-found/image-not-found.svg")}
             />
           </figure>
         )}
