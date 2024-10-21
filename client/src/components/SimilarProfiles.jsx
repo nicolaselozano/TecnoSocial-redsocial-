@@ -50,22 +50,22 @@ const useProfileStore = create((set) => ({
 const getRoleColorClass = (role) => {
   switch (role.trim()) {
     case "Backend":
-      return "bg-backend text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-blue-600 text-white px-2 py-1 rounded-full text-xs inline-block";
     case "Frontend":
-      return "bg-frontend text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-purple-600 text-white px-2 py-1 rounded-full text-xs inline-block";
     case "Devop":
-      return "bg-devop text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-red-600 text-white px-2 py-1 rounded-full text-xs inline-block";
     case "Tester":
-      return "bg-tester text-white px-2 py-1 rounded-full text-xs inline-block";
+      return "bg-green-600 text-white px-2 py-1 rounded-full text-xs inline-block";
     default:
-      return "bg-gray-600 text-white px-2 py-1 rounded-full text-xs inline-block"; 
+      return "bg-gray-600 text-white px-2 py-1 rounded-full text-xs inline-block";
   }
 };
 
 const SimilarProfiles = () => {
   const { profiles } = useProfileStore();
-  const [currentPage, setCurrentPage] = useState(0); 
-  const profilesPerPage = 4; 
+  const [currentPage, setCurrentPage] = useState(0);
+  const profilesPerPage = 4;
 
   const handleShowMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -77,24 +77,24 @@ const SimilarProfiles = () => {
   );
 
   return (
-    <div className="bg-gray-800/80 text-white p-6 rounded-3xl shadow-md w-[300px] h-[425px] mx-auto">
-      <h2 className="text-xl font-bold mb-4">Perfiles Similares</h2>
-      <ul className="space-y-6">
+    <div className="bg-gray-700/30 text-white p-6 rounded-3xl shadow-lg w-[320px] h-[450px] mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Perfiles Similares</h2>
+      <ul className="space-y-4">
         {visibleProfiles.map((profile, index) => {
           const roles = profile.role.split("/");
           return (
             <li
               key={index}
-              className="flex items-center space-y-1"
+              className="flex items-center"
             >
               <img
                 src={profile.image}
                 alt={profile.name}
-                className="w-14 h-14 rounded-full object-cover"
+                className="w-16 h-16 rounded-xl object-cover border-2 border-gray-300"
               />
               <div className="ml-4 flex-1">
-                <p className="text-sm font-medium">{profile.name}</p>
-                <div className="flex flex-wrap gap-1">
+                <p className="text-md font-semibold">{profile.name}</p>
+                <div className="flex flex-wrap gap-1 mt-1">
                   {roles.map((role, roleIndex) => (
                     <span key={roleIndex} className={getRoleColorClass(role)}>
                       {role.trim()}
@@ -102,9 +102,11 @@ const SimilarProfiles = () => {
                   ))}
                 </div>
               </div>
-              <button className="ml-4 bg-transparent border border-green-500 text-green-500 p-2 rounded-xl hover:bg-green-500 hover:text-white transition-all">
-                <AiOutlineHeart size={20} />
-              </button>
+              <div className="ml-4">
+                <button className="bg-transparent border border-green-500 text-green-500 p-1 rounded-md hover:bg-green-500 hover:text-white transition-all">
+                  <AiOutlineHeart size={24} />
+                </button>
+              </div>
             </li>
           );
         })}
@@ -124,12 +126,3 @@ const SimilarProfiles = () => {
 };
 
 export default SimilarProfiles;
-
-
-
-
-
-
-
-
-
