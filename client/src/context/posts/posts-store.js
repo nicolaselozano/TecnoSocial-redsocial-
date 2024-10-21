@@ -6,7 +6,7 @@ const usePostsStore = create((set) => ({
   loading: false,
   page: 1,
   hasMore: true,
-  
+
   // Fetch posts
   fetchPosts: async (page) => {
     set({ loading: true });
@@ -53,6 +53,42 @@ const usePostsStore = create((set) => ({
             ...post,
             isLike: false,
             likeCount: post.likeCount > 0 ? post.likeCount - 1 : 0,
+          };
+        }
+        return post;
+      }),
+    }));
+  },
+
+  // Function to follow a user
+  followUser: (userId) => {
+    set((state) => ({
+      posts: state.posts.map((post) => {
+        if (post.user.id === userId) {
+          return {
+            ...post,
+            user: {
+              ...post.user,
+              isFollower: true,
+            },
+          };
+        }
+        return post;
+      }),
+    }));
+  },
+
+  // Function to unfollow a user
+  unfollowUser: (userId) => {
+    set((state) => ({
+      posts: state.posts.map((post) => {
+        if (post.user.id === userId) {
+          return {
+            ...post,
+            user: {
+              ...post.user,
+              isFollower: false,
+            },
           };
         }
         return post;

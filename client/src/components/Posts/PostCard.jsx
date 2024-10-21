@@ -4,6 +4,7 @@ import {
   AiOutlineLike,
   AiOutlineComment,
   AiOutlineHeart,
+  AiFillHeart,
 } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
@@ -14,13 +15,21 @@ export const PostCard = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const { likePost, unlikePost } = usePostsStore();
+  const { likePost, unlikePost, followUser, unfollowUser } = usePostsStore();
 
   const handleLike = () => {
     if (post.isLike) {
       unlikePost(post.id);
     } else {
       likePost(post.id);
+    }
+  };
+
+  const handleFollow = () => {
+    if (post.user.isFollower) {
+      unfollowUser(post.user.id);
+    } else {
+      followUser(post.user.id);
     }
   };
 
@@ -58,9 +67,23 @@ export const PostCard = ({ post }) => {
           </div>
         </div>
         <div>
-          <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent p-1 rounded-md hover:bg-primaryGreen-400 hover:text-white self-end">
-            <AiOutlineHeart size={16} />
-          </button>
+          {post?.user?.isFollower !== undefined &&
+            post?.user?.isFollower !== null && (
+              <button
+                onClick={() => handleFollow(post?.user?.id)}
+                className={`border border-primaryGreen-400 p-1 rounded-md ${
+                  post?.user?.isFollower
+                    ? "bg-primaryGreen-400 text-white"
+                    : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
+                }`}
+              >
+                {post?.user?.isFollower ? (
+                  <AiFillHeart size={16} className="text-white" />
+                ) : (
+                  <AiOutlineHeart size={16} className="text-primaryGreen-400" />
+                )}
+              </button>
+            )}
         </div>
       </div>
 
@@ -152,6 +175,7 @@ PostCard.propTypes = {
       avatar: PropTypes.string,
       name: PropTypes.string,
       roles: PropTypes.arrayOf(PropTypes.string),
+      isFollower: PropTypes.bool,
     }),
     content: PropTypes.string,
     title: PropTypes.string,
