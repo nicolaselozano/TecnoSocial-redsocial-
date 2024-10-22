@@ -14,7 +14,9 @@ const usePostsStore = create((set) => ({
     if (data) {
       set((state) => {
         const existingIds = new Set(state.posts.map((post) => post.id));
-        const newPosts = data.results.filter((post) => !existingIds.has(post.id));
+        const newPosts = data.results.filter(
+          (post) => !existingIds.has(post.id)
+        );
 
         return {
           posts: [...state.posts, ...newPosts],
@@ -33,6 +35,7 @@ const usePostsStore = create((set) => ({
     set((state) => ({
       posts: state.posts.map((post) => {
         if (post.id === postId) {
+          //TODO: Add like a post for endpoint backend
           return {
             ...post,
             isLike: true,
@@ -49,6 +52,7 @@ const usePostsStore = create((set) => ({
     set((state) => ({
       posts: state.posts.map((post) => {
         if (post.id === postId) {
+          //TODO: Remove like a post for endpoint backend
           return {
             ...post,
             isLike: false,
@@ -65,6 +69,7 @@ const usePostsStore = create((set) => ({
     set((state) => ({
       posts: state.posts.map((post) => {
         if (post.user.id === userId) {
+          //TODO: Add follow a user for endpoint backend
           return {
             ...post,
             user: {
@@ -83,12 +88,34 @@ const usePostsStore = create((set) => ({
     set((state) => ({
       posts: state.posts.map((post) => {
         if (post.user.id === userId) {
+          //TODO: Remove follow a user for endpoint backend
           return {
             ...post,
             user: {
               ...post.user,
               isFollower: false,
             },
+          };
+        }
+        return post;
+      }),
+    }));
+  },
+
+  // Function to add quickly a comment
+  addQuicklyComment: (postId, comment, user) => {
+    set((state) => ({
+      posts: state.posts.map((post) => {
+        if (post.id === postId) {
+          //TODO: Add comment for endpoint backend
+          console.log({
+            postId: postId,
+            comment: comment,
+            user: user,
+          });
+          return {
+            ...post,
+            commentsCount: post.commentsCount + 1,
           };
         }
         return post;
