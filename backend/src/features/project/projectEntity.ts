@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/userEntity';
+import { ImageProject } from '../projectImages/imageEntity';
 import { UserProject } from '../userProject/userProjectEntity';
 
 @Entity()
@@ -15,6 +16,9 @@ export class Project {
 
   @Column({ type: 'varchar' })
   url: string;
+
+  @OneToMany(() => ImageProject, (image) => image.project)
+  images: ImageProject[];
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
