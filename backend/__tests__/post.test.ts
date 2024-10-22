@@ -43,6 +43,16 @@ describe('POST /api/v1/post', () => {
         expect(body.id).toBe(MOCK_POSTS.length + 2);
       });
   });
+
+  it('should get an error when title is too short', async () => {
+    await authRequest()
+      .post(url)
+      .send({
+        title: 'a',
+        content: 'validddd',
+      })
+      .expect(StatusCodes.BAD_REQUEST);
+  });
 });
 
 describe('GET /api/v1/post', () => {
@@ -105,18 +115,9 @@ describe('DELETE /api/v1/post', () => {
   });
 
   it('should fail when post id is out of range', async () => {
-    // (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-    //   custom_email_claim: 'email@gmail.com',
-    //   custom_name_claim: 'test-user',
-    //   sub: '1',
-    // });
-
-    // const agent = supertest.agent(app);
-
     const invalidPostid = 9999;
-    // await agent
-    //   .set('Cookie', ['token=mytoken'])
-    authRequest()
+
+    await authRequest()
       .delete(url + '/' + invalidPostid)
       .expect(StatusCodes.NOT_FOUND);
   });
