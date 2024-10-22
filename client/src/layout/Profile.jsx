@@ -26,7 +26,7 @@ const Profile = () => {
 
         checkUserAuth();
     }, []);
-    
+
     useEffect(() => {
         setIsLoading(loading);
         console.log(userInstance);
@@ -54,7 +54,24 @@ const Profile = () => {
             <div>
                 <div className="mx-2">
                     {isLoading || !isAuthenticated ? (
-                        <span>isLoading...</span>
+                        <div className="bg-secondBlack-700 min-w-[153vh] min-h-[50vh] rounded-t-lg">
+                            <header className="relative">
+                                {/* Imagen de fondo del perfil */}
+                                <div 
+                                    className="bg-gray-500 rounded-t-lg w-full h-52"
+                                />
+                                {/* Imagen de perfil del usuario */}
+                                <div className="absolute top-36 left-4 rounded-full border-4 border-gray-800">
+
+                                    <div 
+                                    className="bg-gray-500 w-24 h-24 rounded-full object-cover" />
+
+
+
+                                </div>
+                            </header>
+                        </div>
+
                     ) : (
                         <ProfileDetail user={userInstance.user}
                             redes={userInstance.redes}
