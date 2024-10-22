@@ -4,14 +4,34 @@ import {
   AiOutlineLike,
   AiOutlineComment,
   AiOutlineHeart,
+  AiFillHeart,
 } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
 import { PostModal } from "./PostModal";
+import usePostsStore from "../../context/posts/posts-store";
 
 export const PostCard = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const { likePost, unlikePost, followUser, unfollowUser } = usePostsStore();
+
+  const handleLike = () => {
+    if (post.isLike) {
+      unlikePost(post.id);
+    } else {
+      likePost(post.id);
+    }
+  };
+
+  const handleFollow = () => {
+    if (post.user.isFollower) {
+      unfollowUser(post.user.id);
+    } else {
+      followUser(post.user.id);
+    }
+  };
 
   const handleComment = () => {
     if (!showComment) {
@@ -47,9 +67,23 @@ export const PostCard = ({ post }) => {
           </div>
         </div>
         <div>
-          <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent p-1 rounded-md hover:bg-primaryGreen-400 hover:text-white self-end">
-            <AiOutlineHeart size={16} />
-          </button>
+          {post?.user?.isFollower !== undefined &&
+            post?.user?.isFollower !== null && (
+              <button
+                onClick={() => handleFollow(post?.user?.id)}
+                className={`border border-primaryGreen-400 p-1 rounded-md ${
+                  post?.user?.isFollower
+                    ? "bg-primaryGreen-400 text-white"
+                    : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
+                }`}
+              >
+                {post?.user?.isFollower ? (
+                  <AiFillHeart size={16} className="text-white" />
+                ) : (
+                  <AiOutlineHeart size={16} className="text-primaryGreen-400" />
+                )}
+              </button>
+            )}
         </div>
       </div>
 
@@ -69,7 +103,9 @@ export const PostCard = ({ post }) => {
                 e.target.style.opacity = 1;
                 e.target.style.transform = "translateY(0)";
               }}
-              onError={(e) => (e.target.src = "/images/not-found/image-not-found.svg")}
+              onError={(e) =>
+                (e.target.src = "/images/not-found/image-not-found.svg")
+              }
             />
           </figure>
         )}
@@ -80,12 +116,21 @@ export const PostCard = ({ post }) => {
       {/* Footer */}
       <div className="flex justify-between items-center text-sm">
         <div className="flex space-x-4">
-          <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
-            <div className="flex gap-2 items-center">
-              <AiOutlineLike size={20} />
-              <span>{post?.likeCount ?? 0}</span>
-            </div>
-          </button>
+          {post?.isLike !== undefined && post?.isLike !== null && (
+            <button
+              onClick={handleLike}
+              className={`border border-primaryGreen-400 px-4 py-2 rounded-md ${
+                post?.isLike
+                  ? "bg-primaryGreen-400 text-white"
+                  : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
+              }`}
+            >
+              <div className="flex gap-2 items-center">
+                <AiOutlineLike size={20} />
+                <span>{post?.likeCount ?? 0}</span>
+              </div>
+            </button>
+          )}
           <button
             onClick={handleComment}
             className="border border-primaryGreen-400 text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
@@ -130,6 +175,7 @@ PostCard.propTypes = {
       avatar: PropTypes.string,
       name: PropTypes.string,
       roles: PropTypes.arrayOf(PropTypes.string),
+      isFollower: PropTypes.bool,
     }),
     content: PropTypes.string,
     title: PropTypes.string,
@@ -142,5 +188,6 @@ PostCard.propTypes = {
     ),
     likeCount: PropTypes.number,
     commentsCount: PropTypes.number,
+    isLike: PropTypes.bool,
   }),
 };
