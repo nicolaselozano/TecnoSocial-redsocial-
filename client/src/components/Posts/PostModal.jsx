@@ -108,14 +108,12 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                 <div className="flex items-center mb-2">
                   <img
                     className="w-16 h-16 rounded-xl mr-4"
-                    src={
-                      post?.user?.avatar || "https://via.placeholder.com/150"
-                    }
-                    alt="Eugeena Quevedo avatar"
+                    src={post?.user?.avatar || "/images/not-found/avatar-not-found.svg"}
+                    alt={post?.user?.name}
                   />
                   <div>
                     <h2 className="text-md font-bold">
-                      {post?.user?.name || "Nombre Usuario"}
+                      {post?.user?.name || "Usuario desconocido"}
                     </h2>{" "}
                     <p className="text-gray-400 text-sm">
                       {post?.user?.username || "@usuario"}
@@ -140,6 +138,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
 
               <div className="mt-4 overflow-y-auto max-h-64">
                 {/* Content post and comments */}
+                <h3 className="text-sm font-semibold">{post?.title || ""}</h3>
                 <p className="mb-4">{post?.content || ""}</p>
 
                 <hr className="border-t border-primaryGreen-400 my-4" />
@@ -150,15 +149,14 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                     <div key={comment.id} className="flex mb-4">
                       <img
                         className="w-12 h-12 rounded-xl mr-4"
-                        src={
-                          comment.user.avatar ||
-                          "https://via.placeholder.com/150"
-                        }
-                        alt={`${comment.user.name} avatar`}
+                        src={comment?.user?.avatar || "/images/not-found/avatar-not-found.svg"}
+                        alt={`${comment?.user?.name || "Desconocido"} avatar`}
                       />
                       <div className="flex flex-col">
-                        <strong className="text-sm">{comment.user.name}</strong>
-                        <p className="text-sm">{comment.comment}</p>
+                        <strong className="text-sm">
+                          {comment?.user?.name || "Usuario desconocido"}
+                        </strong>
+                        <p className="text-sm">{comment?.content || " "} </p>
                       </div>
                     </div>
                   ))}
@@ -169,7 +167,8 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
 
               {/* Interactions */}
               <div className="flex gap-4 mt-4 text-sm text-gray-400">
-                <span>{post?.likes || 0} Recomendados</span> {/* Likes */}
+                <span>{post?.likes?.length || 0} Recomendados</span>{" "}
+                {/* Likes */}
                 <span>{post?.comments?.length || 0} Comentarios</span>{" "}
                 {/* Comentarios */}
               </div>

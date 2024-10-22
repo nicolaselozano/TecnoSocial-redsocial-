@@ -3,7 +3,7 @@ import RedirectLogin from "../components/Auth/Login/RedirectLogin";
 import RedirectRegister from "../components/Auth/Register/RedirectRegister";
 import AuthModal from "../components/AuthModals/AuthModal";
 import { ExplorePage } from "../components/Explore/ExplorePage";
-import Profile from "../components/Profile/Profile";
+import Profile from '../layout/Profile';
 import Notification from "../view/Notificate/Notificate";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage"; // Importa la nueva página
 

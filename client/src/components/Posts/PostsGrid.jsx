@@ -95,10 +95,10 @@ export const PostsGrid = ({
 
 // PropTypes
 PostsGrid.propTypes = {
-  posts: PropTypes.array.isRequired,
-  page: PropTypes.number.isRequired,
+  posts: PropTypes.array,
+  page: PropTypes.number,
   isLoading: PropTypes.bool,
-  fetchPosts: PropTypes.func.isRequired,
-  hasMore: PropTypes.bool.isRequired,
+  fetchPosts: PropTypes.func,
+  hasMore: PropTypes.bool,
   isTwoColumns: PropTypes.bool,
 };

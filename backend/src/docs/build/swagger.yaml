@@ -21,6 +21,8 @@ tags:
     description: API para gestionar tecnologias
   - name: Comment
     description: API para gestionar comentarios
+  - name: Social Networks
+    description: API para gestionar las redes sociales de un usuario
 paths:
   /post:
     get:
@@ -357,6 +359,90 @@ paths:
       responses:
         '200':
           description: Lista de proyectos
+  '/project/user/{userid}':
+    get:
+      summary: Obtiene todos los proyectos asociados a un usuario
+      tags:
+        - Project
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: proyectos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                projects:
+                  - id: 1
+                    name: ecommerce
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+                  - id: 2
+                    name: refugio de mascotas
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
+  '/project/user/{userid}/liked':
+    get:
+      summary: Obtiene todos los proyectos likeados por el usuario
+      tags:
+        - Project
+      parameters:
+        - in: path
+          name: userid
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: proyectos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                projects:
+                  - id: 1
+                    name: ecommerce
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+                  - id: 2
+                    name: refugio de mascotas
+                    description: Ecommerce destinado a productos hogareños
+                    url: 'https://proyecto-1.com'
+                    created_at: '2024-10-17T21:37:15.023Z'
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/project/{id}':
     get:
       summary: Obtiene un proyecto por ID
@@ -530,6 +616,30 @@ paths:
       summary: Obtiene todos los usuarios
       tags:
         - Users
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            description: Número máximo de usuarios a devolver
+          required: false
+          description: Limita el número de usuarios devueltos
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            description: Número de usuarios a saltar antes de comenzar a devolver los resultados
+          required: false
+          description: Saltar los primeros 'n' usuarios
+        - in: query
+          name: search
+          schema:
+            type: string
+            description: Buscar usuarios por el nombre
+          required: false
+          description: Buscar usuarios cuyo nombre contenga el término de búsqueda proporcionado
       responses:
         '200':
           description: Lista de usuarios
@@ -665,9 +775,12 @@ paths:
                   items:
                     $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
             example:
-              title: Mi primer usuario
-              content: Este es el contenido de mi primer usuario
-              user: '12345'
+              name: Martin
+              username: martin2024
+              role: diseñador ux/ui
+              avatar: 'https://image.png'
+              location: Buenos Aires
+              job: Freelance
       responses:
         '201':
           description: usuario modificado
@@ -682,7 +795,7 @@ paths:
                 user: '12345'
   '/user/{id}/followers':
     get:
-      summary: Obtiene todos los posts asociados a un usuario
+      summary: Obtiene todos los usuarios que siguen al usuario cliente
       tags:
         - Users
       parameters:
@@ -692,6 +805,29 @@ paths:
           description: ID del usuario
           schema:
             type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            description: Número máximo de usuarios a devolver
+          required: false
+          description: Limita el número de usuarios devueltos
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            description: Número de usuarios a saltar antes de comenzar a devolver los resultados
+          required: false
+          description: Saltar los primeros 'n' usuarios
+        - in: query
+          name: search
+          schema:
+            type: string
+            description: Buscar usuarios por el nombre
+          required: false
+          description: Buscar usuarios cuyo nombre contenga el término de búsqueda proporcionado
       responses:
         '200':
           description: usuario encontrado
@@ -707,6 +843,9 @@ paths:
                   - id: 2
                     name: Sofia
                     email: email@gmail.com
+                currentPage: 1
+                totalUsers: 10
+                totalPages: 2
         '404':
           description: usuario no encontrado
           content:
@@ -730,6 +869,29 @@ paths:
           description: ID del usuario
           schema:
             type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            description: Número máximo de usuarios a devolver
+          required: false
+          description: Limita el número de usuarios devueltos
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            description: Número de usuarios a saltar antes de comenzar a devolver los resultados
+          required: false
+          description: Saltar los primeros 'n' usuarios
+        - in: query
+          name: search
+          schema:
+            type: string
+            description: Buscar usuarios por el nombre
+          required: false
+          description: Buscar usuarios cuyo nombre contenga el término de búsqueda proporcionado
       responses:
         '200':
           description: usuario encontrado
@@ -745,6 +907,9 @@ paths:
                   - id: 2
                     name: Sofia
                     email: email@gmail.com
+                currentPage: 1
+                totalUsers: 10
+                totalPages: 2
         '404':
           description: usuario no encontrado
           content:
@@ -913,3 +1078,33 @@ paths:
                     type: string
               example:
                 message: usuario no encontrado
+  /social-networks:
+    put:
+      summary: Modifica las redes sociales de un usuario
+      tags:
+        - Social Networks
+      parameters:
+        - in: cookie
+          name: authId
+          description: Indica el id del usuario que desea modificar sus redes sociales
+          schema:
+            type: string
+            required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              linkedin: 'https://network.com'
+              github: 'https://network.com'
+              facebook: 'https://network.com'
+              instagram: 'https://network.com'
+              gitlab: 'https://network.com'
+              twitter: 'https://network.com'
+      responses:
+        '201':
+          description: redes sociales modificadas
+          content:
+            application/json:
+              example:
+                message: redes sociales modificadas exitosamente

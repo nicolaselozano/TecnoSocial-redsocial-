@@ -2,6 +2,7 @@ import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
 export const checkAuth = async () => {
     try {
+      
       const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/auth/me`, {
         method: 'GET',
         headers: {
@@ -21,6 +22,7 @@ export const checkAuth = async () => {
         return true;
       } else {
         console.log('No autenticado');
+        localStorage.clear("userdata");
         return false;
       }
     } catch (error) {

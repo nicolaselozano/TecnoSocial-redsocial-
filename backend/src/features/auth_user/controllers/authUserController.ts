@@ -1,16 +1,19 @@
+import { userRepository } from '@/features/user/userRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
 import { Request, Response } from 'express';
 
-const CreateUserAuthC = (req: Request, res: Response): void => {
+const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise<void> => {
   console.log('Creando el usuario desde Auth0');
 
   try {
-    const userData: UserDataToken = res.locals['userData'];
-    console.log('USER DATA: ' + JSON.stringify(userData));
+    const userData: UserDataToken | undefined = res.locals['userData'];
 
     if (!userData) {
       throw new Error('No se encontró información del usuario');
     }
+
+    await userRepository.createUser(userData);
 
     res.status(201).json({
       message: 'Usuario creado exitosamente',
@@ -26,7 +29,7 @@ const CreateUserAuthC = (req: Request, res: Response): void => {
   }
 };
 
-const GetAuthenticatedUser = (req: Request, res: Response): void => {
+const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userData: UserDataToken = res.locals['userData'];
 
@@ -38,13 +41,9 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
         res.clearCookie(cookieName);
       }
     }
-
+    const user = await userRepository.getUserByAuthId(userData.authId);
     if (userData.email) {
-      res.status(200).json({
-        user: userData.authName,
-        email: userData.email,
-        authId: userData.authId,
-      });
+      res.status(200).json(user);
     }
   } catch (error) {
     console.log(error);

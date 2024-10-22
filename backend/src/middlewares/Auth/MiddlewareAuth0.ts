@@ -1,11 +1,11 @@
+import { UnauthorizedError } from '@/utils/errors';
 import { NextFunction, Request, Response } from 'express';
-import { ManageToken } from './utils/ManageToken';
-import { RefreshTokenDTO } from './interface/RefreshTokenDTO';
-import { CookieConfig } from './utils/CookieConfig';
 import { JwtPayload } from 'jsonwebtoken';
+import { RefreshTokenDTO } from './interface/RefreshTokenDTO';
 import { TokenDTO } from './interface/TokenDTO';
 import { UserDataToken } from './interface/UserDataToken';
-import { UnauthorizedError } from '@/utils/errors';
+import { CookieConfig } from './utils/CookieConfig';
+import { ManageToken } from './utils/ManageToken';
 
 const tokenCookieName = 'token';
 
@@ -23,6 +23,8 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     token = token.replace('Bearer ', '').trim();
 
     const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
+    console.log('validated token:', validateToken);
+
     if (!validateToken) {
       throw new UnauthorizedError('El token no es valido');
     }
@@ -47,7 +49,9 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error('Error en el middleware CheckToken:', error.message);
+    for (const cookieName in req.cookies) {
+      res.clearCookie(cookieName);
+    }
     res.status(401).json({
       message: error.message || 'Error de autenticación',
     });

@@ -1,6 +1,10 @@
-import { BadRequestError } from '@/utils/errors';
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
+import { BadRequestError, ForbiddenError } from '@/utils/errors';
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { commentRepository } from '../comment/commentRepository';
 import { likeRepository } from '../like/likeRepository';
+import { userRepository } from '../user/userRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
 
@@ -14,7 +18,7 @@ class PostController {
     post.user = user;
 
     const response = await postRepository.createPost(post);
-    res.json(response);
+    res.status(StatusCodes.CREATED).json(response);
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
@@ -22,7 +26,9 @@ class PostController {
     const limit = parseInt(req.query.limit as string) || 5;
     const search = req.query.search ? String(req.query.search) : '';
 
-    const totalPages = await postRepository.getPostsPages({ limit, search });
+    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+
+    const totalPages = Math.ceil(totalPosts / limit!);
 
     if (page > totalPages || page < 1) {
       throw new BadRequestError('Página fuera de índice');
@@ -42,16 +48,16 @@ class PostController {
       posts.map(async (post) => ({
         ...post,
         isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
+        likeCount: await likeRepository.countLikes(post.id),
+        commentsCount: await commentRepository.countComments(post.id),
       })),
     );
 
     res.json({
       results: postWithLikedProperty,
-      info: {
-        results: posts.length,
-        currentPage: page,
-        totalPages,
-      },
+      currentPage: page,
+      totalPages,
+      totalPosts,
     });
   }
 
@@ -81,11 +87,37 @@ class PostController {
     res.json(response);
   }
 
-  public async deletePost(req: Request, res: Response): Promise<void> {
+  public async deletePost(req: Request, res: ResponseWithUserData): Promise<void> {
     const { id } = req.params;
+    const { email } = res.locals.userData!;
+
+    // Check post exists
+    const post = await postRepository.getPostById(Number(id));
+    console.log('AuthID:' + post.user.email);
+
+    if (post.user.email !== email) {
+      throw new ForbiddenError('forbidden operation');
+    }
 
     const response = await postRepository.deletePost(Number(id));
-    res.json(response);
+    res.status(StatusCodes.NO_CONTENT).json(response);
+  }
+
+  public async likePost(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { id } = req.params;
+    const { email } = res.locals.userData!;
+
+    const post = await postRepository.getPostById(Number(id));
+    const user = await userRepository.getUserByEmail(email);
+
+    const like = likeRepository.createLike({
+      post,
+      user,
+    });
+
+    res.status(StatusCodes.CREATED).json({
+      like,
+    });
   }
 }
 

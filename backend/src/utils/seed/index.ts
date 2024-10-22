@@ -5,25 +5,28 @@ import { Connection as ConnectionEntity } from '@/features/connection/Connection
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Like as LikeEntity } from '@/features/like/likeEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
+import { Project as ProjectEntity } from '@/features/project/projectEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
-import { MOCK_POSTS } from './mockups/posts.mock';
+import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
+import { FIRST_USER_POSTS, PostMock, SECOND_USER_POSTS } from './mockups/posts.mock';
+import { PROJECTS_MOCK } from './mockups/projects.mock';
 import { USERS_MOCK } from './mockups/users.mock';
 
+const Project = con.getRepository(ProjectEntity);
+const UserProject = con.getRepository(UserProjectEntity);
+const Connection = con.getRepository(ConnectionEntity);
+const Like = con.getRepository(LikeEntity);
 const SocialNetwork = con.getRepository(SocialNetworkEntity);
 const Post = con.getRepository(PostEntity);
 const Image = con.getRepository(ImageEntity);
-const User = con.getRepository(UserEntity);
 const Comment = con.getRepository(CommentEntity);
-const Connection = con.getRepository(ConnectionEntity);
-const Like = con.getRepository(LikeEntity);
 
-async function seed() {
-  if (!envs.SEED) {
-    console.log(envs.SEED);
-    throw new Error('This file must be used in seed mode');
-  }
+interface Options {
+  exit?: boolean;
+}
 
+export async function seed({ exit = true }: Options) {
   try {
     if (!con.isInitialized) {
       await con.initialize();
@@ -31,25 +34,28 @@ async function seed() {
 
     const seededUsers = await seedUsers();
 
+    const newUser = seededUsers.find((u) => u.name === 'username')!;
+    const secondUser = seededUsers.find((u) => u.name === 'ezequiel')!;
+    const thirdUser = seededUsers.find((u) => u.name === 'martin')!;
+
     const connections = [
-      { follower: seededUsers[0], following: seededUsers[1] }, // User 0 follows User 1
-      { follower: seededUsers[1], following: seededUsers[0] }, // User 1 follows User 0
-      { follower: seededUsers[0], following: seededUsers[2] }, // User 0 follows User 2
+      { follower: newUser, following: secondUser }, // User 0 follows User 1
+      { follower: newUser, following: thirdUser }, // User 0 follows User 2
+      { follower: secondUser, following: newUser }, // User 1 follows User 0
     ];
 
     await Promise.all(
       connections.map(async (connection) => {
         const newConnection = Connection.create({
           follower: connection.follower,
-          following: connection.following,
+          followed: connection.following,
         });
         await Connection.save(newConnection);
       }),
     );
 
-    const newUser = seededUsers[0];
-
-    const seededPosts = await seedPosts(newUser);
+    const seededPosts = await seedPosts(newUser, FIRST_USER_POSTS);
+    await seedPosts(secondUser, SECOND_USER_POSTS);
 
     // User with id 1 likes post with id 1
     const newLike = Like.create({
@@ -59,26 +65,35 @@ async function seed() {
 
     await Like.save(newLike);
 
+    // Add projects
+    await seedProjects(newUser, [secondUser, thirdUser]);
+
     console.log('🌱 -- Seeding completed successfully.');
-    process.exit();
+
+    if (exit) {
+      process.exit();
+    }
   } catch (error) {
     console.error('Error during seeding:', error);
   }
 }
 
 async function seedUsers(): Promise<UserEntity[]> {
+  const User = con.getRepository(UserEntity);
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
-      const { email, name, password } = user;
+      const { email, name, job, location, role, social_networks } = user;
 
-      const newSocialsNetworks = SocialNetwork.create(user.social_networks);
+      const newSocialsNetworks = SocialNetwork.create(social_networks);
 
       await SocialNetwork.save(newSocialsNetworks);
 
       const newUser = User.create({
         email,
         name,
-        password,
+        job,
+        location,
+        role,
         social_networks: newSocialsNetworks,
       });
 
@@ -90,9 +105,9 @@ async function seedUsers(): Promise<UserEntity[]> {
   return users;
 }
 
-async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
-  const posts = await Promise.all(
-    MOCK_POSTS.map(async (post) => {
+async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntity[]> {
+  const results = await Promise.all(
+    posts.map(async (post) => {
       const newPost = Post.create({
         content: post.content,
         title: post.title,
@@ -130,7 +145,37 @@ async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
     }),
   );
   console.log('📝 -- Posts seeded succesfully.');
-  return posts;
+  return results;
 }
 
-seed();
+async function seedProjects(user: UserEntity, likers: UserEntity[]): Promise<ProjectEntity[]> {
+  const projects = await Promise.all(
+    PROJECTS_MOCK.map(async (project) => {
+      const newProject = Project.create({
+        description: project.description,
+        name: project.name,
+        url: project.url,
+        liked_users: likers,
+      });
+
+      await Project.save(newProject);
+
+      const userProject = UserProject.create({
+        project: newProject,
+        role: 'Developer',
+        user,
+      });
+
+      await UserProject.save(userProject);
+      return newProject;
+    }),
+  );
+  console.log('💻 -- Projects seeded succesfully.');
+  return projects;
+}
+
+if (envs.SEED) {
+  seed({ exit: true }).finally(() => {
+    process.exit();
+  });
+}

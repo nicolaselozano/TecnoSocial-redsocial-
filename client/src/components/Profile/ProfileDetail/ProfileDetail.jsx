@@ -9,24 +9,26 @@ const ProfileDetail = ({
     onEditProfile
 }) => {
 
+
+
     return (
-        <section className=" bg-secondBlack-700 text-white rounded-t-xl shadow-md overflow-hidden">
+        <section className=" bg-secondBlack-700 min-w-[153vh] text-white rounded-t-xl shadow-md overflow-hidden">
             {/* Sección del encabezado del perfil */}
             <header className="relative">
                 {/* Imagen de fondo del perfil */}
                 <img
                     src="https://t4.ftcdn.net/jpg/04/95/28/65/240_F_495286577_rpsT2Shmr6g81hOhGXALhxWOfx1vOQBa.jpg"
                     alt="Background"
-                    className="w-full h-32 object-cover"
+                    className="w-full h-52  rounded-t-lg object-cover"
                 />
                 {/* Imagen de perfil del usuario */}
-                <div className="absolute top-20 left-4 rounded-xl border-4 border-gray-800">
+                <div className="absolute top-36 left-4 rounded-full border-4 border-gray-800">
                     {
                         user?.avatar ?
                             <img
                                 src={user.avatar}
                                 alt="Profile"
-                                className="w-24 h-24 rounded-xl object-cover"
+                                className="w-24 h-24 rounded-full object-cover"
                             />
                             :
                             <img src={perfilImg}
@@ -63,15 +65,23 @@ const ProfileDetail = ({
 
                             {/* Roles del usuario */}
                             <div className="mt-2">
-                                {user.roles.map((role, index) => (
-                                    <span
-                                        key={index}
-                                        className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                        style={{ backgroundColor: getRoleColor(role) }}
-                                    >
-                                        {role}
-                                    </span>
-                                ))}
+                                {
+                                // user.roles.length > 0 ? user.roles.map((role, index) => (
+                                //     <span
+                                //         key={index}
+                                //         className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                //         style={{ backgroundColor: getRoleColor(role) }}
+                                //     >
+                                //         {role}
+                                //     </span>
+                                // )):
+                                <span
+                                className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                style={{ backgroundColor: getRoleColor(user.roles[0]) }}
+                            >
+                                {user.roles}
+                            </span>
+                                }
                             </div>
                         </div>
 
@@ -104,7 +114,7 @@ const ProfileDetail = ({
 
                     {/* Información adicional (trabajo, seguidores, seguidos, publicaciones) */}
                     <div className="flex justify-between items-end space-x-6">
-                        {/* Rol del perfil */}
+                        {/* Descripcion del perfil profesional del usuario */}
                         <div className="">
                             <p className="text-white mt-3 text-sm">
                                 {user.job}

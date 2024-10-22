@@ -1,16 +1,11 @@
 import { Request, Response } from 'express';
-import { Technology } from './technologyEntity';
 import { technologyRepository } from './technologyRepository';
+import { technologyService } from './technologyService';
 
 class TechnologyController {
   public async createTechnology(req: Request, res: Response): Promise<void> {
-    const { name, color } = req.body;
-
-    const technology = new Technology();
-    technology.name = name;
-    technology.color = color;
-
-    const response = await technologyRepository.createTechnology(technology);
+    const { name } = req.body;
+    const response = await technologyService.createTechnology(name);
     res.json(response);
   }
 
@@ -23,26 +18,21 @@ class TechnologyController {
     const { name } = req.params;
 
     const post = await technologyRepository.getTechnologyByName(name);
-    res.json(post);
+    res.status(201).json(post);
   }
 
   public async updateTechnology(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const { name, color } = req.body;
-
-    const technology = new Technology();
-    technology.name = name;
-    technology.color = color;
-
-    const response = await technologyRepository.updateTechnology(id, technology);
-    res.json(response);
+    const { name } = req.params;
+    const { color } = req.body;
+    const response = await technologyRepository.updateTechnology(name, { color });
+    res.status(201).json(response);
   }
 
   public async deleteTechnology(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
     const response = await technologyRepository.deleteTechnology(id);
-    res.json(response);
+    res.status(204).json(response);
   }
 }
 
