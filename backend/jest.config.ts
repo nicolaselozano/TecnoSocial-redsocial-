@@ -19,7 +19,6 @@ const config: Config = {
   // Global setup
   globalSetup: './__tests__/helpers/globalSetup.ts',
   globalTeardown: './__tests__/helpers/globalTeardown.ts',
-  setupFiles: ['dotenv/config'],
   verbose: true,
   // Coverage
   coveragePathIgnorePatterns: ['node_modules/', 'dist/', 'src/config/', 'src/docs/', 'src/types/'],

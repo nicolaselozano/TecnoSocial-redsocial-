@@ -11,6 +11,7 @@ import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity'
 import { Technology } from '@/features/technology/technologyEntity';
 import { User } from '@/features/user/userEntity';
 import { UserProject } from '@/features/userProject/userProjectEntity';
+import { ImageProject } from '@/features/projectImages/imageEntity';
 import mysql2 from 'mysql2';
 
 const con = new DataSource({
@@ -21,7 +22,19 @@ const con = new DataSource({
   username: envs.DB.USER,
   password: envs.DB.PASS,
   database: envs.DB.NAME,
-  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment, Connection, UserProject],
+  entities: [
+    User,
+    Post,
+    SocialNetworks,
+    Project,
+    Image,
+    Technology,
+    Like,
+    Comment,
+    Connection,
+    UserProject,
+    ImageProject,
+  ],
   synchronize: true,
 });
 

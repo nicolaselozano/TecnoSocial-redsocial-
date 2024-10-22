@@ -13,6 +13,7 @@ import projectRouter from './features/project/projectRoutes';
 import socialNetworksRouter from './features/social_networks/socialNetworksRoutes';
 import technologyRouter from './features/technology/technologyRoutes';
 import userRouter from './features/user/userRoutes';
+import commentRouter from './features/comment/commentRoutes';
 import { globalErrors } from './middlewares/GlobalErrors';
 import { setBaseMiddlewares } from './middlewares/SetBaseMiddlewares';
 import fuRouter from './services/fileupload/fleuploadRutes';
@@ -36,6 +37,7 @@ app.use(
   technologyRouter,
   imageRouter,
   socialNetworksRouter,
+  commentRouter,
   likeRouter,
   fuRouter,
 );

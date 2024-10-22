@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
   tecno-db:
     env_file:
-      - path: ./backend/.env.test
+      - path: ./backend/.env
         required: true
     image: mysql:8.0.39
     container_name: tecno-db
