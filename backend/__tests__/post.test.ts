@@ -105,18 +105,9 @@ describe('DELETE /api/v1/post', () => {
   });
 
   it('should fail when post id is out of range', async () => {
-    // (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-    //   custom_email_claim: 'email@gmail.com',
-    //   custom_name_claim: 'test-user',
-    //   sub: '1',
-    // });
-
-    // const agent = supertest.agent(app);
-
     const invalidPostid = 9999;
-    // await agent
-    //   .set('Cookie', ['token=mytoken'])
-    authRequest()
+
+    await authRequest()
       .delete(url + '/' + invalidPostid)
       .expect(StatusCodes.NOT_FOUND);
   });
