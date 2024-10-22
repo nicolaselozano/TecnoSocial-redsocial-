@@ -19,6 +19,7 @@ import { setBaseMiddlewares } from './middlewares/SetBaseMiddlewares';
 import fuRouter from './services/fileupload/fleuploadRutes';
 import { healthcheck } from './utils/healthcheck';
 import { redirectToDocs } from './utils/redirectToDocs';
+import path from 'path';
 
 export const app = express();
 
@@ -40,6 +41,7 @@ app.use(
   likeRouter,
   fuRouter,
 );
+app.use('/uploads', express.static(path.join(__dirname, `./services/uploads`)));
 
 app.use(globalErrors);
 
