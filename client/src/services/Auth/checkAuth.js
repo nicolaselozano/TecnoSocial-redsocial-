@@ -22,6 +22,7 @@ export const checkAuth = async () => {
         return true;
       } else {
         console.log('No autenticado');
+        localStorage.clear("userdata");
         return false;
       }
     } catch (error) {
