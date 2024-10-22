@@ -1,25 +1,15 @@
-module.exports = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}', 
-  ],
-  theme: {
-    extend: {
-      colors: {
-        backend: '#4B5563',
-        frontend: '#2563EB',
-        tester: '#10B981',
-        devop: '#F59E0B',
-      },
-    },
-  },
-  plugins: [],
-};
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
+        
+        backend: '#4B5563',
+        frontend: '#2563EB',
+        tester: '#10B981',
+        devop: '#F59E0B',
+
         primaryGreen: {
           400: "#43AA8B",
           950: "#0B2822",
