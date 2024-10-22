@@ -60,7 +60,22 @@ class UserRopository {
     return user;
   }
 
+  public async getUserByEmail(email: User['email']): Promise<User> {
+    const user = await this.repository.findOne({
+      where: { email },
+      relations: ['social_networks'],
+    });
+
+    if (!user) {
+      throw new NotFoundError(`user with email ${email} not found`);
+    }
+
+    return user;
+  }
+
   public async getUserByAuthId(authId: User['authId']): Promise<User> {
+    console.log(authId);
+
     const user = await this.repository.findOne({
       where: { authId },
       relations: ['social_networks'],

@@ -4,12 +4,13 @@ import { Post } from '@/features/post/postEntity';
 
 type ImageInsert = Pick<Image, 'url' | 'alt'>;
 type CommentInsert = Pick<Comment, 'content'>;
-type PostInsert = Pick<Post, 'content' | 'title'> & {
+
+export type PostMock = Pick<Post, 'content' | 'title'> & {
   images: ImageInsert[];
   comments?: CommentInsert[];
 };
 
-export const MOCK_POSTS: PostInsert[] = [
+export const FIRST_USER_POSTS: PostMock[] = [
   {
     content: 'Exploring TypeORM in-depth with some practical examples.',
     title: 'Understanding TypeORM Basics',
@@ -87,3 +88,28 @@ export const MOCK_POSTS: PostInsert[] = [
     ],
   },
 ];
+
+export const SECOND_USER_POSTS: PostMock[] = [
+  {
+    content: 'Here are some best practices for writing clean and maintainable TypeScript code.',
+    title: 'TypeScript Best Practices',
+    images: [
+      {
+        url: 'http://image-url',
+        alt: 'post image',
+      },
+    ],
+  },
+  {
+    content: 'Here are some best practices for writing clean and maintainable TypeScript code.',
+    title: 'TypeScript Best Practices',
+    images: [
+      {
+        url: 'http://image-url',
+        alt: 'post image',
+      },
+    ],
+  },
+];
+
+export const totalPosts = FIRST_USER_POSTS.length + SECOND_USER_POSTS.length;
