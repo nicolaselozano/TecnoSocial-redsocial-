@@ -15,18 +15,18 @@ const updateProfile = async (updatedUserData) => {
 
         const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user`, {
             method: 'PUT',
-            credentials: 'include', // If you need to send cookies or session data
+            credentials: 'include',
             headers: {
-                'Content-Type': 'application/json' // Make sure to set the content type to JSON
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 name,
                 username,
-                role: roles[0], // Assuming you're sending the first role
+                role: roles[0],
                 avatar,
                 location,
                 job,
-            }) // Convert the object to a JSON string
+            })
         });
 
         const responseData = await response.json();

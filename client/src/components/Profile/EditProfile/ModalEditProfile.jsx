@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import TagsInput from './TagsInput';
 import { SetProfileService } from '../../../services/Profile/set-profile';
+import { uploadImage } from '../../../services/uploadFile/uploadFile';
 
 const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   const [formData, setFormData] = useState({
@@ -50,12 +51,33 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
     }
 
   };
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log('Archivo seleccionado:', file.name);
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0]; 
+    
+    if(!file){
+      alert("Por favor, selecciona un archivo.");
+      return;
     }
+    const imageData = new FormData();
+    imageData.append('file', file);
+    const response = await uploadImage(imageData);
+
+    if (response.fileUrls && response.fileUrls.length > 0) {
+      const imageUrl = response.fileUrls[0].fileUrl;
+      console.log('URL de la imagen subida:', imageUrl);
+  
+      setFormData((prevData) => ({
+        ...prevData,
+        avatar: imageUrl, 
+      }));
+    } else {
+      console.error("No se recibió ninguna URL de imagen.");
+    }
+    
+
   };
+
   if (!show) return null;
 
   return (
@@ -80,7 +102,7 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
                 <div className="flex flex-col
                 text-center justify-center items-center">
                   <img
-                    src="https://via.placeholder.com/150" // Imagen de ejemplo
+                    src={formData.avatar} // Imagen de ejemplo
                     alt="Ejemplo"
                     className="w-25 h-25 mb-2 rounded-lg"
                   />
