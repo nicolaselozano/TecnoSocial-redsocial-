@@ -2,6 +2,8 @@ import { app } from '@/app';
 import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
 import supertest from 'supertest';
 
+jest.mock('@/middlewares/Auth/utils/ManageToken');
+
 export function authRequest() {
   (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
     custom_email_claim: 'email@gmail.com',

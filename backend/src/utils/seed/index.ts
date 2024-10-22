@@ -66,7 +66,7 @@ export async function seed({ exit = true }: Options) {
     await Like.save(newLike);
 
     // Add projects
-    await seedProjects(newUser);
+    await seedProjects(newUser, [secondUser, thirdUser]);
 
     console.log('🌱 -- Seeding completed successfully.');
 
@@ -148,13 +148,14 @@ async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntit
   return results;
 }
 
-async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {
+async function seedProjects(user: UserEntity, likers: UserEntity[]): Promise<ProjectEntity[]> {
   const projects = await Promise.all(
     PROJECTS_MOCK.map(async (project) => {
       const newProject = Project.create({
         description: project.description,
         name: project.name,
         url: project.url,
+        liked_users: likers,
       });
 
       await Project.save(newProject);
@@ -174,9 +175,7 @@ async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {
 }
 
 if (envs.SEED) {
-  seed({
-    exit: true,
-  }).finally(() => {
+  seed({ exit: true }).finally(() => {
     process.exit();
   });
 }
