@@ -18,16 +18,14 @@ class PostRepository {
     return posts;
   }
 
-  public async getPostsPages({ limit, search }: PaginatedConfig): Promise<number> {
-    const totalPosts = await this.repository.count({
+  public async getAllPostsCount({ search }: PaginatedConfig): Promise<number> {
+    const count = await this.repository.count({
       where: {
         title: Like(`%${search}%`),
       },
     });
 
-    const totalPages = Math.ceil(totalPosts / limit!);
-
-    return totalPages;
+    return count;
   }
 
   public async getAllPosts({ limit, skip, search }: PaginatedConfig) {
@@ -52,7 +50,7 @@ class PostRepository {
     });
 
     if (!post) {
-      throw new NotFoundError(`Post with id ${id} not found`);
+      throw new NotFoundError(`post with id ${id} not found`);
     }
 
     return post;

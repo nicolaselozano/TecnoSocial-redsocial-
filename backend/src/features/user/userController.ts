@@ -20,14 +20,16 @@ class UserController {
   }
 
   public async getAllUsers(req: Request, res: Response): Promise<void> {
+    const role = req.query.role ? String(req.query.role) : '';
     const props = getPaginatedParams(req);
 
     const options = {
       ...props,
       skip: (props.page - 1) * props.limit,
+      role,
     };
 
-    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search });
+    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search, role });
 
     const totalPages = Math.ceil(totalUsersCount / props.limit);
 
@@ -60,7 +62,8 @@ class UserController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
-    const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    await userRepository.getUserById(Number(id));
+    const totalFollowers = await connectionRepository.getFollowersCount({ search, userid: Number(id) });
 
     if (totalFollowers === 0) {
       res.json({
@@ -97,6 +100,7 @@ class UserController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
+    await userRepository.getUserById(Number(id));
     const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
 
     if (totalFollowed === 0) {

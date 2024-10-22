@@ -27,6 +27,7 @@ const config: Config = {
   coverageProvider: 'v8',
   // Reporter
   reporters: ['default', ['jest-ctrf-json-reporter', {}]],
+  clearMocks: true,
 };
 
 export default config;

@@ -59,6 +59,8 @@ class ConnectionRepository {
   }
 
   async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
+    console.log('USERID:', userid);
+
     const count = await this.repository.count({
       where: {
         followed: {
@@ -67,7 +69,6 @@ class ConnectionRepository {
         follower: { id: userid },
       },
     });
-
     return count;
   }
 }

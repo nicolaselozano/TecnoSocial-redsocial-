@@ -28,19 +28,27 @@ export class Post {
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @OneToMany(() => Image, (image) => image.post_id)
+  @OneToMany(() => Image, (image) => image.post_id, {
+    cascade: true,
+  })
   images: Image[];
 
   @ManyToMany(() => Technology, (label) => label.name)
   @JoinTable()
   technologies: Technology[];
 
-  @OneToMany(() => Like, (like) => like.user)
+  @OneToMany(() => Like, (like) => like.user, {
+    cascade: true,
+  })
   likes: Like;
 
-  @OneToMany(() => Comment, (comment) => comment.post)
+  @OneToMany(() => Comment, (comment) => comment.post, {
+    cascade: true,
+  })
   comments: Comment;
 }

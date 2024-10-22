@@ -10,7 +10,9 @@ export class Like {
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
-  @ManyToOne(() => Post, (post) => post.id)
+  @ManyToOne(() => Post, (post) => post.id, {
+    onDelete: 'CASCADE',
+  })
   post: Post;
 
   @ManyToOne(() => User, (user) => user.id)

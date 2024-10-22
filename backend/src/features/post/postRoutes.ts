@@ -7,8 +7,8 @@ const postRouter = Router();
 postRouter.post('/post', MiddlewareAuth0.CheckToken, postController.createPost);
 postRouter.get('/post', postController.getAllPosts);
 postRouter.get('/post/:id', postController.getPostById);
-postRouter.put('/post/:id', postController.updatePost);
-postRouter.delete('/post/:id', postController.deletePost);
+postRouter.put('/post/:id', MiddlewareAuth0.CheckToken, postController.updatePost);
+postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.deletePost);
 postRouter.get('/post/user/:userid', postController.getAllPostsByUser);
 
 export default postRouter;

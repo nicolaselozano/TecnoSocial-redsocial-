@@ -97,7 +97,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
             >
               {post?.images && (
                 <figure className="w-full h-auto flex items-center">
-                  <PostSliderImages images={post.images} loading={isLoading} />
+                  <PostSliderImages images={post.images} />
                 </figure>
               )}
             </div>
@@ -108,9 +108,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                 <div className="flex items-center mb-2">
                   <img
                     className="w-16 h-16 rounded-xl mr-4"
-                    src={
-                      post?.user?.avatar || "https://via.placeholder.com/150"
-                    }
+                    src={post?.user?.avatar || "/images/not-found/avatar-not-found.svg"}
                     alt={post?.user?.name}
                   />
                   <div>
@@ -151,10 +149,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                     <div key={comment.id} className="flex mb-4">
                       <img
                         className="w-12 h-12 rounded-xl mr-4"
-                        src={
-                          comment?.user?.avatar ||
-                          "https://via.placeholder.com/150"
-                        }
+                        src={comment?.user?.avatar || "/images/not-found/avatar-not-found.svg"}
                         alt={`${comment?.user?.name || "Desconocido"} avatar`}
                       />
                       <div className="flex flex-col">

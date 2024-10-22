@@ -23,6 +23,8 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     token = token.replace('Bearer ', '').trim();
 
     const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
+    console.log('validated token:', validateToken);
+
     if (!validateToken) {
       throw new UnauthorizedError('El token no es valido');
     }
