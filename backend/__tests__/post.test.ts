@@ -7,21 +7,21 @@ import { StatusCodes } from 'http-status-codes';
 import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
 
-beforeAll(async () => {
-  if (!con.isInitialized) {
-    await con.initialize();
-  }
-});
-
-beforeEach(async () => {
-  return await seed({ exit: false });
-});
-
-afterEach(async () => {
-  return await dropDB();
-});
-
 describe('POST Endpoints', () => {
+  beforeAll(async () => {
+    if (!con.isInitialized) {
+      await con.initialize();
+    }
+  });
+
+  beforeEach(async () => {
+    return await seed({ exit: false });
+  });
+
+  afterEach(async () => {
+    return await dropDB();
+  });
+
   describe('POST /api/v1/post', () => {
     const url = '/api/v1/post';
 

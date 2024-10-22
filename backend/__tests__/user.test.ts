@@ -1,5 +1,7 @@
 import con from '@/config/database';
 import { User } from '@/features/user/userEntity';
+import { seed } from '@/utils/seed';
+import { dropDB } from '@/utils/seed/drop';
 import { USERS_MOCK } from '@/utils/seed/mockups/users.mock';
 import { StatusCodes } from 'http-status-codes';
 import { request } from './jest.setup';
@@ -11,8 +13,12 @@ describe('USER Enpoints', () => {
     }
   });
 
+  beforeEach(async () => {
+    return await seed({ exit: false });
+  });
+
   afterAll(async () => {
-    await con.destroy();
+    return await dropDB();
   });
 
   describe('GET /api/v1/user', () => {
@@ -41,18 +47,23 @@ describe('USER Enpoints', () => {
     });
 
     it('should fail to get user with invalid id', async () => {
+      const invalidUserid = (await con.getRepository(User).count()) + 1;
+
       await request
-        .get(url + '/4')
+        .get(url + '/' + invalidUserid)
         .expect(StatusCodes.NOT_FOUND)
         .expect(({ body }) => {
           expect(body).toMatchObject({
-            message: 'user with id 4 not found',
+            message: `user with id ${invalidUserid} not found`,
           });
         });
     });
 
     it('should get one user with role cloud arquitect', async () => {
-      const validRole = 'cloud%20architect';
+      const validRole = 'cloud architect';
+      const usersWithRole = await con.getRepository(User).find({
+        where: { role: validRole },
+      });
       await request
         .get(url + '?role=' + validRole)
         .expect(StatusCodes.OK)
@@ -61,7 +72,7 @@ describe('USER Enpoints', () => {
           expect(body).toMatchObject({
             currentPage: 1,
             totalPages: 1,
-            totalUsers: 1,
+            totalUsers: usersWithRole.length,
           });
         });
     });
