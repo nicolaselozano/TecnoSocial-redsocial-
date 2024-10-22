@@ -9,7 +9,7 @@ import { Project as ProjectEntity } from '@/features/project/projectEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
 import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
-import { MOCK_POSTS } from './mockups/posts.mock';
+import { FIRST_USER_POSTS, PostMock, SECOND_USER_POSTS } from './mockups/posts.mock';
 import { PROJECTS_MOCK } from './mockups/projects.mock';
 import { USERS_MOCK } from './mockups/users.mock';
 
@@ -54,16 +54,8 @@ export async function seed({ exit = true }: Options) {
       }),
     );
 
-    const seededPosts = await seedPosts(newUser);
-
-    // User Ezequiel has a single post
-    const secondUserPost = Post.create({
-      title: 'Post for user with 2',
-      content: 'placeholder',
-      user: seededUsers.find((u) => u.name === 'ezequiel'),
-    });
-
-    await Post.save(secondUserPost);
+    const seededPosts = await seedPosts(newUser, FIRST_USER_POSTS);
+    await seedPosts(secondUser, SECOND_USER_POSTS);
 
     // User with id 1 likes post with id 1
     const newLike = Like.create({
@@ -113,9 +105,9 @@ async function seedUsers(): Promise<UserEntity[]> {
   return users;
 }
 
-async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
-  const posts = await Promise.all(
-    MOCK_POSTS.map(async (post) => {
+async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntity[]> {
+  const results = await Promise.all(
+    posts.map(async (post) => {
       const newPost = Post.create({
         content: post.content,
         title: post.title,
@@ -153,7 +145,7 @@ async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
     }),
   );
   console.log('📝 -- Posts seeded succesfully.');
-  return posts;
+  return results;
 }
 
 async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {

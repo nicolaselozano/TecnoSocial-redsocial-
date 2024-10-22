@@ -1,6 +1,8 @@
 import con from '@/config/database';
 import { Post } from '@/features/post/postEntity';
-import { MOCK_POSTS } from '@/utils/seed/mockups/posts.mock';
+import { seed } from '@/utils/seed';
+import { dropDB } from '@/utils/seed/drop';
+import { FIRST_USER_POSTS, totalPosts } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
 import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
@@ -13,8 +15,12 @@ beforeAll(async () => {
   }
 });
 
-afterAll(async () => {
-  await con.destroy();
+beforeEach(async () => {
+  return await seed({ exit: false });
+});
+
+afterEach(async () => {
+  return await dropDB();
 });
 
 describe('POST /api/v1/post', () => {
@@ -30,7 +36,7 @@ describe('POST /api/v1/post', () => {
   });
 
   it('should get an 201 response', async () => {
-    const post = MOCK_POSTS[0];
+    const post = FIRST_USER_POSTS[0];
 
     await authRequest()
       .post(url)
@@ -40,7 +46,7 @@ describe('POST /api/v1/post', () => {
       })
       .expect(StatusCodes.CREATED)
       .expect(({ body }) => {
-        expect(body.id).toBe(MOCK_POSTS.length + 2);
+        expect(body.id).toBe(totalPosts + 1);
       });
   });
 
@@ -64,6 +70,7 @@ describe('GET /api/v1/post', () => {
       .expect(StatusCodes.OK)
       .expect(({ body }) => {
         expect(Array.isArray(body.results)).toBe(true);
+        expect(body.totalPosts).toBe(totalPosts);
       });
   });
 
