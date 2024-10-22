@@ -43,6 +43,16 @@ describe('POST /api/v1/post', () => {
         expect(body.id).toBe(MOCK_POSTS.length + 2);
       });
   });
+
+  it('should get an error when title is too short', async () => {
+    await authRequest()
+      .post(url)
+      .send({
+        title: 'a',
+        content: 'validddd',
+      })
+      .expect(StatusCodes.BAD_REQUEST);
+  });
 });
 
 describe('GET /api/v1/post', () => {
