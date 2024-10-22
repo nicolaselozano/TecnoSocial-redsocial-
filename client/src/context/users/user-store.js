@@ -15,15 +15,17 @@ const userProfileStore = create((set) => ({
         set({ loading: true });
         const data = await getProfileService.getUserProfile();
         if (data) {
-            set(() => {
-                console.log(data);
+            set((state) => {
+                console.log("Previous user instance:", state.userInstance); // Log del estado anterior
+                console.log("New user data:", data);
+                console.log("DATA DEL ZUSTAND",data);
                 
                 return {
                     userInstance: {
-                        user: data.userData,
-                        proyects: data.projects,
-                        redes: data.redes,
-                        page:data.page
+                        user: { ...data.userData },
+                        proyects: [...data.projects],
+                        redes: [...data.redes],
+                        page: data.page,
                     },
                     loading: false,
                     error:""

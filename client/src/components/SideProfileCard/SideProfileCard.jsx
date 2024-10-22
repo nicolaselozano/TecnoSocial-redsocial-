@@ -88,7 +88,7 @@ const SideProfileCard = () => {
                         <p className="text-white text-sm">{userInstance.user.job || 'Sin información laboral'}</p>
 
                         {/* Métricas del usuario (seguidores, seguidos, publicaciones) */}
-                        <div className="flex flex-row justify-between w-full">
+                        <div className="flex flex-row m-1 justify-between w-full">
                             <div className="flex flex-col items-center">
                                 <p className="text-lg font-semibold">60</p>
                                 <p className="text-gray-400 text-sm">Seguidores</p>

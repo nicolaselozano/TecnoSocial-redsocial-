@@ -23,7 +23,7 @@ const DropNav = ({ setIsIndex, setIsActiveDrop, isActiveDrop }) => {
         <Link
           to={"#"}
           className=" flex items-center gap-x-2"
-          onClick={() => setIsActiveDrop(false)}
+          onClick={() => setIsActiveDrop(false) }
         >
           <RxExit className="size-5" />
           Salir

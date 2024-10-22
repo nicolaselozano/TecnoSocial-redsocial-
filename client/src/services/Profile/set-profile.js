@@ -30,7 +30,6 @@ const updateProfile = async (updatedUserData) => {
         });
 
         const responseData = await response.json();
-        console.log(responseData);
         
         return true;
     } catch (error) {

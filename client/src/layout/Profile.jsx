@@ -15,69 +15,74 @@ const Profile = () => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Check de la autenticacion del usuario
     useEffect(() => {
-        const checkUserAuth = async () => {
+
+        const fetchUserData = async () => {
             setIsLoading(true);
-            const auth = await checkAuth();
-            setIsAuthenticated(auth);
+            const response = await fetchUserDetail();
+ 
+            await response();
             setIsLoading(false);
         };
+        fetchUserData();
 
-        checkUserAuth();
     }, []);
 
     useEffect(() => {
-        setIsLoading(loading);
-        console.log(userInstance);
-    }, [loading]);
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            const fetchUserData = async () => {
-                await fetchUserDetail();
+        if (!isModalOpen) {
+            const checkUserAuth = async () => {
+                setIsLoading(true);
+                const auth = await checkAuth();
+                setIsAuthenticated(auth);
+                setIsLoading(false);
             };
-            fetchUserData();
-
-            console.log(userInstance);
+    
+            checkUserAuth();
         }
-    }, [fetchUserDetail]);
+
+    }, [isModalOpen]);
+
+
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
     const handleSubmitModal = async () => {
-        setIsModalOpen(false);
         await fetchUserDetail();
+        setIsModalOpen(false);
+        console.log("User after modal submit:", userInstance.user);
     };
+
     return (
         <div className="flex flex-row mx-12 my-6">
             <div>
                 <div className="mx-2">
-                    {isLoading || !isAuthenticated ? (
-                        <div className="bg-secondBlack-700 min-w-[153vh] min-h-[50vh] rounded-t-lg">
-                            <header className="relative">
-                                {/* Imagen de fondo del perfil */}
-                                <div 
-                                    className="bg-gray-500 rounded-t-lg w-full h-52"
-                                />
-                                {/* Imagen de perfil del usuario */}
-                                <div className="absolute top-36 left-4 rounded-full border-4 border-gray-800">
+                    {isLoading ?
+                        (
+                            <div className="bg-secondBlack-700 min-w-[153vh] min-h-[50vh] rounded-t-lg">
+                                <header className="relative">
+                                    {/* Imagen de fondo del perfil */}
+                                    <div
+                                        className="bg-gray-500 rounded-t-lg w-full h-52"
+                                    />
+                                    {/* Imagen de perfil del usuario */}
+                                    <div className="absolute top-36 left-4 rounded-full border-4 border-gray-800">
 
-                                    <div 
-                                    className="bg-gray-500 w-24 h-24 rounded-full object-cover" />
+                                        <div
+                                            className="bg-gray-500 w-24 h-24 rounded-full object-cover" />
 
 
 
-                                </div>
-                            </header>
-                        </div>
+                                    </div>
+                                </header>
+                            </div>
 
-                    ) : (
-                        <ProfileDetail user={userInstance.user}
-                            redes={userInstance.redes}
-                            onEditProfile={handleOpenModal}
-                        />
-                    )}
+                        ) :
+                        (
+                            <ProfileDetail user={userInstance.user}
+                                redes={userInstance.redes}
+                                onEditProfile={handleOpenModal}
+                            />
+                        )}
                 </div>
 
                 <div >
