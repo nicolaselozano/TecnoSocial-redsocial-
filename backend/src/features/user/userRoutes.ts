@@ -10,6 +10,7 @@ userRouter.get('/user/:id', userController.getUserById);
 userRouter.delete('/user/:id', userController.deleteUser);
 userRouter.put('/user', MiddlewareAuth0.CheckToken, userController.updateUser);
 
+// Connectios
 userRouter.get('/user/:id/followers', userController.getAllFollowers);
 userRouter.get('/user/:id/followed', userController.getAllFollowed);
 
