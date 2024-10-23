@@ -46,6 +46,11 @@ const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> 
       res.status(200).json(user);
     }
   } catch (error) {
+    console.log('Borrando cookie');
+    const cookies = req.cookies;
+    for (const cookieName in cookies) {
+      res.clearCookie(cookieName);
+    }
     console.log(error);
     res.status(401).json({ message: 'No estás autenticado' });
   }
