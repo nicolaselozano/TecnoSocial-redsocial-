@@ -61,42 +61,73 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
                   $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
-                - id: '1'
-                  title: Primer post
-                  content: Contenido del primer post
-                  user: '12345'
-                  technologies:
-                    - name: react
-                      color: '#ffffff'
-                    - name: express
-                      color: '#000000'
-                  images:
-                    - id: 1
-                      url: 'https://image-url'
-                      alt: tecno image
-                      created_at: '2024-10-08T22:28:58.981Z'
-                    - id: 2
-                      url: 'https://image-url'
-                      alt: tecno image
-                      created_at: '2024-10-08T22:28:58.981Z'
-                  likes:
-                    - null
-                    - id: '2'
-                      title: Segundo post
-                      content: Contenido del segundo post
-                      user: '67890'
-                      technologies:
-                        - name: nextjs
-                          color: '#bbbbbb'
-                      images:
-                        - id: 3
-                          url: 'https://image-url'
-                          alt: tecno image
-                          created_at: '2024-10-08T22:28:58.981Z'
+                results:
+                  - id: 1
+                    title: Primer post
+                    content: Contenido del primer post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
+                  - id: 2
+                    title: Segundo post
+                    content: Contenido del segundo post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
     post:
       summary: Crea un nuevo post
       tags:
