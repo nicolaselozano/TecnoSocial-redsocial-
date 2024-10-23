@@ -1,8 +1,10 @@
-import { BadRequestError } from '@/utils/errors';
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
+import { BadRequestError, ForbiddenError } from '@/utils/errors';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { commentRepository } from '../comment/commentRepository';
 import { likeRepository } from '../like/likeRepository';
+import { userRepository } from '../user/userRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
 
@@ -85,15 +87,37 @@ class PostController {
     res.json(response);
   }
 
-  public async deletePost(req: Request, res: Response): Promise<void> {
+  public async deletePost(req: Request, res: ResponseWithUserData): Promise<void> {
     const { id } = req.params;
-    console.log('TEST');
+    const { email } = res.locals.userData!;
 
     // Check post exists
-    await postRepository.getPostById(Number(id));
+    const post = await postRepository.getPostById(Number(id));
+    console.log('AuthID:' + post.user.email);
+
+    if (post.user.email !== email) {
+      throw new ForbiddenError('forbidden operation');
+    }
 
     const response = await postRepository.deletePost(Number(id));
     res.status(StatusCodes.NO_CONTENT).json(response);
+  }
+
+  public async likePost(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { id } = req.params;
+    const { email } = res.locals.userData!;
+
+    const post = await postRepository.getPostById(Number(id));
+    const user = await userRepository.getUserByEmail(email);
+
+    const like = likeRepository.createLike({
+      post,
+      user,
+    });
+
+    res.status(StatusCodes.CREATED).json({
+      like,
+    });
   }
 }
 

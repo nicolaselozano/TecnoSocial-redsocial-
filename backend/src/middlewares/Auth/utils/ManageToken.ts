@@ -115,7 +115,7 @@ export async function ValidateToken(token: string): Promise<JwtPayload | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Token validation error:', error.message);
-    return null;
+    return Error('Token no validad');
   }
 }
 

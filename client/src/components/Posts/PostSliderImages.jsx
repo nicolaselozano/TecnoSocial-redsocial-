@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PropTypes from "prop-types";
 import "swiper/css";
@@ -11,7 +12,7 @@ const Skeleton = () => (
   <div className="w-full h-52 bg-neutral-700 animate-pulse rounded-md"></div>
 );
 
-export const PostSliderImages = ({ images, loading }) => {
+export const PostSliderImages = ({ images }) => {
   return (
     <Swiper
       pagination={{
@@ -29,26 +30,7 @@ export const PostSliderImages = ({ images, loading }) => {
           key={image.id}
           className="flex items-center justify-center"
         >
-          <div className="flex items-center justify-center w-full h-full">
-            {loading && (
-              <div className="flex items-center justify-center w-full h-full">
-                <Skeleton className="w-full h-full" />
-              </div>
-            )}
-            <img
-              src={image?.url}
-              alt={image?.alt}
-              style={loading ? {} : { display: "block" }}
-              onLoad={(e) => {
-                e.target.style.opacity = 1;
-                e.target.style.transform = "translateY(0)";
-              }}
-              onError={(e) =>
-                (e.target.src = "https://via.placeholder.com/400x300")
-              }
-              className="rounded-md max-w-full max-h-full opacity-0 translate-y-4 transition-all duration-700 ease-in-out"
-            />
-          </div>
+          <ImageWithLoading src={image?.url} alt={image?.alt} />
         </SwiperSlide>
       ))}
 
@@ -63,6 +45,40 @@ export const PostSliderImages = ({ images, loading }) => {
   );
 };
 
+const ImageWithLoading = ({ src, alt }) => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <div className="flex items-center justify-center w-full h-full">
+      {loading && (
+        <div className="flex items-center justify-center w-full h-full">
+          <Skeleton className="w-full h-full" />
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt || "Imagen no encontrada"}
+        onLoad={(e) => {
+          setLoading(false);
+          e.target.style.opacity = 1;
+          e.target.style.transform = "translateY(0)";
+        }}
+        onError={(e) => {
+          setLoading(false);
+          e.target.src = "/images/not-found/image-not-found.png";
+          e.target.alt = "Imagen no disponible";
+        }}
+        className={`rounded-md max-w-full max-h-full opacity-0 translate-y-4 transition-all duration-700 ease-in-out ${
+          loading ? "opacity-0" : "opacity-100"
+        }`}
+        style={{
+          display: loading ? "none" : "block",
+        }}
+      />
+    </div>
+  );
+};
+
 PostSliderImages.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
@@ -71,5 +87,9 @@ PostSliderImages.propTypes = {
       alt: PropTypes.string,
     })
   ),
-  loading: PropTypes.bool,
+};
+
+ImageWithLoading.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string,
 };

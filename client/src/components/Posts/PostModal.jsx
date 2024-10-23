@@ -1,18 +1,44 @@
 import { useEffect } from "react";
 import { PropTypes } from "prop-types";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 import { getRoleColor } from "../../helpers/get-role-color";
 import { IoMdClose } from "react-icons/io";
-import usePostStore from "../../context/posts/post-store";
+import usePostStore from "../../context/posts/posts-store";
 import { PostSliderImages } from "./PostSliderImages";
+import { useState } from "react";
 
 export const PostModal = ({ setIsOpenModal, postId }) => {
-  const { post, fetchPost, isLoading } = usePostStore();
+  const {
+    post,
+    fetchPost,
+    isLoading,
+    addComment,
+    commentLoading,
+    unfollowUser,
+    followUser,
+  } = usePostStore();
+  const user = JSON.parse(localStorage.getItem("userdata"));
+  const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     fetchPost(postId);
   }, [fetchPost, postId]);
+
+  const handleAddComment = () => {
+    if (commentText.trim()) {
+      addComment(postId, commentText, user);
+      setCommentText("");
+    }
+  };
+
+  const handleFollow = () => {
+    if (post.user.isFollower) {
+      unfollowUser(post.user.id);
+    } else {
+      followUser(post.user.id);
+    }
+  };
 
   const Skeleton = () => (
     <div className="animate-pulse">
@@ -97,7 +123,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
             >
               {post?.images && (
                 <figure className="w-full h-auto flex items-center">
-                  <PostSliderImages images={post.images} loading={isLoading} />
+                  <PostSliderImages images={post.images} />
                 </figure>
               )}
             </div>
@@ -109,7 +135,8 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                   <img
                     className="w-16 h-16 rounded-xl mr-4"
                     src={
-                      post?.user?.avatar || "https://via.placeholder.com/150"
+                      post?.user?.avatar ||
+                      "/images/not-found/avatar-not-found.svg"
                     }
                     alt={post?.user?.name}
                   />
@@ -133,9 +160,26 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                     </div>
                   </div>
                 </div>
-                <button className="border border-primaryGreen-400 text-primaryGreen-400 bg-transparent p-1 rounded-md hover:bg-primaryGreen-400 hover:text-white mr-6">
-                  <AiOutlineHeart size={16} />
-                </button>
+                {post?.user?.isFollower !== undefined &&
+                  post?.user?.isFollower !== null && (
+                    <button
+                      onClick={() => handleFollow(post?.user?.id)}
+                      className={`border border-primaryGreen-400 p-1 rounded-md ${
+                        post?.user?.isFollower
+                          ? "bg-primaryGreen-400 text-white"
+                          : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
+                      }`}
+                    >
+                      {post?.user?.isFollower ? (
+                        <AiFillHeart size={16} className="text-white" />
+                      ) : (
+                        <AiOutlineHeart
+                          size={16}
+                          className="text-primaryGreen-400"
+                        />
+                      )}
+                    </button>
+                  )}
               </div>
 
               <div className="mt-4 overflow-y-auto max-h-64">
@@ -148,12 +192,15 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                 {/* Comments */}
                 <div className="mt-4">
                   {post?.comments?.map((comment) => (
-                    <div key={comment.id} className="flex mb-4">
+                    <div
+                      key={comment.id}
+                      className="flex mb-4 transition-opacity duration-500 opacity-0 animate-fade-in"
+                    >
                       <img
                         className="w-12 h-12 rounded-xl mr-4"
                         src={
                           comment?.user?.avatar ||
-                          "https://via.placeholder.com/150"
+                          "/images/not-found/avatar-not-found.svg"
                         }
                         alt={`${comment?.user?.name || "Desconocido"} avatar`}
                       />
@@ -179,16 +226,32 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
               </div>
 
               {/* Send comment */}
-              <div className="flex items-center justify-between mt-4">
-                <input
-                  type="text"
-                  placeholder="¿Quieres compartir algo?"
-                  className="bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full"
-                />
-                <button className="border border-primaryGreen-400 text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
-                  <BiSend size={20} />
-                </button>
-              </div>
+              {user?.authId && (
+                <div className="flex items-center justify-between mt-4">
+                  <input
+                    type="text"
+                    value={commentText}
+                    disabled={commentLoading}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddComment();
+                      }
+                    }}
+                    placeholder="¿Quieres compartir algo?"
+                    className={`bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full 
+                    ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                  />
+                  <button
+                    onClick={handleAddComment}
+                    disabled={commentLoading}
+                    className={`border border-primaryGreen-400 text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white 
+                    ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                  >
+                    <BiSend size={20} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

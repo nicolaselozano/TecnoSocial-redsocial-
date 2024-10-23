@@ -94,7 +94,9 @@ class LikeController {
         res.status(404).json({ message: 'No se encontraron likes para el usuario.' });
         return;
       }
-      res.json(likes);
+      res.json({
+        results: likes,
+      });
     } catch (error) {
       res.status(500).json({ message: 'Error al obtener los likes del usuario', error });
     }

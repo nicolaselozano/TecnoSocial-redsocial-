@@ -4,14 +4,25 @@ import { Comment as CommentEntity } from '@/features/comment/commentEntity';
 import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Like as LikeEntity } from '@/features/like/likeEntity';
+import { Notification as NotificationEntity } from '@/features/notification/notificationEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { Project as ProjectEntity } from '@/features/project/projectEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
 import { User as UserEntity } from '@/features/user/userEntity';
 import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
-import { MOCK_POSTS } from './mockups/posts.mock';
+import { FIRST_USER_POSTS, PostMock, SECOND_USER_POSTS } from './mockups/posts.mock';
 import { PROJECTS_MOCK } from './mockups/projects.mock';
 import { USERS_MOCK } from './mockups/users.mock';
+
+const Project = con.getRepository(ProjectEntity);
+const UserProject = con.getRepository(UserProjectEntity);
+const Connection = con.getRepository(ConnectionEntity);
+const Like = con.getRepository(LikeEntity);
+const SocialNetwork = con.getRepository(SocialNetworkEntity);
+const Post = con.getRepository(PostEntity);
+const Image = con.getRepository(ImageEntity);
+const Comment = con.getRepository(CommentEntity);
+const Notification = con.getRepository(NotificationEntity);
 
 interface Options {
   exit?: boolean;
@@ -23,15 +34,16 @@ export async function seed({ exit = true }: Options) {
       await con.initialize();
     }
 
-    const Connection = con.getRepository(ConnectionEntity);
-    const Like = con.getRepository(LikeEntity);
-
     const seededUsers = await seedUsers();
 
+    const newUser = seededUsers.find((u) => u.name === 'username')!;
+    const secondUser = seededUsers.find((u) => u.name === 'ezequiel')!;
+    const thirdUser = seededUsers.find((u) => u.name === 'martin')!;
+
     const connections = [
-      { follower: seededUsers[0], following: seededUsers[1] }, // User 0 follows User 1
-      { follower: seededUsers[1], following: seededUsers[0] }, // User 1 follows User 0
-      { follower: seededUsers[0], following: seededUsers[2] }, // User 0 follows User 2
+      { follower: newUser, following: secondUser }, // User 0 follows User 1
+      { follower: newUser, following: thirdUser }, // User 0 follows User 2
+      { follower: secondUser, following: newUser }, // User 1 follows User 0
     ];
 
     await Promise.all(
@@ -44,9 +56,8 @@ export async function seed({ exit = true }: Options) {
       }),
     );
 
-    const newUser = seededUsers[0];
-
-    const seededPosts = await seedPosts(newUser);
+    const seededPosts = await seedPosts(newUser, FIRST_USER_POSTS);
+    const secondUserPost = await seedPosts(secondUser, SECOND_USER_POSTS);
 
     // User with id 1 likes post with id 1
     const newLike = Like.create({
@@ -57,7 +68,46 @@ export async function seed({ exit = true }: Options) {
     await Like.save(newLike);
 
     // Add projects
-    await seedProjects(newUser);
+    await seedProjects(newUser, [secondUser, thirdUser]);
+
+    // username tiene 2 notificaciones, de las cuales solo 1 se muestra
+    const newNotification = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: seededPosts[0],
+      user: newUser,
+    });
+
+    await Notification.save(newNotification);
+
+    const secondNotification = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: seededPosts[0],
+      user: newUser,
+      soft_delete: true,
+    });
+
+    await Notification.save(secondNotification);
+
+    // ezequiel va a tener 2 notificaciones
+    const ezequielNotificaion1 = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: secondUserPost[0],
+      user: newUser,
+    });
+
+    await Notification.save(ezequielNotificaion1);
+
+    const ezequielNotificaion2 = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: secondUserPost[0],
+      user: newUser,
+    });
+
+    await Notification.save(ezequielNotificaion2);
 
     console.log('🌱 -- Seeding completed successfully.');
 
@@ -70,8 +120,6 @@ export async function seed({ exit = true }: Options) {
 }
 
 async function seedUsers(): Promise<UserEntity[]> {
-  const SocialNetwork = con.getRepository(SocialNetworkEntity);
-
   const User = con.getRepository(UserEntity);
   const users = await Promise.all(
     USERS_MOCK.map(async (user) => {
@@ -98,13 +146,9 @@ async function seedUsers(): Promise<UserEntity[]> {
   return users;
 }
 
-async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
-  const Post = con.getRepository(PostEntity);
-  const Image = con.getRepository(ImageEntity);
-  const Comment = con.getRepository(CommentEntity);
-
-  const posts = await Promise.all(
-    MOCK_POSTS.map(async (post) => {
+async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntity[]> {
+  const results = await Promise.all(
+    posts.map(async (post) => {
       const newPost = Post.create({
         content: post.content,
         title: post.title,
@@ -142,19 +186,17 @@ async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
     }),
   );
   console.log('📝 -- Posts seeded succesfully.');
-  return posts;
+  return results;
 }
 
-async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {
-  const Project = con.getRepository(ProjectEntity);
-  const UserProject = con.getRepository(UserProjectEntity);
-
+async function seedProjects(user: UserEntity, likers: UserEntity[]): Promise<ProjectEntity[]> {
   const projects = await Promise.all(
     PROJECTS_MOCK.map(async (project) => {
       const newProject = Project.create({
         description: project.description,
         name: project.name,
         url: project.url,
+        liked_users: likers,
       });
 
       await Project.save(newProject);
@@ -174,9 +216,7 @@ async function seedProjects(user: UserEntity): Promise<ProjectEntity[]> {
 }
 
 if (envs.SEED) {
-  seed({
-    exit: true,
-  }).finally(() => {
+  seed({ exit: true }).finally(() => {
     process.exit();
   });
 }

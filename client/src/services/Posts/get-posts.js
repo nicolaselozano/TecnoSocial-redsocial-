@@ -10,6 +10,7 @@ export const getPosts = async (limit, page) => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+        credentials: 'include',
       }
     );
 

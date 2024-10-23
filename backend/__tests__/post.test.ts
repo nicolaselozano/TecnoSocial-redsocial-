@@ -1,134 +1,131 @@
-import { app } from '@/app';
 import con from '@/config/database';
-import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
-import { MOCK_POSTS } from '@/utils/seed/mockups/posts.mock';
+import { Post } from '@/features/post/postEntity';
+import { seed } from '@/utils/seed';
+import { dropDB } from '@/utils/seed/drop';
+import { FIRST_USER_POSTS, totalPosts } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
-import supertest from 'supertest';
+import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
 
-jest.mock('@/middlewares/Auth/utils/ManageToken');
-
-beforeAll(async () => {
-  if (!con.isInitialized) {
-    await con.initialize();
-  }
-});
-
-afterAll(async () => {
-  await con.destroy();
-});
-
-describe('POST /api/v1/post', () => {
-  const url = '/api/v1/post';
-
-  it('should get an 401 response when auth token is not provided', async () => {
-    await request
-      .post(url)
-      .send({
-        title: 'Nuevo post',
-      })
-      .expect(StatusCodes.UNAUTHORIZED);
+describe('POST Endpoints', () => {
+  beforeAll(async () => {
+    if (!con.isInitialized) {
+      await con.initialize();
+    }
   });
 
-  it('should get an 201 response', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
+  beforeEach(async () => {
+    return await seed({ exit: false });
+  });
+
+  afterEach(async () => {
+    return await dropDB();
+  });
+
+  describe('POST /api/v1/post', () => {
+    const url = '/api/v1/post';
+
+    it('should get an 401 response when auth token is not provided', async () => {
+      await request
+        .post(url)
+        .send({
+          title: 'Nuevo post',
+        })
+        .expect(StatusCodes.UNAUTHORIZED);
     });
-    const agent = supertest.agent(app);
-    const post = MOCK_POSTS[0];
 
-    await agent
-      .post(url)
-      .set('Cookie', ['token=mytoken'])
-      .send({
-        title: post.title,
-        content: post.content,
-      })
-      .expect(StatusCodes.CREATED)
-      .expect(({ body }) => {
-        expect(body.id).toBe(MOCK_POSTS.length + 1);
-      });
-  });
-});
+    it('should get an 201 response', async () => {
+      const post = FIRST_USER_POSTS[0];
 
-describe('GET /api/v1/post', () => {
-  const url = '/api/v1/post';
-
-  it('should get a 200 response with a list of posts', async () => {
-    await request
-      .get(url)
-      .expect(StatusCodes.OK)
-      .expect(({ body }) => {
-        expect(Array.isArray(body.results)).toBe(true);
-      });
-  });
-
-  it('should get a 200 response with a single results', async () => {
-    await request
-      .get(url + '/1')
-      .expect(StatusCodes.OK)
-      .expect(({ body }) => {
-        expect(body.id).toBe(1);
-      });
-  });
-
-  it('should get a 404 response when looking for and invalid id', async () => {
-    const invalidPostid = 9999;
-
-    await request
-      .get(url + '/' + invalidPostid)
-      .expect(StatusCodes.NOT_FOUND)
-      .expect(({ body }) => {
-        expect(body).toMatchObject({
-          message: `post with id ${invalidPostid} not found`,
+      await authRequest({})
+        .post(url)
+        .send({
+          title: post.title,
+          content: post.content,
+        })
+        .expect(StatusCodes.CREATED)
+        .expect(({ body }) => {
+          expect(body.id).toBe(totalPosts + 1);
         });
-      });
-  });
-});
-
-describe('DELETE /api/v1/post', () => {
-  const url = '/api/v1/post';
-
-  it('should return a 204 when deleting a post with authenticated user', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
     });
 
-    const agent = supertest.agent(app);
-    const myPostId = 1;
-    await agent
-      .delete(url + '/' + myPostId)
-      .set('Cookie', ['token=mytoken'])
-      .expect(StatusCodes.NO_CONTENT);
+    it.skip('should get an error when title is too short', async () => {
+      await authRequest({})
+        .post(url)
+        .send({
+          title: 'a',
+          content: 'validddd',
+        })
+        .expect(StatusCodes.BAD_REQUEST);
+    });
   });
 
-  // TODO - Figure out a way to bypass 0auth token validation
-  it.skip('should return a 401 error when deleting other users post', async () => {
-    const otherUserPost = 1;
-    await request.delete(url + '/' + otherUserPost).expect(StatusCodes.UNAUTHORIZED);
-  });
+  describe('GET /api/v1/post', () => {
+    const url = '/api/v1/post';
 
-  it('should fail when no auth token is provided', async () => {
-    await request.delete(url + '/1').expect(StatusCodes.UNAUTHORIZED);
-  });
-
-  it('should fail when post id is out of range', async () => {
-    (ManageToken.ValidateToken as jest.Mock).mockResolvedValue({
-      custom_email_claim: 'test-email@gmail.com',
-      custom_name_claim: 'test-user',
-      sub: '1',
+    it('should get a 200 response with a list of posts', async () => {
+      await request
+        .get(url)
+        .expect(StatusCodes.OK)
+        .expect(({ body }) => {
+          expect(Array.isArray(body.results)).toBe(true);
+          expect(body.totalPosts).toBe(totalPosts);
+        });
     });
 
-    const agent = supertest.agent(app);
+    it('should get a 200 response with a single results', async () => {
+      await request
+        .get(url + '/1')
+        .expect(StatusCodes.OK)
+        .expect(({ body }) => {
+          expect(body.id).toBe(1);
+        });
+    });
 
-    const invalidPostid = 9999;
-    await agent
-      .delete(url + '/' + invalidPostid)
-      .set('Cookie', ['token=mytoken'])
-      .expect(StatusCodes.NOT_FOUND);
+    it('should get a 404 response when looking for and invalid id', async () => {
+      const invalidPostid = 9999;
+
+      await request
+        .get(url + '/' + invalidPostid)
+        .expect(StatusCodes.NOT_FOUND)
+        .expect(({ body }) => {
+          expect(body).toMatchObject({
+            message: `post with id ${invalidPostid} not found`,
+          });
+        });
+    });
+  });
+
+  describe('DELETE /api/v1/post', () => {
+    const url = '/api/v1/post';
+
+    it('should return a 204 when deleting a post with authenticated user', async () => {
+      const myPostId = 1;
+
+      await authRequest({})
+        .delete(url + '/' + myPostId)
+        .expect(StatusCodes.NO_CONTENT);
+    });
+
+    it('should return a 403 error when deleting other users post', async () => {
+      const post = await con.getRepository(Post).findOne({ where: { user: { name: 'ezequiel' } } });
+      const otherUserPost = post?.id;
+
+      await authRequest({})
+        .delete(url + '/' + otherUserPost)
+        .expect(StatusCodes.FORBIDDEN);
+    });
+
+    it('should fail when no auth token is provided', async () => {
+      await request.delete(url + '/1').expect(StatusCodes.UNAUTHORIZED);
+    });
+
+    it('should fail when post id is out of range', async () => {
+      const invalidPostid = 9999;
+
+      await authRequest({})
+        .delete(url + '/' + invalidPostid)
+        .expect(StatusCodes.NOT_FOUND);
+    });
   });
 });
