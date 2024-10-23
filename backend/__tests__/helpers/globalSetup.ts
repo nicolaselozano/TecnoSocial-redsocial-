@@ -1,6 +1,5 @@
 import 'tsconfig-paths/register';
 
-import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
 import { upOne } from 'docker-compose';
 import isCI from 'is-ci';
@@ -18,9 +17,6 @@ export default async () => {
     }
 
     await dropDB();
-    await seed({
-      exit: false,
-    });
   } catch (error) {
     console.error(error);
   }
