@@ -16,7 +16,7 @@ const HomePage = () => {
   } = usePostsStore();
 
   const [loading, setLoading] = useState(true);
-
+  const [isOpenModal, setIsOpenModal] = useState(false);
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
