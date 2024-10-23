@@ -49,6 +49,9 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    for (const cookieName in req.cookies) {
+      res.clearCookie(cookieName);
+    }
     res.status(401).json({
       message: error.message || 'Error de autenticación',
     });

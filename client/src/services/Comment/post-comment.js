@@ -1,15 +1,18 @@
 import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
-export const getPosts = async (limit, page) => {
+export const createComment = async (postId, commentContent) => {
   try {
     const response = await fetch(
-      `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`,
+      `${APIDOMAIN}${APIDOMAIN_VERSION}/comment/post/${postId}`, 
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+        body: JSON.stringify({
+          content: commentContent  
+        }),
         credentials: 'include',
       }
     );
@@ -21,7 +24,7 @@ export const getPosts = async (limit, page) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error al obtener los posts:", error);
+    console.error("Error al crear el comentario:", error);
     return null;
   }
 };
