@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getPostById } from "../../services/Posts/get-post-by-id";
 import { getPosts } from "../../services/Posts/get-posts";
+import { createComment } from "../../services/Comment/post-comment";
 
 const usePostStore = create((set) => ({
   posts: [],
@@ -8,6 +9,7 @@ const usePostStore = create((set) => ({
   postId: null,
   isLoading: false,
   loading: false,
+  commentLoading: false,
   page: 1,
   hasMore: true,
 
@@ -44,59 +46,40 @@ const usePostStore = create((set) => ({
     });
 
     const postData = await getPostById(id);
+
+    // Sort comments
+    if (postData.comments) {
+      postData.comments.sort((a, b) => b.id - a.id);
+    }
+
     set({ post: postData, postId: id, isLoading: false });
   },
 
   // Add a new comment to the post
-  addComment: (textComment, user) => {
-    set((state) => {
-      if (state.post) {
-        //TODO: Add comment to post endpoint backend
-        console.log({
-          postId: state.post.id,
-          comment: textComment,
-          user: user,
-        });
-        const newComment = {
-          id: state.post.comments.length + 1,
-          content: textComment,
-          created_at: new Date().toISOString(),
-          user: { ...user, name: user.user },
-        };
+  addComment: async (postId, textComment, user) => {
+    set((state) => ({
+      ...state,
+      commentLoading: true,
+    }));
 
-        return {
-          post: {
-            ...state.post,
-            comments: [newComment, ...state.post.comments],
-          },
-          posts: state.posts.map((post) => {
-            if (post.id === state.postId) {             
-              return {
-                ...post,
-                commentsCount: post.commentsCount + 1,
-              };
-            }
-            return post;
-          }),
-        };
-      }
-      return state;
-    });
-  },
+    try {
+      const resp = await createComment(postId, textComment);
+      if (!resp) throw new Error("Error al crear el comentario");
 
-  // Add a comment quickly to a post
-  addQuicklyComment: (postId, textComment, user) => {
-    set((state) => {
-      return {
+      const newComment = {
+        id: resp.id,
+        content: textComment,
+        created_at: resp.created_at,
+        user: user,
+      };
+
+      set((state) => ({
+        post: {
+          ...state.post,
+          comments: [newComment, ...state.post.comments],
+        },
         posts: state.posts.map((post) => {
-          if (post.id === postId) {
-            //TODO: Add comment to post endpoint backend
-            console.log({
-              postId: postId,
-              comment: textComment,
-              user: user,
-            });
-
+          if (post.id === state.post.id) {
             return {
               ...post,
               commentsCount: post.commentsCount + 1,
@@ -104,8 +87,47 @@ const usePostStore = create((set) => ({
           }
           return post;
         }),
-      };
-    });
+      }));
+    } catch (error) {
+      console.error("Error al agregar el comentario:", error);
+    } finally {
+      set((state) => ({
+        ...state,
+        commentLoading: false,
+      }));
+    }
+  },
+
+  // Add a comment quickly to a post
+  addQuicklyComment: async (postId, textComment) => {
+    set((state) => ({
+      ...state,
+      commentLoading: true,
+    }));
+
+    try {
+      const resp = await createComment(postId, textComment);
+      if (!resp) throw new Error("Error al crear el comentario");
+
+      set((state) => ({
+        posts: state.posts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              commentsCount: post.commentsCount + 1,
+            };
+          }
+          return post;
+        }),
+      }));
+    } catch (error) {
+      console.error("Error al agregar el comentario:", error);
+    } finally {
+      set((state) => ({
+        ...state,
+        commentLoading: false,
+      }));
+    }
   },
 
   // Follow a user

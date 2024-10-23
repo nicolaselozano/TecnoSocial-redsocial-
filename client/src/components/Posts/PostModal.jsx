@@ -9,8 +9,15 @@ import { PostSliderImages } from "./PostSliderImages";
 import { useState } from "react";
 
 export const PostModal = ({ setIsOpenModal, postId }) => {
-  const { post, fetchPost, isLoading, addComment, unfollowUser, followUser } =
-    usePostStore();
+  const {
+    post,
+    fetchPost,
+    isLoading,
+    addComment,
+    commentLoading,
+    unfollowUser,
+    followUser,
+  } = usePostStore();
   const user = JSON.parse(localStorage.getItem("userdata"));
   const [commentText, setCommentText] = useState("");
 
@@ -20,7 +27,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
 
   const handleAddComment = () => {
     if (commentText.trim()) {
-      addComment(commentText, user);
+      addComment(postId, commentText, user);
       setCommentText("");
     }
   };
@@ -185,7 +192,10 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                 {/* Comments */}
                 <div className="mt-4">
                   {post?.comments?.map((comment) => (
-                    <div key={comment.id} className="flex mb-4">
+                    <div
+                      key={comment.id}
+                      className="flex mb-4 transition-opacity duration-500 opacity-0 animate-fade-in"
+                    >
                       <img
                         className="w-12 h-12 rounded-xl mr-4"
                         src={
@@ -221,6 +231,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                   <input
                     type="text"
                     value={commentText}
+                    disabled={commentLoading}
                     onChange={(e) => setCommentText(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -228,11 +239,14 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                       }
                     }}
                     placeholder="¿Quieres compartir algo?"
-                    className="bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full"
+                    className={`bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full 
+                    ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   />
                   <button
                     onClick={handleAddComment}
-                    className="border border-primaryGreen-400 text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
+                    disabled={commentLoading}
+                    className={`border border-primaryGreen-400 text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white 
+                    ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <BiSend size={20} />
                   </button>
