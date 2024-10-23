@@ -120,9 +120,9 @@ export const PostCard = ({ post }) => {
                 e.target.style.opacity = 1;
                 e.target.style.transform = "translateY(0)";
               }}
-              onError={(e) =>
-                (e.target.src = "/images/not-found/image-not-found.svg")
-              }
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
             />
           </figure>
         )}
@@ -133,21 +133,23 @@ export const PostCard = ({ post }) => {
       {/* Footer */}
       <div className="flex justify-between items-center text-sm">
         <div className="flex space-x-4">
-          {user?.authId && post?.isLike !== undefined && post?.isLike !== null && (
-            <button
-              onClick={handleLike}
-              className={`border border-primaryGreen-400 px-4 py-2 rounded-md ${
-                post?.isLike
-                  ? "bg-primaryGreen-400 text-white"
-                  : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
-              }`}
-            >
-              <div className="flex gap-2 items-center">
-                <AiOutlineLike size={20} />
-                <span>{post?.likeCount ?? 0}</span>
-              </div>
-            </button>
-          )}
+          {user?.authId &&
+            post?.isLike !== undefined &&
+            post?.isLike !== null && (
+              <button
+                onClick={handleLike}
+                className={`border border-primaryGreen-400 px-4 py-2 rounded-md ${
+                  post?.isLike
+                    ? "bg-primaryGreen-400 text-white"
+                    : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
+                }`}
+              >
+                <div className="flex gap-2 items-center">
+                  <AiOutlineLike size={20} />
+                  <span>{post?.likeCount ?? 0}</span>
+                </div>
+              </button>
+            )}
           {user?.authId && (
             <button
               onClick={handleComment}

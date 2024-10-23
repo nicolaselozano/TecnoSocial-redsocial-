@@ -1,9 +1,11 @@
 import con from '@/config/database';
+import { Connection } from '@/features/connection/ConnectionEntity';
 import { User } from '@/features/user/userEntity';
 import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
 import { USERS_MOCK } from '@/utils/seed/mockups/users.mock';
 import { StatusCodes } from 'http-status-codes';
+import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
 
 describe('USER Enpoints', () => {
@@ -128,6 +130,28 @@ describe('USER Enpoints', () => {
         .expect(({ body }) => {
           expect(body.totalUsers).toBe(2);
         });
+    });
+  });
+
+  describe('DELETE /user/followed/:followedid', () => {
+    const url = '/api/v1/user/followed';
+    it('should return a 204 response when removing a followed user', async () => {
+      const userEmailWhoFollowsPeople = 'email@gmail.com';
+
+      const followedUsers = await con.getRepository(Connection).findOne({
+        where: {
+          follower: {
+            email: userEmailWhoFollowsPeople,
+          },
+        },
+        relations: ['followed'],
+      });
+
+      const followedId = followedUsers?.followed.id;
+
+      await authRequest({})
+        .delete(url + '/' + followedId)
+        .expect(StatusCodes.NO_CONTENT);
     });
   });
 });
