@@ -5,9 +5,9 @@ const userProfileStore = create((set) => ({
     userInstance: {
         user: {},
         proyects: [],
-        likedProyects:[],
+        likedProyects: [],
         redes: [],
-        page:0
+        page: 0
     },
     loading: false,
     error: "",
@@ -18,8 +18,8 @@ const userProfileStore = create((set) => ({
             set((state) => {
                 console.log("Previous user instance:", state.userInstance); // Log del estado anterior
                 console.log("New user data:", data);
-                console.log("DATA DEL ZUSTAND",data);
-                
+                console.log("DATA DEL ZUSTAND", data);
+
                 return {
                     userInstance: {
                         user: { ...data.userData },
@@ -28,13 +28,28 @@ const userProfileStore = create((set) => ({
                         page: data.page,
                     },
                     loading: false,
-                    error:""
+                    error: ""
                 };
             });
         } else {
             set({ loading: false, error: "Error en la obtencion del usuairo" });
         }
     },
+    reset: () => {
+        set((state) => {
+            return {
+                userInstance: {
+                    user: {},
+                    proyects: [],
+                    likedProyects: [],
+                    redes: [],
+                    page: 0
+                },
+                loading: false,
+                error: "",
+            }
+        })
+    }
 }));
 
 export default userProfileStore;

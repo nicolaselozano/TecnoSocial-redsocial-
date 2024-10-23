@@ -49,7 +49,7 @@ const ImageWithLoading = ({ src, alt }) => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="flex items-center justify-center w-full h-full">
+    <div className="flex items-center justify-center w-full h-full min-h-[300px] min-w-[500px]">
       {loading && (
         <div className="flex items-center justify-center w-full h-full">
           <Skeleton className="w-full h-full" />
@@ -65,8 +65,8 @@ const ImageWithLoading = ({ src, alt }) => {
         }}
         onError={(e) => {
           setLoading(false);
-          e.target.src = "/images/not-found/image-not-found.png";
-          e.target.alt = "Imagen no disponible";
+
+          e.target.alt = "Imagen no encontrada";
         }}
         className={`rounded-md max-w-full max-h-full opacity-0 translate-y-4 transition-all duration-700 ease-in-out ${
           loading ? "opacity-0" : "opacity-100"

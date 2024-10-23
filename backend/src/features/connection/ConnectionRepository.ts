@@ -1,5 +1,6 @@
 import con from '@/config/database';
 import { PaginatedConfig } from '@/types/PaginatedConfig.type';
+import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Connection } from './ConnectionEntity';
@@ -70,6 +71,30 @@ class ConnectionRepository {
       },
     });
     return count;
+  }
+
+  async getFollowedConnection(followedid: User['id'], clientUser: User['email']): Promise<Connection> {
+    const result = await this.repository.findOne({
+      where: {
+        followed: {
+          id: followedid,
+        },
+        follower: {
+          email: clientUser,
+        },
+      },
+    });
+
+    if (!result) {
+      throw new NotFoundError('Connection not found');
+    }
+
+    return result;
+  }
+
+  async deleteConnection(id: Connection['id']) {
+    const result = await this.repository.delete(id);
+    return result.affected === 1;
   }
 }
 
