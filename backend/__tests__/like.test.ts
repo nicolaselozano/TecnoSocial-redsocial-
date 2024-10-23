@@ -47,13 +47,13 @@ describe('LIKE Endpoints', () => {
     const url = '/api/v1/post';
 
     it('should return a 201 request when liking a post with authenticated user', async () => {
-      await authRequest()
+      await authRequest({})
         .post(url + '/' + 1 + '/like')
         .expect(StatusCodes.CREATED);
     });
 
     it('should return a 404 request when liking an invalid post with authenticated user', async () => {
-      await authRequest()
+      await authRequest({})
         .post(url + '/' + (totalPosts + 1) + '/like')
         .expect(StatusCodes.NOT_FOUND);
     });

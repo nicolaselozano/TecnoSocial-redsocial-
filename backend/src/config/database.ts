@@ -5,13 +5,14 @@ import { Comment } from '@/features/comment/commentEntity';
 import { Connection } from '@/features/connection/ConnectionEntity';
 import { Image } from '@/features/image/imageEntity';
 import { Like } from '@/features/like/likeEntity';
+import { Notification } from '@/features/notification/notificationEntity';
 import { Post } from '@/features/post/postEntity';
 import { Project } from '@/features/project/projectEntity';
+import { ImageProject } from '@/features/projectImages/imageEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { Technology } from '@/features/technology/technologyEntity';
 import { User } from '@/features/user/userEntity';
 import { UserProject } from '@/features/userProject/userProjectEntity';
-import { ImageProject } from '@/features/projectImages/imageEntity';
 import mysql2 from 'mysql2';
 
 const con = new DataSource({
@@ -34,6 +35,7 @@ const con = new DataSource({
     Connection,
     UserProject,
     ImageProject,
+    Notification,
   ],
   synchronize: true,
 });

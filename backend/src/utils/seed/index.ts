@@ -4,6 +4,7 @@ import { Comment as CommentEntity } from '@/features/comment/commentEntity';
 import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
 import { Image as ImageEntity } from '@/features/image/imageEntity';
 import { Like as LikeEntity } from '@/features/like/likeEntity';
+import { Notification as NotificationEntity } from '@/features/notification/notificationEntity';
 import { Post as PostEntity } from '@/features/post/postEntity';
 import { Project as ProjectEntity } from '@/features/project/projectEntity';
 import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
@@ -21,6 +22,7 @@ const SocialNetwork = con.getRepository(SocialNetworkEntity);
 const Post = con.getRepository(PostEntity);
 const Image = con.getRepository(ImageEntity);
 const Comment = con.getRepository(CommentEntity);
+const Notification = con.getRepository(NotificationEntity);
 
 interface Options {
   exit?: boolean;
@@ -55,7 +57,7 @@ export async function seed({ exit = true }: Options) {
     );
 
     const seededPosts = await seedPosts(newUser, FIRST_USER_POSTS);
-    await seedPosts(secondUser, SECOND_USER_POSTS);
+    const secondUserPost = await seedPosts(secondUser, SECOND_USER_POSTS);
 
     // User with id 1 likes post with id 1
     const newLike = Like.create({
@@ -67,6 +69,45 @@ export async function seed({ exit = true }: Options) {
 
     // Add projects
     await seedProjects(newUser, [secondUser, thirdUser]);
+
+    // username tiene 2 notificaciones, de las cuales solo 1 se muestra
+    const newNotification = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: seededPosts[0],
+      user: newUser,
+    });
+
+    await Notification.save(newNotification);
+
+    const secondNotification = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: seededPosts[0],
+      user: newUser,
+      soft_delete: true,
+    });
+
+    await Notification.save(secondNotification);
+
+    // ezequiel va a tener 2 notificaciones
+    const ezequielNotificaion1 = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: secondUserPost[0],
+      user: newUser,
+    });
+
+    await Notification.save(ezequielNotificaion1);
+
+    const ezequielNotificaion2 = Notification.create({
+      title: 'Nueva noti',
+      description: 'esta es una nueva notificacion',
+      post: secondUserPost[0],
+      user: newUser,
+    });
+
+    await Notification.save(ezequielNotificaion2);
 
     console.log('🌱 -- Seeding completed successfully.');
 

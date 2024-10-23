@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Post } from '../post/postEntity';
+import { User } from '../user/userEntity';
 
 @Entity()
 export class Notification {
@@ -9,12 +10,25 @@ export class Notification {
   @Column({ type: 'varchar', length: 100 })
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'varchar', length: 150 })
   description: string;
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: Date;
 
-  @ManyToOne(() => Post, (post) => post.id)
+  @Column({ type: 'boolean', default: false })
+  soft_delete: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  has_been_opened: boolean;
+
+  @ManyToOne(() => Post, (post) => post.id, {
+    onDelete: 'CASCADE',
+  })
   post: Post;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'CASCADE',
+  })
+  user: User;
 }

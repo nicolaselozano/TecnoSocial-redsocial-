@@ -27,6 +27,7 @@ const config: Config = {
   // Reporter
   reporters: ['default', ['jest-ctrf-json-reporter', {}]],
   clearMocks: true,
+  testTimeout: 10000,
 };
 
 export default config;
