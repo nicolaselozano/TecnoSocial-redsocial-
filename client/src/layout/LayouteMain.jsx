@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import SideProfileCard from "../components/SideProfileCard/SideProfileCard";
+import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
 
 const LayouteMain = ({ children }) => {
   const { pathname } = useLocation();
@@ -11,12 +12,12 @@ const LayouteMain = ({ children }) => {
           <SideProfileCard/>
         </section>
         {children}
-        <section className=" flex flex-col gap-y-5">
+        <section className=" flex flex-col gap-y-5 border">
           {/*card de perfiles similares*/}
           <section className="bg-gray-400 w-[237px] h-[400px] rounded-xl"></section>
           {/*card de notificaciones*/}
           {pathname !== "/notificate" && (
-            <section className="bg-gray-400 w-[237px] h-[400px] rounded-xl"></section>
+            <SimilarProfilesPage />
           )}
         </section>
       </div>

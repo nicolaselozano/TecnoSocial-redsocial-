@@ -33,11 +33,15 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const [isIndex, setIsIndex] = useState(null);
   const [isActiveDrop, setIsActiveDrop] = useState(false);
+  const [userlogin, setUserLogin] = useState(localStorage.getItem("userdata"));
 
   useEffect(() => {
     setIsIndex(isIndex);
   }, [pathname]);
-  //console.log(isIndex);
+
+  useEffect(() => {
+    setUserLogin(localStorage.getItem("userdata"));
+  }, [localStorage.getItem("userdata")]);
 
   return (
     <header className="w-full h-[90px] bg-secondBlack-700 text-white relative">
@@ -86,31 +90,41 @@ const Navbar = () => {
                 pathname === "/"
                   ? "w-28 -left-4"
                   : pathname === "/explore"
-                  ? "w-28 left-24"
-                  : pathname === "/notifications"
-                  ? "w-40 left-56"
-                  : pathname === "/messages"
-                  ? "w-32 left-[395px]"
-                  : ""
+                    ? "w-28 left-24"
+                    : pathname === "/notifications"
+                      ? "w-40 left-56"
+                      : pathname === "/messages"
+                        ? "w-32 left-[395px]"
+                        : ""
               } h-full bg-primaryGreen-950`}
             ></div>
           </ul>
-          <button
-            to="/profile"
-            className=" size-[55px] rounded-xl overflow-hidden"
-            onClick={() => setIsActiveDrop(!isActiveDrop)}
-          >
-            <img
-              src="/images/image-useroerfil.png"
-              className="size-full object-cover"
-              alt=""
-            />
-          </button>
+          {userlogin ? (
+            <button
+              to="/profile"
+              className=" size-[55px] rounded-xl overflow-hidden"
+              onClick={() => setIsActiveDrop(!isActiveDrop)}
+            >
+              <img
+                src="/images/image-useroerfil.png"
+                className="size-full object-cover"
+                alt="imagen-perfilDeUsuario"
+              />
+            </button>
+          ) : (
+            <button
+              className="text-primaryGreen-400 border border-primaryGreen-400 p-2 rounded-lg hover:bg-primaryGreen-400 hover:text-white"
+              onClick={() => setIsActiveDrop(!isActiveDrop)}
+            >
+              Iniciar sesion
+            </button>
+          )}
         </section>
         <DropNav
           setIsIndex={setIsIndex}
           setIsActiveDrop={setIsActiveDrop}
           isActiveDrop={isActiveDrop}
+          userlogin={userlogin}
         />
       </nav>
     </header>

@@ -5,17 +5,15 @@ import AuthModal from "../components/AuthModals/AuthModal";
 import { ExplorePage } from "../components/Explore/ExplorePage";
 import Profile from "../layout/Profile";
 import Notification from "../view/Notificate/Notificate";
-<<<<<<< HEAD
 import HomePage from "../view/Home";
-=======
 import { NotificationBar } from "../components/Notification_bar/NotificationBar";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
 
->>>>>>> 5e044cf4a6eb7f02c2e7c5d327135d4459294fbd
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/*" element={<HomePage />} />
+      <Route path="/login" element={<AuthModal/>} />
       {/* Login */}
       <Route path="/redirect" element={<RedirectRegister />} />
       <Route path="/redirect/login" element={<RedirectLogin />} />
@@ -28,7 +26,7 @@ const AllRoutes = () => {
       <Route path="/notificationsBar" element={<NotificationBar />} />
 
       {/* Ruta Perfiles Similares */}
-      <Route path="/similares" element={<SimilarProfilesPage/>}/>
+      <Route path="/similares" element={<SimilarProfilesPage />} />
     </Routes>
   );
 };
