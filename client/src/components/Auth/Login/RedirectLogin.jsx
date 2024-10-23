@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { APIDOMAIN, APIDOMAIN_VERSION } from '../../../../vars';
 import { checkAuth } from '../../../services/Auth/checkAuth';
+import userProfileStore from '../../../context/users/user-store';
 
 const RedirectLogin = () => {
     const location = useLocation();
@@ -10,6 +11,7 @@ const RedirectLogin = () => {
     const { search } = location;
     const { code } = queryString.parse(search);
     const [challengesData, setChallengesData] = useState('none');
+    const { fetchUserDetail } = userProfileStore();
     let bandera = true;
 
 
@@ -32,6 +34,8 @@ const RedirectLogin = () => {
                     console.log(JSON.stringify(data));
                     //Metodo para chequear el login
                     await checkAuth();
+
+                    await fetchUserDetail();
                     
                     if (data.user.email) setChallengesData(JSON.stringify(data.user.email));
 
