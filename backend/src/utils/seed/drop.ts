@@ -33,7 +33,6 @@ export async function dropDB() {
 }
 
 if (envs.SEED) {
-  console.log('🐋 -- Docker container inicializado');
   dropDB().finally(() => {
     process.exit();
   });
