@@ -43,7 +43,7 @@ const FileUpload = (req: Request, res: Response, next: NextFunction) => {
     const fileUrls = uploadedFiles.map((file) => {
       return {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        fileUrl: `${req.protocol}://${req.get('host')}/uploads/${path.basename((file as any).newFilename)}`, // Acceder a la nueva propiedad
+        fileUrl: `${req.protocol}://${req.get('host')}/uploads/${path.basename((file as any).newFilename)}`,
       };
     });
 

@@ -29,7 +29,7 @@ const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise
   }
 };
 
-const GetAuthenticatedUser = (req: Request, res: Response): void => {
+const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userData: UserDataToken = res.locals['userData'];
 
@@ -41,13 +41,9 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
         res.clearCookie(cookieName);
       }
     }
-
+    const user = await userRepository.getUserByAuthId(userData.authId);
     if (userData.email) {
-      res.status(200).json({
-        user: userData.authName,
-        email: userData.email,
-        authId: userData.authId,
-      });
+      res.status(200).json(user);
     }
   } catch (error) {
     console.log(error);

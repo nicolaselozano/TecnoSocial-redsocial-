@@ -14,8 +14,18 @@ import usePostsStore from "../../context/posts/posts-store";
 export const PostCard = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [commentText, setCommentText] = useState("");
 
-  const { likePost, unlikePost, followUser, unfollowUser } = usePostsStore();
+  const {
+    likePost,
+    unlikePost,
+    followUser,
+    unfollowUser,
+    addQuicklyComment,
+    commentLoading,
+  } = usePostsStore();
+
+  const user = JSON.parse(localStorage.getItem("userdata"));
 
   const handleLike = () => {
     if (post.isLike) {
@@ -36,6 +46,13 @@ export const PostCard = ({ post }) => {
   const handleComment = () => {
     if (!showComment) {
       setShowComment(true);
+    }
+  };
+
+  const handleAddQuicklyComment = () => {
+    if (commentText.trim()) {
+      addQuicklyComment(post.id, commentText);
+      setCommentText("");
     }
   };
 
@@ -116,7 +133,7 @@ export const PostCard = ({ post }) => {
       {/* Footer */}
       <div className="flex justify-between items-center text-sm">
         <div className="flex space-x-4">
-          {post?.isLike !== undefined && post?.isLike !== null && (
+          {user?.authId && post?.isLike !== undefined && post?.isLike !== null && (
             <button
               onClick={handleLike}
               className={`border border-primaryGreen-400 px-4 py-2 rounded-md ${
@@ -131,15 +148,17 @@ export const PostCard = ({ post }) => {
               </div>
             </button>
           )}
-          <button
-            onClick={handleComment}
-            className="border border-primaryGreen-400 text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
-          >
-            <div className="flex gap-2 items-center">
-              <AiOutlineComment size={20} />
-              <span>{post?.commentsCount ?? 0}</span>
-            </div>
-          </button>
+          {user?.authId && (
+            <button
+              onClick={handleComment}
+              className="border border-primaryGreen-400 text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"
+            >
+              <div className="flex gap-2 items-center">
+                <AiOutlineComment size={20} />
+                <span>{post?.commentsCount ?? 0}</span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
 
@@ -149,10 +168,24 @@ export const PostCard = ({ post }) => {
           <div className="flex items-center justify-between mt-4">
             <input
               type="text"
+              value={commentText}
+              disabled={commentLoading}
+              onChange={(e) => setCommentText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAddQuicklyComment();
+                }
+              }}
               placeholder="Añadir un comentario..."
-              className="bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full"
+              className={`bg-secondBlack-400 border-none rounded-2xl px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primaryGreen-400 w-full 
+              ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             />
-            <button className="border border-primaryGreen-400  text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white">
+            <button
+              onClick={handleAddQuicklyComment}
+              disabled={commentLoading}
+              className={`border border-primaryGreen-400 text-primaryGreen-400 ring-primaryGreen-400 bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white 
+              ${commentLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            >
               <BiSend size={20} />
             </button>
           </div>

@@ -5,46 +5,84 @@ import ProfileDetail from "../components/Profile/ProfileDetail/ProfileDetail";
 import ProfileNav from "../components/Profile/ProfileNav";
 const UserList = React.lazy(() => import('../components/Profile/UserList'));
 import { PostsGrid } from "../components/Posts/PostsGrid";
+import { checkAuth } from "../services/Auth/checkAuth";
 const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
-    const { fetchUserDetail, userInstance, loading } = userProfileStore();
+    const { fetchUserDetail, userInstance, loading, error } = userProfileStore();
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        setIsLoading(loading);
-        console.log(userInstance);
-    }, [loading]);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
+
         const fetchUserData = async () => {
-            await fetchUserDetail();
+            setIsLoading(true);
+            const response = await fetchUserDetail();
+ 
+            await response();
+            setIsLoading(false);
         };
         fetchUserData();
 
-        console.log(userInstance);
+    }, []);
 
-    }, [fetchUserDetail]);
+    useEffect(() => {
+        if (!isModalOpen) {
+            const checkUserAuth = async () => {
+                setIsLoading(true);
+                const auth = await checkAuth();
+                setIsAuthenticated(auth);
+                setIsLoading(false);
+            };
+    
+            checkUserAuth();
+        }
+
+    }, [isModalOpen]);
+
+
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
     const handleSubmitModal = async () => {
-        setIsModalOpen(false);
         await fetchUserDetail();
+        setIsModalOpen(false);
+        console.log("User after modal submit:", userInstance.user);
     };
+
     return (
         <div className="flex flex-row mx-12 my-6">
             <div>
                 <div className="mx-2">
-                    {isLoading ? (
-                        <span>isLoading...</span>
-                    ) : (
-                        <ProfileDetail user={userInstance.user}
-                            redes={userInstance.redes}
-                            onEditProfile={handleOpenModal}
-                        />
-                    )}
+                    {isLoading ?
+                        (
+                            <div className="bg-secondBlack-700 min-w-[153vh] min-h-[50vh] rounded-t-lg">
+                                <header className="relative">
+                                    {/* Imagen de fondo del perfil */}
+                                    <div
+                                        className="bg-gray-500 rounded-t-lg w-full h-52"
+                                    />
+                                    {/* Imagen de perfil del usuario */}
+                                    <div className="absolute top-36 left-4 rounded-full border-4 border-gray-800">
+
+                                        <div
+                                            className="bg-gray-500 w-24 h-24 rounded-full object-cover" />
+
+
+
+                                    </div>
+                                </header>
+                            </div>
+
+                        ) :
+                        (
+                            <ProfileDetail user={userInstance.user}
+                                redes={userInstance.redes}
+                                onEditProfile={handleOpenModal}
+                            />
+                        )}
                 </div>
 
                 <div >
@@ -55,9 +93,9 @@ const Profile = () => {
                     {
                         isModalOpen &&
                         <EditProfileModal show={isModalOpen}
-                        handleClose={handleCloseModal}
-                        handleSubmitModal={handleSubmitModal}
-                        userData={userInstance} />
+                            handleClose={handleCloseModal}
+                            handleSubmitModal={handleSubmitModal}
+                            userData={userInstance} />
                     }
 
 
@@ -119,7 +157,7 @@ const Profile = () => {
                 )}
                 {/* ejemplo de los componentes de notificaciones y perfiles  */}
             </div>
-            <div className="flex flex-col mx-2">
+            <div className="flex flex-col mx-4">
                 <div className="bg-slate-400 w-[238px] h-[354px]
             mb-4"/>
                 <div className="bg-slate-400 w-[238px] h-[354px]" />

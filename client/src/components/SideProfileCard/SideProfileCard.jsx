@@ -63,15 +63,23 @@ const SideProfileCard = () => {
                         
                         {/* Roles del usuario, ahora centrados y distribuidos */}
                         <div className="mt-1 flex flex-grid justify-center items-center space-x-1">
-                            {userInstance.user.roles?.map((role, index) => (
-                                <span
-                                    key={index}
-                                    className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                    style={{ backgroundColor: getRoleColor(role) }}
-                                >
-                                    {role}
-                                </span>
-                            ))}
+                            {
+                            // userInstance.user.roles.length > 0 ? userInstance.user.roles?.map((role, index) => (
+                            //     <span
+                            //         key={index}
+                            //         className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                            //         style={{ backgroundColor: getRoleColor(role) }}
+                            //     >
+                            //         {role}
+                            //     </span>
+                            // )):
+                            <span
+                            className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                            style={{ backgroundColor: getRoleColor(userInstance.user.roles) }}
+                        >
+                            {userInstance.user.roles}
+                        </span>
+                            }
                         </div>
                     </div>
 
@@ -80,7 +88,7 @@ const SideProfileCard = () => {
                         <p className="text-white text-sm">{userInstance.user.job || 'Sin información laboral'}</p>
 
                         {/* Métricas del usuario (seguidores, seguidos, publicaciones) */}
-                        <div className="flex flex-row justify-between w-full">
+                        <div className="flex flex-row m-1 justify-between w-full">
                             <div className="flex flex-col items-center">
                                 <p className="text-lg font-semibold">60</p>
                                 <p className="text-gray-400 text-sm">Seguidores</p>

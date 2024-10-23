@@ -1,6 +1,7 @@
 import { Post } from '@/features/post/postEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { ITRole } from '@/types/roles.enum';
+import { IsEmail } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
@@ -15,6 +16,7 @@ export class User {
   name: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true })
+  @IsEmail()
   email: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true })
