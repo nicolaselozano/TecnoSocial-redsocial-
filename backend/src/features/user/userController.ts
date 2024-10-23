@@ -19,16 +19,14 @@ class UserController {
   }
 
   public async getAllUsers(req: Request, res: Response): Promise<void> {
-    const role = req.query.role ? String(req.query.role) : '';
     const props = getPaginatedParams(req);
 
     const options = {
       ...props,
       skip: (props.page - 1) * props.limit,
-      role,
     };
 
-    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search, role });
+    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search });
 
     const totalPages = Math.ceil(totalUsersCount / props.limit);
 
@@ -55,6 +53,14 @@ class UserController {
 
     const response = await userRepository.deleteUser(Number(id));
     res.json(response);
+  }
+
+  public async getUsersByRole(req: Request, res: Response): Promise<void> {
+    const { role } = req.params;
+    const users = await userRepository.getAllUsersByRole(role);
+    res.json({
+      users,
+    });
   }
 }
 

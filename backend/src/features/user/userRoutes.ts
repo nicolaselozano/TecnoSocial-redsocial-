@@ -11,6 +11,10 @@ userRouter.get('/user/:id', userController.getUserById);
 userRouter.delete('/user/:id', userController.deleteUser);
 userRouter.put('/user', MiddlewareAuth0.CheckToken, userController.updateUser);
 
+// Roles
+userRouter.get('/user/role/:role', userController.getUsersByRole);
+
+// Connections
 userRouter.get('/user/:id/followers', connectionController.getAllFollowers);
 userRouter.get('/user/:id/followed', connectionController.getAllFollowed);
 userRouter.delete('/user/followed/:followedid', MiddlewareAuth0.CheckToken, connectionController.deleteFollowed);
