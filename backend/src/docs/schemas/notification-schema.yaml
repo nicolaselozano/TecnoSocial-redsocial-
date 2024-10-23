@@ -1,0 +1,13 @@
+type: object
+properties:
+  id:
+    type: number
+  title:
+    type: string
+  description:
+    type: string
+  created_at:
+    type: string
+  soft_delete:
+    type: boolean
+  
