@@ -50,5 +50,5 @@ export class Post {
   @OneToMany(() => Comment, (comment) => comment.post, {
     cascade: true,
   })
-  comments: Comment;
+  comments: Comment[];
 }

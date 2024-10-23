@@ -46,7 +46,7 @@ class PostRepository {
   public async getPostById(id: PostSelect): Promise<Post> {
     const post = await this.repository.findOne({
       where: { id },
-      relations: ['images', 'user', 'likes', 'comments'],
+      relations: ['images', 'user', 'likes', 'comments', 'comments.user'],
     });
 
     if (!post) {
