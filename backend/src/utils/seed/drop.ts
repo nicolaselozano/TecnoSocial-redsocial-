@@ -1,6 +1,5 @@
 import con from '@/config/database';
 import envs from '@/config/envs';
-import { upOne } from 'docker-compose';
 
 export async function waitForDBConnection() {
   let retries = 5;
@@ -34,10 +33,8 @@ export async function dropDB() {
 }
 
 if (envs.SEED) {
-  upOne('tecno-db').then(() => {
-    console.log('🐋 -- Docker container inicializado');
-    dropDB().finally(() => {
-      process.exit();
-    });
+  console.log('🐋 -- Docker container inicializado');
+  dropDB().finally(() => {
+    process.exit();
   });
 }
