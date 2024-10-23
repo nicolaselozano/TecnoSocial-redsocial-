@@ -77,7 +77,7 @@ const SimilarProfiles = () => {
   );
 
   return (
-    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-[237px] min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
+    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
       <h2 className="text-lato text-[20px] font-semibold leading-[24px] w-full opacity-100 mb-4 text-left">
         Perfiles Similares
       </h2>
@@ -87,7 +87,7 @@ const SimilarProfiles = () => {
           return (
             <li
               key={index}
-              className="flex items-center gap-[12px] w-[213px]"
+              className="flex items-center gap-[12px] w-full"
             >
               <img
                 src={profile.image}
@@ -115,7 +115,7 @@ const SimilarProfiles = () => {
         <div className="mt-4">
           <button
             onClick={handleShowMore}
-            className="text-lato text-[12px] font-normal leading-[18px] text-[#43AA8B] hover:underline text-left"
+            className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 hover:underline text-left text-xs border-b border-primaryGreen-400"
           >
             Ver más
           </button>

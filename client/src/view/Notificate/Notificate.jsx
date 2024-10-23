@@ -80,7 +80,7 @@ const listNotify = [
 ];
 
 const Notification = () => {
-  const [isIndex, setIsIndex] = useState(0);
+  //const [isIndex, setIsIndex] = useState(0);
   const [filterList, setFilterList] = useState(listNotify);
   const [listNotifications, setListNotifications] = useState([]);
   const [isPage, setIspage] = useState(1);
@@ -235,7 +235,7 @@ const Notification = () => {
                 title={item.title}
                 description={item.description}
                 type={item.type}
-                filter={isIndex}
+                /* filter={isIndex} */
               />
             ))
           ) : (
