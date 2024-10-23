@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "lint": "npm run --workspace backend lint:staged",
+    "test": "npm run --workspace backend test",
     "dev": "npm run docker:compose && lerna run db:seed --scope=backend && lerna run dev",
     "docker:compose": "docker compose up -d"
   },

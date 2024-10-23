@@ -1,16 +1,40 @@
-version: "3.8"
-
 services:
   tecno-db:
+    env_file:
+      - path: ./backend/.env
+        required: true
     image: mysql:8.0.39
     container_name: tecno-db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
     ports:
       - 3306:3306
     volumes:
       - mysql_data:/var/lib/mysql
 
+  tecno-db-test:
+    env_file:
+      - path: ./backend/.env.test
+        required: true
+    image: mysql:8.0.39
+    container_name: tecno-db-test
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_data_test:/var/lib/mysql
+
 volumes:
   mysql_data:
+  mysql_data_test:

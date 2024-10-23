@@ -1,0 +1,49 @@
+{
+    "followers":[
+        {
+            "user": {
+                "name": "Andres Lopez",
+                "avatar": "https://via.placeholder.com/150",
+                "roles": ["backend", "frontend"]
+              }
+        },
+        {
+          "user": {
+            "name": "Sofia Ramirez",
+            "avatar": "https://via.placeholder.com/150/900C3F/FFFFFF?text=Sofia",
+            "roles": ["fullstack"]
+          }
+        },
+        {
+          "user": {
+            "name": "Daniela Rojas",
+            "avatar": "https://via.placeholder.com/150/581845/FFFFFF?text=Daniela",
+            "roles": ["frontend"]
+          }
+        },
+        {
+          "user": {
+            "name": "Miguel Hernandez",
+            "avatar": "https://via.placeholder.com/150/FF5733/FFFFFF?text=Miguel",
+            "roles": ["backend", "devops"]
+          }
+        },
+        {
+          "user": {
+            "name": "Isabella Cruz",
+            "avatar": "https://via.placeholder.com/150/33FF57/FFFFFF?text=Isabella",
+            "roles": ["designer", "frontend"]
+          }
+        },
+        {
+          "user": {
+            "name": "Sebastian Jimenez",
+            "avatar": "https://via.placeholder.com/150/3357FF/FFFFFF?text=Sebastian",
+            "roles": ["fullstack"]
+          }
+        }
+    ],
+    "page":1,
+    "totalUsers": 10,
+    "totalPages": 4
+}

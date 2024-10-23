@@ -1,0 +1,42 @@
+{
+  "followed": [
+    {
+      "user": {
+        "name": "Andres Lopez",
+        "avatar": "https://via.placeholder.com/150/FF5733/FFFFFF?text=Andres",
+        "roles": ["backend", "frontend"]
+      }
+    },
+    {
+      "user": {
+        "name": "Maria Garcia",
+        "avatar": "https://via.placeholder.com/150/33FF57/FFFFFF?text=Maria",
+        "roles": ["frontend"]
+      }
+    },
+    {
+      "user": {
+        "name": "Carlos Sanchez",
+        "avatar": "https://via.placeholder.com/150/3357FF/FFFFFF?text=Carlos",
+        "roles": ["backend"]
+      }
+    },
+    {
+      "user": {
+        "name": "Laura Martinez",
+        "avatar": "https://via.placeholder.com/150/FF33A1/FFFFFF?text=Laura",
+        "roles": ["designer", "frontend"]
+      }
+    },
+    {
+      "user": {
+        "name": "Javier Torres",
+        "avatar": "https://via.placeholder.com/150/FFC300/FFFFFF?text=Javier",
+        "roles": ["backend", "devops"]
+      }
+    }
+  ],
+  "page": 1,
+  "totalUsers": 10,
+  "totalPages": 1
+}

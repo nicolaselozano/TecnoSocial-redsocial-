@@ -4,7 +4,14 @@ import { PostsGrid } from "../Posts/PostsGrid";
 import { Search } from "./Search";
 
 export const ExplorePage = () => {
-  const { posts, page, hasMore, isLoading, fetchPosts } = usePostsStore();
+  const {
+    posts,
+    page,
+    hasMore,
+    loading: isLoading,
+    fetchPosts,
+  } = usePostsStore();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

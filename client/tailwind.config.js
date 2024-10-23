@@ -4,6 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
+        
+        backend: '#4B5563',
+        frontend: '#2563EB',
+        tester: '#10B981',
+        devop: '#F59E0B',
+
         primaryGreen: {
           400: "#43AA8B",
           950: "#0B2822",

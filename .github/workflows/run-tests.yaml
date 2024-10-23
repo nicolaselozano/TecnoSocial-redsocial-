@@ -1,0 +1,64 @@
+name: Run Tests
+run-name: Run tests by ${{ github.actor }}
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASS }}
+          MYSQL_DATABASE: ${{ env.DB_NAME }}
+        ports:
+          - 3306:3306
+        options: --health-cmd "mysqladmin ping --silent" --health-interval 10s --health-timeout 5s --health-retries 3
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "pnpm"
+          cache_dependency_path: ./backend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm i --filter . --no-frozen-lockfile
+
+      - name: Run Jest tests
+        env:
+          UPLOAD_DIR: "../assets"
+          DB_PORT: ${{ env.DB_PORT }}
+          DB_HOST: ${{ env.DB_HOST }}
+          DB_USER: ${{ env.DB_USER }}
+          DB_PASS: ${{ env.DB_PASS }}
+          DB_NAME: ${{ env.DB_NAME }}
+          DOMAIN: ${{ secrets.DOMAIN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          CLIENT_HOST: "http://localhost:5173/"
+        run: pnpm test:ci
+
+      - name: Publish Test Summary Results
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
+
+env:
+  DB_PORT: 3306
+  DB_HOST: localhost
+  DB_USER: root
+  DB_PASS: rootpass
+  DB_NAME: testdb

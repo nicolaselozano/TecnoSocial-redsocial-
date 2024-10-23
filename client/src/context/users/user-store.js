@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { ProfileService } from "../../services/Profile/get-profile";
+import { getProfileService } from "../../services/Profile/get-profile";
 
 const userProfileStore = create((set) => ({
     userInstance: {
         user: {},
         proyects: [],
+        likedProyects:[],
         redes: [],
         page:0
     },
@@ -12,17 +13,19 @@ const userProfileStore = create((set) => ({
     error: "",
     fetchUserDetail: async () => {
         set({ loading: true });
-        const data = await ProfileService.getUserProfile();
+        const data = await getProfileService.getUserProfile();
         if (data) {
-            set(() => {
-                console.log(data);
+            set((state) => {
+                console.log("Previous user instance:", state.userInstance); // Log del estado anterior
+                console.log("New user data:", data);
+                console.log("DATA DEL ZUSTAND",data);
                 
                 return {
                     userInstance: {
-                        user: data.userData,
-                        proyects: data.projects,
-                        redes: data.redes,
-                        page:data.page
+                        user: { ...data.userData },
+                        proyects: [...data.projects],
+                        redes: [...data.redes],
+                        page: data.page,
                     },
                     loading: false,
                     error:""
