@@ -33,9 +33,9 @@ class UserRopository {
     });
   }
 
-  public async getAllUsers({ limit, search, skip }: PaginatedConfig & UserFilters): Promise<User[]> {
+  public async getAllUsers({ limit, search, skip }: PaginatedConfig & UserFilters) {
     const users = await this.repository.find({
-      relations: ['social_networks'],
+      relations: ['social_networks', 'roles'],
       where: {
         name: Like(`%${search}%`),
       },
@@ -43,7 +43,11 @@ class UserRopository {
       skip,
     });
 
-    return users;
+    // Remove id from role object
+    return users.map((user) => ({
+      ...user,
+      roles: user.roles.map((r) => r.name),
+    }));
   }
 
   public async getUserById(id: User['id']): Promise<User> {

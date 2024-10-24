@@ -29,13 +29,13 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   authId: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   authName: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   token: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true })
