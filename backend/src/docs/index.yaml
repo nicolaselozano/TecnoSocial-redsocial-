@@ -55,6 +55,8 @@ paths:
   # User endpoints
   /user:
     $ref: './paths/user.yaml'
+  /user/role/{role}:
+    $ref: './paths/user/user-role.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
   /user/{id}/followers:

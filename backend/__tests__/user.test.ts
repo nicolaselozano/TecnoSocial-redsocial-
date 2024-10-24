@@ -60,29 +60,34 @@ describe('USER Enpoints', () => {
           });
         });
     });
+  });
 
-    it('should get one user with role cloud arquitect', async () => {
-      const validRole = 'cloud architect';
+  describe('GET /user/role/:role', () => {
+    const url = '/api/v1/user/role/';
+    it('should get users with role software developer', async () => {
+      const validRole = 'Software Developer';
       const usersWithRole = await con.getRepository(User).find({
-        where: { role: validRole },
+        where: {
+          roles: {
+            name: validRole,
+          },
+        },
+        relations: ['roles'],
       });
+
       await request
-        .get(url + '?role=' + validRole)
+        .get(url + 'software%20developer')
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
           expect(Array.isArray(body.users)).toBe(true);
-          expect(body).toMatchObject({
-            currentPage: 1,
-            totalPages: 1,
-            totalUsers: usersWithRole.length,
-          });
+          expect(body.users.length).toBe(usersWithRole.length);
         });
     });
 
-    it('should fail to get user when role is incorrect', async () => {
+    it('should get no users when role is incorrect', async () => {
       const invalidRole = 'invalid%20role';
       await request
-        .get(url + '?role=' + invalidRole)
+        .get(url + invalidRole)
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
           expect(Array.isArray(body.users)).toBe(true);
