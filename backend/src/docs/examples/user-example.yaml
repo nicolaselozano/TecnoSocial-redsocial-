@@ -25,3 +25,4 @@ posts:
     title: 'Entity Relationships in TypeORM'
     created_at: '2024-10-24T01:35:08.196Z'
 followerscount: 10
+followedcount: 10
