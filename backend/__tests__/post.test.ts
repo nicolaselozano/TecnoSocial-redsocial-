@@ -137,6 +137,19 @@ describe('POST Endpoints', () => {
   describe('POST /api/v1/post/:id/like', () => {
     const url = '/api/v1/post/';
 
+    it('should return a 201 response when user likes a post', async () => {
+      const userEmail = 'email@gmail.com';
+      const notLikedPost = await con.getRepository(Post).findOne({
+        where: {
+          user: { email: userEmail },
+        },
+      });
+
+      await authRequest({})
+        .post(url + notLikedPost?.id + '/like')
+        .expect(StatusCodes.CREATED);
+    });
+
     it('should return a 401 response when auth token is not provided', async () => {
       await request.post(url + 1 + '/like').expect(StatusCodes.UNAUTHORIZED);
     });
