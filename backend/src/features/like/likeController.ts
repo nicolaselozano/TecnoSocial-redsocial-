@@ -87,6 +87,7 @@ class LikeController {
   public async getUserLikes(req: Request, res: Response): Promise<void> {
     try {
       const { userid } = req.params;
+      console.log('HOLA');
 
       const likes = await likeRepository.getLikesByUser(Number(userid));
 
@@ -94,6 +95,7 @@ class LikeController {
         res.status(404).json({ message: 'No se encontraron likes para el usuario.' });
         return;
       }
+
       res.json({
         results: likes,
       });

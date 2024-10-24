@@ -1,6 +1,6 @@
 ## start:
 
-**Descripción**: Inicia la aplicación ejecutando el archivo JavaScript compilado ./dist/index.js.
+**Descripción**: Inicia la aplicación ejecutando el archivo JavaScript compilado ./dist/src/index.js.
 **Uso**: Este script generalmente se usa en un entorno de producción, donde la aplicación ya ha sido compilada y está lista para ejecutarse.
 
 ## test:
