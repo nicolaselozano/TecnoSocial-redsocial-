@@ -33,5 +33,4 @@ get:
             properties:
               message:
                 type: string
-          example:
-            message: []
+          example: []

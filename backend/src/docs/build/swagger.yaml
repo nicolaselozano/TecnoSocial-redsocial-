@@ -330,7 +330,7 @@ paths:
                 - id: '2'
                   title: Segundo post
                   content: Contenido del segundo post
-        '202':
+        '204':
           description: no se encontraron posts
           content:
             application/json:
