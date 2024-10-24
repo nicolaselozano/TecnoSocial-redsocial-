@@ -81,7 +81,10 @@ paths:
   # Social networks endpoints
   /social-networks:
     $ref: './paths/social-networks.yaml'
-
+    
   #notificaciones  endpoints
   /notification:
     $ref: './paths/notification.yaml'
+  /notification/{id}:
+    $ref: './paths/notification-by-id.yaml'
+
