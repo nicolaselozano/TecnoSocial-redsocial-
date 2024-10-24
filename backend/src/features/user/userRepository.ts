@@ -109,14 +109,18 @@ class UserRopository {
     return result.affected === 1;
   }
 
-  public async getAllUsersByRole(role: Role['name']): Promise<User[]> {
-    const results = await this.repository.find({
+  public async getAllUsersByRole(role: Role['name']) {
+    const users = await this.repository.find({
       where: {
         roles: { name: Like(`${role}`) },
       },
       relations: ['roles'],
     });
-    return results;
+
+    return users.map((user) => ({
+      ...user,
+      roles: user.roles.map((r) => r.name),
+    }));
   }
 }
 

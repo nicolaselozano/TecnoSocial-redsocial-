@@ -58,9 +58,7 @@ class UserController {
   public async getUsersByRole(req: Request, res: Response): Promise<void> {
     const { role } = req.params;
     const users = await userRepository.getAllUsersByRole(role);
-    res.json({
-      users,
-    });
+    res.json(users);
   }
 }
 

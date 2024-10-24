@@ -16,8 +16,7 @@ get:
           schema:
             $ref: '../../schemas/user-schema.yaml'
           example:
-            users:
-              $ref: '../../examples/users-example.yaml'
+            $ref: '../../examples/users-example.yaml'
     '404':
       description: usuario no encontrado
       content:
