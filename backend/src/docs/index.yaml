@@ -35,7 +35,8 @@ paths:
     $ref: './paths/post-followed-by-id.yaml'
   /post/user/{userid}:
     $ref: './paths/post-user.yaml'
-
+  /post/{id}/like:
+    $ref: './paths/post/post-like.yaml'
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
