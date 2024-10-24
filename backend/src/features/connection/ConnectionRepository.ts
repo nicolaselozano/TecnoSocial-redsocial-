@@ -94,6 +94,16 @@ class ConnectionRepository {
     const result = await this.repository.delete(id);
     return result.affected === 1;
   }
+
+  async isFollower(followedid: User['id'], followerid: User['id']) {
+    const result = await this.repository.count({
+      where: {
+        followed: { id: followedid },
+        follower: { id: followerid },
+      },
+    });
+    return result === 1;
+  }
 }
 
 export const connectionRepository = new ConnectionRepository();

@@ -124,6 +124,16 @@ class UserRopository {
       roles: user.roles.map((r) => r.name),
     }));
   }
+
+  public async getUserWithRoles(id: User['id']) {
+    const user = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ['roles'],
+    });
+    return { ...user, roles: user?.roles.map((r) => r.name) };
+  }
 }
 
 export const userRepository = new UserRopository();
