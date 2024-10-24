@@ -378,6 +378,49 @@ paths:
                     type: string
               example:
                 message: usuario no encontrado
+  '/post/{id}/like':
+    post:
+      summary: Agregar like a un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del post
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: like creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                message: like creado correctamente
+        '401':
+          description: usuario no autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no autorizado
+        '404':
+          description: post no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: post no encontrado
   /project:
     post:
       summary: Crea un nuevo proyecto
@@ -721,8 +764,44 @@ paths:
                 items:
                   $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
+                totalPages: 10
+                currentPage: 1
+                totalUsers: 70
                 users:
-                  $ref: '#/paths/~1user~1role~1%7Brole%7D/get/responses/200/content/application~1json/example'
+                  - id: 1
+                    name: Martin
+                    email: email@gmail.com
+                    location: Buenos Aires
+                    avatar: 'https://avatar-url'
+                    job: Mercado libre
+                    roles:
+                      - Software Developer
+                      - Cloud Architect
+                    social_networks:
+                      id: 1
+                      gitlab: 'https://example.com'
+                      twitter: 'https://example.com'
+                      instagram: 'https://example.com'
+                      linkedin: null
+                      facebook: null
+                      github: null
+                  - id: 2
+                    name: Sofia
+                    email: email@gmail.com
+                    location: Buenos Aires
+                    avatar: 'https://avatar-url'
+                    job: Mercado libre
+                    roles:
+                      - Software Developer
+                      - Cloud Architect
+                    social_networks:
+                      id: 1
+                      gitlab: 'https://example.com'
+                      twitter: 'https://example.com'
+                      instagram: 'https://example.com'
+                      linkedin: null
+                      facebook: null
+                      github: null
   '/user/role/{role}':
     get:
       summary: Obtiene todos los usuario asociados a un rol
