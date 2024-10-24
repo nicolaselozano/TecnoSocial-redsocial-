@@ -19,16 +19,14 @@ class UserController {
   }
 
   public async getAllUsers(req: Request, res: Response): Promise<void> {
-    const role = req.query.role ? String(req.query.role) : '';
     const props = getPaginatedParams(req);
 
     const options = {
       ...props,
       skip: (props.page - 1) * props.limit,
-      role,
     };
 
-    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search, role });
+    const totalUsersCount = await userRepository.getAllUsersCount({ search: props.search });
 
     const totalPages = Math.ceil(totalUsersCount / props.limit);
 
@@ -40,8 +38,11 @@ class UserController {
     const { id } = req.params;
 
     const user = await userRepository.getUserById(Number(id));
-    res.json({ ...user, followerscount: await connectionRepository.getFollowersCount({ userid: Number(id) }) });
-    res.json({ ...user, followeds: await connectionRepository.getAllFollowed({ userid: Number(id) }) });
+    res.json({
+      ...user,
+      followerscount: await connectionRepository.getFollowersCount({ userid: Number(id) }),
+      followedcount: await connectionRepository.getFollowedCount({ userid: Number(id) }),
+    });
   }
 
   public async updateUser(req: Request, res: ResponseWithUserData): Promise<void> {
@@ -55,6 +56,12 @@ class UserController {
 
     const response = await userRepository.deleteUser(Number(id));
     res.json(response);
+  }
+
+  public async getUsersByRole(req: Request, res: Response): Promise<void> {
+    const { role } = req.params;
+    const users = await userRepository.getAllUsersByRole(role);
+    res.json(users);
   }
 }
 

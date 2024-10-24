@@ -133,7 +133,7 @@ export const PostCard = ({ post }) => {
       {/* Footer */}
       <div className="flex justify-between items-center text-sm">
         <div className="flex space-x-4">
-          {user?.authId &&
+          {user?.id &&
             post?.isLike !== undefined &&
             post?.isLike !== null && (
               <button
@@ -150,7 +150,7 @@ export const PostCard = ({ post }) => {
                 </div>
               </button>
             )}
-          {user?.authId && (
+          {user?.id && (
             <button
               onClick={handleComment}
               className="border border-primaryGreen-400 text-[#43AA8B] bg-transparent px-4 py-2 rounded-md hover:bg-primaryGreen-400 hover:text-white"

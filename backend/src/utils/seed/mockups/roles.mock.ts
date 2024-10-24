@@ -1,0 +1,17 @@
+export const MOCK_ROLES = [
+  'Software Developer',
+  'DevOps Engineer',
+  'Data Scientist',
+  'Cloud Architect',
+  'Cybersecurity Analyst',
+  'Database Administrator',
+  'Network Engineer',
+  'IT Support Specialist',
+  'QA Engineer',
+  'UI/UX Designer',
+  'IT Project Manager',
+  'Systems Administrator',
+  'Business Analyst',
+  'AI/ML Engineer',
+  'Product Manager',
+];

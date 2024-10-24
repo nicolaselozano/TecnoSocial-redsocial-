@@ -64,7 +64,7 @@ describe('POST Endpoints', () => {
     const url = '/api/v1/post';
 
     it('should get a 200 response with a list of posts', async () => {
-      await request
+      await authRequest({})
         .get(url)
         .expect(StatusCodes.OK)
         .expect(({ body }) => {

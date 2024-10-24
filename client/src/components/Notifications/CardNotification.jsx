@@ -9,8 +9,8 @@ const CardNotification = ({
   title,
   description,
   type,
-  filter,
   username,
+  filter,
 }) => {
   const dateNow = () => {
     let date = new Date();

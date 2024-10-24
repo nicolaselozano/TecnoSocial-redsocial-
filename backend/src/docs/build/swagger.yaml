@@ -302,6 +302,44 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user: '12345'
+  '/post/{id}/followed':
+    get:
+      summary: Obtiene todos post de los usuarios seguidos
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                - id: '1'
+                  title: Primer post
+                  content: Contenido del primer post
+                - id: '2'
+                  title: Segundo post
+                  content: Contenido del segundo post
+        '204':
+          description: no se encontraron posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: []
   '/post/user/{userid}':
     get:
       summary: Obtiene todos los posts asociados a un usuario
@@ -340,6 +378,49 @@ paths:
                     type: string
               example:
                 message: usuario no encontrado
+  '/post/{id}/like':
+    post:
+      summary: Agregar like a un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del post
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: like creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                message: like creado correctamente
+        '401':
+          description: usuario no autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no autorizado
+        '404':
+          description: post no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: post no encontrado
   /project:
     post:
       summary: Crea un nuevo proyecto
@@ -683,31 +764,109 @@ paths:
                 items:
                   $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
+                totalPages: 10
+                currentPage: 1
+                totalUsers: 70
+                users:
+                  - id: 1
+                    name: Martin
+                    email: email@gmail.com
+                    location: Buenos Aires
+                    avatar: 'https://avatar-url'
+                    job: Mercado libre
+                    roles:
+                      - Software Developer
+                      - Cloud Architect
+                    social_networks:
+                      id: 1
+                      gitlab: 'https://example.com'
+                      twitter: 'https://example.com'
+                      instagram: 'https://example.com'
+                      linkedin: null
+                      facebook: null
+                      github: null
+                  - id: 2
+                    name: Sofia
+                    email: email@gmail.com
+                    location: Buenos Aires
+                    avatar: 'https://avatar-url'
+                    job: Mercado libre
+                    roles:
+                      - Software Developer
+                      - Cloud Architect
+                    social_networks:
+                      id: 1
+                      gitlab: 'https://example.com'
+                      twitter: 'https://example.com'
+                      instagram: 'https://example.com'
+                      linkedin: null
+                      facebook: null
+                      github: null
+  '/user/role/{role}':
+    get:
+      summary: Obtiene todos los usuario asociados a un rol
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: role
+          required: true
+          description: nombre del rol
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuarios encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
                 - id: 1
                   name: Martin
                   email: email@gmail.com
+                  location: Buenos Aires
+                  avatar: 'https://avatar-url'
+                  job: Mercado libre
+                  roles:
+                    - Software Developer
+                    - Cloud Architect
                   social_networks:
                     id: 1
                     gitlab: 'https://example.com'
                     twitter: 'https://example.com'
                     instagram: 'https://example.com'
-                  posts:
-                    - id: '1'
-                      title: Primer post
-                      content: Contenido del primer post
+                    linkedin: null
+                    facebook: null
+                    github: null
                 - id: 2
                   name: Sofia
                   email: email@gmail.com
+                  location: Buenos Aires
+                  avatar: 'https://avatar-url'
+                  job: Mercado libre
+                  roles:
+                    - Software Developer
+                    - Cloud Architect
                   social_networks:
-                    id: 2
-                    facebook: 'https://example.com'
-                  posts:
-                    - id: '1'
-                      title: Primer post
-                      content: Contenido del primer post
-                    - id: '2'
-                      title: Segundo post
-                      content: Contenido del segundo post
+                    id: 1
+                    gitlab: 'https://example.com'
+                    twitter: 'https://example.com'
+                    instagram: 'https://example.com'
+                    linkedin: null
+                    facebook: null
+                    github: null
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/user/{id}':
     get:
       summary: Obtiene un usuario por ID
@@ -731,15 +890,31 @@ paths:
                 id: 1
                 name: Martin
                 email: email@gmail.com
+                location: Buenos Aires
+                avatar: 'https://avatar-url'
+                job: Mercado libre
+                roles:
+                  - Software Developer
+                  - Cloud Architect
                 social_networks:
                   id: 1
                   gitlab: 'https://example.com'
                   twitter: 'https://example.com'
                   instagram: 'https://example.com'
+                  linkedin: null
+                  facebook: null
+                  github: null
                 posts:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                followerscount: 10
+                followedcount: 10
         '404':
           description: usuario no encontrado
           content:
@@ -1201,3 +1376,52 @@ paths:
                     title: titulo
                     id: 1
                     content: contenido
+  /fileupload:
+    post:
+      summary: Sube un archivo al servidor y devuelve la URL
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Archivo subido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+              example:
+                url: 'http://localhost:3000/uploads/imagen.jpg'
+        '400':
+          description: Error al subir el archivo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error al subir el archivo
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error del servidor

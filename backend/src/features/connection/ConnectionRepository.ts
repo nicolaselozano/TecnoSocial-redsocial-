@@ -60,8 +60,6 @@ class ConnectionRepository {
   }
 
   async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
-    console.log('USERID:', userid);
-
     const count = await this.repository.count({
       where: {
         followed: {
@@ -95,6 +93,16 @@ class ConnectionRepository {
   async deleteConnection(id: Connection['id']) {
     const result = await this.repository.delete(id);
     return result.affected === 1;
+  }
+
+  async isFollower(followedid: User['id'], followerid: User['id']) {
+    const result = await this.repository.count({
+      where: {
+        followed: { id: followedid },
+        follower: { id: followerid },
+      },
+    });
+    return result === 1;
   }
 }
 

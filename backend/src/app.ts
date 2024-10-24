@@ -43,7 +43,8 @@ app.use(
   fuRouter,
   notificationRouter,
 );
-app.use('/uploads', express.static(path.join(__dirname, `./services/uploads`)));
+
+app.use('/uploads', express.static(path.join('./', envs.UPLOAD_DIR)));
 
 app.use(globalErrors);
 

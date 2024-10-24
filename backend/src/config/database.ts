@@ -9,6 +9,7 @@ import { Notification } from '@/features/notification/notificationEntity';
 import { Post } from '@/features/post/postEntity';
 import { Project } from '@/features/project/projectEntity';
 import { ImageProject } from '@/features/projectImages/imageEntity';
+import { Role } from '@/features/role/roleEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
 import { Technology } from '@/features/technology/technologyEntity';
 import { User } from '@/features/user/userEntity';
@@ -36,6 +37,7 @@ const con = new DataSource({
     UserProject,
     ImageProject,
     Notification,
+    Role,
   ],
   synchronize: true,
 });

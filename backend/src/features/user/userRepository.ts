@@ -3,9 +3,10 @@ import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
+import { Role } from '../role/roleEntity';
 import { User } from './userEntity';
 
-type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'role' | 'job'>;
+type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'job'>;
 
 type UserFilters = {
   role?: string;
@@ -24,40 +25,43 @@ class UserRopository {
     return response;
   }
 
-  public async getAllUsersCount({ search, role }: PaginatedConfig & UserFilters): Promise<number> {
+  public async getAllUsersCount({ search }: PaginatedConfig & UserFilters): Promise<number> {
     return await this.repository.count({
       where: {
         name: Like(`%${search}%`),
-        role: Like(`%${role}%`),
       },
     });
   }
 
-  public async getAllUsers({ limit, search, skip, role }: PaginatedConfig & UserFilters): Promise<User[]> {
+  public async getAllUsers({ limit, search, skip }: PaginatedConfig & UserFilters) {
     const users = await this.repository.find({
-      relations: ['social_networks'],
+      relations: ['social_networks', 'roles'],
       where: {
         name: Like(`%${search}%`),
-        role: Like(`%${role}%`),
       },
       take: limit,
       skip,
     });
 
-    return users;
+    // Remove id from role object
+    return users.map((user) => ({
+      ...user,
+      roles: user.roles.map((r) => r.name),
+    }));
   }
 
-  public async getUserById(id: User['id']): Promise<User> {
+  public async getUserById(id: User['id']) {
     const user = await this.repository.findOne({
       where: { id },
-      relations: ['social_networks', 'posts'],
+      relations: ['social_networks', 'posts', 'roles'],
     });
 
     if (!user) {
       throw new NotFoundError(`user with id ${id} not found`);
     }
 
-    return user;
+    // Remove id from role object
+    return { ...user, roles: user.roles.map((r) => r.name) };
   }
 
   public async getUserByEmail(email: User['email']): Promise<User> {
@@ -96,7 +100,6 @@ class UserRopository {
         job: user.job,
         location: user.location,
         name: user.name,
-        role: user.role,
       },
     );
     return results.raw;
@@ -105,6 +108,31 @@ class UserRopository {
   public async deleteUser(id: User['id']): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected === 1;
+  }
+
+  public async getAllUsersByRole(role: Role['name']) {
+    const users = await this.repository.find({
+      where: {
+        roles: { name: Like(`${role}`) },
+      },
+      relations: ['roles'],
+    });
+
+    // Remove id from role object
+    return users.map((user) => ({
+      ...user,
+      roles: user.roles.map((r) => r.name),
+    }));
+  }
+
+  public async getUserWithRoles(id: User['id']) {
+    const user = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ['roles'],
+    });
+    return { ...user, roles: user?.roles.map((r) => r.name) };
   }
 }
 
