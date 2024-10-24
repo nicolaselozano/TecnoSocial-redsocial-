@@ -1,14 +1,14 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
 import { BadRequestError, ForbiddenError } from '@/utils/errors';
+import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { commentRepository } from '../comment/commentRepository';
+import { connectionRepository } from '../connection/ConnectionRepository';
 import { likeRepository } from '../like/likeRepository';
 import { userRepository } from '../user/userRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
-import { connectionRepository } from '../connection/ConnectionRepository';
-import { getPaginatedParams } from '@/utils/getPaginatedParams';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
@@ -24,11 +24,9 @@ class PostController {
   }
 
   public async getAllPosts(req: Request, res: Response): Promise<void> {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 5;
-    const search = req.query.search ? String(req.query.search) : '';
+    const { limit, page, search } = getPaginatedParams(req);
 
-    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+    const totalPosts = await postRepository.getAllPostsCount({ search });
 
     const totalPages = Math.ceil(totalPosts / limit!);
 
@@ -47,12 +45,22 @@ class PostController {
     const userid = 1;
 
     const postWithLikedProperty = await Promise.all(
-      posts.map(async (post) => ({
-        ...post,
-        isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
-        likeCount: await likeRepository.countLikes(post.id),
-        commentsCount: await commentRepository.countComments(post.id),
-      })),
+      posts.map(async (post) => {
+        console.log(post);
+
+        const userWithRoles = await userRepository.getUserWithRoles(post.user.id);
+
+        return {
+          ...post,
+          user: {
+            ...userWithRoles,
+            isFollower: await connectionRepository.isFollower(post.user.id, userid),
+          },
+          isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
+          likeCount: await likeRepository.countLikes(post.id),
+          commentsCount: await commentRepository.countComments(post.id),
+        };
+      }),
     );
 
     res.json({
