@@ -1,9 +1,11 @@
 import con from '@/config/database';
+import { Connection } from '@/features/connection/ConnectionEntity';
 import { User } from '@/features/user/userEntity';
 import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
 import { USERS_MOCK } from '@/utils/seed/mockups/users.mock';
 import { StatusCodes } from 'http-status-codes';
+import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
 
 describe('USER Enpoints', () => {
@@ -58,33 +60,38 @@ describe('USER Enpoints', () => {
           });
         });
     });
+  });
 
-    it('should get one user with role cloud arquitect', async () => {
-      const validRole = 'cloud architect';
+  describe('GET /user/role/:role', () => {
+    const url = '/api/v1/user/role/';
+    it('should get users with role software developer', async () => {
+      const validRole = 'Software Developer';
       const usersWithRole = await con.getRepository(User).find({
-        where: { role: validRole },
+        where: {
+          roles: {
+            name: validRole,
+          },
+        },
+        relations: ['roles'],
       });
+
       await request
-        .get(url + '?role=' + validRole)
+        .get(url + 'software%20developer')
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
-          expect(Array.isArray(body.users)).toBe(true);
-          expect(body).toMatchObject({
-            currentPage: 1,
-            totalPages: 1,
-            totalUsers: usersWithRole.length,
-          });
+          expect(Array.isArray(body)).toBe(true);
+          expect(body.length).toBe(usersWithRole.length);
         });
     });
 
-    it('should fail to get user when role is incorrect', async () => {
+    it('should get no users when role is incorrect', async () => {
       const invalidRole = 'invalid%20role';
       await request
-        .get(url + '?role=' + invalidRole)
+        .get(url + invalidRole)
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
-          expect(Array.isArray(body.users)).toBe(true);
-          expect(body.users.length).toBe(0);
+          expect(Array.isArray(body)).toBe(true);
+          expect(body.length).toBe(0);
         });
     });
   });
@@ -128,6 +135,28 @@ describe('USER Enpoints', () => {
         .expect(({ body }) => {
           expect(body.totalUsers).toBe(2);
         });
+    });
+  });
+
+  describe('DELETE /user/followed/:followedid', () => {
+    const url = '/api/v1/user/followed';
+    it('should return a 204 response when removing a followed user', async () => {
+      const userEmailWhoFollowsPeople = 'email@gmail.com';
+
+      const followedUsers = await con.getRepository(Connection).findOne({
+        where: {
+          follower: {
+            email: userEmailWhoFollowsPeople,
+          },
+        },
+        relations: ['followed'],
+      });
+
+      const followedId = followedUsers?.followed.id;
+
+      await authRequest({})
+        .delete(url + '/' + followedId)
+        .expect(StatusCodes.NO_CONTENT);
     });
   });
 });

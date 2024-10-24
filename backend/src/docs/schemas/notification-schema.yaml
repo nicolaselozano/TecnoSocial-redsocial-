@@ -10,4 +10,3 @@ properties:
     type: string
   soft_delete:
     type: boolean
-  

@@ -17,8 +17,8 @@ get:
         minimum: 0
         description: Número máximo de notificaciones a devolver
       required: false
-      description: n paginas para saltar 
-      
+      description: n paginas para saltar
+
   responses:
     '200':
       description: Lista de notificaciones
@@ -37,14 +37,12 @@ get:
               title: 'Segunda notificaciones'
               description: 'Contenido del  la segunda notificaciones'
               created_at: '2024-10-12'
-              user: 
-                email: "lucio@gmail.com "
-                name: "lucio"
-                avatar: " img.com"
-                location: " buenos aires"
-              post: 
-                title: "titulo"
+              user:
+                email: 'lucio@gmail.com '
+                name: 'lucio'
+                avatar: ' img.com'
+                location: ' buenos aires'
+              post:
+                title: 'titulo'
                 id: 1
-                content: "contenido"
-    
-            
+                content: 'contenido'

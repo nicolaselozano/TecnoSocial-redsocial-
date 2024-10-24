@@ -31,9 +31,12 @@ paths:
     $ref: './paths/post.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
+  /post/{id}/followed:
+    $ref: './paths/post-followed-by-id.yaml'
   /post/user/{userid}:
     $ref: './paths/post-user.yaml'
-
+  /post/{id}/like:
+    $ref: './paths/post/post-like.yaml'
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
@@ -53,6 +56,8 @@ paths:
   # User endpoints
   /user:
     $ref: './paths/user.yaml'
+  /user/role/{role}:
+    $ref: './paths/user/user-role.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
   /user/{id}/followers:
@@ -85,6 +90,11 @@ paths:
   #notificaciones  endpoints
   /notification:
     $ref: './paths/notification.yaml'
+
   /notification/{id}:
     $ref: './paths/notification-by-id.yaml'
+
+  # Fileupload endpoint
+  /fileupload:
+    $ref: './paths/fileupload.yaml'
 

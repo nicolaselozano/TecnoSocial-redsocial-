@@ -128,7 +128,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
               )}
             </div>
 
-            <div className={`${post?.images ? "sm:w-1/2" : "w-full"} p-4`}>
+            <div className={`${post?.images ? "w-full" : "w-full"} p-4`}>
               {/* Header */}
               <div className="flex justify-between items-start">
                 <div className="flex items-center mb-2">
@@ -226,7 +226,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
               </div>
 
               {/* Send comment */}
-              {user?.authId && (
+              {user?.id && (
                 <div className="flex items-center justify-between mt-4">
                   <input
                     type="text"

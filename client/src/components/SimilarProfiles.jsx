@@ -77,7 +77,7 @@ const SimilarProfiles = () => {
   );
 
   return (
-    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-[237px] min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
+    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
       <h2 className="text-lato text-[20px] font-semibold leading-[24px] w-full opacity-100 mb-4 text-left">
         Perfiles Similares
       </h2>
@@ -87,15 +87,15 @@ const SimilarProfiles = () => {
           return (
             <li
               key={index}
-              className="flex items-center gap-[12px] w-[213px]"
+              className="flex items-start justify-between w-full"
             >
               <img
                 src={profile.image}
                 alt={profile.name}
                 className="w-[55px] h-[55px] rounded-[12px] object-cover"
               />
-              <div className="flex flex-col w-[150px] gap-[6px]">
-                <p className="text-md font-semibold">{profile.name}</p>
+              <div className="flex flex-col w-[150px] gap-[6px] pl-2">
+                <p className="text-md font-semibold truncate ">{profile.name}</p>
                 <div className="flex flex-wrap gap-[4px]">
                   {roles.map((role, roleIndex) => (
                     <span key={roleIndex} className={getRoleColorClass(role)}>
@@ -104,8 +104,8 @@ const SimilarProfiles = () => {
                   ))}
                 </div>
               </div>
-              <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] p-0 rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all w-[20px] h-[20px] flex justify-center items-center">
-                <AiOutlineHeart size={12} />
+              <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center">
+                <AiOutlineHeart size={12} className=''/>
               </button>
             </li>
           );
@@ -115,7 +115,7 @@ const SimilarProfiles = () => {
         <div className="mt-4">
           <button
             onClick={handleShowMore}
-            className="text-lato text-[12px] font-normal leading-[18px] text-[#43AA8B] hover:underline text-left"
+            className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 hover:underline text-left text-xs border-b border-primaryGreen-400"
           >
             Ver más
           </button>

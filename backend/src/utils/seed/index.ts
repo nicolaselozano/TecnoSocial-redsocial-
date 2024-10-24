@@ -1,28 +1,32 @@
 import con from '@/config/database';
 import envs from '@/config/envs';
-import { Comment as CommentEntity } from '@/features/comment/commentEntity';
-import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
-import { Image as ImageEntity } from '@/features/image/imageEntity';
-import { Like as LikeEntity } from '@/features/like/likeEntity';
-import { Notification as NotificationEntity } from '@/features/notification/notificationEntity';
-import { Post as PostEntity } from '@/features/post/postEntity';
-import { Project as ProjectEntity } from '@/features/project/projectEntity';
-import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
-import { User as UserEntity } from '@/features/user/userEntity';
-import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
+import { Comment } from '@/features/comment/commentEntity';
+import { Connection } from '@/features/connection/ConnectionEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Like } from '@/features/like/likeEntity';
+import { Notification } from '@/features/notification/notificationEntity';
+import { Post } from '@/features/post/postEntity';
+import { Project } from '@/features/project/projectEntity';
+import { Role } from '@/features/role/roleEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { User } from '@/features/user/userEntity';
+import { UserProject } from '@/features/userProject/userProjectEntity';
 import { FIRST_USER_POSTS, PostMock, SECOND_USER_POSTS } from './mockups/posts.mock';
 import { PROJECTS_MOCK } from './mockups/projects.mock';
+import { MOCK_ROLES } from './mockups/roles.mock';
 import { USERS_MOCK } from './mockups/users.mock';
 
-const Project = con.getRepository(ProjectEntity);
-const UserProject = con.getRepository(UserProjectEntity);
-const Connection = con.getRepository(ConnectionEntity);
-const Like = con.getRepository(LikeEntity);
-const SocialNetwork = con.getRepository(SocialNetworkEntity);
-const Post = con.getRepository(PostEntity);
-const Image = con.getRepository(ImageEntity);
-const Comment = con.getRepository(CommentEntity);
-const Notification = con.getRepository(NotificationEntity);
+const project = con.getRepository(Project);
+const userProject = con.getRepository(UserProject);
+const connection = con.getRepository(Connection);
+const like = con.getRepository(Like);
+const socialNetwork = con.getRepository(SocialNetworks);
+const post = con.getRepository(Post);
+const image = con.getRepository(Image);
+const comment = con.getRepository(Comment);
+const notification = con.getRepository(Notification);
+const user = con.getRepository(User);
+const role = con.getRepository(Role);
 
 interface Options {
   exit?: boolean;
@@ -33,8 +37,8 @@ export async function seed({ exit = true }: Options) {
     if (!con.isInitialized) {
       await con.initialize();
     }
-
-    const seededUsers = await seedUsers();
+    const seededRoles = await seedRoles();
+    const seededUsers = await seedUsers(seededRoles);
 
     const newUser = seededUsers.find((u) => u.name === 'username')!;
     const secondUser = seededUsers.find((u) => u.name === 'ezequiel')!;
@@ -47,12 +51,12 @@ export async function seed({ exit = true }: Options) {
     ];
 
     await Promise.all(
-      connections.map(async (connection) => {
-        const newConnection = Connection.create({
-          follower: connection.follower,
-          followed: connection.following,
+      connections.map(async (con) => {
+        const newConnection = connection.create({
+          follower: con.follower,
+          followed: con.following,
         });
-        await Connection.save(newConnection);
+        await connection.save(newConnection);
       }),
     );
 
@@ -60,27 +64,27 @@ export async function seed({ exit = true }: Options) {
     const secondUserPost = await seedPosts(secondUser, SECOND_USER_POSTS);
 
     // User with id 1 likes post with id 1
-    const newLike = Like.create({
+    const newLike = like.create({
       post: seededPosts[0],
       user: newUser,
     });
 
-    await Like.save(newLike);
+    await like.save(newLike);
 
     // Add projects
     await seedProjects(newUser, [secondUser, thirdUser]);
 
     // username tiene 2 notificaciones, de las cuales solo 1 se muestra
-    const newNotification = Notification.create({
+    const newNotification = notification.create({
       title: 'Nueva noti',
       description: 'esta es una nueva notificacion',
       post: seededPosts[0],
       user: newUser,
     });
 
-    await Notification.save(newNotification);
+    await notification.save(newNotification);
 
-    const secondNotification = Notification.create({
+    const secondNotification = notification.create({
       title: 'Nueva noti',
       description: 'esta es una nueva notificacion',
       post: seededPosts[0],
@@ -88,26 +92,26 @@ export async function seed({ exit = true }: Options) {
       soft_delete: true,
     });
 
-    await Notification.save(secondNotification);
+    await notification.save(secondNotification);
 
     // ezequiel va a tener 2 notificaciones
-    const ezequielNotificaion1 = Notification.create({
+    const ezequielNotificaion1 = notification.create({
       title: 'Nueva noti',
       description: 'esta es una nueva notificacion',
       post: secondUserPost[0],
       user: newUser,
     });
 
-    await Notification.save(ezequielNotificaion1);
+    await notification.save(ezequielNotificaion1);
 
-    const ezequielNotificaion2 = Notification.create({
+    const ezequielNotificaion2 = notification.create({
       title: 'Nueva noti',
       description: 'esta es una nueva notificacion',
       post: secondUserPost[0],
       user: newUser,
     });
 
-    await Notification.save(ezequielNotificaion2);
+    await notification.save(ezequielNotificaion2);
 
     console.log('🌱 -- Seeding completed successfully.');
 
@@ -119,26 +123,25 @@ export async function seed({ exit = true }: Options) {
   }
 }
 
-async function seedUsers(): Promise<UserEntity[]> {
-  const User = con.getRepository(UserEntity);
+async function seedUsers(roles?: Role[]): Promise<User[]> {
   const users = await Promise.all(
-    USERS_MOCK.map(async (user) => {
-      const { email, name, job, location, role, social_networks } = user;
+    USERS_MOCK.map(async (u) => {
+      const { email, name, job, location, social_networks } = u;
 
-      const newSocialsNetworks = SocialNetwork.create(social_networks);
+      const newSocialsNetworks = socialNetwork.create(social_networks);
 
-      await SocialNetwork.save(newSocialsNetworks);
+      await socialNetwork.save(newSocialsNetworks);
 
-      const newUser = User.create({
+      const newUser = user.create({
         email,
         name,
         job,
         location,
-        role,
         social_networks: newSocialsNetworks,
+        roles: [roles![0], roles![1]],
       });
 
-      await User.save(newUser);
+      await user.save(newUser);
       return newUser;
     }),
   );
@@ -146,40 +149,53 @@ async function seedUsers(): Promise<UserEntity[]> {
   return users;
 }
 
-async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntity[]> {
+async function seedRoles() {
+  const roles = await Promise.all(
+    MOCK_ROLES.map(async (r) => {
+      const newRole = role.create({
+        name: r,
+      });
+      role.save(newRole);
+      return newRole;
+    }),
+  );
+  return roles;
+}
+
+async function seedPosts(user: User, posts: PostMock[]): Promise<Post[]> {
   const results = await Promise.all(
-    posts.map(async (post) => {
-      const newPost = Post.create({
-        content: post.content,
-        title: post.title,
+    posts.map(async (p) => {
+      const newPost = post.create({
+        content: p.content,
+        title: p.title,
         user,
       });
 
       // Cuando lo guardo, se le asigna un ID automatico
-      await Post.save(newPost);
+      await post.save(newPost);
 
-      if (post.comments) {
-        const comments = post.comments.map((com) =>
-          Comment.create({
+      if (p.comments) {
+        const comments = p.comments.map((com) =>
+          comment.create({
             content: com.content,
             post: newPost,
             user,
           }),
         );
         // Cuando lo guardo, se le asigna un ID automatico
-        await Comment.save(comments);
+        await comment.save(comments);
       }
 
-      if (post.images) {
-        const images = post.images.map((image) =>
-          Image.create({
-            alt: image.alt,
-            url: image.url,
+      if (p.images) {
+        const images = p.images.map((img) =>
+          image.create({
+            alt: img.alt,
+            url: img.url,
             post_id: newPost,
           }),
         );
 
-        await Image.save(images);
+        await image.save(images);
       }
 
       return newPost;
@@ -189,25 +205,25 @@ async function seedPosts(user: UserEntity, posts: PostMock[]): Promise<PostEntit
   return results;
 }
 
-async function seedProjects(user: UserEntity, likers: UserEntity[]): Promise<ProjectEntity[]> {
+async function seedProjects(user: User, likers: User[]): Promise<Project[]> {
   const projects = await Promise.all(
-    PROJECTS_MOCK.map(async (project) => {
-      const newProject = Project.create({
-        description: project.description,
-        name: project.name,
-        url: project.url,
+    PROJECTS_MOCK.map(async (pro) => {
+      const newProject = project.create({
+        description: pro.description,
+        name: pro.name,
+        url: pro.url,
         liked_users: likers,
       });
 
-      await Project.save(newProject);
+      await project.save(newProject);
 
-      const userProject = UserProject.create({
+      const newUserProject = userProject.create({
         project: newProject,
         role: 'Developer',
         user,
       });
 
-      await UserProject.save(userProject);
+      await userProject.save(newUserProject);
       return newProject;
     }),
   );

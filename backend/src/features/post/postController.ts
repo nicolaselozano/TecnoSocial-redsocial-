@@ -1,8 +1,10 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
 import { BadRequestError, ForbiddenError } from '@/utils/errors';
+import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { commentRepository } from '../comment/commentRepository';
+import { connectionRepository } from '../connection/ConnectionRepository';
 import { likeRepository } from '../like/likeRepository';
 import { userRepository } from '../user/userRepository';
 import { Post } from './postEntity';
@@ -21,12 +23,11 @@ class PostController {
     res.status(StatusCodes.CREATED).json(response);
   }
 
-  public async getAllPosts(req: Request, res: Response): Promise<void> {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 5;
-    const search = req.query.search ? String(req.query.search) : '';
+  public async getAllPostsAuthenticated(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { limit, page, search } = getPaginatedParams(req);
+    const { email } = res.locals.userData!;
 
-    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+    const totalPosts = await postRepository.getAllPostsCount({ search });
 
     const totalPages = Math.ceil(totalPosts / limit!);
 
@@ -42,15 +43,23 @@ class PostController {
 
     // TODO - ver como obtenemos el id del usuario realizando la peticion
     //        a lo mejor se usa el middleware que checkea el token.
-    const userid = 1;
+    const clientUser = await userRepository.getUserByEmail(email);
 
     const postWithLikedProperty = await Promise.all(
-      posts.map(async (post) => ({
-        ...post,
-        isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
-        likeCount: await likeRepository.countLikes(post.id),
-        commentsCount: await commentRepository.countComments(post.id),
-      })),
+      posts.map(async (post) => {
+        const userWithRoles = await userRepository.getUserWithRoles(post.user.id);
+
+        return {
+          ...post,
+          user: {
+            ...userWithRoles,
+            isFollower: await connectionRepository.isFollower(post.user.id, clientUser.id),
+          },
+          isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid: clientUser.id }),
+          likeCount: await likeRepository.countLikes(post.id),
+          commentsCount: await commentRepository.countComments(post.id),
+        };
+      }),
     );
 
     res.json({
@@ -118,6 +127,32 @@ class PostController {
     res.status(StatusCodes.CREATED).json({
       like,
     });
+  }
+
+  public async followedUsersPostsById(req: Request, res: Response): Promise<void> {
+    const { search } = getPaginatedParams(req);
+    const { id } = req.params;
+
+    const followed = await connectionRepository.getAllFollowed({
+      search: search,
+      userid: Number(id),
+    });
+
+    const posts = followed.map(async (user) => {
+      return await postRepository.getPostById(user.id);
+    });
+
+    Promise.all(posts)
+      .then((posts) => {
+        if (posts.length === 0) {
+          res.status(StatusCodes.NO_CONTENT).json([]);
+        } else {
+          res.json(posts);
+        }
+      })
+      .catch(() => {
+        res.status(StatusCodes.NO_CONTENT).json([]);
+      });
   }
 }
 

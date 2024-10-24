@@ -6,7 +6,9 @@ import path from 'path';
 
 // Ruta para manejar la subida de archivos
 const FileUpload = (req: Request, res: Response, next: NextFunction) => {
-  const uploadDir = path.join(__dirname, envs.UPLOAD_DIR);
+  const uploadDir = path.join('./', envs.UPLOAD_DIR);
+
+  console.log('subiendo archivo en:', uploadDir);
 
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });

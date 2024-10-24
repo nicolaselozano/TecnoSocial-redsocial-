@@ -9,7 +9,6 @@ const AuthModal = () => {
     const [isModalOpenRegister, setIsModalOpenRegister] = useState(false);
     const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
 
-
     return (
         <div className="min-h-screen flex items-center justify-center">
             <AuthButton name={"Register"} onClick={() => setIsModalOpenRegister(true)}/>
