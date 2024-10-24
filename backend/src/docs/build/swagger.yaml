@@ -302,6 +302,45 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user: '12345'
+  '/post/{id}/followed':
+    get:
+      summary: Obtiene todos post de los usuarios seguidos
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                - id: '1'
+                  title: Primer post
+                  content: Contenido del primer post
+                - id: '2'
+                  title: Segundo post
+                  content: Contenido del segundo post
+        '202':
+          description: no se encontraron posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: []
   '/post/user/{userid}':
     get:
       summary: Obtiene todos los posts asociados a un usuario

@@ -7,6 +7,8 @@ import { likeRepository } from '../like/likeRepository';
 import { userRepository } from '../user/userRepository';
 import { Post } from './postEntity';
 import { postRepository } from './postRepository';
+import { connectionRepository } from '../connection/ConnectionRepository';
+import { getPaginatedParams } from '@/utils/getPaginatedParams';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
@@ -118,6 +120,32 @@ class PostController {
     res.status(StatusCodes.CREATED).json({
       like,
     });
+  }
+
+  public async followedUsersPostsById(req: Request, res: Response): Promise<void> {
+    const { search } = getPaginatedParams(req);
+    const { id } = req.params;
+
+    const followed = await connectionRepository.getAllFollowed({
+      search: search,
+      userid: Number(id),
+    });
+
+    const posts = followed.map(async (user) => {
+      return await postRepository.getPostById(user.id);
+    });
+
+    Promise.all(posts)
+      .then((posts) => {
+        if (posts.length === 0) {
+          res.status(StatusCodes.NO_CONTENT).json([]);
+        } else {
+          res.json(posts);
+        }
+      })
+      .catch(() => {
+        res.status(StatusCodes.NO_CONTENT).json([]);
+      });
   }
 }
 

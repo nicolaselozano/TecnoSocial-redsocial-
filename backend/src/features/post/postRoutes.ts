@@ -11,5 +11,6 @@ postRouter.put('/post/:id', MiddlewareAuth0.CheckToken, postController.updatePos
 postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.deletePost);
 postRouter.get('/post/user/:userid', postController.getAllPostsByUser);
 postRouter.post('/post/:id/like', MiddlewareAuth0.CheckToken, postController.likePost);
+postRouter.get('/post/:id/followed', postController.followedUsersPostsById);
 
 export default postRouter;

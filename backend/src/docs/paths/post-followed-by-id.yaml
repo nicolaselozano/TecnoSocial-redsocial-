@@ -1,0 +1,37 @@
+get:
+  summary: Obtiene todos post de los usuarios seguidos
+  tags: [Posts]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del usuario
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Lista de posts
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/post-schema.yaml'
+          example:
+            - id: '1'
+              title: 'Primer post'
+              content: 'Contenido del primer post'
+            - id: '2'
+              title: 'Segundo post'
+              content: 'Contenido del segundo post'
+    '204':
+      description: no se encontraron posts
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: []
