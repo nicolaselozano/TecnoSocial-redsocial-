@@ -811,15 +811,31 @@ paths:
                 id: 1
                 name: Martin
                 email: email@gmail.com
+                location: Buenos Aires
+                avatar: 'https://avatar-url'
+                job: Mercado libre
+                roles:
+                  - Software Developer
+                  - Cloud Architect
                 social_networks:
                   id: 1
                   gitlab: 'https://example.com'
                   twitter: 'https://example.com'
                   instagram: 'https://example.com'
+                  linkedin: null
+                  facebook: null
+                  github: null
                 posts:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                followerscount: 10
+                followedcount: 10
         '404':
           description: usuario no encontrado
           content:
