@@ -1,5 +1,5 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
-import { BadRequestError, ForbiddenError } from '@/utils/errors';
+import { BadRequestError, ConflictErrors, ForbiddenError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -118,6 +118,12 @@ class PostController {
 
     const post = await postRepository.getPostById(Number(id));
     const user = await userRepository.getUserByEmail(email);
+
+    const userHasLikedPost = await likeRepository.userHasLikedPost({ postid: post.id, userid: user.id });
+
+    if (userHasLikedPost) {
+      throw new ConflictErrors('user has already liked this post');
+    }
 
     const like = likeRepository.createLike({
       post,
