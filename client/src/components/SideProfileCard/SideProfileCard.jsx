@@ -24,7 +24,7 @@ const SideProfileCard = () => {
     }, [fetchUserDetail]);
 
     return (
-        <section className="bg-secondBlack-700 text-white rounded-xl shadow-md overflow-hidden">
+        <section className={`bg-secondBlack-700 text-white rounded-xl shadow-md overflow-hidden ${isLoading ? 'invisible' : 'visible'}`}>
             {/* Sección del encabezado del perfil */}
 
             <header className="relative">

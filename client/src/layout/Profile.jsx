@@ -6,6 +6,8 @@ import ProfileNav from "../components/Profile/ProfileNav";
 const UserList = React.lazy(() => import('../components/Profile/UserList'));
 import { PostsGrid } from "../components/Posts/PostsGrid";
 import { checkAuth } from "../services/Auth/checkAuth";
+import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
+import NotificationBar from "../components/Notification_bar/NotificationBar";
 const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
@@ -20,7 +22,7 @@ const Profile = () => {
         const fetchUserData = async () => {
             setIsLoading(true);
             const response = await fetchUserDetail();
- 
+
             await response();
             setIsLoading(false);
         };
@@ -36,7 +38,7 @@ const Profile = () => {
                 setIsAuthenticated(auth);
                 setIsLoading(false);
             };
-    
+
             checkUserAuth();
         }
 
@@ -53,7 +55,7 @@ const Profile = () => {
     };
 
     return (
-        <div className="flex flex-row mx-12 my-6">
+        <section className="flex flex-row mx-12 my-6">
             <div>
                 <div className="mx-2">
                     {isLoading ?
@@ -158,12 +160,15 @@ const Profile = () => {
                 {/* ejemplo de los componentes de notificaciones y perfiles  */}
             </div>
             <div className="flex flex-col mx-4">
-                <div className="bg-slate-400 w-[238px] h-[354px]
-            mb-4"/>
-                <div className="bg-slate-400 w-[238px] h-[354px]" />
+            <section className=" flex flex-col gap-y-5 ">
+                {/*card de perfiles similares*/}
+                <SimilarProfilesPage />
+                {/*card de notificaciones*/}
+                <NotificationBar />
+            </section>
             </div>
 
-        </div>
+        </section>
     );
 };
 
