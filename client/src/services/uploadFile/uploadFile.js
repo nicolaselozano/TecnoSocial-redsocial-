@@ -3,7 +3,7 @@ import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 export const uploadImage = async (imageFile) => {
     try {
 
-        const response = await fetch(`${APIDOMAIN}/fileupload`, {
+        const response = await fetch(`${APIDOMAIN}/api/v1/fileupload`, {
             method: 'POST',
             body: imageFile
         })

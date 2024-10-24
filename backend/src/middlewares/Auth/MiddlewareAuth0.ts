@@ -82,7 +82,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           refreshToken,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
         res.locals.token = `Bearer ${createToken.accessToken}`;
@@ -103,7 +103,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           createRToken.refresh_token,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
         console.log(createRToken.access_token);

@@ -9,7 +9,7 @@ import { checkAuth } from "../services/Auth/checkAuth";
 const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
-    const { fetchUserDetail, userInstance, loading, error } = userProfileStore();
+    const { fetchUserDetail, userInstance } = userProfileStore();
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
