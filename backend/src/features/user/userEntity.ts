@@ -1,10 +1,20 @@
 import { Post } from '@/features/post/postEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
-import { ITRole } from '@/types/roles.enum';
 import { IsEmail } from 'class-validator';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
+import { Role } from '../role/roleEntity';
 import { UserProject } from '../userProject/userProjectEntity';
 
 @Entity()
@@ -19,17 +29,14 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   authId: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   authName: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
   token: string;
-
-  @Column({ type: 'enum', enum: ITRole, nullable: true })
-  role: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true })
   avatar: string;
@@ -61,4 +68,8 @@ export class User {
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
+
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
 }

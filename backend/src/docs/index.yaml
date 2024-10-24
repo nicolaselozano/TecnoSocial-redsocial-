@@ -23,12 +23,16 @@ tags:
     description: API para gestionar comentarios
   - name: Social Networks
     description: API para gestionar las redes sociales de un usuario
+  - name: Notification
+    description: API para gestionar notificaciones
 paths:
   # Post endpoints
   /post:
     $ref: './paths/post.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
+  /post/{id}/followed:
+    $ref: './paths/post-followed-by-id.yaml'
   /post/user/{userid}:
     $ref: './paths/post-user.yaml'
 
@@ -51,6 +55,8 @@ paths:
   # User endpoints
   /user:
     $ref: './paths/user.yaml'
+  /user/role/{role}:
+    $ref: './paths/user/user-role.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
   /user/{id}/followers:
@@ -79,3 +85,11 @@ paths:
   # Social networks endpoints
   /social-networks:
     $ref: './paths/social-networks.yaml'
+
+  #notificaciones  endpoints
+  /notification:
+    $ref: './paths/notification.yaml'
+
+  # Fileupload endpoint
+  /fileupload:
+    $ref: './paths/fileupload.yaml'

@@ -16,18 +16,7 @@ get:
           schema:
             $ref: '../schemas/user-schema.yaml'
           example:
-            id: 1
-            name: 'Martin'
-            email: 'email@gmail.com'
-            social_networks:
-              id: 1
-              gitlab: 'https://example.com'
-              twitter: 'https://example.com'
-              instagram: 'https://example.com'
-            posts:
-              - id: '1'
-                title: 'Primer post'
-                content: 'Contenido del primer post'
+            $ref: '../examples/user-example.yaml'
 
     '404':
       description: usuario no encontrado

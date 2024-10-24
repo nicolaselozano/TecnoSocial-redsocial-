@@ -1,0 +1,30 @@
+get:
+  summary: Obtiene todos los usuario asociados a un rol
+  tags: [Users]
+  parameters:
+    - in: path
+      name: role
+      required: true
+      description: nombre del rol
+      schema:
+        type: string
+  responses:
+    '200':
+      description: usuarios encontrados
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/user-schema.yaml'
+          example:
+            $ref: '../../examples/users-example.yaml'
+    '404':
+      description: usuario no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no encontrado

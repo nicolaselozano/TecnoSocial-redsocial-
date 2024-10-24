@@ -1,0 +1,48 @@
+get:
+  summary: Obtiene todos los posts
+  tags: [Notification]
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        description: Número máximo de notificaciones a devolver
+      required: false
+      description: Limita el número de posts devueltos (por defecto devuelve todos)
+    - in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 0
+        description: Número máximo de notificaciones a devolver
+      required: false
+      description: n paginas para saltar
+
+  responses:
+    '200':
+      description: Lista de notificaciones
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/notification-schema.yaml'
+          example:
+            - id: '1'
+              title: 'primera notificacion '
+              description: 'Contenido del primera  notificacion '
+              user: '12345'
+            - id: '2'
+              title: 'Segundo post'
+              description: 'Contenido del segundo post'
+              created_at: '2024-10-12'
+              user:
+                email: 'lucio@gmail.com '
+                name: 'lucio'
+                avatar: ' img.com'
+                location: ' buenos aires'
+              post:
+                title: 'titulo'
+                id: 1
+                content: 'contenido'

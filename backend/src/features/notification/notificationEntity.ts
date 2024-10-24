@@ -19,9 +19,6 @@ export class Notification {
   @Column({ type: 'boolean', default: false })
   soft_delete: boolean;
 
-  @Column({ type: 'boolean', default: false })
-  has_been_opened: boolean;
-
   @ManyToOne(() => Post, (post) => post.id, {
     onDelete: 'CASCADE',
   })

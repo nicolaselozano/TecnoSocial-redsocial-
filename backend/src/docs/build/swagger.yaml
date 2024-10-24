@@ -23,6 +23,8 @@ tags:
     description: API para gestionar comentarios
   - name: Social Networks
     description: API para gestionar las redes sociales de un usuario
+  - name: Notification
+    description: API para gestionar notificaciones
 paths:
   /post:
     get:
@@ -59,42 +61,73 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
                   $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
-                - id: '1'
-                  title: Primer post
-                  content: Contenido del primer post
-                  user: '12345'
-                  technologies:
-                    - name: react
-                      color: '#ffffff'
-                    - name: express
-                      color: '#000000'
-                  images:
-                    - id: 1
-                      url: 'https://image-url'
-                      alt: tecno image
-                      created_at: '2024-10-08T22:28:58.981Z'
-                    - id: 2
-                      url: 'https://image-url'
-                      alt: tecno image
-                      created_at: '2024-10-08T22:28:58.981Z'
-                  likes:
-                    - null
-                    - id: '2'
-                      title: Segundo post
-                      content: Contenido del segundo post
-                      user: '67890'
-                      technologies:
-                        - name: nextjs
-                          color: '#bbbbbb'
-                      images:
-                        - id: 3
-                          url: 'https://image-url'
-                          alt: tecno image
-                          created_at: '2024-10-08T22:28:58.981Z'
+                results:
+                  - id: 1
+                    title: Primer post
+                    content: Contenido del primer post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
+                  - id: 2
+                    title: Segundo post
+                    content: Contenido del segundo post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
     post:
       summary: Crea un nuevo post
       tags:
@@ -269,6 +302,44 @@ paths:
                 title: Mi primer post
                 content: Este es el contenido de mi primer post
                 user: '12345'
+  '/post/{id}/followed':
+    get:
+      summary: Obtiene todos post de los usuarios seguidos
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1post~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                - id: '1'
+                  title: Primer post
+                  content: Contenido del primer post
+                - id: '2'
+                  title: Segundo post
+                  content: Contenido del segundo post
+        '204':
+          description: no se encontraron posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example: []
   '/post/user/{userid}':
     get:
       summary: Obtiene todos los posts asociados a un usuario
@@ -650,31 +721,73 @@ paths:
                 items:
                   $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
+                users:
+                  $ref: '#/paths/~1user~1role~1%7Brole%7D/get/responses/200/content/application~1json/example'
+  '/user/role/{role}':
+    get:
+      summary: Obtiene todos los usuario asociados a un rol
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: role
+          required: true
+          description: nombre del rol
+          schema:
+            type: string
+      responses:
+        '200':
+          description: usuarios encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
                 - id: 1
                   name: Martin
                   email: email@gmail.com
+                  location: Buenos Aires
+                  avatar: 'https://avatar-url'
+                  job: Mercado libre
+                  roles:
+                    - Software Developer
+                    - Cloud Architect
                   social_networks:
                     id: 1
                     gitlab: 'https://example.com'
                     twitter: 'https://example.com'
                     instagram: 'https://example.com'
-                  posts:
-                    - id: '1'
-                      title: Primer post
-                      content: Contenido del primer post
+                    linkedin: null
+                    facebook: null
+                    github: null
                 - id: 2
                   name: Sofia
                   email: email@gmail.com
+                  location: Buenos Aires
+                  avatar: 'https://avatar-url'
+                  job: Mercado libre
+                  roles:
+                    - Software Developer
+                    - Cloud Architect
                   social_networks:
-                    id: 2
-                    facebook: 'https://example.com'
-                  posts:
-                    - id: '1'
-                      title: Primer post
-                      content: Contenido del primer post
-                    - id: '2'
-                      title: Segundo post
-                      content: Contenido del segundo post
+                    id: 1
+                    gitlab: 'https://example.com'
+                    twitter: 'https://example.com'
+                    instagram: 'https://example.com'
+                    linkedin: null
+                    facebook: null
+                    github: null
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/user/{id}':
     get:
       summary: Obtiene un usuario por ID
@@ -698,15 +811,31 @@ paths:
                 id: 1
                 name: Martin
                 email: email@gmail.com
+                location: Buenos Aires
+                avatar: 'https://avatar-url'
+                job: Mercado libre
+                roles:
+                  - Software Developer
+                  - Cloud Architect
                 social_networks:
                   id: 1
                   gitlab: 'https://example.com'
                   twitter: 'https://example.com'
                   instagram: 'https://example.com'
+                  linkedin: null
+                  facebook: null
+                  github: null
                 posts:
-                  - id: '1'
-                    title: Primer post
-                    content: Contenido del primer post
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                  - id: 5
+                    content: Understanding entity relationships and how to handle them in TypeORM.
+                    title: Entity Relationships in TypeORM
+                    created_at: '2024-10-24T01:35:08.196Z'
+                followerscount: 10
+                followedcount: 10
         '404':
           description: usuario no encontrado
           content:
@@ -1108,3 +1237,112 @@ paths:
             application/json:
               example:
                 message: redes sociales modificadas exitosamente
+  /notification:
+    get:
+      summary: Obtiene todos los posts
+      tags:
+        - Notification
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            description: Número máximo de notificaciones a devolver
+          required: false
+          description: Limita el número de posts devueltos (por defecto devuelve todos)
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            description: Número máximo de notificaciones a devolver
+          required: false
+          description: n paginas para saltar
+      responses:
+        '200':
+          description: Lista de notificaciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    created_at:
+                      type: string
+                    soft_delete:
+                      type: boolean
+              example:
+                - id: '1'
+                  title: 'primera notificacion '
+                  description: 'Contenido del primera  notificacion '
+                  user: '12345'
+                - id: '2'
+                  title: Segundo post
+                  description: Contenido del segundo post
+                  created_at: '2024-10-12'
+                  user:
+                    email: 'lucio@gmail.com '
+                    name: lucio
+                    avatar: ' img.com'
+                    location: ' buenos aires'
+                  post:
+                    title: titulo
+                    id: 1
+                    content: contenido
+  /fileupload:
+    post:
+      summary: Sube un archivo al servidor y devuelve la URL
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Archivo subido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+              example:
+                url: 'http://localhost:3000/uploads/imagen.jpg'
+        '400':
+          description: Error al subir el archivo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error al subir el archivo
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error del servidor

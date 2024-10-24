@@ -2,7 +2,14 @@ import { AiOutlineUser } from "react-icons/ai";
 import { RxExit } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
-const DropNav = ({ setIsIndex, setIsActiveDrop, isActiveDrop, userlogin }) => {
+const DropNav = ({
+  setIsIndex,
+  setIsActiveDrop,
+  isActiveDrop,
+  userlogin,
+  setIsModalOpenRegister,
+  setIsModalOpenLogin,
+}) => {
   return (
     <section
       className={`${
@@ -33,18 +40,18 @@ const DropNav = ({ setIsIndex, setIsActiveDrop, isActiveDrop, userlogin }) => {
       ) : (
         <ul className="flex flex-col size-fit gap-y-3">
           <Link
-            to={"/login"}
             className=" flex items-center gap-x-2"
             onClick={() => {
-              setIsIndex(null), setIsActiveDrop(false);
+              setIsActiveDrop(false), setIsModalOpenLogin(true);
             }}
           >
             Iniciar Sesion
           </Link>
           <Link
-            to={"#"}
             className=" flex items-center gap-x-2"
-            onClick={() => setIsActiveDrop(false)}
+            onClick={() => {
+              setIsActiveDrop(false), setIsModalOpenRegister(true);
+            }}
           >
             Registrate
           </Link>
