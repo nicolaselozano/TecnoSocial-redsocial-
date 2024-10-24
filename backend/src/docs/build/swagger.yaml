@@ -339,8 +339,7 @@ paths:
                 properties:
                   message:
                     type: string
-              example:
-                message: []
+              example: []
   '/post/user/{userid}':
     get:
       summary: Obtiene todos los posts asociados a un usuario
@@ -1282,3 +1281,52 @@ paths:
                     title: titulo
                     id: 1
                     content: contenido
+  /fileupload:
+    post:
+      summary: Sube un archivo al servidor y devuelve la URL
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Archivo subido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+              example:
+                url: 'http://localhost:3000/uploads/imagen.jpg'
+        '400':
+          description: Error al subir el archivo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error al subir el archivo
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Error del servidor

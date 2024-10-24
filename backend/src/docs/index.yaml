@@ -89,3 +89,7 @@ paths:
   #notificaciones  endpoints
   /notification:
     $ref: './paths/notification.yaml'
+
+  # Fileupload endpoint
+  /fileupload:
+    $ref: './paths/fileupload.yaml'
