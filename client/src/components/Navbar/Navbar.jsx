@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import { AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 import { BsHouse } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
-import DropNav from "./DropNav";
-import { checkAuth } from "../../services/Auth/checkAuth";
-import AuthModal from "../AuthModals/AuthModal";
 import userProfileStore from "../../context/users/user-store";
-import AuthButton from "../Buttons/AuthButtons";
-import handleLogout from "../Auth/Logout/HandleLogout";
-import { AiOutlineUser } from "react-icons/ai";
-import RegisterModal from "../Auth/Register/RegisterModal";
+import { checkAuth } from "../../services/Auth/checkAuth";
 import LoginModal from "../Auth/Login/LoginModal";
+import RegisterModal from "../Auth/Register/RegisterModal";
+import DropNav from "./DropNav";
 
 const listNav = [
   {
