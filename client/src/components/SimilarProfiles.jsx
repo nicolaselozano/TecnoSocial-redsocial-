@@ -87,15 +87,15 @@ const SimilarProfiles = () => {
           return (
             <li
               key={index}
-              className="flex items-center gap-[12px] w-full"
+              className="flex items-start justify-between w-full"
             >
               <img
                 src={profile.image}
                 alt={profile.name}
                 className="w-[55px] h-[55px] rounded-[12px] object-cover"
               />
-              <div className="flex flex-col w-[150px] gap-[6px]">
-                <p className="text-md font-semibold">{profile.name}</p>
+              <div className="flex flex-col w-[150px] gap-[6px] pl-2">
+                <p className="text-md font-semibold truncate ">{profile.name}</p>
                 <div className="flex flex-wrap gap-[4px]">
                   {roles.map((role, roleIndex) => (
                     <span key={roleIndex} className={getRoleColorClass(role)}>
@@ -104,8 +104,8 @@ const SimilarProfiles = () => {
                   ))}
                 </div>
               </div>
-              <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] p-0 rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all w-[20px] h-[20px] flex justify-center items-center">
-                <AiOutlineHeart size={12} />
+              <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center">
+                <AiOutlineHeart size={12} className=''/>
               </button>
             </li>
           );
