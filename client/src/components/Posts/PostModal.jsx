@@ -226,7 +226,7 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
               </div>
 
               {/* Send comment */}
-              {user?.authId && (
+              {user?.id && (
                 <div className="flex items-center justify-between mt-4">
                   <input
                     type="text"
