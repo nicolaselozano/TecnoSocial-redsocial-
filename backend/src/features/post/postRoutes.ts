@@ -5,7 +5,7 @@ import { postController } from './postController';
 const postRouter = Router();
 
 postRouter.post('/post', MiddlewareAuth0.CheckToken, postController.createPost);
-postRouter.get('/post', postController.getAllPosts);
+postRouter.get('/post', MiddlewareAuth0.CheckToken, postController.getAllPostsAuthenticated);
 postRouter.get('/post/:id', postController.getPostById);
 postRouter.put('/post/:id', MiddlewareAuth0.CheckToken, postController.updatePost);
 postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.deletePost);

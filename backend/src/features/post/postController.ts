@@ -23,8 +23,9 @@ class PostController {
     res.status(StatusCodes.CREATED).json(response);
   }
 
-  public async getAllPosts(req: Request, res: Response): Promise<void> {
+  public async getAllPostsAuthenticated(req: Request, res: ResponseWithUserData): Promise<void> {
     const { limit, page, search } = getPaginatedParams(req);
+    const { email } = res.locals.userData!;
 
     const totalPosts = await postRepository.getAllPostsCount({ search });
 
@@ -42,21 +43,19 @@ class PostController {
 
     // TODO - ver como obtenemos el id del usuario realizando la peticion
     //        a lo mejor se usa el middleware que checkea el token.
-    const userid = 1;
+    const clientUser = await userRepository.getUserByEmail(email);
 
     const postWithLikedProperty = await Promise.all(
       posts.map(async (post) => {
-        console.log(post);
-
         const userWithRoles = await userRepository.getUserWithRoles(post.user.id);
 
         return {
           ...post,
           user: {
             ...userWithRoles,
-            isFollower: await connectionRepository.isFollower(post.user.id, userid),
+            isFollower: await connectionRepository.isFollower(post.user.id, clientUser.id),
           },
-          isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid }),
+          isLike: await likeRepository.userHasLikedPost({ postid: post.id, userid: clientUser.id }),
           likeCount: await likeRepository.countLikes(post.id),
           commentsCount: await commentRepository.countComments(post.id),
         };
