@@ -79,8 +79,8 @@ describe('USER Enpoints', () => {
         .get(url + 'software%20developer')
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
-          expect(Array.isArray(body.users)).toBe(true);
-          expect(body.users.length).toBe(usersWithRole.length);
+          expect(Array.isArray(body)).toBe(true);
+          expect(body.length).toBe(usersWithRole.length);
         });
     });
 
@@ -90,8 +90,8 @@ describe('USER Enpoints', () => {
         .get(url + invalidRole)
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
-          expect(Array.isArray(body.users)).toBe(true);
-          expect(body.users.length).toBe(0);
+          expect(Array.isArray(body)).toBe(true);
+          expect(body.length).toBe(0);
         });
     });
   });
