@@ -34,6 +34,8 @@ class UserRopository {
   }
 
   public async getAllUsers({ limit, search, skip }: PaginatedConfig & UserFilters) {
+    console.log('HOLA');
+
     const users = await this.repository.find({
       relations: ['social_networks', 'roles'],
       where: {
