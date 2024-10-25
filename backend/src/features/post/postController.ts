@@ -136,6 +136,26 @@ class PostController {
         res.status(StatusCodes.NO_CONTENT).json([]);
       });
   }
+  public async getAllPost(req: Request, res: Response): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+    const search = req.query.search ? String(req.query.search) : '';
+
+    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    if (page > totalPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
+    const { posts } = await postRepository.getAllPosts({
+      skip: (page - 1) * limit,
+      limit,
+      search,
+    });
+
+    res.status(200).json({ results: posts, currentPage: page, totalPages, totalPosts });
+  }
 }
 
 export const postController = new PostController();

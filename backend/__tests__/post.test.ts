@@ -60,8 +60,8 @@ describe('POST Endpoints', () => {
     });
   });
 
-  describe('GET /api/v1/post', () => {
-    const url = '/api/v1/post';
+  describe('GET /api/v1/post/me', () => {
+    const url = '/api/v1/post/me';
 
     it('should get a 200 response with a list of posts', async () => {
       await authRequest({})
@@ -130,6 +130,19 @@ describe('POST Endpoints', () => {
       await authRequest({})
         .delete(url + '/' + invalidPostid)
         .expect(StatusCodes.NOT_FOUND);
+    });
+  });
+  describe('GET /api/v1/post', () => {
+    const url = '/api/v1/post';
+
+    it('should get a 200 response with a list of posts ', async () => {
+      await authRequest({})
+        .get(url)
+        .expect(StatusCodes.OK)
+        .expect(({ body }) => {
+          expect(Array.isArray(body.results)).toBe(true);
+          expect(body.totalPosts).toBe(totalPosts);
+        });
     });
   });
 });
