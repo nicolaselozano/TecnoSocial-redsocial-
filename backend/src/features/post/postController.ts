@@ -102,7 +102,6 @@ class PostController {
 
     // Check post exists
     const post = await postRepository.getPostById(Number(id));
-    console.log('AuthID:' + post.user.email);
 
     if (post.user.email !== email) {
       throw new ForbiddenError('forbidden operation');
@@ -110,23 +109,6 @@ class PostController {
 
     const response = await postRepository.deletePost(Number(id));
     res.status(StatusCodes.NO_CONTENT).json(response);
-  }
-
-  public async likePost(req: Request, res: ResponseWithUserData): Promise<void> {
-    const { id } = req.params;
-    const { email } = res.locals.userData!;
-
-    const post = await postRepository.getPostById(Number(id));
-    const user = await userRepository.getUserByEmail(email);
-
-    const like = likeRepository.createLike({
-      post,
-      user,
-    });
-
-    res.status(StatusCodes.CREATED).json({
-      like,
-    });
   }
 
   public async followedUsersPostsById(req: Request, res: Response): Promise<void> {
@@ -153,6 +135,26 @@ class PostController {
       .catch(() => {
         res.status(StatusCodes.NO_CONTENT).json([]);
       });
+  }
+  public async getAllPost(req: Request, res: Response): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5;
+    const search = req.query.search ? String(req.query.search) : '';
+
+    const totalPosts = await postRepository.getAllPostsCount({ limit, search });
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    if (page > totalPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
+    const { posts } = await postRepository.getAllPosts({
+      skip: (page - 1) * limit,
+      limit,
+      search,
+    });
+
+    res.status(200).json({ results: posts, currentPage: page, totalPages, totalPosts });
   }
 }
 

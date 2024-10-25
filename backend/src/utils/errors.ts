@@ -31,3 +31,9 @@ export class ForbiddenError extends ApiError {
     super(StatusCodes.FORBIDDEN, message);
   }
 }
+
+export class ConflictErrors extends ApiError {
+  constructor(message: string) {
+    super(StatusCodes.CONFLICT, message);
+  }
+}

@@ -60,8 +60,8 @@ describe('POST Endpoints', () => {
     });
   });
 
-  describe('GET /api/v1/post', () => {
-    const url = '/api/v1/post';
+  describe('GET /api/v1/post/me', () => {
+    const url = '/api/v1/post/me';
 
     it('should get a 200 response with a list of posts', async () => {
       await authRequest({})
@@ -72,21 +72,25 @@ describe('POST Endpoints', () => {
           expect(body.totalPosts).toBe(totalPosts);
         });
     });
+  });
 
-    it('should get a 200 response with a single results', async () => {
+  describe('GET /api/v1/post/:id', () => {
+    const url = '/api/v1/post/';
+    it('should get a 200 response when looking for a valid id', async () => {
+      const validPostId = 1;
       await request
-        .get(url + '/1')
+        .get(url + validPostId)
         .expect(StatusCodes.OK)
         .expect(({ body }) => {
-          expect(body.id).toBe(1);
+          expect(body.id).toBe(validPostId);
         });
     });
 
-    it('should get a 404 response when looking for and invalid id', async () => {
+    it('should get a 404 response when looking for an invalid id', async () => {
       const invalidPostid = 9999;
 
       await request
-        .get(url + '/' + invalidPostid)
+        .get(url + invalidPostid)
         .expect(StatusCodes.NOT_FOUND)
         .expect(({ body }) => {
           expect(body).toMatchObject({
@@ -126,6 +130,19 @@ describe('POST Endpoints', () => {
       await authRequest({})
         .delete(url + '/' + invalidPostid)
         .expect(StatusCodes.NOT_FOUND);
+    });
+  });
+  describe('GET /api/v1/post', () => {
+    const url = '/api/v1/post';
+
+    it('should get a 200 response with a list of posts ', async () => {
+      await authRequest({})
+        .get(url)
+        .expect(StatusCodes.OK)
+        .expect(({ body }) => {
+          expect(Array.isArray(body.results)).toBe(true);
+          expect(body.totalPosts).toBe(totalPosts);
+        });
     });
   });
 });
