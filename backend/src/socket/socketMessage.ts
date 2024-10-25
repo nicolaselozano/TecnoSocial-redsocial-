@@ -11,7 +11,6 @@ export const initializeMSocketIO = (server: any) => {
     const io = new Server(server, {
         cors: {
             origin: "http://localhost:5173",
-            methods: ["GET", "POST"],
             credentials: true,
         }
     });
@@ -20,9 +19,10 @@ export const initializeMSocketIO = (server: any) => {
 
         socket.on("registerUser", async () => {
             console.log("Un cliente se ha conectado:", socket.id);
-            const cookies = await cookieParser.parse(socket.handshake.headers.cookie || '');
+            const cookies = cookieParser.parse(socket.handshake.headers.cookie || '');
             console.log('Cookies:', cookies);
-            const { authId } = await validateSocketToken(cookies.token);
+            const token = cookies.token.replace('Bearer ', '').trim();
+            const { authId } = await validateSocketToken(token);
     
             console.log('authId del usuario registrado : ', authId);
 
@@ -33,17 +33,21 @@ export const initializeMSocketIO = (server: any) => {
 
         socket.on("chatMessage", async (message: Message) => {
             console.log("Un cliente se ha conectado:", socket.id);
-            const cookies = await cookieParser.parse(socket.handshake.headers.cookie || '');
+            
+            const cookies = cookieParser.parse(socket.handshake.headers.cookie || '');
             console.log('Cookies:', cookies);
-            const { authId } = await validateSocketToken(cookies.token);
-    
+            const token = cookies.token.replace('Bearer ', '').trim();
+            const { authId } = await validateSocketToken(token);
+            userSockets[authId] = socket.id;
             console.log('authId del usuario registrado : ', authId);
             console.log("Mensaje recibido:", message);
-            
+
             messages.push(message);
             const receiverSocketId = userSockets[message.receiverId];
             console.log(userSockets[authId], userSockets[message.receiverId]);
 
+            console.log('Estado de userSockets después de registro:', userSockets);
+            
             if (receiverSocketId) {
                 console.log("mandando mensaje al receptor", message);
 

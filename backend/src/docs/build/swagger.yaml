@@ -1318,7 +1318,7 @@ paths:
                 message: redes sociales modificadas exitosamente
   /notification:
     get:
-      summary: Obtiene todos los posts
+      summary: Obtiene todos las notificaciones
       tags:
         - Notification
       parameters:
@@ -1329,7 +1329,7 @@ paths:
             minimum: 1
             description: Número máximo de notificaciones a devolver
           required: false
-          description: Limita el número de posts devueltos (por defecto devuelve todos)
+          description: Limita el número de notificaciones devueltos
         - in: query
           name: page
           schema:
@@ -1364,8 +1364,8 @@ paths:
                   description: 'Contenido del primera  notificacion '
                   user: '12345'
                 - id: '2'
-                  title: Segundo post
-                  description: Contenido del segundo post
+                  title: Segunda notificaciones
+                  description: Contenido del  la segunda notificaciones
                   created_at: '2024-10-12'
                   user:
                     email: 'lucio@gmail.com '
@@ -1376,7 +1376,6 @@ paths:
                     title: titulo
                     id: 1
                     content: contenido
-
   '/notification/{id}':
     get:
       summary: Obtiene una notificacion por ID
@@ -1479,4 +1478,3 @@ paths:
                     type: string
               example:
                 message: Error del servidor
-

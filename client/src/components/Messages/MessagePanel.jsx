@@ -3,16 +3,14 @@ import io from 'socket.io-client';
 import { getRoleColor } from "../../helpers/get-role-color";
 import rolesData from "../../data/perfil-roles.json"; 
 
-
 const socket = io("http://localhost:3000", {
   withCredentials: true
 });
 
-
 export const MessagePanel = () => {
-  const userRoles = ["front"]
+  const userRoles = ["front"];
   const [username, setUsername] = useState("");
-  const [receiver, setReceiver] = useState("");
+  const [receiver, setReceiver] = useState("");  // Añadir estado para el receptor
   const [messages, setMessages] = useState([]);
   const [actualMessage, setActualMessage] = useState("");
   const [userList, setUserList] = useState([]);
@@ -43,27 +41,20 @@ export const MessagePanel = () => {
     setUsername(event.target.value);
   };
 
-  const handleReceiverChange = (event) => {
+  const handleReceiverChange = (event) => {   // Manejar el cambio del receptor
     setReceiver(event.target.value);
-  };
-
-  const RegisterUserSelect = () => {
-    if (username) {
-      socket.emit("registerUser", username);
-    }
   };
 
   const handleMessageChange = (event) => {
     setActualMessage(event.target.value);
-    console.log( actualMessage);
-    
   };
 
   const handleSendMessage = () => {
-    if (username && receiver && actualMessage) {
+    if (receiver && actualMessage) {
+      console.log(actualMessage,receiver);
+      
       const message = {
-        senderId: username,
-        receiverId: receiver,
+        receiverId: receiver, // Incluye el receptor
         content: actualMessage,
         timestamp: new Date(),
       };
@@ -76,7 +67,6 @@ export const MessagePanel = () => {
       setActualMessage(""); // Limpiar el campo de mensaje
     }
   };
-
 
   return (
     <div className="w-2/3 bg-gray-750 p-6 flex flex-col">
@@ -105,12 +95,23 @@ export const MessagePanel = () => {
         </div>
       </div>
 
+      {/* Inputs para emisor y receptor */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="w-full p-4 rounded-lg bg-gray-700 text-white outline-none"
+          value={receiver}
+          onChange={handleReceiverChange}
+          placeholder="Escribe el receptor..."
+        />
+      </div>
+
       {/* Mostrar mensajes */}
       <div className="mb-4 bg-gray-800 p-4 rounded-lg flex flex-col space-y-4">
         {messages.map((msg, index) => (
           <div key={index} className="mb-4 bg-gray-800 p-4 rounded-lg">
-            <h3 className="font-bold text-lg">Usuario</h3>
-            <p className="text-gray-400 mt-2">{msg}</p>
+            <h3 className="font-bold text-lg">{msg.receiverId}</h3>
+            <p className="text-gray-400 mt-2">{msg.content}</p>
           </div>
         ))}
       </div>
