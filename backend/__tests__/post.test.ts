@@ -138,10 +138,10 @@ describe('POST Endpoints', () => {
     const url = '/api/v1/post/';
 
     it('should return a 201 response when user likes a post', async () => {
-      const userEmail = 'email@gmail.com';
+      const userEmailWithNoLikedPosts = 'ezequiel@gmail.com';
       const notLikedPost = await con.getRepository(Post).findOne({
         where: {
-          user: { email: userEmail },
+          user: { email: userEmailWithNoLikedPosts },
         },
       });
 
