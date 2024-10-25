@@ -1,5 +1,5 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
-import { BadRequestError, ConflictErrors, ForbiddenError, NotFoundError } from '@/utils/errors';
+import { BadRequestError, ForbiddenError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -102,7 +102,6 @@ class PostController {
 
     // Check post exists
     const post = await postRepository.getPostById(Number(id));
-    console.log('AuthID:' + post.user.email);
 
     if (post.user.email !== email) {
       throw new ForbiddenError('forbidden operation');
@@ -110,48 +109,6 @@ class PostController {
 
     const response = await postRepository.deletePost(Number(id));
     res.status(StatusCodes.NO_CONTENT).json(response);
-  }
-
-  public async addLikePost(req: Request, res: ResponseWithUserData): Promise<void> {
-    const { id } = req.params;
-    const { email } = res.locals.userData!;
-
-    const post = await postRepository.getPostById(Number(id));
-    const user = await userRepository.getUserByEmail(email);
-
-    const userHasLikedPost = await likeRepository.userHasLikedPost({ postid: post.id, userid: user.id });
-
-    if (userHasLikedPost) {
-      throw new ConflictErrors('user has already liked this post');
-    }
-
-    const like = likeRepository.createLike({
-      post,
-      user,
-    });
-
-    res.status(StatusCodes.CREATED).json({
-      like,
-    });
-  }
-
-  public async removeLikePost(req: Request, res: ResponseWithUserData): Promise<void> {
-    const { id } = req.params;
-    const { email } = res.locals.userData!;
-
-    const user = await userRepository.getUserByEmail(email);
-
-    const result = await likeRepository.getLikeByPostAndUser(Number(id), user.id);
-
-    if (!result) {
-      throw new NotFoundError('user hasn`t liked this post');
-    }
-
-    await likeRepository.deleteLike(result.id);
-
-    res.status(StatusCodes.NO_CONTENT).json({
-      message: 'like removed succesfully',
-    });
   }
 
   public async followedUsersPostsById(req: Request, res: Response): Promise<void> {
