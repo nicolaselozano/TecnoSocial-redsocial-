@@ -56,6 +56,9 @@ get:
                   linkedin: null
                   facebook: null
                   github: null
+                postCount: 1
+                followersCount: 10
+                followedCount: 2
               - id: 2
                 name: 'Sofia'
                 email: 'email@gmail.com'
@@ -73,3 +76,6 @@ get:
                   linkedin: null
                   facebook: null
                   github: null
+                postCount: 1
+                followersCount: 10
+                followedCount: 2
