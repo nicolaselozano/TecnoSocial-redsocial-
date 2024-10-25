@@ -56,6 +56,19 @@ class PostRepository {
     return post;
   }
 
+  public async getPostCountByUser(userid: User['id']): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        user: {
+          id: userid,
+        },
+      },
+      relations: ['user'],
+    });
+
+    return count;
+  }
+
   public async updatePost(id: PostSelect, post: PostPut): Promise<Post> {
     return (await this.repository.update({ id: id }, post)).raw;
   }

@@ -56,6 +56,8 @@ class ConnectionRepository {
       },
     });
 
+    console.log({ count });
+
     return count;
   }
 
