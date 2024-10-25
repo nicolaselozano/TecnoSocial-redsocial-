@@ -21,8 +21,7 @@ export const getPosts = async (limit, page) => {
       throw new Error("Error en la respuesta del servidor");
     }
 
-    const data = await response.json();
-    console.log(data);
+    const data = await response.json();    
     return data;
   } catch (error) {
     console.error("Error al obtener los posts:", error);

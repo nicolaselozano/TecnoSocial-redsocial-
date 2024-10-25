@@ -18,18 +18,19 @@ export const PostCard = ({ post }) => {
 
   const {
     likePost,
-    /* unlikePost, */
+    unlikePost,
     followUser,
     unfollowUser,
     addQuicklyComment,
     commentLoading,
+    likeLoading,
   } = usePostsStore();
 
   const user = JSON.parse(localStorage.getItem("userdata"));
 
   const handleLike = () => {
     if (post.isLike) {
-      /* unlikePost(post.id); */
+      unlikePost(post.id);
     } else {
       likePost(post.id);
     }
@@ -68,7 +69,7 @@ export const PostCard = ({ post }) => {
           />
           <div>
             <h2 className="text-lg font-bold">
-              {post?.user?.name || "Usuario desconocido"}              
+              {post?.user?.name || "Usuario desconocido"}
             </h2>
             <div className="flex gap-3 mt-1">
               {post?.user?.roles?.map((role, index) => (
@@ -97,7 +98,10 @@ export const PostCard = ({ post }) => {
                 {post?.user?.isFollower ? (
                   <AiFillHeart size={16} className="text-white" />
                 ) : (
-                  <AiOutlineHeart size={16} className="text-primaryGreen-400 hover:text-white " />
+                  <AiOutlineHeart
+                    size={16}
+                    className="text-primaryGreen-400 hover:text-white "
+                  />
                 )}
               </button>
             )}
@@ -136,11 +140,10 @@ export const PostCard = ({ post }) => {
           {user?.id && post?.isLike !== undefined && post?.isLike !== null && (
             <button
               onClick={handleLike}
-              className={`border border-primaryGreen-400 px-4 py-2 rounded-md ${
-                post?.isLike
-                  ? "bg-primaryGreen-400 text-white"
-                  : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"
-              }`}
+              disabled={likeLoading}
+              className={`border border-primaryGreen-400 px-4 py-2 rounded-md 
+              ${post?.isLike ? "bg-primaryGreen-400 text-white" : "text-primaryGreen-400 bg-transparent hover:bg-primaryGreen-400 hover:text-white"} 
+              ${likeLoading ? "opacity-50" : ""}`}
             >
               <div className="flex gap-2 items-center">
                 <AiOutlineLike size={20} />
