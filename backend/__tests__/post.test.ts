@@ -178,4 +178,41 @@ describe('POST Endpoints', () => {
         .expect(StatusCodes.CONFLICT);
     });
   });
+
+  describe('DELETE /api/v1/post/:id/like', () => {
+    const url = '/api/v1/post/';
+    it('should return a 204 response when deleting a like from a post', async () => {
+      const userEmail = 'email@gmail.com';
+      const likedPost = await con.getRepository(Like).findOne({
+        where: {
+          user: {
+            email: userEmail,
+          },
+        },
+        relations: ['user', 'post'],
+      });
+
+      await authRequest({})
+        .delete(url + likedPost?.post?.id + '/like')
+        .expect(StatusCodes.NO_CONTENT);
+    });
+    it('should return a 404 response when deleting an unexisting like from a post', async () => {
+      const userEmail = 'email@gmail.com';
+      const postWithoutLike = await con.getRepository(Post).findOne({
+        where: {
+          user: {
+            email: userEmail,
+          },
+        },
+      });
+      await authRequest({})
+        .delete(url + postWithoutLike?.id + '/like')
+        .expect(StatusCodes.NOT_FOUND);
+    });
+    it('should return a 401 response when auth token is not provided', async () => {
+      const validPostId = 1;
+
+      await request.delete(url + validPostId + '/like').expect(StatusCodes.UNAUTHORIZED);
+    });
+  });
 });
