@@ -6,13 +6,13 @@ import { postController } from './postController';
 const postRouter = Router();
 
 postRouter.post('/post', MiddlewareAuth0.CheckToken, postController.createPost);
-postRouter.get('/post', MiddlewareAuth0.CheckToken, postController.getAllPostsAuthenticated);
+postRouter.get('/post/me', MiddlewareAuth0.CheckToken, postController.getAllPostsAuthenticated);
 postRouter.get('/post/:id', postController.getPostById);
 postRouter.put('/post/:id', MiddlewareAuth0.CheckToken, postController.updatePost);
 postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.deletePost);
 postRouter.get('/post/user/:userid', postController.getAllPostsByUser);
 postRouter.get('/post/:id/followed', postController.followedUsersPostsById);
-
+postRouter.get('/post', postController.getAllPost);
 // Post - Like
 postRouter.post('/post/:id/like', MiddlewareAuth0.CheckToken, likeController.createLike);
 postRouter.delete('/post/:id/like', MiddlewareAuth0.CheckToken, likeController.deleteLike);
