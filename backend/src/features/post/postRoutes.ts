@@ -10,7 +10,10 @@ postRouter.get('/post/:id', postController.getPostById);
 postRouter.put('/post/:id', MiddlewareAuth0.CheckToken, postController.updatePost);
 postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.deletePost);
 postRouter.get('/post/user/:userid', postController.getAllPostsByUser);
-postRouter.post('/post/:id/like', MiddlewareAuth0.CheckToken, postController.likePost);
 postRouter.get('/post/:id/followed', postController.followedUsersPostsById);
+
+// Post - Like
+postRouter.post('/post/:id/like', MiddlewareAuth0.CheckToken, postController.addLikePost);
+postRouter.delete('/post/:id/like', MiddlewareAuth0.CheckToken, postController.removeLikePost);
 
 export default postRouter;

@@ -22,10 +22,10 @@ get:
               title: 'primera notificación'
               description: 'Contenido de la primera notificación'
               user: '12345'
-              post: 
-                title: "titulo"
+              post:
+                title: 'titulo'
                 id: 1
-                content: "contenido"
+                content: 'contenido'
 
 put:
   summary: Modifica una notificación por ID

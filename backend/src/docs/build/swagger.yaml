@@ -1479,4 +1479,3 @@ paths:
                     type: string
               example:
                 message: Error del servidor
-
