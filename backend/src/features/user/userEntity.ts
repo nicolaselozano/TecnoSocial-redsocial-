@@ -16,6 +16,7 @@ import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
 import { Role } from '../role/roleEntity';
 import { UserProject } from '../userProject/userProjectEntity';
+import { Message } from '../messages/messageEntity';
 
 @Entity()
 export class User {
@@ -72,4 +73,12 @@ export class User {
   @ManyToMany(() => Role)
   @JoinTable()
   roles: Role[];
+
+
+  //mensajes
+  @OneToMany(() => Message, message => message.sender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, message => message.receiver)
+  receivedMessages: Message[];
 }

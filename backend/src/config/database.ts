@@ -15,6 +15,7 @@ import { Technology } from '@/features/technology/technologyEntity';
 import { User } from '@/features/user/userEntity';
 import { UserProject } from '@/features/userProject/userProjectEntity';
 import mysql2 from 'mysql2';
+import { Message } from '@/features/messages/messageEntity';
 
 const con = new DataSource({
   type: 'mysql',
@@ -38,6 +39,7 @@ const con = new DataSource({
     ImageProject,
     Notification,
     Role,
+    Message
   ],
   synchronize: true,
 });

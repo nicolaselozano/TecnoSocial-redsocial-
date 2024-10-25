@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import express from 'express';
 import 'express-async-errors';
-
 import path from 'path';
 import con from './config/database';
 import envs from './config/envs';
@@ -21,8 +20,18 @@ import { setBaseMiddlewares } from './middlewares/SetBaseMiddlewares';
 import fuRouter from './services/fileupload/fleuploadRutes';
 import { healthcheck } from './utils/healthcheck';
 import { redirectToDocs } from './utils/redirectToDocs';
+import messageRouter from './features/messages/messageRoutes';
+import http from 'http';
+import { initializeMSocketIO } from './socket/socketMessage';
 
 export const app = express();
+const server = http.createServer(app);
+
+
+// Ruta para verificar la conexión de Socket.IO
+app.get('/socket.io/socket.io.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'node_modules/socket.io-client/dist/socket.io.js'));
+});
 
 setBaseMiddlewares(app);
 
@@ -42,18 +51,22 @@ app.use(
   likeRouter,
   fuRouter,
   notificationRouter,
+  messageRouter
 );
 
 app.use('/uploads', express.static(path.join('./', envs.UPLOAD_DIR)));
 
 app.use(globalErrors);
+// Inicializa Socket.IO
 
+initializeMSocketIO(server);
+// Cambia a `server.listen` para que Socket.IO funcione correctamente
 export function start() {
   con
     .initialize()
     .then(() => {
       console.log('Conexión a la base de datos exitosa');
-      app.listen(envs.PORT, () => {
+      server.listen(envs.PORT, () => {
         console.log(chalk.blue(`🚀 -- Servidor corriendo en ${envs.URL}:${envs.PORT}`));
         console.log(chalk.green(`📝 -- Documentación disponible en ${envs.URL}:${envs.PORT}/api/docs`));
       });
