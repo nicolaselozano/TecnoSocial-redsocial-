@@ -48,6 +48,21 @@ class LikeRepository {
     return result.affected === 1;
   }
 
+  public async getLikeByPostAndUser(postid: Post['id'], userid: User['id']) {
+    const result = await this.repository.findOne({
+      where: {
+        post: {
+          id: postid,
+        },
+        user: {
+          id: userid,
+        },
+      },
+    });
+
+    return result;
+  }
+
   public async getLikesByUser(userId: number) {
     const likes = await this.repository.find({
       where: { user: { id: userId } },
