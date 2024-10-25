@@ -1376,6 +1376,60 @@ paths:
                     title: titulo
                     id: 1
                     content: contenido
+
+  '/notification/{id}':
+    get:
+      summary: Obtiene una notificacion por ID
+      tags:
+        - Notification
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la notificación a devolver
+      responses:
+        '200':
+          description: Notificación obtenida
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/paths/~1notification/get/responses/200/content/application~1json/schema/items'
+              example:
+                - id: '1'
+                  title: primera notificación
+                  description: Contenido de la primera notificación
+                  user: '12345'
+                  post:
+                    title: titulo
+                    id: 1
+                    content: contenido
+    put:
+      summary: Modifica una notificación por ID
+      tags:
+        - Notification
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID de la notificación a modificar
+      responses:
+        '201':
+          description: Notificación modificada
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1notification~1%7Bid%7D'
+              example:
+                id: '1'
+                title: Mi primer Notificación
+                content: Este es el contenido de mi primer Notificación
+                user: '12345'
   /fileupload:
     post:
       summary: Sube un archivo al servidor y devuelve la URL
@@ -1425,3 +1479,4 @@ paths:
                     type: string
               example:
                 message: Error del servidor
+

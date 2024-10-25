@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { getPostById } from "../../services/Posts/get-post-by-id";
 import { getPosts } from "../../services/Posts/get-posts";
 import { createComment } from "../../services/Comment/post-comment";
+import { postLike } from "../../services/Posts/post-like";
 
 const usePostStore = create((set) => ({
   posts: [],
@@ -177,20 +178,27 @@ const usePostStore = create((set) => ({
   },
 
   // Function to like a post
-  likePost: (postId) => {
-    set((state) => ({
-      posts: state.posts.map((post) => {
-        if (post.id === postId) {
-          // TODO: Add like a post for endpoint backend
-          return {
-            ...post,
-            isLike: true,
-            likeCount: post.likeCount + 1,
-          };
-        }
-        return post;
-      }),
-    }));
+  likePost: async (postId) => {
+    try {
+      const data = await postLike(postId);
+      if (!data) throw new Error("Error al dar like al post");
+      if (data) {
+        set((state) => ({
+          posts: state.posts.map((post) => {
+            if (post.id === postId) {
+              return {
+                ...post,
+                isLike: true,
+                likeCount: post.likeCount + 1,
+              };
+            }
+            return post;
+          }),
+        }));
+      }
+    } catch (error) {
+      console.error("Error liking the post:", error);
+    }
   },
 
   // Function to unlike a post
