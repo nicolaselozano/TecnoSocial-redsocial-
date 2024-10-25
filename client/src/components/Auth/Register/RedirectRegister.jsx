@@ -30,10 +30,12 @@ const RedirectRegister = () => {
                     });
 
                     const data = await response.json();
+                    if (data.user.email) await setChallengesData(JSON.stringify(data.user.email));
+                    else return setChallengesData('error');
+                    localStorage.setItem("userdata", JSON.stringify(data.user));
                     console.log(JSON.stringify(data));
                     await fetchUserDetail();
-                    if (data.user.email) setChallengesData(JSON.stringify(data.user.email));
-                    else setChallengesData('error');
+
                 } catch (error) {
                     console.error(
                         'Error in the request:',

@@ -16,6 +16,15 @@ class UserRopository {
   private repository = con.getRepository(User);
 
   public async createUser(user: Partial<UserDataToken>): Promise<User> {
+
+    const userExist = await this.repository.findOne({
+      where: {
+        authId: user.authId,
+      },
+    });
+
+    if(userExist) throw Error("El usuario existe");
+
     const response = await this.repository.save({
       authId: user.authId,
       authName: user.authName,

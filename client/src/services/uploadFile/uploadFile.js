@@ -12,6 +12,7 @@ export const uploadImage = async (imageFile) => {
 
         console.log(data); // URLs de los archivos subidos
         return data;
+        
     } catch (error) {
         console.error('Error al subir el archivo:', error);
         return error;

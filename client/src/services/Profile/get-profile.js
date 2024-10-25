@@ -1,3 +1,4 @@
+import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 import { mock_user } from "../../data/profile/mockusers";
 import { checkAuth } from "../Auth/checkAuth";
 
@@ -68,13 +69,23 @@ const getUserLikedProyects = async (page) => {
         error("Error en la peticion del perfil del usuario :" + error.message);
     }
 }
-const getUserFollowed = async (page) => {
+const getUserFollowed = async (page,userId) => {
 
     try {
 
-        const followedUsers = await import(`../../data/profile/mock-followed-profile.json`);
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${userId}/followed`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        });
 
-        return followedUsers.default;
+        console.log( response);
+        
+
+        return response.data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);
@@ -82,14 +93,23 @@ const getUserFollowed = async (page) => {
 
 }
 
-const getUserFollowers = async (page) => {
+const getUserFollowers = async (page,userId) => {
 
     try {
 
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${userId}/followed`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        });
 
-        const followersUsers = await import(`../../data/profile/mock-followers-profile.json`);
+        console.log( response);
+        
 
-        return followersUsers.default;
+        return response.data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);

@@ -43,7 +43,10 @@ const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> 
     }
     const user = await userRepository.getUserByAuthId(userData.authId);
     if (userData.email) {
-      res.status(200).json(user);
+      res.status(201).json({
+        message: 'Usuario creado exitosamente',
+        user: user,
+      });
     }
   } catch (error) {
     console.log('Borrando cookie');
