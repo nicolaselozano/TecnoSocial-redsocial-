@@ -197,14 +197,16 @@ describe('POST Endpoints', () => {
         .expect(StatusCodes.NO_CONTENT);
     });
     it('should return a 404 response when deleting an unexisting like from a post', async () => {
-      const userEmail = 'email@gmail.com';
+      const userEmailWithNoLikedPosts = 'ezequiel@gmail.com';
+
       const postWithoutLike = await con.getRepository(Post).findOne({
         where: {
           user: {
-            email: userEmail,
+            email: userEmailWithNoLikedPosts,
           },
         },
       });
+
       await authRequest({})
         .delete(url + postWithoutLike?.id + '/like')
         .expect(StatusCodes.NOT_FOUND);
