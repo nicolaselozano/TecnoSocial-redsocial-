@@ -5,7 +5,7 @@ import { createComment } from "../../services/Comment/post-comment";
 import { postLike } from "../../services/Posts/post-like";
 import { deleteLike } from "../../services/Posts/delete-like";
 
-const usePostStore = create((set) => ({
+const usePostsFeedStore = create((set) => ({
   posts: [],
   post: null,
   postId: null,
@@ -15,25 +15,11 @@ const usePostStore = create((set) => ({
   likeLoading: false,
   page: 1,
   hasMore: true,
-  search: '',
-
-  setSearch: (newSearch) => set((state) => {
-    if (state.search !== newSearch) {
-      return {
-        search: newSearch,
-        posts: [],
-        page: 1,
-        hasMore: true,
-      };
-    }
-    return state;
-  }),
 
   // Fetch posts
   fetchPosts: async (page) => {
     set({ loading: true });
-    const { search } = usePostStore.getState(); 
-    const data = await getPosts(10, page, search);
+    const data = await getPosts(10, page);
     if (data) {
       set((state) => {
         const existingIds = new Set(state.posts.map((post) => post.id));
@@ -52,7 +38,6 @@ const usePostStore = create((set) => ({
       set({ loading: false, hasMore: false });
     }
   },
-  
 
   // Fetch a specific post by ID
   fetchPost: async (id) => {
@@ -261,4 +246,4 @@ const usePostStore = create((set) => ({
   },
 }));
 
-export default usePostStore;
+export default usePostsFeedStore;
