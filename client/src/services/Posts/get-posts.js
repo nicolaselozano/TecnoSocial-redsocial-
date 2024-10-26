@@ -1,11 +1,15 @@
 import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
-export const getPosts = async (limit, page) => {
+export const getPosts = async (limit, page, search = "") => {
   const user = JSON.parse(localStorage.getItem("userdata"));
 
-  const route = user
+  let route = user
     ? `${APIDOMAIN}${APIDOMAIN_VERSION}/post/me?limit=${limit}&page=${page}`
     : `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`;
+
+  if (search) {
+    route += `&search=${encodeURIComponent(search)}`;
+  }
 
   try {
     const response = await fetch(route, {
@@ -21,7 +25,7 @@ export const getPosts = async (limit, page) => {
       throw new Error("Error en la respuesta del servidor");
     }
 
-    const data = await response.json();    
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error al obtener los posts:", error);
