@@ -43,8 +43,9 @@ export const PostsGrid = ({
   );
 
   useEffect(() => {
-    fetchPosts(1);
-  }, [fetchPosts]);
+    fetchPosts(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
