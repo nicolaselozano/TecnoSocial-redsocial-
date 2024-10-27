@@ -3,9 +3,9 @@ import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 export const checkAuth = async () => {
   const lastCheck = localStorage.getItem("lastAuthCheck");
   const now = Date.now();
-  const FIVE_MINUTES = 300000;
+  const SECONDS = 5000;
 
-  if (lastCheck && now - parseInt(lastCheck) < FIVE_MINUTES) {
+  if (lastCheck && now - parseInt(lastCheck) < SECONDS) {
       console.log('La verificación de autenticación fue realizada recientemente.');
       return JSON.parse(localStorage.getItem("userdata") || "false");
   }

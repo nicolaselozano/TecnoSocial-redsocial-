@@ -30,7 +30,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: true })
   authId: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true, select: false })
@@ -70,7 +70,7 @@ export class User {
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, { eager: true })
   @JoinTable()
   roles: Role[];
 

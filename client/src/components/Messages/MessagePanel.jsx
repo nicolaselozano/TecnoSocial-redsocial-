@@ -1,26 +1,21 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { getRoleColor } from "../../helpers/get-role-color";
-import rolesData from "../../data/perfil-roles.json"; 
+import { APIDOMAIN } from '../../../vars';
+import userProfileStore from '../../context/users/user-store';
 
-const socket = io("http://localhost:3000", {
+const socket = io(`${APIDOMAIN}`, {
   withCredentials: true
 });
 
-export const MessagePanel = () => {
+export const MessagePanel = ({ currentUser }) => {
+  const { userInstance,fetchUserDetail } = userProfileStore();
   const userRoles = ["front"];
-  const [username, setUsername] = useState("");
-  const [receiver, setReceiver] = useState("");  // Añadir estado para el receptor
+  const [receiver, setReceiver] = useState(""); 
   const [messages, setMessages] = useState([]);
   const [actualMessage, setActualMessage] = useState("");
-  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    // Escuchar eventos de Socket.IO
-    socket.on("userList", (users) => {
-      setUserList(users);
-    });
-
     socket.on("initialMessages", (initialMessages) => {
       setMessages(initialMessages);
     });
@@ -29,45 +24,44 @@ export const MessagePanel = () => {
       setMessages(prevMessages => [...prevMessages, message]);
     });
 
-    // Limpieza de eventos al desmontar el componente
     return () => {
-      socket.off("userList");
       socket.off("initialMessages");
       socket.off("chatMessage");
     };
   }, []);
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+  useEffect(() => {
 
-  const handleReceiverChange = (event) => {   // Manejar el cambio del receptor
-    setReceiver(event.target.value);
-  };
+    console.log(currentUser);
+    
+    if (currentUser && currentUser.authId) {
+      setReceiver(currentUser.authId);
+      fetchUserDetail();
+      console.log('Receptor:', currentUser,userInstance);
+      
+    }
+  }, [currentUser]);
 
   const handleMessageChange = (event) => {
     setActualMessage(event.target.value);
   };
+  const handleReceiverChange = (event) => { 
+    setReceiver(event.target.value);
+  };
 
   const handleSendMessage = () => {
     if (receiver && actualMessage) {
-      console.log(actualMessage,receiver);
-      
       const message = {
-        receiverId: receiver, // Incluye el receptor
+        receiverId: receiver,
         content: actualMessage,
         timestamp: new Date(),
       };
 
-      // Enviar el mensaje al servidor
       socket.emit("chatMessage", message);
-
-      // Agregar el mensaje localmente para que aparezca en la interfaz
       setMessages(prevMessages => [...prevMessages, message]);
-      setActualMessage(""); // Limpiar el campo de mensaje
+      setActualMessage("");
     }
   };
-
   return (
     <div className="w-2/3 bg-gray-750 p-6 flex flex-col">
       <div className="flex items-center mb-6">
@@ -80,14 +74,14 @@ export const MessagePanel = () => {
           <h2 className="text-2xl font-bold">Angela Leiva</h2>
           <div>
             {userRoles.map((role, index) => {
-              const color = getRoleColor(role);
+              const color = getRoleColor(role.name);
               return (
                 <span
                   key={index}
                   className="text-white px-2 py-1 rounded-lg mr-2"
                   style={{ backgroundColor: color }}
                 >
-                  {role}
+                  {role.name}
                 </span>
               );
             })}
@@ -110,7 +104,7 @@ export const MessagePanel = () => {
       <div className="mb-4 bg-gray-800 p-4 rounded-lg flex flex-col space-y-4">
         {messages.map((msg, index) => (
           <div key={index} className="mb-4 bg-gray-800 p-4 rounded-lg">
-            <h3 className="font-bold text-lg">{msg.receiverId}</h3>
+            <h3 className="font-bold text-lg">{msg.receiverId != currentUser.authId && currentUser.name }</h3>
             <p className="text-gray-400 mt-2">{msg.content}</p>
           </div>
         ))}

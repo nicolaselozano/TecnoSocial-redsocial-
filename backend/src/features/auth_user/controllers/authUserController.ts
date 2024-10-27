@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { userRepository } from '@/features/user/userRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
@@ -19,7 +21,6 @@ const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise
       message: 'Usuario creado exitosamente',
       user: userData,
     });
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   } catch (error: any) {
     console.error('Error al crear el usuario: ', error.message);
     res.status(500).json({
@@ -44,7 +45,7 @@ const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> 
     const user = await userRepository.getUserByAuthId(userData.authId);
     if (userData.email) {
       res.status(201).json({
-        message: 'Usuario creado exitosamente',
+        message: 'Usuario logueado exitosamente',
         user: user,
       });
     }

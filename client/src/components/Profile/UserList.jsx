@@ -56,14 +56,14 @@ const UserList = () => {
                         />
                         <h2 className="text-lg font-bold">{user.name}</h2>
                         <div className="flex gap-3 mt-1 flex-wrap">
-                            {Array.isArray(user.roles) && user.roles.length > 0 ? (
+                            {Array.isArray(user.roles) ? (
                                 user.roles.map((role, index) => (
                                     <span
                                         key={index}
                                         className="text-sm text-white px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize"
-                                        style={{ backgroundColor: getRoleColor(role) }}
+                                        style={{ backgroundColor: getRoleColor(role.name) }}
                                     >
-                                        {role}
+                                        {role.name}
                                     </span>
                                 ))
                             ) : (

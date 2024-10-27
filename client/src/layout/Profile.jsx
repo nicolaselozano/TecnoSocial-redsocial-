@@ -8,22 +8,22 @@ import { PostsGrid } from "../components/Posts/PostsGrid";
 import { checkAuth } from "../services/Auth/checkAuth";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
 import NotificationBar from "../components/Notification_bar/NotificationBar";
+import userFollowersStore from "../context/users/followers-store";
 const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
     const { fetchUserDetail, userInstance } = userProfileStore();
+    const { getFollowers,getFolloweds,follower,followed } = userFollowersStore();
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
 
         const fetchUserData = async () => {
             setIsLoading(true);
-            const response = await fetchUserDetail();
-
-            await response();
+            await fetchUserDetail();
+            await getFollowers();
+            await getFolloweds();
             setIsLoading(false);
         };
         fetchUserData();
@@ -34,8 +34,7 @@ const Profile = () => {
         if (!isModalOpen) {
             const checkUserAuth = async () => {
                 setIsLoading(true);
-                const auth = await checkAuth();
-                setIsAuthenticated(auth);
+                await checkAuth();
                 setIsLoading(false);
             };
 
@@ -83,6 +82,8 @@ const Profile = () => {
                             <ProfileDetail user={userInstance.user}
                                 redes={userInstance.redes}
                                 onEditProfile={handleOpenModal}
+                                followers={follower}
+                                followeds={followed}
                             />
                         )}
                 </div>

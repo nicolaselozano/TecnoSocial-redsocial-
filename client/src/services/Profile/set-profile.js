@@ -22,7 +22,7 @@ const updateProfile = async (updatedUserData) => {
             body: JSON.stringify({
                 name,
                 username,
-                role: roles[0],
+                role: roles,
                 avatar,
                 location,
                 job,

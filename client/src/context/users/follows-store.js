@@ -2,12 +2,7 @@ import { create } from "zustand";
 import { getProfileService } from "../../services/Profile/get-profile";
 
 const userFollowsStore = create((set) => ({
-    followed:{
-        list:[],
-        page:null,
-        total_pages:null,
-        has_more:false
-    },
+
     loading: false,
     error: "",
     fetchUserFollowed: async (page =1) => {

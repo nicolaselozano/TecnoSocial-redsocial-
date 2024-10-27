@@ -6,30 +6,30 @@ const getUserProfile = async () => {
     try {
         // Replace mock_user with your actual JSON data
         const userJsonString = localStorage.getItem('userdata');
-
+        
         // Check if the data exists in localStorage
         if (!userJsonString) {
             throw new Error("No user profile found in localStorage.");
         }
 
 
-        const userJson = JSON.parse(userJsonString);
+        const {message,user} = JSON.parse(userJsonString);
 
         const userData = {
-            id: userJson.id,
-            name: userJson.name,
-            email: userJson.email,
-            authId: userJson.authId,
-            authName: userJson.authName,
-            roles: userJson.role || ["User"],
-            avatar: userJson.avatar || "https://picsum.photos/id/1009/400/400",
-            location: userJson.location || "Unknown", 
-            job: userJson.job || "Not provided", 
-            createdAt: userJson.created_at,
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            authId: user.authId,
+            authName: user.authName,
+            roles: user.roles || [],
+            avatar: user.avatar || "https://picsum.photos/id/1009/400/400",
+            location: user.location || "Unknown", 
+            job: user.job || "Not provided", 
+            createdAt: user.created_at,
         };
 
         const projects = [];
-        const redes = userJson.social_networks || [
+        const redes = user.social_networks || [
             { id: 1, github: "jperezdev" },
             { id: 2, linkedin: "juan-perez-123" }
         ]; 
@@ -69,11 +69,19 @@ const getUserLikedProyects = async (page) => {
         error("Error en la peticion del perfil del usuario :" + error.message);
     }
 }
-const getUserFollowed = async (page,userId) => {
+const getUserFollowed = async (page) => {
 
     try {
+        const userJsonString = localStorage.getItem('userdata');
+        
+        // Check if the data exists in localStorage
+        if (!userJsonString) {
+            throw new Error("No user profile found in localStorage.");
+        }
 
-        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${userId}/followed`, {
+
+        const {message,user} = JSON.parse(userJsonString);
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${user.id}/followed`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,11 +89,12 @@ const getUserFollowed = async (page,userId) => {
             },
             credentials: 'include',
         });
-
-        console.log( response);
+        
+        const data = await response.json();
+        console.log('userfolloweds',data);
         
 
-        return response.data;
+        return data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);
@@ -93,11 +102,21 @@ const getUserFollowed = async (page,userId) => {
 
 }
 
-const getUserFollowers = async (page,userId) => {
+const getUserFollowers = async (page) => {
 
     try {
+        const userJsonString = localStorage.getItem('userdata');
+        
+        // Check if the data exists in localStorage
+        if (!userJsonString) {
+            throw new Error("No user profile found in localStorage.");
+        }
 
-        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${userId}/followed`, {
+
+        const {message,user} = await JSON.parse(userJsonString);
+
+
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${user.id}/followers`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,10 +125,11 @@ const getUserFollowers = async (page,userId) => {
             credentials: 'include',
         });
 
-        console.log( response);
+        const data = await response.json();
+        console.log('userfollowers',data);
         
 
-        return response.data;
+        return data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);

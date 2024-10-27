@@ -6,10 +6,11 @@ import perfilImg from "../../../assets/perfil/avatardeejemplo.svg";
 const ProfileDetail = ({
     user,
     redes,
-    onEditProfile
+    onEditProfile,
+    followers,
+    followeds
 }) => {
-
-
+    
 
     return (
         <section className=" bg-secondBlack-700 min-w-[153vh] text-white rounded-t-xl shadow-md overflow-hidden">
@@ -66,21 +67,15 @@ const ProfileDetail = ({
                             {/* Roles del usuario */}
                             <div className="mt-2">
                                 {
-                                // user.roles.length > 0 ? user.roles.map((role, index) => (
-                                //     <span
-                                //         key={index}
-                                //         className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                //         style={{ backgroundColor: getRoleColor(role) }}
-                                //     >
-                                //         {role}
-                                //     </span>
-                                // )):
-                                <span
-                                className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                style={{ backgroundColor: getRoleColor(user.roles[0]) }}
-                            >
-                                {user.roles}
-                            </span>
+                                Array.isArray(user?.roles) > 0 ? user.roles.map((role, index) => (
+                                    <span
+                                        key={index}
+                                        className={`text-sm mr-1 px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                        style={{ backgroundColor: getRoleColor(role.name) }}
+                                    >
+                                        {role.name}
+                                    </span>
+                                )):null
                                 }
                             </div>
                         </div>
@@ -125,11 +120,11 @@ const ProfileDetail = ({
                         <div className="flex flex-col items-end">
                             <div className="flex items-center">
                                 <div className="flex text-center items-center ml-3">
-                                    <p className="text-lg font-semibold mx-1">60</p>
+                                    <p className="text-lg font-semibold mx-1">{followers.totalUsers}</p>
                                     <p className="text-gray-400 text-sm">Seguidores</p>
                                 </div>
                                 <div className="flex text-center items-center ml-3">
-                                    <p className="text-lg font-semibold mx-1">55</p>
+                                    <p className="text-lg font-semibold mx-1">{followeds.totalUsers}</p>
                                     <p className="text-gray-400 text-sm">Seguidos</p>
                                 </div>
                                 <div className="flex text-center items-center ml-3">

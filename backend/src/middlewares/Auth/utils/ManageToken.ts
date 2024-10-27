@@ -73,7 +73,6 @@ interface JwksResponse {
 
 export async function ValidateToken(token: string): Promise<JwtPayload | null> {
   try {
-    console.log(`SOY EL TOKEN VALIDATETOKENASYNC ${token}`);
 
     const authDomain = envs.AUTH0.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
     const discoveryUrl = `https://${authDomain}/.well-known/openid-configuration`;

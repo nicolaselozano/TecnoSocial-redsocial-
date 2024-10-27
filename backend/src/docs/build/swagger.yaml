@@ -931,6 +931,9 @@ paths:
                       linkedin: null
                       facebook: null
                       github: null
+                    postCount: 1
+                    followersCount: 10
+                    followedCount: 2
                   - id: 2
                     name: Sofia
                     email: email@gmail.com
@@ -948,6 +951,9 @@ paths:
                       linkedin: null
                       facebook: null
                       github: null
+                    postCount: 1
+                    followersCount: 10
+                    followedCount: 2
   '/user/role/{role}':
     get:
       summary: Obtiene todos los usuario asociados a un rol
@@ -1624,3 +1630,197 @@ paths:
                     type: string
               example:
                 message: Error del servidor
+  /messages:
+    post:
+      summary: Crear un nuevo mensaje
+      tags:
+        - Mensajes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: Contenido del mensaje.
+                receiverId:
+                  type: string
+                  description: ID del receptor.
+              required:
+                - content
+                - receiverId
+      responses:
+        '201':
+          description: Mensaje creado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  content:
+                    type: string
+                  sender:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                  receiver:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+        '404':
+          description: Receptor no encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: Receptor no encontrado
+    get:
+      summary: Obtener mensajes de un usuario específico
+      tags:
+        - Mensajes
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+          required: false
+          description: Número máximo de mensajes a devolver
+        - in: query
+          name: skip
+          schema:
+            type: integer
+            minimum: 0
+          required: false
+          description: Número de mensajes a omitir
+      responses:
+        '200':
+          description: Lista de mensajes enviados y recibidos por el usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sentMessages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        receiver:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                  receivedMessages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        sender:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+  '/messages/between/{receiverId}':
+    get:
+      summary: Obtener mensajes entre el usuario autenticado y un receptor específico
+      tags:
+        - Mensajes
+      parameters:
+        - in: path
+          name: receiverId
+          required: true
+          description: ID del receptor
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: false
+          description: Número máximo de mensajes a devolver
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: skip
+          required: false
+          description: Número de mensajes a omitir
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        '200':
+          description: Lista de mensajes entre el usuario autenticado y el receptor especificado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    content:
+                      type: string
+                    sender:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                    receiver:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+        '404':
+          description: Usuario no encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Sender or Receiver not found
+        '500':
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: string
+                example:
+                  message: Error fetching messages
+                  error: Error details here
