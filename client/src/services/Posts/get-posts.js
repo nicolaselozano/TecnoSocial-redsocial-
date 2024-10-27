@@ -1,18 +1,25 @@
 import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
-export const getPosts = async (limit, page) => {
+export const getPosts = async (limit, page, search = "") => {
+  const user = JSON.parse(localStorage.getItem("userdata"));
+
+  let route = user
+    ? `${APIDOMAIN}${APIDOMAIN_VERSION}/post/me?limit=${limit}&page=${page}`
+    : `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`;
+
+  if (search) {
+    route += `&search=${encodeURIComponent(search)}`;
+  }
+
   try {
-    const response = await fetch(
-      `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: 'include',
-      }
-    );
+    const response = await fetch(route, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include",
+    });
 
     if (!response.ok) {
       throw new Error("Error en la respuesta del servidor");
