@@ -25,6 +25,8 @@ tags:
     description: API para gestionar las redes sociales de un usuario
   - name: Notification
     description: API para gestionar notificaciones
+  - name: Role
+    description: API para gestionar los roles
 paths:
   # Post endpoints
   /post/me:
@@ -38,7 +40,7 @@ paths:
   /post/{id}/like:
     $ref: './paths/post/post-like.yaml'
   /post:
-    $ref: './paths/post.yaml'  
+    $ref: './paths/post.yaml'
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
@@ -92,7 +94,6 @@ paths:
   #notificaciones  endpoints
   /notification:
     $ref: './paths/notification.yaml'
-
   /notification/{id}:
     $ref: './paths/notification-by-id.yaml'
 
@@ -104,4 +105,6 @@ paths:
   /messages/between/{receiverId}:
     $ref: './messages/m-between-user.yaml'
 
-
+  # Role  endpoints
+  /role:
+    $ref: './paths/role/role.yaml'

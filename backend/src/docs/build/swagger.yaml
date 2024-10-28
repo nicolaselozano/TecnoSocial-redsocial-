@@ -25,6 +25,8 @@ tags:
     description: API para gestionar las redes sociales de un usuario
   - name: Notification
     description: API para gestionar notificaciones
+  - name: Role
+    description: API para gestionar los roles
 paths:
   /post/me:
     get:
@@ -1824,3 +1826,30 @@ paths:
                 example:
                   message: Error fetching messages
                   error: Error details here
+  /role:
+    get:
+      summary: Obtiene todos los roles
+      tags:
+        - Role
+      responses:
+        '200':
+          description: Lista de los roles
+          content:
+            application/json:
+              schema:
+                type: array
+              example:
+                roles:
+                  - Frontend
+                  - Backend
+                  - Mobile Developer
+                  - UX
+                  - UI
+                  - Tester
+                  - DevOps Engineer
+                  - AI Engineer
+                  - Cybersecurity Analyst
+                  - Database Administrator
+                  - Project Manager
+                  - Scrum Master
+                  - Tech Lead

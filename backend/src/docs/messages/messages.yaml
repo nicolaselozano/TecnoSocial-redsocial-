@@ -112,4 +112,3 @@ get:
                       properties:
                         id:
                           type: string
-                  
