@@ -22,6 +22,7 @@ import { MOCK_ROLES } from './mockups/roles.mock';
 import { seedConnections } from './seedConnections';
 import { seedPosts } from './seedPosts';
 import { seedProjects } from './seedProjects';
+import { seedTechnology } from './seedTechnology';
 import { seedUsers } from './seedUsers';
 
 export const project = con.getRepository(Project);
@@ -47,6 +48,7 @@ export async function seed({ exit = true }: Options) {
       await con.initialize();
     }
 
+    await seedTechnology();
     await seedRoles();
     await seedUsers();
     await seedConnections();
