@@ -6,7 +6,7 @@ import { Message } from './messageEntity';
 export const messageRepository = con.getRepository(Message);
 
 export const MessageService = {
-    async getMessagesBetweenUsers(authId: string, receiverId: string, limit: number, skip: number) {
+    async getMessagesBetweenUsers(authId: string, receiverId: string, limit: number = 10, skip: number = 0) {
         const sender = await userRepository.getUserByAuthId(authId);
         const receiver = await userRepository.getUserByAuthId(receiverId);
 
@@ -14,7 +14,7 @@ export const MessageService = {
             throw new Error('Sender or Receiver not found');
         }
 
-        return messageRepository.find({
+        return await messageRepository.find({
             where: [
                 { sender: { id: sender.id }, receiver: { id: receiver.id } },
                 { sender: { id: receiver.id }, receiver: { id: sender.id } }

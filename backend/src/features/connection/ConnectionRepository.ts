@@ -7,7 +7,7 @@ import { Connection } from './ConnectionEntity';
 
 type ConnectionPaginatedConfig = PaginatedConfig & {
   userid: User['id'];
-  authId?: string; 
+  authId?: string;
 };
 
 class ConnectionRepository {
@@ -37,19 +37,20 @@ class ConnectionRepository {
         follower: { id: userid },
         followed: { name: Like(`%${search}%`) },
       },
-      relations: ['followed'],
+      relations: ['followed', 'followed.roles'],
       take: limit,
       skip,
     });
-  
+
     return results.map((res) => ({
       id: res.followed.id,
       name: res.followed.name,
       authId: res.followed.authId,
       avatar: res.followed.avatar,
+      roles: res.followed.roles
     }));
   }
-  
+
   async getFollowersCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
     const count = await this.repository.count({
       where: {
@@ -67,6 +68,7 @@ class ConnectionRepository {
 
   async getFollowedCount({ search, userid }: ConnectionPaginatedConfig): Promise<number> {
     const count = await this.repository.count({
+      relations: ['followed', 'followed.roles'],
       where: {
         followed: {
           name: Like(`%${search}%`),

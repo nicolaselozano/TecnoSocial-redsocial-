@@ -9,11 +9,12 @@ import { checkAuth } from "../services/Auth/checkAuth";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
 import NotificationBar from "../components/Notification_bar/NotificationBar";
 import userFollowersStore from "../context/users/followers-store";
+import { UserTypes } from "../utils/UserListType";
 const EditProfileModal = React.lazy(() => import("../components/Profile/EditProfile/ModalEditProfile"));
 
 const Profile = () => {
     const { fetchUserDetail, userInstance } = userProfileStore();
-    const { getFollowers,getFolloweds,follower,followed } = userFollowersStore();
+    const { getFollowers, getFolloweds, follower, followed } = userFollowersStore();
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -114,18 +115,11 @@ const Profile = () => {
                             {/* Ruta para mostrar los seguidores */}
                             <Route
                                 path="followers"
-                                element={
-                                    <UserList
-                                        users={[userInstance.user]}
-                                    />
-                                }
+                                element={<UserList type={UserTypes.FOLLOWERS} />}
                             />
-                            <Route path="follows"
-                                element={
-                                    <UserList
-                                        users={[userInstance.user]}
-                                    />
-                                }
+                            <Route
+                                path="follows"
+                                element={<UserList type={UserTypes.FOLLOWED} />}
                             />
                             <Route path="likes"
                                 element={
@@ -161,12 +155,12 @@ const Profile = () => {
                 {/* ejemplo de los componentes de notificaciones y perfiles  */}
             </div>
             <div className="flex flex-col mx-4">
-            <section className=" flex flex-col gap-y-5 ">
-                {/*card de perfiles similares*/}
-                <SimilarProfilesPage />
-                {/*card de notificaciones*/}
-                <NotificationBar />
-            </section>
+                <section className=" flex flex-col gap-y-5 ">
+                    {/*card de perfiles similares*/}
+                    <SimilarProfilesPage />
+                    {/*card de notificaciones*/}
+                    <NotificationBar />
+                </section>
             </div>
 
         </section>

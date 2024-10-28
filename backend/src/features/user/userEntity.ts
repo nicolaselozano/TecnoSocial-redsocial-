@@ -30,7 +30,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true, select: true })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: true, unique: true })
   authId: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true, select: false })

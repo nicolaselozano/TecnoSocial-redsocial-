@@ -21,23 +21,27 @@ export function Messages() {
 
   const handleSelectUser = (userId) => {
     console.log(followed.list);
-    
+
     const user = followed.list.find((user) => user.authId === userId);
 
     setCurrentUser(user);
 
   }
   return (
-    <div className="flex h-[500px] bg-gray-900 text-white"> {/* // en vez de [500px] puede ir screen */}
+    <div className="flex justify-center h-screen w-full bg-secondBlack-900 text-white">
       <MessageSidebar userList={followed.list || []} handleUser={handleSelectUser} />
-      {
-        !isLoading && currentUser ?      
+
+      {!isLoading && currentUser ?
         <MessagePanel currentUser={currentUser} /> :
-        <div></div>
+        <div className="w-fit flex flex-col justify-center items-center text-center p-4"> 
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Chatea con tus futuros colegas</h1>
+          <p className="text-lg md:text-xl text-gray-300">Aquí puedes interactuar y hacer conexiones con otros desarrolladores.</p>
+        </div>
       }
 
     </div>
   );
+
 }
 
 export default Messages;
