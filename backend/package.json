@@ -10,7 +10,7 @@
     "dev:docker": "docker compose up -d tecno-db && npm run swagger:build && ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "dev:sql": "npm run swagger:build && ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "build": "tsc && tsc-alias -p tsconfig.json && mkdir -p ./dist/src/docs/build && cp ./src/docs/build/swagger.yaml ./dist/src/docs/build",
-    "db:seed": "SEED=true npm run db:drop && cross-env SEED=true tsx src/utils/seed/index.ts",
+    "db:seed": "cross-env SEED=true npm run db:drop && cross-env SEED=true tsx src/utils/seed/index.ts",
     "db:drop": "tsx src/utils/seed/drop.ts",
     "swagger:build": "npx swagger-cli bundle src/docs/index.yaml --outfile src/docs/build/swagger.yaml --type yaml",
     "format": "prettier --write src",
