@@ -16,7 +16,6 @@ class ConnectionRepository {
 
   async setConnection(authId: string, authIdFollowed: string) {
     try {
-
       const followedUser = await userRepository.getUserByAuthId(authIdFollowed);
       const followerUser = await userRepository.getUserByAuthId(authId);
 
@@ -27,9 +26,8 @@ class ConnectionRepository {
       conn.timestamp = new Date();
 
       return await this.repository.save(conn);
-
     } catch (error) {
-      throw new Error('Error al seguir al usuario : '+ error);
+      throw new Error('Error al seguir al usuario : ' + error);
     }
   }
   // Usuarios que siguen al usuario cliente
