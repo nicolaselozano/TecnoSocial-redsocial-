@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
-import Container from "quill/blots/container";
+import { uploadImage } from "../../services/uploadFile/uploadFile";
 
 const FormModal = () => {
   const [text, setText] = useState({
@@ -11,6 +9,7 @@ const FormModal = () => {
 
   const [image, setImage] = useState([]);
   const [preview, setPreview] = useState([]);
+  const [upImage, setUpImage] = useState([]);
 
   useEffect(() => {
     if (image.length > 0) {
@@ -23,31 +22,117 @@ const FormModal = () => {
           reader.readAsDataURL(item);
         });
       });
+      //console.log(previewArray)
       Promise.all(previewArray).then((results) => setPreview(results));
     } else {
       setPreview([]);
     }
   }, [image]);
 
+  /* useEffect(() => {
+    const uploadImages = async () => {
+      if (image.length > 0) {
+        // Subir cada imagen al servidor
+        const previewArray = await Promise.all(
+          image.map(async (item) => {
+            const formData = new FormData();
+            formData.append("file", item); // Agregar cada archivo al FormData
+            const data = await uploadImage(formData); // Subir cada imagen
+            return data?.url || ""; // Asume que la API retorna la URL en 'url'
+          })
+        );
+        setPreview(previewArray); // Actualiza el preview con las URLs subidas
+      } else {
+        setPreview([]);
+      }
+    };
+
+    uploadImages();
+  }, [image]); */
+
+  const createPost = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/post/me", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          title: text.title,
+          content: text.text,
+          technologies: ["react", "nextjs"],
+          images: upImage,
+        }),
+      });
+      console.log(text, upImage);
+      if (!response.ok) {
+        throw new Error("Error en la respuesta de la api");
+      }
+      const data = await response.json();
+      if (data) {
+        alert("exito en subir posteo");
+      }
+      return data;
+    } catch (error) {
+      console.log("error al hacer el post", error);
+    }
+  };
+
   const handlesClicDelete = (id) => {
-    //let newArray = preview;
     setPreview(preview.filter((item, index) => index !== id));
+    setImage(image.filter((item, index) => index !== id));
+  };
+
+  /* const handleFileUploadArray = async () => {
+    let listDataUpload;
+    const imageData = new FormData();
+    image.map(async (item) => {
+      imageData.append("file", item);
+      const response = await uploadImage(imageData);
+      if (response.fileUrls) {
+        const imageUrl = response.fileUrls.map((item) => item.fileUrl);
+        listDataUpload = imageUrl;
+      }
+      //return listDataUpload;
+      setUpImage(listDataUpload);
+    });
+  }; */
+  const handleFileUploadArray = async () => {
+    try {
+      // Usa Promise.all para esperar todas las subidas
+      const urls = await Promise.all(
+        image.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await uploadImage(formData); // Llama a la función uploadImage
+
+          return response.fileUrls ? response.fileUrls[0].fileUrl : null; // Extrae el primer URL si existe
+        })
+      );
+
+      setUpImage(urls.filter((url) => url !== null)); // Filtra y setea solo URLs válidas
+    } catch (error) {
+      console.error("Error al subir las imágenes:", error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(text,preview);
+    handleFileUploadArray();
+    //createPost();
+    console.log(text, upImage);
   };
 
   const handleChandeInput = (e) => {
     const { name, value } = e.target;
     setText({ ...text, [name]: value });
-    if(preview.length <= 0){
-      setImage([])
+    if (preview.length <= 0) {
+      setImage([]);
     }
   };
-
-  //console.log(preview);
 
   return (
     <form
@@ -79,7 +164,10 @@ const FormModal = () => {
       {/* image && <img src={preview} className="size-[100px]" /> */}
       <ul className="flex items-start gap-x-3 w-full">
         {preview?.map((item, index) => (
-          <li key={index} className="size-[100px] rounded-lg overflow-hidden relative">
+          <li
+            key={index}
+            className="size-[100px] rounded-lg overflow-hidden relative"
+          >
             <button
               className=" absolute top-1 right-1 bg-red-600 px-1 text-sm rounded-full"
               onClick={() => handlesClicDelete(index)}
@@ -87,7 +175,6 @@ const FormModal = () => {
               X
             </button>
             <img
-              
               src={item}
               alt={`imagen-${index}`}
               className="size-full object-cover"
