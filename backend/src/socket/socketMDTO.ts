@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export interface UserSockets {
   [username: string]: string | null;
 }

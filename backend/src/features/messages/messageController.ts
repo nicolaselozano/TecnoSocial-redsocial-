@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Request, Response } from 'express';
 import { MessageService } from './messageRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';

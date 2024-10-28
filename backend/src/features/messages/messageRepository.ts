@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import con from '../../config/database'; // Asegúrate de importar correctamente tu conexión a la base de datos
 import { userRepository } from '../user/userRepository';
 import { Message } from './messageEntity';

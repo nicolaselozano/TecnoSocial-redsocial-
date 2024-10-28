@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Server, Socket } from 'socket.io';
 import { UserSockets, MessageSocket, messages } from './socketMDTO';
 import cookieParser from 'cookie';

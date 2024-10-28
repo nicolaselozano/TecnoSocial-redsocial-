@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Router } from 'express';
 import { createMessage, getMessagesBetweenUsers, getMessagesByUser } from './messageController';
 import { MiddlewareAuth0 } from '@/middlewares/Auth/MiddlewareAuth0';

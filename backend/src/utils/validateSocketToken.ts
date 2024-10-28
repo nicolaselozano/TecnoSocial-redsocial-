@@ -2,7 +2,6 @@ import { JwtPayload } from 'jsonwebtoken';
 import { UnauthorizedError } from './errors';
 import { ManageToken } from '@/middlewares/Auth/utils/ManageToken';
 
-/* eslint-disable prettier/prettier */
 export const validateSocketToken = async (
   token: string,
 ): Promise<{ authId: string; authName: string; email: string }> => {

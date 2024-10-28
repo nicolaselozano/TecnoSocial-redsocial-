@@ -12,12 +12,13 @@ import { postRepository } from './postRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
-    const { title, content, user } = req.body;
+    const { title, content, user, images } = req.body;
 
     const post = new Post();
     post.title = title;
     post.content = content;
     post.user = user;
+    post.images = images;
 
     const response = await postRepository.createPost(post);
     res.status(StatusCodes.CREATED).json(response);
