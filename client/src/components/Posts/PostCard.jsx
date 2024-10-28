@@ -76,9 +76,9 @@ export const PostCard = ({ post }) => {
                 <span
                   key={index}
                   className={`text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                  style={{ backgroundColor: getRoleColor(role) }}
+                  style={{ backgroundColor: getRoleColor(role.name) }}
                 >
-                  {role}
+                  {role.name}
                 </span>
               ))}
             </div>

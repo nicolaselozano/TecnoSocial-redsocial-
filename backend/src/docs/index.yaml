@@ -99,3 +99,9 @@ paths:
   # Fileupload endpoint
   /fileupload:
     $ref: './paths/fileupload.yaml'
+  /messages:
+    $ref: './messages/messages.yaml'
+  /messages/between/{receiverId}:
+    $ref: './messages/m-between-user.yaml'
+
+

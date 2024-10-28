@@ -150,11 +150,11 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                     <div className="flex gap-3 mt-1">
                       {post?.user?.roles?.map((role) => (
                         <span
-                          key={role}
+                          key={role.name}
                           className="text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize"
                           style={{ backgroundColor: getRoleColor(role) }}
                         >
-                          {role}
+                          {role.name}
                         </span>
                       ))}
                     </div>

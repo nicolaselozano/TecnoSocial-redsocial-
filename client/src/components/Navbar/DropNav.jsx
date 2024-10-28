@@ -1,6 +1,7 @@
 import { AiOutlineUser } from "react-icons/ai";
 import { RxExit } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import handleLogout from "../Auth/Logout/HandleLogout";
 
 const DropNav = ({
   setIsIndex,
@@ -31,7 +32,7 @@ const DropNav = ({
           <Link
             to={"#"}
             className=" flex items-center gap-x-2"
-            onClick={() => setIsActiveDrop(false)}
+            onClick={handleLogout}
           >
             <RxExit className="size-5" />
             Salir
