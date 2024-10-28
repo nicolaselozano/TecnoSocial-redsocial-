@@ -6,7 +6,7 @@ import { Like } from 'typeorm';
 import { Role } from '../role/roleEntity';
 import { User } from './userEntity';
 
-type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'job'>;
+type UserPut = Pick<User, 'avatar' | 'location' | 'name' | 'job'> & { role: [string] };
 
 type UserFilters = {
   role?: string;
@@ -14,8 +14,18 @@ type UserFilters = {
 
 class UserRopository {
   private repository = con.getRepository(User);
+  private repositoryRoles = con.getRepository(Role);
 
   public async createUser(user: Partial<UserDataToken>): Promise<User> {
+
+    const userExist = await this.repository.findOne({
+      where: {
+        authId: user.authId,
+      },
+    });
+
+    if (userExist) throw Error("El usuario existe");
+
     const response = await this.repository.save({
       authId: user.authId,
       authName: user.authName,
@@ -34,6 +44,8 @@ class UserRopository {
   }
 
   public async getAllUsers({ limit, search, skip }: PaginatedConfig & UserFilters) {
+    console.log('HOLA');
+
     const users = await this.repository.find({
       relations: ['social_networks', 'roles'],
       where: {
@@ -82,7 +94,7 @@ class UserRopository {
 
     const user = await this.repository.findOne({
       where: { authId },
-      relations: ['social_networks'],
+      relations: ['social_networks', 'roles'],
     });
 
     if (!user) {
@@ -93,17 +105,31 @@ class UserRopository {
   }
 
   public async updateUser(authId: User['authId'], user: UserPut): Promise<User> {
-    const results = await this.repository.update(
-      { authId },
-      {
-        avatar: user.avatar,
-        job: user.job,
-        location: user.location,
-        name: user.name,
-      },
+    console.log("Updating user data:", user);
+
+    const roles = await Promise.all(
+      user.role.map(async (roleName) => {
+        const role = await this.repositoryRoles.findOne({ where: { name: roleName } });
+        if (!role) throw new Error(`Role ${roleName} not found`);
+        return role;
+      })
     );
-    return results.raw;
+
+    let userToUpdate = await this.repository.findOne({ where: { authId }, relations: ['roles'] });
+    if (!userToUpdate) throw new Error("User not found");
+
+    userToUpdate.roles = roles;
+
+    userToUpdate.avatar = user.avatar;
+    userToUpdate.job = user.job;
+    userToUpdate.location = user.location;
+    userToUpdate.name = user.name;
+
+    await this.repository.save(userToUpdate);
+
+    return userToUpdate;
   }
+
 
   public async deleteUser(id: User['id']): Promise<boolean> {
     const result = await this.repository.delete(id);

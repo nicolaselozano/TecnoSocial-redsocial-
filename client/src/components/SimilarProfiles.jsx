@@ -99,7 +99,7 @@ const SimilarProfiles = () => {
                 <div className="flex flex-wrap gap-[4px]">
                   {roles.map((role, roleIndex) => (
                     <span key={roleIndex} className={getRoleColorClass(role)}>
-                      {role.trim()}
+                      {role.name}
                     </span>
                   ))}
                 </div>

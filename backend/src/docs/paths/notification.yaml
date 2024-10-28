@@ -9,7 +9,7 @@ get:
         minimum: 1
         description: Número máximo de notificaciones a devolver
       required: false
-      description: Limita el número de notificaciones devueltos 
+      description: Limita el número de notificaciones devueltos
     - in: query
       name: page
       schema:

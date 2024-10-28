@@ -1,5 +1,4 @@
 import con from '@/config/database';
-import { Like } from '@/features/like/likeEntity';
 import { Post } from '@/features/post/postEntity';
 import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
@@ -61,8 +60,8 @@ describe('POST Endpoints', () => {
     });
   });
 
-  describe('GET /api/v1/post', () => {
-    const url = '/api/v1/post';
+  describe('GET /api/v1/post/me', () => {
+    const url = '/api/v1/post/me';
 
     it('should get a 200 response with a list of posts', async () => {
       await authRequest({})
@@ -133,49 +132,17 @@ describe('POST Endpoints', () => {
         .expect(StatusCodes.NOT_FOUND);
     });
   });
+  describe('GET /api/v1/post', () => {
+    const url = '/api/v1/post';
 
-  describe('POST /api/v1/post/:id/like', () => {
-    const url = '/api/v1/post/';
-
-    it('should return a 201 response when user likes a post', async () => {
-      const userEmail = 'email@gmail.com';
-      const notLikedPost = await con.getRepository(Post).findOne({
-        where: {
-          user: { email: userEmail },
-        },
-      });
-
+    it('should get a 200 response with a list of posts ', async () => {
       await authRequest({})
-        .post(url + notLikedPost?.id + '/like')
-        .expect(StatusCodes.CREATED);
-    });
-
-    it('should return a 401 response when auth token is not provided', async () => {
-      await request.post(url + 1 + '/like').expect(StatusCodes.UNAUTHORIZED);
-    });
-
-    it('should return a 404 response when post id is invalid', async () => {
-      const invalidId = 9999;
-
-      await authRequest({})
-        .post(url + invalidId + '/like')
-        .expect(StatusCodes.NOT_FOUND);
-    });
-
-    it('should return a 409 response when user has already liked the post', async () => {
-      const userEmail = 'email@gmail.com';
-      const alreadyLikedPost = await con.getRepository(Like).findOne({
-        where: {
-          user: {
-            email: userEmail,
-          },
-        },
-        relations: ['user', 'post'],
-      });
-
-      await authRequest({})
-        .post(url + alreadyLikedPost?.post.id + '/like')
-        .expect(StatusCodes.CONFLICT);
+        .get(url)
+        .expect(StatusCodes.OK)
+        .expect(({ body }) => {
+          expect(Array.isArray(body.results)).toBe(true);
+          expect(body.totalPosts).toBe(totalPosts);
+        });
     });
   });
 });

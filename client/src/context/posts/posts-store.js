@@ -3,6 +3,7 @@ import { getPostById } from "../../services/Posts/get-post-by-id";
 import { getPosts } from "../../services/Posts/get-posts";
 import { createComment } from "../../services/Comment/post-comment";
 import { postLike } from "../../services/Posts/post-like";
+import { deleteLike } from "../../services/Posts/delete-like";
 
 const usePostStore = create((set) => ({
   posts: [],
@@ -11,13 +12,28 @@ const usePostStore = create((set) => ({
   isLoading: false,
   loading: false,
   commentLoading: false,
+  likeLoading: false,
   page: 1,
   hasMore: true,
+  search: '',
+
+  setSearch: (newSearch) => set((state) => {
+    if (state.search !== newSearch) {
+      return {
+        search: newSearch,
+        posts: [],
+        page: 1,
+        hasMore: true,
+      };
+    }
+    return state;
+  }),
 
   // Fetch posts
   fetchPosts: async (page) => {
     set({ loading: true });
-    const data = await getPosts(10, page);
+    const { search } = usePostStore.getState(); 
+    const data = await getPosts(10, page, search);
     if (data) {
       set((state) => {
         const existingIds = new Set(state.posts.map((post) => post.id));
@@ -36,6 +52,7 @@ const usePostStore = create((set) => ({
       set({ loading: false, hasMore: false });
     }
   },
+  
 
   // Fetch a specific post by ID
   fetchPost: async (id) => {
@@ -179,6 +196,10 @@ const usePostStore = create((set) => ({
 
   // Function to like a post
   likePost: async (postId) => {
+    set((state) => ({
+      ...state,
+      likeLoading: true,
+    }));
     try {
       const data = await postLike(postId);
       if (!data) throw new Error("Error al dar like al post");
@@ -198,24 +219,45 @@ const usePostStore = create((set) => ({
       }
     } catch (error) {
       console.error("Error liking the post:", error);
+    } finally {
+      set((state) => ({
+        ...state,
+        likeLoading: false,
+      }));
     }
   },
 
   // Function to unlike a post
-  unlikePost: (postId) => {
+  unlikePost: async (postId) => {
     set((state) => ({
-      posts: state.posts.map((post) => {
-        if (post.id === postId) {
-          // TODO: Remove like a post for endpoint backend
-          return {
-            ...post,
-            isLike: false,
-            likeCount: post.likeCount > 0 ? post.likeCount - 1 : 0,
-          };
-        }
-        return post;
-      }),
+      ...state,
+      likeLoading: true,
     }));
+    try {
+      const data = await deleteLike(postId);
+      if (!data) throw new Error("Error al dar dislike al post");
+      if (data) {
+        set((state) => ({
+          posts: state.posts.map((post) => {
+            if (post.id === postId) {
+              return {
+                ...post,
+                isLike: false,
+                likeCount: post.likeCount > 0 ? post.likeCount - 1 : 0,
+              };
+            }
+            return post;
+          }),
+        }));
+      }
+    } catch (error) {
+      console.error("Error disliking the post:", error);
+    } finally {
+      set((state) => ({
+        ...state,
+        likeLoading: false,
+      }));
+    }
   },
 }));
 

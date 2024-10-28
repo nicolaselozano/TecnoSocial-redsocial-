@@ -27,8 +27,8 @@ tags:
     description: API para gestionar notificaciones
 paths:
   # Post endpoints
-  /post:
-    $ref: './paths/post.yaml'
+  /post/me:
+    $ref: './paths/post-me.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
   /post/{id}/followed:
@@ -37,6 +37,8 @@ paths:
     $ref: './paths/post-user.yaml'
   /post/{id}/like:
     $ref: './paths/post/post-like.yaml'
+  /post:
+    $ref: './paths/post.yaml'  
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
@@ -90,7 +92,7 @@ paths:
   # Social networks endpoints
   /social-networks:
     $ref: './paths/social-networks.yaml'
-    
+
   #notificaciones  endpoints
   /notification:
     $ref: './paths/notification.yaml'
@@ -101,4 +103,9 @@ paths:
   # Fileupload endpoint
   /fileupload:
     $ref: './paths/fileupload.yaml'
+  /messages:
+    $ref: './messages/messages.yaml'
+  /messages/between/{receiverId}:
+    $ref: './messages/m-between-user.yaml'
+
 

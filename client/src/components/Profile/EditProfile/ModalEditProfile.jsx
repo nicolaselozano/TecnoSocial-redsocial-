@@ -6,21 +6,23 @@ import { uploadImage } from '../../../services/uploadFile/uploadFile';
 
 const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   const [formData, setFormData] = useState({
-    name: userData.user.name,
-    username:"ejemplo",
-    location: userData.user.location,
-    job: userData.user.job,
-    roles:[userData.user.roles],
-    email: userData.user.email,
-    avatar:"https://via.placeholder.com/150",
+    name: userData.user.name || '',
+    username: userData.user.username || 'ejemplo',
+    location: userData.user.location || '',
+    job: userData.user.job || '',
+    roles: userData.user.roles || [],
+    email: userData.user.email || '',
+    avatar: userData.user.avatar || "https://via.placeholder.com/150",
     socialLinks: {
-      github: 'www.github.com',
-      linkedin: 'www.linkedin.com',
-      facebook: 'www.facebook.com',
-      instagram: 'www.instagram.com',
+      github: userData.user.socialLinks?.github || 'www.github.com',
+      linkedin: userData.user.socialLinks?.linkedin || 'www.linkedin.com',
+      facebook: userData.user.socialLinks?.facebook || 'www.facebook.com',
+      instagram: userData.user.socialLinks?.instagram || 'www.instagram.com',
     },
   });
-
+  
+  
+  console.log('HOLAAAAAAAAAAAAAAA',formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -165,18 +167,18 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
           <div className="mb-2">
             <label className="block text-secondBlack-100 text-xs font-bold mb-1">Rol</label>
             <div className="flex space-x-1">
-              {formData?.roles?.map((role, index) => (
+              {Array.isArray(formData.roles) ? formData?.roles?.map((role, index) => (
                 <span
                   key={index}
                   className="inline-block bg-primaryGreen-400 text-secondBlack-900 text-xs font-semibold rounded-full px-2 py-1"
                 >
-                  {role}
+                  {role.name}
                 </span>
-              ))}
+              )):null}
             </div>
           </div>
 
-          <TagsInput roles={formData.roles}
+          <TagsInput roles={formData.roles.map(role => role.name) || []}
           onChange={handleRolesChange}/>
 
           <div className="mb-2">

@@ -1,0 +1,147 @@
+get:
+  summary: Obtiene todos los posts
+  tags: [Posts]
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        description: Número máximo de posts a devolver
+      required: false
+      description: Limita el número de posts devueltos (por defecto devuelve todos)
+    - in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 0
+        description: Número de posts a saltar antes de comenzar a devolver los resultados
+      required: false
+      description: Saltar los primeros 'n' posts (para paginación)
+    - in: query
+      name: search
+      schema:
+        type: string
+        description: Buscar posts por el título
+      required: false
+      description: Buscar posts cuyo título contenga el término de búsqueda proporcionado
+  responses:
+    '200':
+      description: Lista de posts
+      content:
+        application/json:
+          schema:
+            type: object
+            items:
+              $ref: '../schemas/post-schema.yaml'
+          example:
+            results:
+              - id: 1
+                title: 'Primer post'
+                content: 'Contenido del primer post'
+                user:
+                  id: 1
+                  name: username
+                  email: email@gmail.com
+                  authId: 1
+                  authName: user
+                  token: asdjgsad
+                  role: Business Analyst
+                  avatar: https://image-url
+                  location: Buenos Aires
+                  job: Mercado libre
+                  created_at: '2024-10-24T00:28:22.893Z'
+                  isfollower: true
+                technologies:
+                  - name: 'react'
+                    color: '#ffffff'
+                  - name: 'express'
+                    color: '#000000'
+                images:
+                  - id: 1
+                    url: 'https://image-url'
+                    alt: 'tecno image'
+                    created_at: '2024-10-08T22:28:58.981Z'
+                  - id: 2
+                    url: 'https://image-url'
+                    alt: 'tecno image'
+                    created_at: '2024-10-08T22:28:58.981Z'
+                likesCount: 5
+                commentsCount: 10
+                islike: true
+              - id: 2
+                title: 'Segundo post'
+                content: 'Contenido del segundo post'
+                user:
+                  id: 1
+                  name: username
+                  email: email@gmail.com
+                  authId: 1
+                  authName: user
+                  token: asdjgsad
+                  role: Business Analyst
+                  avatar: https://image-url
+                  location: Buenos Aires
+                  job: Mercado libre
+                  created_at: '2024-10-24T00:28:22.893Z'
+                  isfollowe: false
+                technologies:
+                  - name: 'react'
+                    color: '#ffffff'
+                  - name: 'express'
+                    color: '#000000'
+                images:
+                  - id: 1
+                    url: 'https://image-url'
+                    alt: 'tecno image'
+                    created_at: '2024-10-08T22:28:58.981Z'
+                  - id: 2
+                    url: 'https://image-url'
+                    alt: 'tecno image'
+                    created_at: '2024-10-08T22:28:58.981Z'  
+                likesCount: 5
+                commentsCount: 10
+                islike: false
+
+
+post:
+  summary: Crea un nuevo post
+  tags: [Posts]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/new-post-schema.yaml'
+        example:
+          title: 'Mi primer post'
+          content: 'Este es el contenido de mi primer post'
+          technologies:
+            - 'react'
+            - 'nextjs'
+          images:
+            - 'image-1.png'
+            - 'image-2.png'
+  responses:
+    '201':
+      description: Post creado
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/post-schema.yaml'
+          example:
+            id: '1'
+            title: 'Mi primer post'
+            content: 'Este es el contenido de mi primer post'
+            user: 12345
+    '401':
+      description: Acceso denegado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Permisos insuficientes para crear un nuevo post
