@@ -87,8 +87,7 @@ export const initializeMSocketIO = (server: any) => {
                 io.to(receiverSocketId).emit("chatMessage", message);
             } else {
                 console.log(`El receptor con ID ${message.receiverId} no está conectado. Mensaje guardado para enviar más tarde.`);
-                // Aquí podrías manejar la lógica para guardar el mensaje en una base de datos o en memoria
-                await MessageService.createMessage(authId, message.receiverId, message.content); // Guarda el mensaje aunque el receptor no esté conectado
+                await MessageService.createMessage(authId, message.receiverId, message.content); // Se guarda el mensaje si el receptor no esté conectado
             }
         });
 
