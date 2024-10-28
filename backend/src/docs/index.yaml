@@ -38,7 +38,7 @@ paths:
   /post/{id}/like:
     $ref: './paths/post/post-like.yaml'
   /post:
-    $ref: './paths/post.yaml'  
+    $ref: './paths/post.yaml'
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
@@ -103,5 +103,3 @@ paths:
     $ref: './messages/messages.yaml'
   /messages/between/{receiverId}:
     $ref: './messages/m-between-user.yaml'
-
-

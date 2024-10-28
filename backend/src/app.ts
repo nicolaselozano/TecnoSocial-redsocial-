@@ -27,7 +27,6 @@ import { initializeMSocketIO } from './socket/socketMessage';
 export const app = express();
 const server = http.createServer(app);
 
-
 // Ruta para verificar la conexión de Socket.IO
 app.get('/socket.io/socket.io.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'node_modules/socket.io-client/dist/socket.io.js'));
@@ -51,7 +50,7 @@ app.use(
   likeRouter,
   fuRouter,
   notificationRouter,
-  messageRouter
+  messageRouter,
 );
 
 app.use('/uploads', express.static(path.join('./', envs.UPLOAD_DIR)));

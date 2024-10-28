@@ -98,11 +98,10 @@ get:
                   - id: 2
                     url: 'https://image-url'
                     alt: 'tecno image'
-                    created_at: '2024-10-08T22:28:58.981Z'  
+                    created_at: '2024-10-08T22:28:58.981Z'
                 likesCount: 5
                 commentsCount: 10
                 islike: false
-
 
 post:
   summary: Crea un nuevo post

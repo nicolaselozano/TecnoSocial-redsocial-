@@ -47,7 +47,7 @@ class ConnectionRepository {
       name: res.followed.name,
       authId: res.followed.authId,
       avatar: res.followed.avatar,
-      roles: res.followed.roles
+      roles: res.followed.roles,
     }));
   }
 
