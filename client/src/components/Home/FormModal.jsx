@@ -29,9 +29,9 @@ const FormModal = () => {
       setPreview([]);
     }
   }, [image]);
-  
+
   useEffect(() => {
-    setUpImage(upImage)
+    setUpImage(upImage);
   }, [upImage, text]);
 
   const createPost = async () => {
@@ -70,20 +70,6 @@ const FormModal = () => {
     setImage(image.filter((item, index) => index !== id));
   };
 
-  /* const handleFileUploadArray = async () => {
-    let listDataUpload;
-    const imageData = new FormData();
-    image.map(async (item) => {
-      imageData.append("file", item);
-      const response = await uploadImage(imageData);
-      if (response.fileUrls) {
-        const imageUrl = response.fileUrls.map((item) => item.fileUrl);
-        listDataUpload = imageUrl;
-      }
-      //return listDataUpload;
-      setUpImage(listDataUpload);
-    });
-  }; */
   const handleFileUploadArray = async () => {
     try {
       // Usa Promise.all para esperar todas las subidas
