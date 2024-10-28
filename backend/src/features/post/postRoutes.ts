@@ -13,6 +13,7 @@ postRouter.delete('/post/:id', MiddlewareAuth0.CheckToken, postController.delete
 postRouter.get('/post/user/:userid', postController.getAllPostsByUser);
 postRouter.get('/post/:id/followed', postController.followedUsersPostsById);
 postRouter.get('/post', postController.getAllPost);
+
 // Post - Like
 postRouter.post('/post/:id/like', MiddlewareAuth0.CheckToken, likeController.createLike);
 postRouter.delete('/post/:id/like', MiddlewareAuth0.CheckToken, likeController.deleteLike);
