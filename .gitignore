@@ -137,4 +137,4 @@ CHEQUEAR.txt
 client/package-lock.json
 package-lock.json
 
-.uploads/
+/uploads/
