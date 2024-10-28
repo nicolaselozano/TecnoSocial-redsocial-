@@ -14,7 +14,6 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.cookies);
 
     let token: string | undefined = req.cookies[tokenCookieName] || res.locals.token;
-    console.log(token);
 
     if (!token) {
       throw new UnauthorizedError('No token provided');
@@ -23,7 +22,6 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     token = token.replace('Bearer ', '').trim();
 
     const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
-    console.log('validated token:', validateToken);
 
     if (!validateToken) {
       throw new UnauthorizedError('El token no es valido');
@@ -63,7 +61,6 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
   const refreshTokenCookieName = 'refresh-token';
 
   try {
-    console.log(req.cookies[tokenCookieName]);
 
     if (req.cookies[tokenCookieName] !== undefined) {
       console.log('Existe en las COOKIES EL TOKEN');
@@ -82,7 +79,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           refreshToken,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
         res.locals.token = `Bearer ${createToken.accessToken}`;
@@ -93,7 +90,6 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
       }
     } else {
       const code: string | undefined = req.query['code']?.toString();
-      console.log(code);
 
       if (code) {
         const createRToken: RefreshTokenDTO = await ManageToken.GetTokenWCode(code);
@@ -103,11 +99,10 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           createRToken.refresh_token,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
-        console.log(createRToken.access_token);
-
+        
         res.locals.token = `Bearer ${createRToken.access_token}`;
         console.log('TOKEN CREADO CON EL CODIGO');
       } else {

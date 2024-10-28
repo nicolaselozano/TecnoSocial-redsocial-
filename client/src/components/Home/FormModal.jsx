@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { uploadImage } from "../../services/uploadFile/uploadFile";
+import { APIDOMAIN } from "../../../vars";
 
 const FormModal = () => {
   const [text, setText] = useState({
@@ -28,31 +29,15 @@ const FormModal = () => {
       setPreview([]);
     }
   }, [image]);
-
-  /* useEffect(() => {
-    const uploadImages = async () => {
-      if (image.length > 0) {
-        // Subir cada imagen al servidor
-        const previewArray = await Promise.all(
-          image.map(async (item) => {
-            const formData = new FormData();
-            formData.append("file", item); // Agregar cada archivo al FormData
-            const data = await uploadImage(formData); // Subir cada imagen
-            return data?.url || ""; // Asume que la API retorna la URL en 'url'
-          })
-        );
-        setPreview(previewArray); // Actualiza el preview con las URLs subidas
-      } else {
-        setPreview([]);
-      }
-    };
-
-    uploadImages();
-  }, [image]); */
+  
+  useEffect(() => {
+    setUpImage(upImage)
+  }, [upImage, text]);
 
   const createPost = async () => {
+    console.log(text, upImage);
     try {
-      const response = await fetch("http://localhost:3000/api/v1/post/me", {
+      const response = await fetch(`${APIDOMAIN}/api/v1/post`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -66,7 +51,7 @@ const FormModal = () => {
           images: upImage,
         }),
       });
-      console.log(text, upImage);
+      //console.log(text, upImage);
       if (!response.ok) {
         throw new Error("Error en la respuesta de la api");
       }
@@ -108,7 +93,7 @@ const FormModal = () => {
           formData.append("file", file);
 
           const response = await uploadImage(formData); // Llama a la función uploadImage
-
+          console.log(response);
           return response.fileUrls ? response.fileUrls[0].fileUrl : null; // Extrae el primer URL si existe
         })
       );
@@ -122,8 +107,8 @@ const FormModal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleFileUploadArray();
-    //createPost();
-    console.log(text, upImage);
+    createPost();
+    //console.log(text, upImage);
   };
 
   const handleChandeInput = (e) => {

@@ -8,6 +8,7 @@ import Notification from "../view/Notificate/Notificate";
 import HomePage from "../view/Home";
 import { NotificationBar } from "../components/Notification_bar/NotificationBar";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
+import Messages from "../components/Messages/Messages";
 
 const AllRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AllRoutes = () => {
       <Route path="/redirect/login" element={<RedirectLogin />} />
       {/* perfil */}
       <Route path="/profile/*" element={<Profile />} />
+      <Route path="/messages*" element={<Messages />} />
       {/* Paginas generales */}
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/notifications" element={<Notification />} />

@@ -24,7 +24,7 @@ const SideProfileCard = () => {
     }, [fetchUserDetail]);
 
     return (
-        <section className="bg-secondBlack-700 text-white rounded-xl shadow-md overflow-hidden">
+        <section className={`bg-secondBlack-700 text-white rounded-xl shadow-md overflow-hidden ${isLoading ? 'invisible' : 'visible'}`}>
             {/* Sección del encabezado del perfil */}
 
             <header className="relative">
@@ -82,21 +82,15 @@ const SideProfileCard = () => {
                         {/* Roles del usuario, ahora centrados y distribuidos */}
                         <div className="mt-1 flex flex-grid justify-center items-center space-x-1">
                             {
-                                // userInstance.user.roles.length > 0 ? userInstance.user.roles?.map((role, index) => (
-                                //     <span
-                                //         key={index}
-                                //         className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                //         style={{ backgroundColor: getRoleColor(role) }}
-                                //     >
-                                //         {role}
-                                //     </span>
-                                // )):
-                                <span
-                                    className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                                    style={{ backgroundColor: getRoleColor(userInstance.user.roles) }}
-                                >
-                                    {userInstance.user.roles}
-                                </span>
+                                Array.isArray(userInstance.user?.roles) ? userInstance.user?.roles?.map((role, index) => (
+                                    <span
+                                        key={index}
+                                        className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
+                                        style={{ backgroundColor: getRoleColor(role.name) }}
+                                    >
+                                        {role.name}
+                                    </span>
+                                )):null
                             }
                         </div>
                     </div>

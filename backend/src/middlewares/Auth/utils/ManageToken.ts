@@ -7,7 +7,6 @@ import { TokenDTO } from '../interface/TokenDTO';
 
 const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
   try {
-    console.log('EL CODIGO ES : ' + code);
 
     const formData = {
       grant_type: 'authorization_code',
@@ -18,8 +17,6 @@ const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
     };
 
     const { data }: { data: RefreshTokenDTO } = await axios.post(`https://${envs.AUTH0.DOMAIN}/oauth/token`, formData);
-    // Manejo de la respuesta
-    console.log('Respuesta del token: ', data);
 
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,7 +28,6 @@ const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
 
 const GetTokenWRT = async (refreshToken: string): Promise<TokenDTO> => {
   try {
-    console.log('EL Refresh Token ES : ' + refreshToken);
 
     const formData = {
       grant_type: 'refresh_token',
@@ -42,9 +38,6 @@ const GetTokenWRT = async (refreshToken: string): Promise<TokenDTO> => {
     };
 
     const { data }: { data: TokenDTO } = await axios.post(`https://${envs.AUTH0.DOMAIN}/oauth/token`, formData);
-    // Manejo de la respuesta
-    console.log('Respuesta del token: ', data);
-
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -73,7 +66,6 @@ interface JwksResponse {
 
 export async function ValidateToken(token: string): Promise<JwtPayload | null> {
   try {
-    console.log(`SOY EL TOKEN VALIDATETOKENASYNC ${token}`);
 
     const authDomain = envs.AUTH0.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
     const discoveryUrl = `https://${authDomain}/.well-known/openid-configuration`;

@@ -63,9 +63,9 @@ const Navbar = () => {
     setIsIndex(isIndex);
   }, [pathname]);
 
- /*  useEffect(() => {
-    setUserLogin(localStorage.getItem("userdata"));
-  }, [localStorage.getItem("userdata")]); */
+  /*  useEffect(() => {
+     setUserLogin(localStorage.getItem("userdata"));
+   }, [localStorage.getItem("userdata")]); */
 
   return (
     <header className="w-full h-[90px] bg-secondBlack-700 text-white relative">
@@ -82,68 +82,65 @@ const Navbar = () => {
           <ul className={`flex items-center gap-x-8 relative h-full`}>
             {isAuthenticated
               ? [...listNav, ...authNavList].map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.url}
-                    className={`relative flex items-center gap-x-1 z-10 transition-all duration-100 ${
-                      isIndex === index ? "text-primaryGreen-400" : ""
+                <Link
+                  key={index}
+                  to={item.url}
+                  className={`relative flex items-center gap-x-1 z-10 transition-all duration-100 ${isIndex === index ? "text-primaryGreen-400" : ""
                     }`}
-                    onClick={() => setIsIndex(index)}
-                  >
-                    {item.icon === "home" ? (
-                      <BsHouse className="size-6" />
-                    ) : item.icon === "explore" ? (
-                      <MdOutlineTravelExplore className="size-6" />
-                    ) : item.icon === "notification" ? (
-                      <IoMdNotificationsOutline className="size-6" />
-                    ) : item.icon === "message" ? (
-                      <AiOutlineMail className="size-6" />
-                    ) : (
-                      ""
-                    )}
-                    <span className="text-lg font-normal">{item.name}</span>
-                    {(item.icon === "notification" ||
-                      item.icon === "message") && (
+                  onClick={() => setIsIndex(index)}
+                >
+                  {item.icon === "home" ? (
+                    <BsHouse className="size-6" />
+                  ) : item.icon === "explore" ? (
+                    <MdOutlineTravelExplore className="size-6" />
+                  ) : item.icon === "notification" ? (
+                    <IoMdNotificationsOutline className="size-6" />
+                  ) : item.icon === "message" ? (
+                    <AiOutlineMail className="size-6" />
+                  ) : (
+                    ""
+                  )}
+                  <span className="text-lg font-normal">{item.name}</span>
+                  {(item.icon === "notification" ||
+                    item.icon === "message") && (
                       <span className="absolute -right-2 -top-1 flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primaryGreen-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-primaryGreen-400"></span>
                       </span>
                     )}
-                  </Link>
-                ))
+                </Link>
+              ))
               : listNav.map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.url}
-                    className={`relative flex items-center gap-x-1 z-10 transition-all duration-100 ${
-                      isIndex === index ? "text-primaryGreen-400" : ""
+                <Link
+                  key={index}
+                  to={item.url}
+                  className={`relative flex items-center gap-x-1 z-10 transition-all duration-100 ${isIndex === index ? "text-primaryGreen-400" : ""
                     }`}
-                    onClick={() => setIsIndex(index)}
-                  >
-                    {item.icon === "home" ? (
-                      <BsHouse className="size-6" />
-                    ) : item.icon === "explore" ? (
-                      <MdOutlineTravelExplore className="size-6" />
-                    ) : item.icon === "notification" ? (
-                      <IoMdNotificationsOutline className="size-6" />
-                    ) : item.icon === "message" ? (
-                      <AiOutlineMail className="size-6" />
-                    ) : (
-                      ""
-                    )}
-                    <span className="text-lg font-normal">{item.name}</span>
-                    {(item.icon === "notification" ||
-                      item.icon === "message") && (
+                  onClick={() => setIsIndex(index)}
+                >
+                  {item.icon === "home" ? (
+                    <BsHouse className="size-6" />
+                  ) : item.icon === "explore" ? (
+                    <MdOutlineTravelExplore className="size-6" />
+                  ) : item.icon === "notification" ? (
+                    <IoMdNotificationsOutline className="size-6" />
+                  ) : item.icon === "message" ? (
+                    <AiOutlineMail className="size-6" />
+                  ) : (
+                    ""
+                  )}
+                  <span className="text-lg font-normal">{item.name}</span>
+                  {(item.icon === "notification" ||
+                    item.icon === "message") && (
                       <span className="absolute -right-2 -top-1 flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primaryGreen-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-primaryGreen-400"></span>
                       </span>
                     )}
-                  </Link>
-                ))}
+                </Link>
+              ))}
             <div
-              className={`absolute transition-all duration-300 ${
-                pathname === "/"
+              className={`absolute transition-all duration-300 ${pathname === "/"
                   ? "w-28 -left-4"
                   : pathname === "/explore"
                     ? "w-28 left-24"
@@ -152,7 +149,7 @@ const Navbar = () => {
                       : pathname === "/messages"
                         ? "w-32 left-[395px]"
                         : ""
-              } h-full bg-primaryGreen-950`}
+                } h-full bg-primaryGreen-950`}
             ></div>
           </ul>
           {isAuthenticated ? (
@@ -162,7 +159,7 @@ const Navbar = () => {
               onClick={() => setIsActiveDrop(!isActiveDrop)}
             >
               <img
-                src="/images/image-useroerfil.png"
+                src={userInstance.user.avatar || "/images/image-useroerfil.png"}
                 className="size-full object-cover"
                 alt="imagen-perfilDeUsuario"
               />

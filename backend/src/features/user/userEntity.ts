@@ -16,6 +16,7 @@ import { Comment } from '../comment/commentEntity';
 import { Connection } from '../connection/ConnectionEntity';
 import { Role } from '../role/roleEntity';
 import { UserProject } from '../userProject/userProjectEntity';
+import { Message } from '../messages/messageEntity';
 
 @Entity()
 export class User {
@@ -29,7 +30,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ type: 'varchar', length: 150, nullable: true, select: false })
+  @Column({ type: 'varchar', length: 150, nullable: true, select: true, unique: true })
   authId: string;
 
   @Column({ type: 'varchar', length: 150, nullable: true, select: false })
@@ -69,7 +70,15 @@ export class User {
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, { eager: true })
   @JoinTable()
   roles: Role[];
+
+
+  //mensajes
+  @OneToMany(() => Message, message => message.sender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, message => message.receiver)
+  receivedMessages: Message[];
 }
