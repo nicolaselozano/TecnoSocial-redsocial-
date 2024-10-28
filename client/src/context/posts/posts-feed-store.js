@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { getPostById } from "../../services/Posts/get-post-by-id";
-import { getPosts } from "../../services/Posts/get-posts";
 import { createComment } from "../../services/Comment/post-comment";
 import { postLike } from "../../services/Posts/post-like";
 import { deleteLike } from "../../services/Posts/delete-like";
+import { getPostsFeed } from "../../services/Posts/get-posts-feed";
 
 const usePostsFeedStore = create((set) => ({
   posts: [],
@@ -19,22 +19,28 @@ const usePostsFeedStore = create((set) => ({
   // Fetch posts
   fetchPosts: async (page) => {
     set({ loading: true });
-    const data = await getPosts(10, page);
-    if (data) {
-      set((state) => {
-        const existingIds = new Set(state.posts.map((post) => post.id));
-        const newPosts = data.results.filter(
-          (post) => !existingIds.has(post.id)
-        );
-
-        return {
-          posts: [...state.posts, ...newPosts],
-          loading: false,
-          page: data.currentPage,
-          hasMore: data.currentPage < data.totalPages,
-        };
-      });
-    } else {
+    try {
+      const data = await getPostsFeed(10, page);
+      
+      if (data) {
+        set((state) => {
+          const existingIds = new Set(state.posts.map((post) => post.id));
+          const newPosts = data.results.filter(
+            (post) => !existingIds.has(post.id)
+          );
+  
+          return {
+            posts: [...state.posts, ...newPosts],
+            loading: false,
+            page: data.currentPage,
+            hasMore: data.currentPage < data.totalPages,
+          };
+        });
+      } else {
+        set({ loading: false, hasMore: false });
+      }
+    } catch (error) {
+      console.error("Error fetching posts feed:", error);
       set({ loading: false, hasMore: false });
     }
   },
