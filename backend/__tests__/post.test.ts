@@ -2,7 +2,7 @@ import con from '@/config/database';
 import { Post } from '@/features/post/postEntity';
 import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
-import { FIRST_USER_POSTS, totalPosts } from '@/utils/seed/mockups/posts.mock';
+import { MOCK_POSTS, totalPosts } from '@/utils/seed/mockups/posts.mock';
 import { StatusCodes } from 'http-status-codes';
 import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
@@ -35,7 +35,7 @@ describe('POST Endpoints', () => {
     });
 
     it('should get an 201 response', async () => {
-      const post = FIRST_USER_POSTS[0];
+      const post = MOCK_POSTS[0];
 
       await authRequest({})
         .post(url)

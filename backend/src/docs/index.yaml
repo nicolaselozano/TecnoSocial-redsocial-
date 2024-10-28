@@ -107,4 +107,3 @@ paths:
   # Role  endpoints
   /role:
     $ref: './paths/role/role.yaml'
-
