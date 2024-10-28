@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { getRoleColor } from "../helpers/get-role-color";
+import { useSimilarProfile } from "../context/SimilarProfiles/getSimilarProfeiles";
 
 const ListProfile = [
   {
@@ -48,6 +49,13 @@ const ListProfile = [
 ];
 
 const SimilarProfiles = () => {
+  const { getSimilarProfile, profiles: profileTwo } = useSimilarProfile();
+
+  useEffect(() => {
+    getSimilarProfile();
+  }, []);
+
+  console.log(profileTwo);
 
   return (
     <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
@@ -55,21 +63,25 @@ const SimilarProfiles = () => {
         Perfiles Similares
       </h2>
       <ul className="space-y-[12px]">
-        {ListProfile.slice(-4).map((profile, index) => {
+        {profileTwo.slice(-4).map((profile, index) => {
           //const roles = profile.role.split("/");
           return (
             <li key={index} className="flex items-start justify-between w-full">
-              <img
-                src={profile.image}
-                alt={profile.name}
-                className="w-[55px] h-[55px] rounded-[12px] object-cover"
-              />
+              {profile.image ? (
+                <img
+                  src={profile.image}
+                  alt={profile.name}
+                  className="w-[55px] h-[55px] rounded-[8px] object-cover"
+                />
+              ) : (
+                <div className="size-[55px] rounded-lg bg-secondBlack-400 flex items-center justify-center">55x55</div>
+              )}
               <div className="flex flex-col w-full max-w-[125px] gap-[6px] pl-2">
                 <p className="text-md font-semibold truncate ">
                   {profile.name}
                 </p>
                 <div className="flex flex-wrap gap-[4px] w-full">
-                  {profile.role.map((role, roleIndex) => (
+                  {profile.rols.map((role, roleIndex) => (
                     <span
                       key={roleIndex}
                       className={`px-2 py-1 rounded-md text-xs truncate w-fit`}

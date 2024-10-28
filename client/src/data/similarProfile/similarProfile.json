@@ -2,7 +2,7 @@
   "response": [
     {
       "id": 1,
-      "image": "",
+      "image": "/images/image-useroerfil.png",
       "name": "Carlitos Garris",
       "rols": ["Software Developer", "DevOps Engineer"]
     },
@@ -26,7 +26,7 @@
     },
     {
       "id": 5,
-      "image": "",
+      "image": "/images/image-useroerfil.png",
       "name": "Carlos Gutierrez",
       "rols": ["IT Project Manager"]
     },
@@ -34,13 +34,13 @@
       "id": 6,
       "image": "",
       "name": "Maria Becerra",
-      "rols": ["Product Manager","Systems Administrator"]
+      "rols": ["Product Manager", "Systems Administrator"]
     },
     {
       "id": 7,
-      "image": "",
+      "image": "/images/image-useroerfil.png",
       "name": "Lucas Cross",
-      "rols": ["Software Developer","Cloud Architect"]
+      "rols": ["Software Developer", "Cloud Architect"]
     }
   ],
   "page": 1,

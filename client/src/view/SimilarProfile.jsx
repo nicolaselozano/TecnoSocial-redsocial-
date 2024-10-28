@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LayouteMain from "../layout/LayouteMain";
 import CardNotification from "../components/Notifications/CardNotification";
 import { AiOutlineHeart } from "react-icons/ai";
 import { getRoleColor } from "../helpers/get-role-color";
+import { useSimilarProfile } from "../context/SimilarProfiles/getSimilarProfeiles";
 
 const listSimilarProfile = [
   {
@@ -35,7 +36,14 @@ const SimilarProfile = () => {
   /* const [listSimilarProfile, setListSimilarProfile] =
     useState(listSimilarProfile); */
   const [isPage, setIspage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
+  const { getSimilarProfile, profiles: profileTwo, loading: isLoading } = useSimilarProfile();
+
+  useEffect(() => {
+    getSimilarProfile();
+  }, []);
+
+  console.log(profileTwo);
   return (
     <LayouteMain>
       <section className=" max-w-[688px] w-full h-fit flex flex-col gap-y-5">
@@ -92,8 +100,8 @@ const SimilarProfile = () => {
         ) : (
           <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
             <ul className="flex flex-col h-fit">
-              {listSimilarProfile ? (
-                listSimilarProfile?.map((item) => (
+              {profileTwo ? (
+                profileTwo?.map((item) => (
                   <li
                     className="flex items-center justify-between w-full px-8 py-4 border-b border-secondBlack-400"
                     key={item.id}
@@ -102,7 +110,7 @@ const SimilarProfile = () => {
                       <div className="size-[70px] rounded-xl overflow-hidden">
                         {item.image ? (
                           <img
-                            className="size-full"
+                            className="size-full object-cover"
                             src={item.image}
                             alt={`Imagen-perfil-${item.name}`}
                           />
