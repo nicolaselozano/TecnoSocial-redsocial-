@@ -28,7 +28,7 @@ export function Messages() {
 
   }
   return (
-    <div className="flex justify-center h-screen w-full bg-secondBlack-900 text-white">
+    <div className="flex justify-around h-screen w-full bg-secondBlack-900 text-white">
       <MessageSidebar userList={followed.list || []} handleUser={handleSelectUser} />
 
       {!isLoading && currentUser ?

@@ -4,6 +4,7 @@ import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { Connection } from './ConnectionEntity';
+import { userRepository } from '../user/userRepository';
 
 type ConnectionPaginatedConfig = PaginatedConfig & {
   userid: User['id'];
@@ -13,6 +14,24 @@ type ConnectionPaginatedConfig = PaginatedConfig & {
 class ConnectionRepository {
   private repository = con.getRepository(Connection);
 
+  async setConnection(authId: string, authIdFollowed: string) {
+    try {
+
+      const followedUser = await userRepository.getUserByAuthId(authIdFollowed);
+      const followerUser = await userRepository.getUserByAuthId(authId);
+
+      const conn = new Connection();
+
+      conn.followed = followedUser;
+      conn.follower = followerUser;
+      conn.timestamp = new Date();
+
+      return await this.repository.save(conn);
+
+    } catch (error) {
+      throw new Error('Error al seguir al usuario : '+ error);
+    }
+  }
   // Usuarios que siguen al usuario cliente
   async getAllFollowers({ limit, userid, search, skip }: ConnectionPaginatedConfig) {
     const results = await this.repository.find({
