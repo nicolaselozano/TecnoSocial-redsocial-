@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { create } from 'zustand';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { useState } from "react";
+import { create } from "zustand";
+import { AiOutlineHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const useProfileStore = create((set) => ({
   profiles: [
@@ -85,17 +86,16 @@ const SimilarProfiles = () => {
         {visibleProfiles.map((profile, index) => {
           const roles = profile.role.split("/");
           return (
-            <li
-              key={index}
-              className="flex items-start justify-between w-full"
-            >
+            <li key={index} className="flex items-start justify-between w-full">
               <img
                 src={profile.image}
                 alt={profile.name}
                 className="w-[55px] h-[55px] rounded-[12px] object-cover"
               />
               <div className="flex flex-col w-[150px] gap-[6px] pl-2">
-                <p className="text-md font-semibold truncate ">{profile.name}</p>
+                <p className="text-md font-semibold truncate ">
+                  {profile.name}
+                </p>
                 <div className="flex flex-wrap gap-[4px]">
                   {roles.map((role, roleIndex) => (
                     <span key={roleIndex} className={getRoleColorClass(role)}>
@@ -105,7 +105,7 @@ const SimilarProfiles = () => {
                 </div>
               </div>
               <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center">
-                <AiOutlineHeart size={12} className=''/>
+                <AiOutlineHeart size={12} className="" />
               </button>
             </li>
           );
@@ -113,12 +113,13 @@ const SimilarProfiles = () => {
       </ul>
       {currentPage * profilesPerPage + profilesPerPage < profiles.length && (
         <div className="mt-4">
-          <button
-            onClick={handleShowMore}
+          <Link
+            to="/similarprofiles"
+            /* onClick={handleShowMore} */
             className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 hover:underline text-left text-xs border-b border-primaryGreen-400"
           >
             Ver más
-          </button>
+          </Link>
         </div>
       )}
     </div>

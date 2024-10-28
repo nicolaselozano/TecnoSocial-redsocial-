@@ -9,6 +9,7 @@ import HomePage from "../view/Home";
 import { NotificationBar } from "../components/Notification_bar/NotificationBar";
 import SimilarProfilesPage from "../components/Profile/SimilarProfilesPage";
 import Messages from "../components/Messages/Messages";
+import SimilarProfile from "../view/SimilarProfile";
 
 const AllRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const AllRoutes = () => {
       {/* perfil */}
       <Route path="/profile/*" element={<Profile />} />
       <Route path="/messages*" element={<Messages />} />
+      <Route path="/similarprofiles" element={<SimilarProfile />}/>
       {/* Paginas generales */}
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/notifications" element={<Notification />} />
