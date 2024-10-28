@@ -116,8 +116,15 @@ const SimilarProfile = () => {
                         <h3 className="text-xl font-semibold">{item.name}</h3>
                         <ul className="flex items-center gap-x-2 ">
                           {item.rols.map((item) => (
-                            
-                            <li className={`px-2 py-1 rounded-md text-sm`} style={{backgroundColor: `${getRoleColor(item)}`, borderLeft: `4px solid rgba(255,255,255,0.25)`}}>{item} </li>
+                            <li
+                              className={`px-2 py-1 rounded-md text-sm`}
+                              style={{
+                                backgroundColor: `${getRoleColor(item)}`,
+                                borderLeft: `4px solid rgba(255,255,255,0.25)`,
+                              }}
+                            >
+                              {item}{" "}
+                            </li>
                           ))}
                         </ul>
                       </div>

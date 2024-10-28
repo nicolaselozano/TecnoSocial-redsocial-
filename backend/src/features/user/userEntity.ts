@@ -74,11 +74,10 @@ export class User {
   @JoinTable()
   roles: Role[];
 
-
   //mensajes
-  @OneToMany(() => Message, message => message.sender)
+  @OneToMany(() => Message, (message) => message.sender)
   sentMessages: Message[];
 
-  @OneToMany(() => Message, message => message.receiver)
+  @OneToMany(() => Message, (message) => message.receiver)
   receivedMessages: Message[];
 }

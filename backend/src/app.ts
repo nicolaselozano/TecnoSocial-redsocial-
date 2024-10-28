@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import express from 'express';
 import 'express-async-errors';
+import http from 'http';
 import path from 'path';
 import con from './config/database';
 import envs from './config/envs';
@@ -9,24 +10,23 @@ import authUserRoutes from './features/auth_user/routes/authUserRoutes';
 import commentRouter from './features/comment/commentRoutes';
 import imageRouter from './features/image/imageRoutes';
 import likeRouter from './features/like/likeRoutes';
+import messageRouter from './features/messages/messageRoutes';
 import notificationRouter from './features/notification/notificationRoutes';
 import postRouter from './features/post/postRoutes';
 import projectRouter from './features/project/projectRoutes';
+import { roleRouter } from './features/role/roleRouter';
 import socialNetworksRouter from './features/social_networks/socialNetworksRoutes';
 import technologyRouter from './features/technology/technologyRoutes';
 import userRouter from './features/user/userRoutes';
 import { globalErrors } from './middlewares/GlobalErrors';
 import { setBaseMiddlewares } from './middlewares/SetBaseMiddlewares';
 import fuRouter from './services/fileupload/fleuploadRutes';
+import { initializeMSocketIO } from './socket/socketMessage';
 import { healthcheck } from './utils/healthcheck';
 import { redirectToDocs } from './utils/redirectToDocs';
-import messageRouter from './features/messages/messageRoutes';
-import http from 'http';
-import { initializeMSocketIO } from './socket/socketMessage';
 
 export const app = express();
 const server = http.createServer(app);
-
 
 // Ruta para verificar la conexión de Socket.IO
 app.get('/socket.io/socket.io.js', (req, res) => {
@@ -51,7 +51,8 @@ app.use(
   likeRouter,
   fuRouter,
   notificationRouter,
-  messageRouter
+  messageRouter,
+  roleRouter,
 );
 
 app.use('/uploads', express.static(path.join('./', envs.UPLOAD_DIR)));

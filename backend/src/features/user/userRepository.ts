@@ -17,14 +17,13 @@ class UserRopository {
   private repositoryRoles = con.getRepository(Role);
 
   public async createUser(user: Partial<UserDataToken>): Promise<User> {
-
     const userExist = await this.repository.findOne({
       where: {
         authId: user.authId,
       },
     });
 
-    if (userExist) throw Error("El usuario existe");
+    if (userExist) throw Error('El usuario existe');
 
     const response = await this.repository.save({
       authId: user.authId,
@@ -105,18 +104,18 @@ class UserRopository {
   }
 
   public async updateUser(authId: User['authId'], user: UserPut): Promise<User> {
-    console.log("Updating user data:", user);
+    console.log('Updating user data:', user);
 
     const roles = await Promise.all(
       user.role.map(async (roleName) => {
         const role = await this.repositoryRoles.findOne({ where: { name: roleName } });
         if (!role) throw new Error(`Role ${roleName} not found`);
         return role;
-      })
+      }),
     );
 
-    let userToUpdate = await this.repository.findOne({ where: { authId }, relations: ['roles'] });
-    if (!userToUpdate) throw new Error("User not found");
+    const userToUpdate = await this.repository.findOne({ where: { authId }, relations: ['roles'] });
+    if (!userToUpdate) throw new Error('User not found');
 
     userToUpdate.roles = roles;
 
@@ -129,7 +128,6 @@ class UserRopository {
 
     return userToUpdate;
   }
-
 
   public async deleteUser(id: User['id']): Promise<boolean> {
     const result = await this.repository.delete(id);

@@ -3,9 +3,11 @@ import userProfileStore from "../../context/users/user-store";
 // asset imagen
 import perfilImg from "../../assets/perfil/avatardeejemplo.svg";
 import { getRoleColor } from "../../helpers/get-role-color";
+import userFollowersStore from "../../context/users/followers-store";
 
 const SideProfileCard = () => {
     const { fetchUserDetail, userInstance, loading } = userProfileStore();
+    const { getFollowers, getFolloweds, follower, followed } = userFollowersStore();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -17,11 +19,13 @@ const SideProfileCard = () => {
         const fetchUserData = async () => {
             setIsLoading(true);
             await fetchUserDetail();
+            await getFollowers();
+            await getFolloweds();
             setIsLoading(false);
         };
         fetchUserData();
         console.log(userInstance);
-    }, [fetchUserDetail]);
+    }, [fetchUserDetail,getFollowers,getFolloweds]);
 
     return (
         <section className={`bg-secondBlack-700 text-white rounded-xl shadow-md overflow-hidden ${isLoading ? 'invisible' : 'visible'}`}>
@@ -102,11 +106,11 @@ const SideProfileCard = () => {
                         {/* Métricas del usuario (seguidores, seguidos, publicaciones) */}
                         <div className="flex flex-row m-1 justify-between w-full">
                             <div className="flex flex-col items-center">
-                                <p className="text-lg font-semibold">60</p>
+                                <p className="text-lg font-semibold">{follower.totalUsers}</p>
                                 <p className="text-gray-400 text-sm">Seguidores</p>
                             </div>
                             <div className="flex flex-col items-center">
-                                <p className="text-lg font-semibold">55</p>
+                                <p className="text-lg font-semibold">{followed.totalUsers}</p>
                                 <p className="text-gray-400 text-sm">Seguidos</p>
                             </div>
                             <div className="flex flex-col items-center">

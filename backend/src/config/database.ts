@@ -39,7 +39,7 @@ const con = new DataSource({
     ImageProject,
     Notification,
     Role,
-    Message
+    Message,
   ],
   synchronize: true,
 });
