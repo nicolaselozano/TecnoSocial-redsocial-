@@ -17,6 +17,8 @@ userRouter.get('/user/role/:role', userController.getUsersByRole);
 // Connections
 userRouter.get('/user/:id/followers', connectionController.getAllFollowers);
 userRouter.get('/user/:id/followed', connectionController.getAllFollowed);
+//userRouter.post('/user/:id/followed/:followedid', MiddlewareAuth0.CheckToken, connectionController.createFollowed);
+userRouter.post('/user/:id/followed/:followedid', connectionController.createFollowed);
 userRouter.delete('/user/followed/:followedid', MiddlewareAuth0.CheckToken, connectionController.deleteFollowed);
 
 export default userRouter;

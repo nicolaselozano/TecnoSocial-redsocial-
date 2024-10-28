@@ -1001,6 +1001,55 @@ paths:
                 title: Mi primer usuario
                 content: Este es el contenido de mi primer usuario
                 user: '12345'
+  '/user/{id}/followed/{followedid}':
+    post:
+      summary: Seguir a un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario que va a seguir
+          schema:
+            type: integer
+        - in: path
+          name: followedId
+          required: true
+          description: ID del usuario que va a ser seguido
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: usuario seguido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                message: usuario seguido correctamente
+        '401':
+          description: usuario no autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no autorizado
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/user/{id}/followers':
     get:
       summary: Obtiene todos los usuarios que siguen al usuario cliente
@@ -1318,7 +1367,7 @@ paths:
                 message: redes sociales modificadas exitosamente
   /notification:
     get:
-      summary: Obtiene todos los posts
+      summary: Obtiene todos las notificaciones
       tags:
         - Notification
       parameters:
@@ -1329,7 +1378,7 @@ paths:
             minimum: 1
             description: Número máximo de notificaciones a devolver
           required: false
-          description: Limita el número de posts devueltos (por defecto devuelve todos)
+          description: Limita el número de notificaciones devueltos
         - in: query
           name: page
           schema:
@@ -1364,8 +1413,8 @@ paths:
                   description: 'Contenido del primera  notificacion '
                   user: '12345'
                 - id: '2'
-                  title: Segundo post
-                  description: Contenido del segundo post
+                  title: Segunda notificaciones
+                  description: Contenido del  la segunda notificaciones
                   created_at: '2024-10-12'
                   user:
                     email: 'lucio@gmail.com '
@@ -1376,7 +1425,6 @@ paths:
                     title: titulo
                     id: 1
                     content: contenido
-
   '/notification/{id}':
     get:
       summary: Obtiene una notificacion por ID
@@ -1479,4 +1527,3 @@ paths:
                     type: string
               example:
                 message: Error del servidor
-

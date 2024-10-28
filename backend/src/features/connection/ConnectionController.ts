@@ -83,6 +83,31 @@ class ConnectionController {
     });
   }
 
+  async createFollowed(req: Request, res: ResponseWithUserData) {
+    //const { email } = res.locals.userData!;
+    const { id, followedid } = req.params;
+
+    const user1 = await userRepository.getUserById(Number(id));
+    const user2 = await userRepository.getUserById(Number(followedid));
+
+    //const connection = await connectionRepository.getFollowedConnection(Number(followedid));
+
+    // if (connection) {
+    //   throw new BadRequestError('Ya sigues a este usuario');
+    // }
+
+    //await connectionRepository.createConnection(Number(followedid), Number(id));
+
+    res.json({
+      user1,
+      user2,
+    });
+
+    // res.status(StatusCodes.CREATED).json({
+    //   message: 'followed created succesfully',
+    // });
+  }
+
   async deleteFollowed(req: Request, res: ResponseWithUserData) {
     const { email } = res.locals.userData!;
     const { followedid } = req.params;

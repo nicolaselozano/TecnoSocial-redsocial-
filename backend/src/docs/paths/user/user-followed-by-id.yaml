@@ -1,0 +1,48 @@
+post:
+  summary: Seguir a un usuario
+  tags: [Users]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del usuario que va a seguir
+      schema:
+        type: integer
+    - in: path
+      name: followedId
+      required: true
+      description: ID del usuario que va a ser seguido
+      schema:
+        type: integer
+  responses:
+    '201':
+      description: usuario seguido correctamente
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/user-schema.yaml'
+          example:
+            message: usuario seguido correctamente
+
+    '404':
+      description: usuario no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no encontrado
+    '401':
+      description: usuario no autorizado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no autorizado

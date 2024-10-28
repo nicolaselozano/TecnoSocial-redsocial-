@@ -104,6 +104,16 @@ class ConnectionRepository {
     });
     return result === 1;
   }
+
+  async createConnection(followedid: User['id'], followerid: User['id']) {
+    const connection = this.repository.create({
+      followed: { id: followedid },
+      follower: { id: followerid },
+    });
+
+    await this.repository.save(connection);
+    return connection;
+  }
 }
 
 export const connectionRepository = new ConnectionRepository();
