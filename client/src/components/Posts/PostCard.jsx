@@ -26,7 +26,8 @@ export const PostCard = ({ post }) => {
     likeLoading,
   } = usePostsStore();
 
-  const user = JSON.parse(localStorage.getItem("userdata"));
+  const userdata = JSON.parse(localStorage.getItem("userdata"));
+  const user = userdata?.user || null;
 
   const handleLike = () => {
     if (post.isLike) {
@@ -76,16 +77,17 @@ export const PostCard = ({ post }) => {
                 <span
                   key={index}
                   className={`text-sm px-2 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize`}
-                  style={{ backgroundColor: getRoleColor(role.name) }}
+                  style={{ backgroundColor: getRoleColor(role?.name || role) }}
                 >
-                  {role.name}
+                  {role?.name || role}
                 </span>
               ))}
             </div>
           </div>
         </div>
         <div>
-          {post?.user?.isFollower !== undefined &&
+          {user?.id &&
+            post?.user?.isFollower !== undefined &&
             post?.user?.isFollower !== null && (
               <button
                 onClick={() => handleFollow(post?.user?.id)}

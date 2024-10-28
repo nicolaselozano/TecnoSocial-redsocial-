@@ -3,7 +3,7 @@ import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 export const getPostsFeed = async (limit, page) => {
   const user = JSON.parse(localStorage.getItem("userdata"));
 
-  let route = user.user
+  let route = user
     ? `${APIDOMAIN}${APIDOMAIN_VERSION}/post/${user.user.id}/followed?limit=${limit}&page=${page}`
     : `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`;
 
