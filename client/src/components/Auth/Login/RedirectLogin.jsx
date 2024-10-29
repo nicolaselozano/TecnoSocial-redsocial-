@@ -58,6 +58,7 @@ const RedirectLogin = () => {
 
     const handleLoginRedirect = () => {
         navigate('/');
+        window.location.reload();
     };
 
     return (
