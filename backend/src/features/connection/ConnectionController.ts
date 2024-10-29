@@ -66,6 +66,8 @@ class ConnectionController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
+    console.log('Search: ', search);
+
     await userRepository.getUserById(Number(id));
     const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
 
@@ -101,28 +103,40 @@ class ConnectionController {
   }
 
   async createFollowed(req: Request, res: ResponseWithUserData) {
-    //const { email } = res.locals.userData!;
     const { id, followedid } = req.params;
 
-    const user1 = await userRepository.getUserById(Number(id));
-    const user2 = await userRepository.getUserById(Number(followedid));
+    const search = '';
+    const limit = 10;
+    const page = 1;
 
-    //const connection = await connectionRepository.getFollowedConnection(Number(followedid));
+    let alreadyFollowed: boolean = false;
 
-    // if (connection) {
-    //   throw new BadRequestError('Ya sigues a este usuario');
-    // }
+    const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    if (totalFollowed > 0) {
+      const followed = await connectionRepository.getAllFollowed({
+        search,
+        userid: Number(id),
+        limit,
+        skip: (page - 1) * limit,
+      });
 
-    //await connectionRepository.createConnection(Number(followedid), Number(id));
+      followed.map((f) => {
+        if (f.id === Number(followedid)) {
+          alreadyFollowed = true;
+        }
+      });
 
-    res.json({
-      user1,
-      user2,
-    });
-
-    // res.status(StatusCodes.CREATED).json({
-    //   message: 'followed created succesfully',
-    // });
+      if (alreadyFollowed) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          message: 'Ya sigues a este usuario',
+        });
+      } else {
+        await connectionRepository.createConnection(Number(followedid), Number(id));
+        res.status(StatusCodes.CREATED).json({
+          message: 'followed created succesfully',
+        });
+      }
+    }
   }
 
   async deleteFollowed(req: Request, res: ResponseWithUserData) {

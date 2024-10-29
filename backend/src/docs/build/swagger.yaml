@@ -1168,7 +1168,7 @@ paths:
           schema:
             type: integer
         - in: path
-          name: followedId
+          name: followedid
           required: true
           description: ID del usuario que va a ser seguido
           schema:
