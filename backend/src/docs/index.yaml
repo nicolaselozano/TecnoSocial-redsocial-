@@ -107,7 +107,6 @@ paths:
   /follow/{id}:
     $ref: './connections/conn.yaml'
 
-
   # Role  endpoints
   /role:
     $ref: './paths/role/role.yaml'

@@ -22,7 +22,7 @@ class ConnectionRepository {
       const connExist = await this.isFollower(followedUser.id, followerUser.id);
 
       console.log(connExist);
-      
+
       if (connExist) return Error('La coneccion ya existe');
 
       const conn = new Connection();

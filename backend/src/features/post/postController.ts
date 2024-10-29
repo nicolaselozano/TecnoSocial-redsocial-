@@ -11,15 +11,18 @@ import { Post } from './postEntity';
 import { postRepository } from './postRepository';
 
 class PostController {
-  public async createPost(req: Request, res: Response): Promise<void> {
-    const { title, content, user, images } = req.body;
+  public async createPost(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { title, content, images } = req.body;
+    const { email } = res.locals.userData!;
+
+    const user = await userRepository.getUserByEmail(email);
 
     const post = new Post();
     post.title = title;
     post.content = content;
     post.user = user;
 
-    const response = await postRepository.createPost(post,images);
+    const response = await postRepository.createPost(post, images);
     res.status(StatusCodes.CREATED).json(response);
   }
 
