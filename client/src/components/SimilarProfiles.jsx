@@ -56,7 +56,7 @@ const SimilarProfiles = () => {
   const [isloading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const profilesPerPage = 4;
-  const { user } = JSON.parse(localStorage.getItem("userdata"));
+  const { user } = JSON.parse(localStorage.getItem("userdata")) || "";
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -96,56 +96,62 @@ const SimilarProfiles = () => {
       <h2 className="text-lato text-[20px] font-semibold leading-[24px] w-full opacity-100 mb-4 text-left ">
         Perfiles Similares
       </h2>
-      <ul className="flex flex-col items-start h-full gap-y-3 ">
-        {visibleProfiles
-          .filter((item) => item.authId !== user.authId)
-          .map((profile) => (
-            <li
-              key={profile.id}
-              className="flex items-start justify-between w-full"
+      {user ? (
+        <>
+          <ul className="flex flex-col items-start h-full gap-y-3 ">
+            {visibleProfiles
+              .filter((item) => item.authId !== user.authId)
+              .map((profile) => (
+                <li
+                  key={profile.id}
+                  className="flex items-start justify-between w-full"
+                >
+                  <img
+                    src={profile.avatar}
+                    alt={profile.name}
+                    className="w-[55px] h-[55px] rounded-[12px] object-cover"
+                  />
+                  <div className="flex flex-col w-[150px] gap-[6px] max-w-[130px]">
+                    <p className="text-md font-semibold truncate ">
+                      {profile.name}
+                    </p>
+                    <div className="flex flex-wrap gap-[4px]">
+                      {profile.roles.map((role, roleIndex) => (
+                        <span
+                          key={roleIndex}
+                          className={`px-2 py-1 rounded-md text-sm truncate`}
+                          style={{
+                            backgroundColor: `${getRoleColor(role)}`,
+                            borderLeft: `4px solid rgba(255,255,255,0.25)`,
+                          }}
+                        >
+                          {role}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <button
+                    className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center"
+                    onClick={() => handleFollowUser(profile)}
+                  >
+                    <AiOutlineHeart size={12} />
+                  </button>
+                </li>
+              ))}
+          </ul>
+          <div className="mt-4">
+            <Link
+              to="/similarprofiles"
+              //onClick={handleShowMore}
+              className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 text-left text-xs border-b border-primaryGreen-400"
             >
-              <img
-                src={profile.avatar}
-                alt={profile.name}
-                className="w-[55px] h-[55px] rounded-[12px] object-cover"
-              />
-              <div className="flex flex-col w-[150px] gap-[6px] max-w-[130px]">
-                <p className="text-md font-semibold truncate ">
-                  {profile.name}
-                </p>
-                <div className="flex flex-wrap gap-[4px]">
-                  {profile.roles.map((role, roleIndex) => (
-                    <span
-                      key={roleIndex}
-                      className={`px-2 py-1 rounded-md text-sm truncate`}
-                      style={{
-                        backgroundColor: `${getRoleColor(role)}`,
-                        borderLeft: `4px solid rgba(255,255,255,0.25)`,
-                      }}
-                    >
-                      {role}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <button
-                className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center"
-                onClick={() => handleFollowUser(profile)}
-              >
-                <AiOutlineHeart size={12} />
-              </button>
-            </li>
-          ))}
-      </ul>
-      <div className="mt-4">
-        <Link
-          to="/similarprofiles"
-          //onClick={handleShowMore}
-          className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 text-left text-xs border-b border-primaryGreen-400"
-        >
-          Ver más
-        </Link>
-      </div>
+              Ver más
+            </Link>
+          </div>
+        </>
+      ) : (
+        <div>Ningun perfil</div>
+      )}
     </div>
   );
 };
