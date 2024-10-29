@@ -18,9 +18,8 @@ class PostController {
     post.title = title;
     post.content = content;
     post.user = user;
-    post.images = images;
 
-    const response = await postRepository.createPost(post);
+    const response = await postRepository.createPost(post,images);
     res.status(StatusCodes.CREATED).json(response);
   }
 

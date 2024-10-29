@@ -5,12 +5,42 @@ import { Like } from 'typeorm';
 import { User } from '../user/userEntity';
 import { PostDelete, PostInsert, PostPut, PostSelect } from './post.types';
 import { Post } from './postEntity';
+import { Image } from '../image/imageEntity';
 
 class PostRepository {
   private repository = con.getRepository(Post);
+  private imageRepository = con.getRepository(Image);
 
-  public async createPost(post: PostInsert): Promise<Post> {
-    return await this.repository.save(post);
+
+  public async createPost(postData: PostInsert,imglist:[string]): Promise<Post> {
+
+    // Crear el post sin imágenes y obtener la instancia de la base de datos
+    const post = this.repository.create({
+      title: postData.title,
+      content: postData.content,
+      technologies: postData.technologies,
+    });
+
+
+    const savedPost = await this.repository.save(post);
+    console.log(postData);
+    const images = await Promise.all(
+      imglist.map((imageUrl) => {
+        if (!imageUrl) {
+          throw new Error("El campo 'url' es obligatorio para cada imagen.");
+        }
+        return this.imageRepository.create({
+          url: imageUrl,
+          alt: "",
+          post: savedPost
+        });
+      })
+    );
+
+    await this.imageRepository.save(images);
+
+    savedPost.images = images;
+    return savedPost;
   }
 
   public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
