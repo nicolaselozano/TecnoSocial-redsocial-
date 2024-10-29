@@ -9,8 +9,6 @@ const CardPerfil = () => {
     setIsDataUser(isDataUser);
   }, [isDataUser]);
 
-  /* console.log(isDataUser); */
-
   const { user } = isDataUser;
 
   return (

@@ -13,7 +13,7 @@ const SideProfileCard = () => {
 
   useEffect(() => {
     setIsLoading(loading);
-    console.log(userInstance);
+    //console.log(userInstance);
   }, [loading]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const SideProfileCard = () => {
       setIsLoading(false);
     };
     fetchUserData();
-    console.log(userInstance);
+    //console.log(userInstance);
   }, [fetchUserDetail, getFollowers, getFolloweds]);
 
   return (
