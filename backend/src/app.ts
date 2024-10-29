@@ -24,6 +24,7 @@ import fuRouter from './services/fileupload/fleuploadRutes';
 import { initializeMSocketIO } from './socket/socketMessage';
 import { healthcheck } from './utils/healthcheck';
 import { redirectToDocs } from './utils/redirectToDocs';
+import connectionRouter from './features/connection/ConnectionRoutes';
 
 export const app = express();
 const server = http.createServer(app);
@@ -52,6 +53,7 @@ app.use(
   fuRouter,
   notificationRouter,
   messageRouter,
+  connectionRouter,
   roleRouter,
 );
 

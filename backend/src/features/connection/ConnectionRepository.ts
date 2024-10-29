@@ -19,6 +19,12 @@ class ConnectionRepository {
       const followedUser = await userRepository.getUserByAuthId(authIdFollowed);
       const followerUser = await userRepository.getUserByAuthId(authId);
 
+      const connExist = await this.isFollower(followedUser.id, followerUser.id);
+
+      console.log(connExist);
+      
+      if (connExist) return Error('La coneccion ya existe');
+
       const conn = new Connection();
 
       conn.followed = followedUser;
@@ -107,6 +113,7 @@ class ConnectionRepository {
         },
       },
     });
+    console.log(result);
 
     if (!result) {
       throw new NotFoundError('Connection not found');

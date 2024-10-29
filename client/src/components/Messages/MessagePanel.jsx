@@ -94,6 +94,7 @@ export const MessagePanel = ({ currentUser }) => {
                           >
                               <p className="text-gray-300 mt-2">{msg.content}</p>
                           </div>
+                          <p className={`${msg.receiverId === currentUser.authId ? 'text-right' : 'text-left'}`}>{new Date(msg.timestamp).toLocaleTimeString('es-ES',{ hour: '2-digit', minute: '2-digit' })}</p>
                       </div>
                   </div>
               ))}
