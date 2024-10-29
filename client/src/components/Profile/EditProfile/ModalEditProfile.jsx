@@ -99,7 +99,7 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
               />
               <label
                 htmlFor="fileInput"
-                className="block w-full h-full bg-secondBlack-700 border border-secondBlack-400 rounded-lg cursor-pointer flex items-center justify-center"
+                className=" w-full h-full bg-secondBlack-700 border border-secondBlack-400 rounded-lg cursor-pointer flex items-center justify-center"
               >
                 <div className="flex flex-col
                 text-center justify-center items-center">

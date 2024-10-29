@@ -6,7 +6,7 @@ const getUserProfile = async () => {
     try {
         // Replace mock_user with your actual JSON data
         const userJsonString = localStorage.getItem('userdata');
-        
+        console.log(userJsonString)
         // Check if the data exists in localStorage
         if (!userJsonString) {
             throw new Error("No user profile found in localStorage.");
