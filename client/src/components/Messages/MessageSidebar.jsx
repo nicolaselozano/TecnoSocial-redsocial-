@@ -16,21 +16,24 @@ export const MessageSidebar = ({
   console.log(userList);
 
   return (
-    <div className="w-1/4 bg-secondBlack-900 p-4">
-      <h1 className={`text-lg md:text-xl text-gray-300`}>Contactos</h1>
+    <div className="w-1/4 rounded-l-lg
+    border-solid border-r-[1px] border-gray-700
+       bg-secondBlack-700">
       {Array.isArray(userList) && userList.map((user, index) => (
         <div
           key={index}
-          className="flex items-center mb-4 p-2 hover:bg-green-900 hover:opacity-80 hover:cursor-pointer rounded-lg"
+          className={`truncate flex items-center p-2 h-[10vh]
+             hover:bg-green-900 hover:opacity-80 hover:rounded-tl-lg hover:cursor-pointer border-solid 
+            ${index === 0 ? ' border-b-[1px] border-gray-700' : index === userList.length - 1 ? '' : ''}`}
           onClick={() => handleUser(user.authId)}
         >
           <img
             src={user.avatar || users.avatar}
             alt={user.name}
-            className="w-[20%] h-auto rounded-[10px] mr-5"
+            className="w-[10%] h-auto rounded-[10px] mr-5"
           />
-          <div>
-            <h2 className="font-bold text-white text-base md:text-sm lg:text-xl">{user.name}</h2>
+          <div className="truncate w-[70%]">
+            <h2 className="font-medium text-white  text-base md:text-sm lg:text-xl">{user.name}</h2>
           </div>
         </div>
       ))}
