@@ -42,7 +42,7 @@ class PostRepository {
   }
 
   public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
-    const posts = await this.repository.find({ where: { user: { id: userId } } });
+    const posts = await this.repository.find({ where: { user: { id: userId } }, relations: ['images', 'user'] });
     return posts;
   }
 
