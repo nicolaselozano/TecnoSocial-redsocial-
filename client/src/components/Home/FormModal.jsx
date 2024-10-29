@@ -10,7 +10,8 @@ const FormModal = () => {
 
   const [image, setImage] = useState([]);
   const [preview, setPreview] = useState([]);
-  const [upImage, setUpImage] = useState([]);
+  //const [upImage, setUpImage] = useState([]);
+  let varImage;
 
   useEffect(() => {
     if (image.length > 0) {
@@ -30,12 +31,14 @@ const FormModal = () => {
     }
   }, [image]);
 
-  useEffect(() => {
-    setUpImage(upImage);
-  }, [upImage, text]);
+  /* useEffect(() => {
+    //console.log(image)
+    //setUpImage(upImage);
+    //handleFileUploadArray()
+  }, [image, text, preview]); */
 
   const createPost = async () => {
-    console.log(text, upImage);
+    console.log(text, varImage);
     try {
       const response = await fetch(`${APIDOMAIN}/api/v1/post`, {
         method: "POST",
@@ -48,7 +51,7 @@ const FormModal = () => {
           title: text.title,
           content: text.text,
           technologies: ["react", "nextjs"],
-          images: upImage,
+          images: varImage,
         }),
       });
       //console.log(text, upImage);
@@ -84,17 +87,17 @@ const FormModal = () => {
         })
       );
 
-      setUpImage(urls.filter((url) => url !== null)); // Filtra y setea solo URLs válidas
+      //setUpImage(urls.filter((url) => url !== null)); // Filtra y setea solo URLs válidas
+      varImage = urls.filter((url) => url !== null);
     } catch (error) {
       console.error("Error al subir las imágenes:", error);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleFileUploadArray();
+    await handleFileUploadArray();
     createPost();
-    //console.log(text, upImage);
   };
 
   const handleChandeInput = (e) => {
