@@ -55,13 +55,10 @@ class UserController {
     const { search, page = 1, limit = 10 } = getPaginatedParams(req); // Valores predeterminados para page y limit
     const { id } = req.params;
 
-    // Obtiene el usuario por su ID
     const user = await userRepository.getUserById(Number(id));
     if (!user) {
       throw new NotFoundError('Usuario no encontrado');
     }
-
-    // Obtiene la lista de usuarios seguidos con paginación
     const followed = await connectionRepository.getAllFollowed({
       search,
       userid: Number(id),
@@ -69,15 +66,12 @@ class UserController {
       limit,
     });
 
-    // Obtiene la lista de seguidores del usuario con paginación
     const followers = await connectionRepository.getAllFollowers({
       search,
       userid: Number(id),
       skip: (page - 1) * limit,
       limit,
     });
-
-    // Calcula el total de páginas para seguidores y seguidos
     const totalFollowedPages = Math.ceil(followed.length / limit);
     const totalFollowersPages = Math.ceil(followers.length / limit);
 
