@@ -22,7 +22,7 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   });
   
   
-  console.log('HOLAAAAAAAAAAAAAAA',formData);
+  //console.log('HOLAAAAAAAAAAAAAAA',formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -83,8 +83,8 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-secondBlack-900 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-secondBlack-700 p-2 rounded-lg shadow-lg w-1/2 max-w-md h-auto transform scale-[90%]">
+    <div className="fixed inset-0 bg-secondBlack-900 bg-opacity-50 flex justify-center items-center backdrop-blur-md z-20">
+      <div className="bg-secondBlack-700 p-2 rounded-lg shadow-lg w-1/2 max-w-md h-auto transform scale-[90%] border">
         <h2 className="text-sm font-bold text-primaryGreen-400 mb-2">Editar perfil</h2>
         <form onSubmit={handleSubmit}
           encType='multipart/form-data'>
