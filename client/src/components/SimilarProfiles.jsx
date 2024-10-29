@@ -4,6 +4,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import similarsUserStore from "../context/users/similars_user_store";
 import { FollowService } from "../services/follows/new_follow";
 import { Link } from "react-router-dom";
+import { getRoleColor } from "../helpers/get-role-color";
 
 const ListProfile = [
   {
@@ -87,7 +88,7 @@ const SimilarProfiles = () => {
         : profilesPerPage)
   );
 
-  console.log(visibleProfiles)
+  console.log(visibleProfiles);
 
   return (
     <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col h-fit">
@@ -105,11 +106,18 @@ const SimilarProfiles = () => {
               alt={profile.name}
               className="w-[55px] h-[55px] rounded-[12px] object-cover"
             />
-            <div className="flex flex-col w-[150px] gap-[6px] pl-2">
+            <div className="flex flex-col w-[150px] gap-[6px] max-w-[130px]">
               <p className="text-md font-semibold truncate ">{profile.name}</p>
               <div className="flex flex-wrap gap-[4px]">
                 {profile.roles.map((role, roleIndex) => (
-                  <span key={roleIndex} className={getRoleColorClass(role)}>
+                  <span
+                    key={roleIndex}
+                    className={`px-2 py-1 rounded-md text-sm truncate`}
+                    style={{
+                      backgroundColor: `${getRoleColor(role)}`,
+                      borderLeft: `4px solid rgba(255,255,255,0.25)`,
+                    }}
+                  >
                     {role}
                   </span>
                 ))}
@@ -133,7 +141,6 @@ const SimilarProfiles = () => {
           Ver más
         </Link>
       </div>
-      
     </div>
   );
 };

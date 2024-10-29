@@ -4,7 +4,7 @@ export const getPosts = async (limit, page, search = "") => {
   const user = JSON.parse(localStorage.getItem("userdata"));
 
   let route = user
-    ? `${APIDOMAIN}${APIDOMAIN_VERSION}/post/me?limit=${limit}&page=${page}`
+    ? `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`
     : `${APIDOMAIN}${APIDOMAIN_VERSION}/post?limit=${limit}&page=${page}`;
 
   if (search) {

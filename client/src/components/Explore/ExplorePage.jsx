@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import usePostsStore from "../../context/posts/posts-store";
 import { PostsGrid } from "../Posts/PostsGrid";
 import { Search } from "./Search";
+import usePostsFeedStore from "../../context/posts/posts-feed-store";
 
 export const ExplorePage = () => {
   const {
@@ -10,7 +11,7 @@ export const ExplorePage = () => {
     hasMore,
     loading: isLoading,
     fetchPosts,
-  } = usePostsStore();
+  } = usePostsFeedStore();
 
   const [loading, setLoading] = useState(true);
 

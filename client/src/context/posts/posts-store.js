@@ -32,11 +32,12 @@ const usePostStore = create((set) => ({
 
   // Fetch posts
   fetchPosts: async (page) => {
+    
     set({ loading: true });
     try {
       const { search } = usePostStore.getState();
       const data = await getPosts(10, page, search);
-
+      console.log(data);
       if (data) {
         set((state) => {
           const existingIds = new Set(state.posts.map((post) => post.id));
