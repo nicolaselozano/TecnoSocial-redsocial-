@@ -10,15 +10,15 @@
     },
     {
       "name": "Data Scientist",
-      "color": "#4A3620" 
+      "color": "#4A3620"
     },
     {
       "name": "Cloud Architect",
-      "color": "#364D2B" 
+      "color": "#364D2B"
     },
     {
       "name": "Cybersecurity Analyst",
-      "color": "#274C48" 
+      "color": "#274C48"
     },
     {
       "name": "Database Administrator",
@@ -26,19 +26,19 @@
     },
     {
       "name": "Network Engineer",
-      "color": "#3B3F5C" 
+      "color": "#3B3F5C"
     },
     {
       "name": "IT Support Specialist",
-      "color": "#425C48"  
+      "color": "#425C48"
     },
     {
       "name": "QA Engineer",
-      "color": "#274C48"  
+      "color": "#274C48"
     },
     {
       "name": "UI/UX Designer",
-      "color": "#4A3620" 
+      "color": "#4A3620"
     },
     {
       "name": "IT Project Manager",
@@ -46,7 +46,7 @@
     },
     {
       "name": "Systems Administrator",
-      "color": "#283A60" 
+      "color": "#283A60"
     },
     {
       "name": "Business Analyst",
@@ -58,7 +58,7 @@
     },
     {
       "name": "Product Manager",
-      "color": "#494E4A" 
+      "color": "#494E4A"
     }
   ]
 }

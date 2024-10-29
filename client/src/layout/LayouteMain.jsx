@@ -15,7 +15,7 @@ const LayouteMain = ({ children }) => {
         {children}
         <section className=" flex flex-col gap-y-5 ">
           {/*card de perfiles similares*/}
-          <SimilarProfilesPage />
+          {pathname !== "/similarprofiles" && <SimilarProfilesPage />}
           {/*card de notificaciones*/}
           {pathname !== "/notifications" && <NotificationBar />}
         </section>

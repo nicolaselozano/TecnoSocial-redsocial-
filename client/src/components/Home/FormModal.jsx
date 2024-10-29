@@ -120,7 +120,7 @@ const FormModal = () => {
       />
       <textarea
         placeholder="Crea un posteo"
-        className="w-full max-h-[330px] h-[330px] p-3 bg-secondBlack-400 rounded-xl"
+        className="w-full h-[180px] p-3 bg-secondBlack-400 rounded-xl"
         onChange={(e) => handleChandeInput(e)}
         value={text.text}
         name="text"
