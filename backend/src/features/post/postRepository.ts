@@ -2,10 +2,10 @@ import con from '@/config/database';
 import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
+import { Image } from '../image/imageEntity';
 import { User } from '../user/userEntity';
 import { PostDelete, PostInsert, PostPut, PostSelect } from './post.types';
 import { Post } from './postEntity';
-import { Image } from '../image/imageEntity';
 
 class PostRepository {
   private repository = con.getRepository(Post);
@@ -17,6 +17,7 @@ class PostRepository {
       title: postData.title,
       content: postData.content,
       technologies: postData.technologies,
+      user: postData.user,
     });
 
     const savedPost = await this.repository.save(post);
