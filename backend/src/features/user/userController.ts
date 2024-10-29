@@ -1,5 +1,5 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
-import { BadRequestError } from '@/utils/errors';
+import { BadRequestError, NotFoundError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { getUserPutData } from '@/utils/getUserPutData';
 import { Request, Response } from 'express';
@@ -52,13 +52,47 @@ class UserController {
   }
 
   public async getUserById(req: Request, res: Response): Promise<void> {
+    const { search, page = 1, limit = 10 } = getPaginatedParams(req); // Valores predeterminados para page y limit
     const { id } = req.params;
 
+    // Obtiene el usuario por su ID
     const user = await userRepository.getUserById(Number(id));
+    if (!user) {
+      throw new NotFoundError('Usuario no encontrado');
+    }
+
+    // Obtiene la lista de usuarios seguidos con paginación
+    const followed = await connectionRepository.getAllFollowed({
+      search,
+      userid: Number(id),
+      skip: (page - 1) * limit,
+      limit,
+    });
+
+    // Obtiene la lista de seguidores del usuario con paginación
+    const followers = await connectionRepository.getAllFollowers({
+      search,
+      userid: Number(id),
+      skip: (page - 1) * limit,
+      limit,
+    });
+
+    // Calcula el total de páginas para seguidores y seguidos
+    const totalFollowedPages = Math.ceil(followed.length / limit);
+    const totalFollowersPages = Math.ceil(followers.length / limit);
+
     res.json({
-      ...user,
-      followerscount: await connectionRepository.getFollowersCount({ userid: Number(id) }),
-      followedcount: await connectionRepository.getFollowedCount({ userid: Number(id) }),
+      user,
+      followers: {
+        results: followers,
+        currentPage: page,
+        totalPages: totalFollowersPages,
+      },
+      followed: {
+        results: followed,
+        currentPage: page,
+        totalPages: totalFollowedPages,
+      },
     });
   }
 
