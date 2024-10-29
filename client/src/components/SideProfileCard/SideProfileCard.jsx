@@ -93,8 +93,11 @@ const SideProfileCard = () => {
                 ? userInstance.user?.roles?.map((role, index) => (
                     <span
                       key={index}
-                      className={`text-sm px-4 py-1 rounded-md border-l-2 border-white border-opacity-30 capitalize truncate`}
-                      style={{ backgroundColor: getRoleColor(role.name) }}
+                      className={`px-2 py-1 rounded-md text-sm truncate`}
+                    style={{
+                      backgroundColor: `${getRoleColor(role.name)}`,
+                      borderLeft: `4px solid rgba(255,255,255,0.25)`,
+                    }}
                     >
                       {role.name}
                     </span>
