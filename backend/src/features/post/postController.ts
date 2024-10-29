@@ -1,5 +1,5 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
-import { BadRequestError, ForbiddenError } from '@/utils/errors';
+import { BadRequestError, ForbiddenError, NotFoundError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -12,7 +12,7 @@ import { postRepository } from './postRepository';
 
 class PostController {
   public async createPost(req: Request, res: Response): Promise<void> {
-    const { title, content, user,images } = req.body;
+    const { title, content, user, images } = req.body;
 
     const post = new Post();
     post.title = title;
@@ -113,29 +113,29 @@ class PostController {
   }
 
   public async followedUsersPostsById(req: Request, res: Response): Promise<void> {
-    const { search } = getPaginatedParams(req);
+    const { search, page, limit } = getPaginatedParams(req);
     const { id } = req.params;
 
     const followed = await connectionRepository.getAllFollowed({
-      search: search,
+      search,
       userid: Number(id),
+      skip: (page - 1) * limit,
+      limit,
     });
-
-    const posts = followed.map(async (user) => {
-      return await postRepository.getPostById(user.id);
+    const posts = await Promise.all(
+      followed.map(async (user) => {
+        return await postRepository.getPostById(user.id);
+      }),
+    );
+    const flatPosts = posts.flat();
+    if (flatPosts.length === 0) {
+      throw new NotFoundError('error al paginar');
+    }
+    res.json({
+      results: flatPosts,
+      currentPage: page,
+      totalPages: Math.ceil(followed.length / limit),
     });
-
-    Promise.all(posts)
-      .then((posts) => {
-        if (posts.length === 0) {
-          res.status(StatusCodes.NO_CONTENT).json([]);
-        } else {
-          res.json(posts);
-        }
-      })
-      .catch(() => {
-        res.status(StatusCodes.NO_CONTENT).json([]);
-      });
   }
   public async getAllPost(req: Request, res: Response): Promise<void> {
     const page = parseInt(req.query.page as string) || 1;

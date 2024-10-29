@@ -8,7 +8,6 @@ import { connectionRepository } from './ConnectionRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 
 class ConnectionController {
-
   async createConnectionController(req: Request, res: Response): Promise<void> {
     try {
       const userData: UserDataToken | undefined = res.locals['userData'];
@@ -20,7 +19,6 @@ class ConnectionController {
       } else {
         throw new Error('El usuario no esta autenticado');
       }
-
     } catch (error) {
       res.status(500).json(error);
     }

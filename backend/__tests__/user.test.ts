@@ -3,7 +3,7 @@ import { Connection } from '@/features/connection/ConnectionEntity';
 import { User } from '@/features/user/userEntity';
 import { seed } from '@/utils/seed';
 import { dropDB } from '@/utils/seed/drop';
-import { USERS_MOCK } from '@/utils/seed/mockups/users.mock';
+import { MOCK_USERS } from '@/utils/seed/mockups/users.mock';
 import { StatusCodes } from 'http-status-codes';
 import { authRequest } from './helpers/authRequest';
 import { request } from './jest.setup';
@@ -34,7 +34,7 @@ describe('USER Enpoints', () => {
           expect(body).toMatchObject({
             currentPage: 1,
             totalPages: 1,
-            totalUsers: USERS_MOCK.length,
+            totalUsers: MOCK_USERS.length,
           });
         });
     });
