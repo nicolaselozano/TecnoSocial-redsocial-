@@ -29,8 +29,6 @@ const AllRoutes = () => {
       <Route path="/notifications" element={<Notification />} />
       <Route path="/notificationsBar" element={<NotificationBar />} />
 
-      {/* Ruta Perfiles Similares */}
-      <Route path="/similares" element={<SimilarProfilesPage />} />
     </Routes>
   );
 };
