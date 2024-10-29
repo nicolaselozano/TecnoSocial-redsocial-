@@ -103,5 +103,7 @@ paths:
     $ref: './messages/messages.yaml'
   /messages/between/{receiverId}:
     $ref: './messages/m-between-user.yaml'
+  /follow/{id}:
+    $ref: './connections/conn.yaml'
 
 

@@ -23,6 +23,7 @@ import { redirectToDocs } from './utils/redirectToDocs';
 import messageRouter from './features/messages/messageRoutes';
 import http from 'http';
 import { initializeMSocketIO } from './socket/socketMessage';
+import connectionRouter from './features/connection/ConnectionRoutes';
 
 export const app = express();
 const server = http.createServer(app);
@@ -51,7 +52,8 @@ app.use(
   likeRouter,
   fuRouter,
   notificationRouter,
-  messageRouter
+  messageRouter,
+  connectionRouter
 );
 
 app.use('/uploads', express.static(path.join('./', envs.UPLOAD_DIR)));
