@@ -3,6 +3,7 @@ import { PaginatedConfig } from '@/types/PaginatedConfig.type';
 import { NotFoundError } from '@/utils/errors';
 import { Like } from 'typeorm';
 import { Image } from '../image/imageEntity';
+import { Technology } from '../technology/technologyEntity';
 import { User } from '../user/userEntity';
 import { PostDelete, PostInsert, PostPut, PostSelect } from './post.types';
 import { Post } from './postEntity';
@@ -10,15 +11,29 @@ import { Post } from './postEntity';
 class PostRepository {
   private repository = con.getRepository(Post);
   private imageRepository = con.getRepository(Image);
+  private technologyRepository = con.getRepository(Technology);
 
   public async createPost(postData: PostInsert, imglist: [string]): Promise<Post> {
     // Crear el post sin imágenes y obtener la instancia de la base de datos
     const post = this.repository.create({
       title: postData.title,
       content: postData.content,
-      technologies: postData.technologies,
       user: postData.user,
     });
+
+    if (postData.technologies) {
+      const postTechnologies = await Promise.all(
+        postData.technologies.map((tech) =>
+          this.technologyRepository.findOne({
+            where: {
+              name: tech,
+            },
+          }),
+        ),
+      );
+
+      post.technologies = postTechnologies as Technology[];
+    }
 
     const savedPost = await this.repository.save(post);
     console.log(postData);
@@ -42,7 +57,10 @@ class PostRepository {
   }
 
   public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
-    const posts = await this.repository.find({ where: { user: { id: userId } }, relations: ['images', 'user'] });
+    const posts = await this.repository.find({
+      where: { user: { id: userId } },
+      relations: ['images', 'user', 'technologies'],
+    });
     return posts;
   }
 
@@ -58,7 +76,7 @@ class PostRepository {
 
   public async getAllPosts({ limit, skip, search }: PaginatedConfig) {
     const posts = await this.repository.find({
-      relations: ['images', 'user'],
+      relations: ['images', 'user', 'technologies'],
       take: limit,
       skip,
       where: {
@@ -74,7 +92,7 @@ class PostRepository {
   public async getPostById(id: PostSelect): Promise<Post> {
     const post = await this.repository.findOne({
       where: { id },
-      relations: ['images', 'user', 'likes', 'comments', 'comments.user'],
+      relations: ['images', 'user', 'likes', 'comments', 'comments.user', 'technologies'],
     });
 
     if (!post) {
