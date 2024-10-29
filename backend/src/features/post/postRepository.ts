@@ -11,16 +11,13 @@ class PostRepository {
   private repository = con.getRepository(Post);
   private imageRepository = con.getRepository(Image);
 
-
-  public async createPost(postData: PostInsert,imglist:[string]): Promise<Post> {
-
+  public async createPost(postData: PostInsert, imglist: [string]): Promise<Post> {
     // Crear el post sin imágenes y obtener la instancia de la base de datos
     const post = this.repository.create({
       title: postData.title,
       content: postData.content,
       technologies: postData.technologies,
     });
-
 
     const savedPost = await this.repository.save(post);
     console.log(postData);
@@ -31,10 +28,10 @@ class PostRepository {
         }
         return this.imageRepository.create({
           url: imageUrl,
-          alt: "",
-          post: savedPost
+          alt: '',
+          post: savedPost,
         });
-      })
+      }),
     );
 
     await this.imageRepository.save(images);
