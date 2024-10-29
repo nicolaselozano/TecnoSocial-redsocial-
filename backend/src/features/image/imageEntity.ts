@@ -15,8 +15,8 @@ export class Image {
   @CreateDateColumn({ type: 'datetime' })
   created_at: string;
 
-  @ManyToOne(() => Post, (post) => post.id, {
+  @ManyToOne(() => Post, (post) => post.images, {
     onDelete: 'CASCADE',
   })
-  post_id: Post;
+  post: Post;
 }
