@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 import { AiOutlineHeart } from 'react-icons/ai';
+import similarsUserStore from '../context/users/similars_user_store';
+import { FollowService } from '../services/follows/new_follow';
 
 const useProfileStore = create((set) => ({
   profiles: [
@@ -64,16 +66,38 @@ const getRoleColorClass = (role) => {
 
 const SimilarProfiles = () => {
   const { profiles } = useProfileStore();
+  const { similarUsers, page, loading, error, fetchUsers, reset } = similarsUserStore();
+  const [isloading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const profilesPerPage = 4;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      await fetchUsers(currentPage);
+      setIsLoading(false);
+    };
+    fetchUserData();
+
+    return () => {
+      reset();
+    };
+  }, [fetchUsers, currentPage]);
 
   const handleShowMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const visibleProfiles = profiles.slice(
-    currentPage * profilesPerPage,
-    (currentPage + 1) * profilesPerPage
+  const handleFollowUser = (user) => {
+
+    const {authId} = user;
+
+    FollowService.setNewFollower(authId);
+  }
+
+  const visibleProfiles = similarUsers.slice(
+    0,
+    (currentPage + 1) * (profilesPerPage > similarUsers.length ? similarUsers.length :profilesPerPage)
   );
 
   return (
@@ -82,36 +106,32 @@ const SimilarProfiles = () => {
         Perfiles Similares
       </h2>
       <ul className="space-y-[12px]">
-        {visibleProfiles.map((profile, index) => {
-          const roles = profile.role.split("/");
-          return (
-            <li
-              key={index}
-              className="flex items-start justify-between w-full"
-            >
-              <img
-                src={profile.image}
-                alt={profile.name}
-                className="w-[55px] h-[55px] rounded-[12px] object-cover"
-              />
-              <div className="flex flex-col w-[150px] gap-[6px] pl-2">
-                <p className="text-md font-semibold truncate ">{profile.name}</p>
-                <div className="flex flex-wrap gap-[4px]">
-                  {roles.map((role, roleIndex) => (
-                    <span key={roleIndex} className={getRoleColorClass(role)}>
-                      {role.name}
-                    </span>
-                  ))}
-                </div>
+        {visibleProfiles.map((profile) => (
+          <li key={profile.id} className="flex items-start justify-between w-full">
+            <img
+              src={profile.avatar}
+              alt={profile.name}
+              className="w-[55px] h-[55px] rounded-[12px] object-cover"
+            />
+            <div className="flex flex-col w-[150px] gap-[6px] pl-2">
+              <p className="text-md font-semibold truncate ">{profile.name}</p>
+              <div className="flex flex-wrap gap-[4px]">
+                {profile.roles.map((role, roleIndex) => (
+                  <span key={roleIndex} className={getRoleColorClass(role)}>
+                    {role}
+                  </span>
+                ))}
               </div>
-              <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center">
-                <AiOutlineHeart size={12} className=''/>
-              </button>
-            </li>
-          );
-        })}
+            </div>
+            <button className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center"
+              onClick={() => handleFollowUser(profile)}
+            >
+              <AiOutlineHeart size={12} />
+            </button>
+          </li>
+        ))}
       </ul>
-      {currentPage * profilesPerPage + profilesPerPage < profiles.length && (
+      {currentPage * profilesPerPage + profilesPerPage < similarUsers.length && (
         <div className="mt-4">
           <button
             onClick={handleShowMore}

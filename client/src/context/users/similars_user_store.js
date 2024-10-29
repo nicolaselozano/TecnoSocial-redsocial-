@@ -6,36 +6,45 @@ const similarsUserStore = create((set) => ({
     page: -1,
     loading: false,
     error: "",
+    
     fetchUsers: async (page) => {
         set({ loading: true });
-        set(async (state) => {
 
-            if(state.page < page || state.page == null) {
+        try {
+            set((state) => {
+                if (state.page >= page) return state;
 
-                const users = await userServices.getUsers(10, page);
-                console.log("Previous user instance:", state.similarUsers);
-                console.log("New user data:", users);
-                console.log("DATA DEL ZUSTAND", users);
-    
+                return state;
+            });
+
+            const { users, currentPage } = await userServices.getUsers(10, page);
+
+            set((state) => {
+                const newUsers = users.filter(user => 
+                    !state.similarUsers.some(existingUser => existingUser.id === user.id)
+                );
+
                 return {
-                    similarUsers: [...state.similarUsers, ...users],
-                    page,
+                    similarUsers: [...state.similarUsers, ...newUsers],
+                    page: currentPage,
                     loading: false,
                     error: ""
                 };
-            }
+            });
 
-        });
+
+        } catch (error) {
+            set({ loading: false, error: error.message || "Error fetching users" });
+        }
     },
+
     reset: () => {
-        set(() => {
-            return {
-                similarUsers: [],
-                page: -1,
-                loading: false,
-                error: ""
-            }
-        })
+        set({
+            similarUsers: [],
+            page: -1,
+            loading: false,
+            error: ""
+        });
     }
 }));
 

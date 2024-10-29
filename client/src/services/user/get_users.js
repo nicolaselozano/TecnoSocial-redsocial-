@@ -5,16 +5,20 @@ const getUsers = async (userCount = 10, page = 0) => {
     try {
 
         const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user?limit=${userCount}&page=${page}`, {
-            method: 'POST',
+            method: 'GET',
             credentials: 'include'
         });
 
-        const responseData = await response.json();
-        console.log(responseData.data);
+        const data = await response.json();
 
-        const { users } = response.data;
+        const { users, currentPage, totalPages, totalUser } = data;
 
-        return users;
+        return {
+            users,
+            currentPage,
+            totalPages,
+            totalUser
+        };
 
     } catch (error) {
         console.error(error);
