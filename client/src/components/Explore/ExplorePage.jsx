@@ -20,7 +20,7 @@ export const ExplorePage = () => {
   }, [isLoading]);
 
   return (
-    <div className="container mx-auto p-2 sm:p-0 mb-6">
+    <div className="container mx-auto p-2 sm:p-0 mb-6 w-full max-w-[1210px]">
       <Search />
       <PostsGrid
         posts={posts}
