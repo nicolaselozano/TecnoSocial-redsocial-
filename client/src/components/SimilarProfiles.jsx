@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { AiOutlineHeart } from "react-icons/ai";
+import similarsUserStore from "../context/users/similars_user_store";
+import { FollowService } from "../services/follows/new_follow";
 import { Link } from "react-router-dom";
-import { getRoleColor } from "../helpers/get-role-color";
-import { useSimilarProfile } from "../context/SimilarProfiles/getSimilarProfeiles";
 
 const ListProfile = [
   {
@@ -49,70 +49,91 @@ const ListProfile = [
 ];
 
 const SimilarProfiles = () => {
-  const { getSimilarProfile, profiles: profileTwo } = useSimilarProfile();
+  //const { profiles } = useProfileStore();
+  const { similarUsers, page, loading, error, fetchUsers, reset } =
+    similarsUserStore();
+  const [isloading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const profilesPerPage = 4;
 
   useEffect(() => {
-    getSimilarProfile();
-  }, []);
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      await fetchUsers(currentPage);
+      setIsLoading(false);
+    };
+    fetchUserData();
 
-  console.log(profileTwo);
+    return () => {
+      reset();
+    };
+  }, [fetchUsers, currentPage]);
+
+  const handleShowMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handleFollowUser = (user) => {
+    const { authId } = user;
+
+    FollowService.setNewFollower(authId);
+  };
+
+  const visibleProfiles = similarUsers.slice(
+    0,
+    (currentPage + 1) *
+      (profilesPerPage > similarUsers.length
+        ? similarUsers.length
+        : profilesPerPage)
+  );
+
+  console.log(visibleProfiles)
 
   return (
-    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col justify-between">
-      <h2 className="text-lato text-[20px] font-semibold leading-[24px] w-full opacity-100 mb-4 text-left">
+    <div className="bg-[#25252A] text-white p-[12px] rounded-[12px] w-full min-h-[354px] mx-auto shadow-lg flex flex-col h-fit">
+      <h2 className="text-lato text-[20px] font-semibold leading-[24px] w-full opacity-100 mb-4 text-left ">
         Perfiles Similares
       </h2>
-      <ul className="space-y-[12px]">
-        {profileTwo.slice(-4).map((profile, index) => {
-          //const roles = profile.role.split("/");
-          return (
-            <li key={index} className="flex items-start justify-between w-full">
-              {profile.image ? (
-                <img
-                  src={profile.image}
-                  alt={profile.name}
-                  className="w-[55px] h-[55px] rounded-[8px] object-cover"
-                />
-              ) : (
-                <div className="size-[55px] rounded-lg bg-secondBlack-400 flex items-center justify-center">55x55</div>
-              )}
-              <div className="flex flex-col w-full max-w-[125px] gap-[6px] pl-2">
-                <p className="text-md font-semibold truncate ">
-                  {profile.name}
-                </p>
-                <div className="flex flex-wrap gap-[4px] w-full">
-                  {profile.rols.map((role, roleIndex) => (
-                    <span
-                      key={roleIndex}
-                      className={`px-2 py-1 rounded-md text-xs truncate w-fit`}
-                      style={{
-                        backgroundColor: `${getRoleColor(role)}`,
-                        borderLeft: `4px solid rgba(255,255,255,0.25)`,
-                      }}
-                    >
-                      {role}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <button className="bg-transparent border p-1 border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[24px] flex justify-center items-center">
-                <AiOutlineHeart className="size-full" />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {
-        <div className="mt-4">
-          <Link
-            to="/similarprofiles"
-            //onClick={handleShowMore}
-            className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 text-left text-xs border-b border-primaryGreen-400"
+      <ul className="flex flex-col items-start h-full gap-y-3 ">
+        {visibleProfiles.map((profile) => (
+          <li
+            key={profile.id}
+            className="flex items-start justify-between w-full"
           >
-            Ver más
-          </Link>
-        </div>
-      }
+            <img
+              src={profile.avatar}
+              alt={profile.name}
+              className="w-[55px] h-[55px] rounded-[12px] object-cover"
+            />
+            <div className="flex flex-col w-[150px] gap-[6px] pl-2">
+              <p className="text-md font-semibold truncate ">{profile.name}</p>
+              <div className="flex flex-wrap gap-[4px]">
+                {profile.roles.map((role, roleIndex) => (
+                  <span key={roleIndex} className={getRoleColorClass(role)}>
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <button
+              className="bg-transparent border border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[20px] flex justify-center items-center"
+              onClick={() => handleFollowUser(profile)}
+            >
+              <AiOutlineHeart size={12} />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-4">
+        <Link
+          to="/similarprofiles"
+          //onClick={handleShowMore}
+          className="text-lato text-[12px] font-normal leading-[18px] text-primaryGreen-400 text-left text-xs border-b border-primaryGreen-400"
+        >
+          Ver más
+        </Link>
+      </div>
+      
     </div>
   );
 };
