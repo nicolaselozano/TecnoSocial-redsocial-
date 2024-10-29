@@ -5,6 +5,7 @@ import ModalCreatePost from "../components/Home/ModalCreatePost";
 import { PostsGrid } from "../components/Posts/PostsGrid";
 import usePostsStore from "../context/posts/posts-store";
 import LayouteMain from "../layout/LayouteMain";
+import usePostsFeedStore from "../context/posts/posts-feed-store";
 
 const HomePage = () => {
   const {
@@ -13,10 +14,14 @@ const HomePage = () => {
     hasMore,
     loading: isLoading,
     fetchPosts,
-  } = usePostsStore();
+  } = usePostsFeedStore();
 
   const [loading, setLoading] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  
+
+  //const { user } = isDataUser;
+  //console.log(isDataUser);
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);

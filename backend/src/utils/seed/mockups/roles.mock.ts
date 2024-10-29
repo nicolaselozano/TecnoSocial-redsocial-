@@ -1,17 +1,17 @@
 export const MOCK_ROLES = [
-  'Software Developer',
+  'Frontend',
+  'Backend',
+  'Mobile Developer',
+  'UX',
+  'UI',
+  'Tester',
   'DevOps Engineer',
-  'Data Scientist',
-  'Cloud Architect',
+  'AI Engineer',
   'Cybersecurity Analyst',
   'Database Administrator',
-  'Network Engineer',
-  'IT Support Specialist',
-  'QA Engineer',
-  'UI/UX Designer',
-  'IT Project Manager',
-  'Systems Administrator',
-  'Business Analyst',
-  'AI/ML Engineer',
-  'Product Manager',
-];
+  'Project Manager',
+  'Scrum Master',
+  'Tech Lead',
+] as const;
+
+export type MockRole = (typeof MOCK_ROLES)[number];

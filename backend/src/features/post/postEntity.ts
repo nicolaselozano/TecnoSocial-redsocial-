@@ -36,7 +36,7 @@ export class Post {
   })
   user: User;
 
-  @OneToMany(() => Image, (image) => image.post_id, {
+  @OneToMany(() => Image, (image) => image.post, {
     cascade: true,
   })
   images: Image[];

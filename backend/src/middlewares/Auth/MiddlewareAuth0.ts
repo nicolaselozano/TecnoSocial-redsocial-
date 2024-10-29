@@ -61,7 +61,6 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
   const refreshTokenCookieName = 'refresh-token';
 
   try {
-
     if (req.cookies[tokenCookieName] !== undefined) {
       console.log('Existe en las COOKIES EL TOKEN');
 
@@ -102,7 +101,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
-        
+
         res.locals.token = `Bearer ${createRToken.access_token}`;
         console.log('TOKEN CREADO CON EL CODIGO');
       } else {

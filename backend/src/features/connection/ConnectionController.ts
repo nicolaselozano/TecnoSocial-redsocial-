@@ -5,8 +5,25 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { userRepository } from '../user/userRepository';
 import { connectionRepository } from './ConnectionRepository';
+import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 
 class ConnectionController {
+  async createConnectionController(req: Request, res: Response): Promise<void> {
+    try {
+      const userData: UserDataToken | undefined = res.locals['userData'];
+      //el id corresponde al auth id
+      const { id } = req.params;
+      if (userData?.authId) {
+        const newConnection = await connectionRepository.setConnection(userData?.authId, id);
+        res.status(200).json(newConnection);
+      } else {
+        throw new Error('El usuario no esta autenticado');
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
   async getAllFollowers(req: Request, res: Response): Promise<void> {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;

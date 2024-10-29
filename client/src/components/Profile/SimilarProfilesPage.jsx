@@ -5,7 +5,7 @@ import SimilarProfiles from '../SimilarProfiles';
 const SimilarProfilesPage = () => {
   const { userId } = useParams();
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto w-[241px]">
       <SimilarProfiles userId={userId} />
     </div>
   );

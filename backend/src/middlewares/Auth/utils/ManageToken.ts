@@ -7,7 +7,6 @@ import { TokenDTO } from '../interface/TokenDTO';
 
 const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
   try {
-
     const formData = {
       grant_type: 'authorization_code',
       client_id: envs.AUTH0.CLIENT_ID,
@@ -28,7 +27,6 @@ const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
 
 const GetTokenWRT = async (refreshToken: string): Promise<TokenDTO> => {
   try {
-
     const formData = {
       grant_type: 'refresh_token',
       client_id: envs.AUTH0.CLIENT_ID,
@@ -66,7 +64,6 @@ interface JwksResponse {
 
 export async function ValidateToken(token: string): Promise<JwtPayload | null> {
   try {
-
     const authDomain = envs.AUTH0.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
     const discoveryUrl = `https://${authDomain}/.well-known/openid-configuration`;
 

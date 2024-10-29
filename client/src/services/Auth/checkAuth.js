@@ -1,7 +1,7 @@
 import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 
 export const checkAuth = async () => {
-  const lastCheck = localStorage.getItem("lastAuthCheck");
+  const lastCheck = localStorage.getItem("lastAuthCheck") || "";
   const now = Date.now();
   const SECONDS = 5000;
 

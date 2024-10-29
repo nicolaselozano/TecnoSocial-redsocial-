@@ -25,6 +25,8 @@ tags:
     description: API para gestionar las redes sociales de un usuario
   - name: Notification
     description: API para gestionar notificaciones
+  - name: Role
+    description: API para gestionar los roles
 paths:
   /post/me:
     get:
@@ -1873,3 +1875,59 @@ paths:
                 example:
                   message: Error fetching messages
                   error: Error details here
+  '/follow/{id}':
+    post:
+      summary: Crear una conexión entre el usuario autenticado y el usuario con el ID especificado
+      description: Esta operación permite al usuario autenticado seguir a otro usuario mediante su ID. El ID del usuario autenticado se obtiene de una cookie y es procesado por un middleware antes de acceder al controlador.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario a seguir
+      responses:
+        '200':
+          description: Conexión creada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    description: ID del usuario autenticado
+                  followingId:
+                    type: string
+                    description: ID del usuario seguido
+        '401':
+          description: El usuario no está autenticado
+        '500':
+          description: Error interno del servidor
+  /role:
+    get:
+      summary: Obtiene todos los roles
+      tags:
+        - Role
+      responses:
+        '200':
+          description: Lista de los roles
+          content:
+            application/json:
+              schema:
+                type: array
+              example:
+                roles:
+                  - Frontend
+                  - Backend
+                  - Mobile Developer
+                  - UX
+                  - UI
+                  - Tester
+                  - DevOps Engineer
+                  - AI Engineer
+                  - Cybersecurity Analyst
+                  - Database Administrator
+                  - Project Manager
+                  - Scrum Master
+                  - Tech Lead

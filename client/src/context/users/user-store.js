@@ -13,7 +13,7 @@ const userProfileStore = create((set) => ({
     error: "",
     fetchUserDetail: async () => {
         set({ loading: true });
-        const data = await getProfileService.getUserProfile();
+        const data = await getProfileService.getUserProfile() || "";
         if (data) {
             set((state) => {
                 console.log("Previous user instance:", state.userInstance); // Log del estado anterior

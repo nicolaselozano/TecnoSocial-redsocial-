@@ -10,8 +10,8 @@ services:
       interval: 10s
       retries: 5
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: test
     ports:
       - 3306:3306
     volumes:

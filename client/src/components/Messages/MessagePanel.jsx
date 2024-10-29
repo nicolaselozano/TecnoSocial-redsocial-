@@ -72,13 +72,11 @@ export const MessagePanel = ({ currentUser }) => {
   };
   const messageEndRef = useRef(null);
 
-  // Scroll to the bottom whenever messages change
   useEffect(() => {
       if (messageEndRef.current) {
           messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
       }
-  }, [messages]); // Dependency on messages
-
+  }, [messages]);
   return (
       <div className="w-2/3 bg-secondBlack-700 p-6 flex flex-col shadow-lg">
 
@@ -96,10 +94,10 @@ export const MessagePanel = ({ currentUser }) => {
                           >
                               <p className="text-gray-300 mt-2">{msg.content}</p>
                           </div>
+                          <p className={`${msg.receiverId === currentUser.authId ? 'text-right' : 'text-left'}`}>{new Date(msg.timestamp).toLocaleTimeString('es-ES',{ hour: '2-digit', minute: '2-digit' })}</p>
                       </div>
                   </div>
               ))}
-              {/* Reference div for scrolling to the bottom */}
               <div ref={messageEndRef} />
           </div>
 

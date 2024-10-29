@@ -18,7 +18,10 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
     unfollowUser,
     followUser,
   } = usePostStore();
-  const user = JSON.parse(localStorage.getItem("userdata"));
+
+  const userdata = JSON.parse(localStorage.getItem("userdata"));
+  const user = userdata?.user || null;
+
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
@@ -160,7 +163,8 @@ export const PostModal = ({ setIsOpenModal, postId }) => {
                     </div>
                   </div>
                 </div>
-                {post?.user?.isFollower !== undefined &&
+                {user?.id &&
+                  post?.user?.isFollower !== undefined &&
                   post?.user?.isFollower !== null && (
                     <button
                       onClick={() => handleFollow(post?.user?.id)}
