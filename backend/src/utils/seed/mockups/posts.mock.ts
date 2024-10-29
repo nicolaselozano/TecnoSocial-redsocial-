@@ -1,25 +1,40 @@
 import { Comment } from '@/features/comment/commentEntity';
 import { Image } from '@/features/image/imageEntity';
 import { Post } from '@/features/post/postEntity';
+import { TechnologyMock } from './technologies.mock';
+import { MockUser } from './users.mock';
 
 type ImageInsert = Pick<Image, 'url' | 'alt'>;
-type CommentInsert = Pick<Comment, 'content'>;
-
-export type PostMock = Pick<Post, 'content' | 'title'> & {
-  images: ImageInsert[];
-  comments?: CommentInsert[];
+type CommentInsert = Pick<Comment, 'content'> & {
+  user: MockUser;
 };
 
-export const FIRST_USER_POSTS: PostMock[] = [
+export type PostMock = Pick<Post, 'content' | 'title'> & {
+  comments?: CommentInsert[];
+  images: ImageInsert[];
+  likes: MockUser[];
+  author: MockUser;
+  techonologies: TechnologyMock[];
+};
+
+export const MOCK_POSTS: PostMock[] = [
   {
     content: 'Exploring TypeORM in-depth with some practical examples.',
     title: 'Understanding TypeORM Basics',
+    author: 'username',
+    techonologies: ['React', 'Nextjs'],
     comments: [
       {
-        content: 'hola este es un comentario',
+        user: 'martin',
+        content: 'este es un comentario falso',
       },
       {
-        content: 'hola este es el segundo comentario',
+        user: 'ezequiel',
+        content: 'este es un comentario falso',
+      },
+      {
+        user: 'melina',
+        content: 'este es un comentario falso',
       },
     ],
     images: [
@@ -36,50 +51,33 @@ export const FIRST_USER_POSTS: PostMock[] = [
         alt: 'post image',
       },
     ],
+    likes: ['ezequiel', 'martin', 'sofia'],
   },
   {
     content: 'Here are some best practices for writing clean and maintainable TypeScript code.',
     title: 'TypeScript Best Practices',
+    author: 'ezequiel',
+    likes: ['username'],
+    techonologies: ['Express'],
     images: [
       {
         url: 'http://image-url',
         alt: 'post image',
+      },
+    ],
+    comments: [
+      {
+        content: 'este es un comentario falso',
+        user: 'felipe',
       },
     ],
   },
   {
     content: "A guide to using TypeORM's query builder for more complex queries.",
     title: 'Mastering TypeORM Query Builder',
-    images: [
-      {
-        url: 'http://image-url',
-        alt: 'post image',
-      },
-    ],
-  },
-  {
-    content: 'Leveraging decorators in TypeScript to create concise and readable code.',
-    title: 'Decorators in TypeScript',
-    images: [
-      {
-        url: 'http://image-url',
-        alt: 'post image',
-      },
-    ],
-  },
-  {
-    content: 'Understanding entity relationships and how to handle them in TypeORM.',
-    title: 'Entity Relationships in TypeORM',
-    images: [
-      {
-        url: 'http://image-url',
-        alt: 'post image',
-      },
-    ],
-  },
-  {
-    content: 'How to use TypeORM with NestJS for scalable application development.',
-    title: 'Using TypeORM with NestJS',
+    author: 'felipe',
+    likes: ['fabricio', 'melina', 'santiago'],
+    techonologies: [],
     images: [
       {
         url: 'http://image-url',
@@ -89,27 +87,4 @@ export const FIRST_USER_POSTS: PostMock[] = [
   },
 ];
 
-export const SECOND_USER_POSTS: PostMock[] = [
-  {
-    content: 'Here are some best practices for writing clean and maintainable TypeScript code.',
-    title: 'TypeScript Best Practices',
-    images: [
-      {
-        url: 'http://image-url',
-        alt: 'post image',
-      },
-    ],
-  },
-  {
-    content: 'Here are some best practices for writing clean and maintainable TypeScript code.',
-    title: 'TypeScript Best Practices',
-    images: [
-      {
-        url: 'http://image-url',
-        alt: 'post image',
-      },
-    ],
-  },
-];
-
-export const totalPosts = FIRST_USER_POSTS.length + SECOND_USER_POSTS.length;
+export const totalPosts = MOCK_POSTS.length;

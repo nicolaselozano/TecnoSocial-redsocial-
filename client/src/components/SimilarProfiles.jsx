@@ -95,7 +95,7 @@ const SimilarProfiles = () => {
                   ))}
                 </div>
               </div>
-              <button className="bg-transparent border p-0.5 border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[24px] flex justify-center items-center">
+              <button className="bg-transparent border p-1 border-[#43AA8B] text-[#43AA8B] rounded-[4px] hover:bg-[#43AA8B] hover:text-white transition-all size-[24px] flex justify-center items-center">
                 <AiOutlineHeart className="size-full" />
               </button>
             </li>

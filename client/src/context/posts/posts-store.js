@@ -15,44 +15,50 @@ const usePostStore = create((set) => ({
   likeLoading: false,
   page: 1,
   hasMore: true,
-  search: '',
+  search: "",
 
-  setSearch: (newSearch) => set((state) => {
-    if (state.search !== newSearch) {
-      return {
-        search: newSearch,
-        posts: [],
-        page: 1,
-        hasMore: true,
-      };
-    }
-    return state;
-  }),
+  setSearch: (newSearch) =>
+    set((state) => {
+      if (state.search !== newSearch) {
+        return {
+          search: newSearch,
+          posts: [],
+          page: 1,
+          hasMore: true,
+        };
+      }
+      return state;
+    }),
 
   // Fetch posts
   fetchPosts: async (page) => {
     set({ loading: true });
-    const { search } = usePostStore.getState(); 
-    const data = await getPosts(10, page, search);
-    if (data) {
-      set((state) => {
-        const existingIds = new Set(state.posts.map((post) => post.id));
-        const newPosts = data.results.filter(
-          (post) => !existingIds.has(post.id)
-        );
+    try {
+      const { search } = usePostStore.getState();
+      const data = await getPosts(10, page, search);
 
-        return {
-          posts: [...state.posts, ...newPosts],
-          loading: false,
-          page: data.currentPage,
-          hasMore: data.currentPage < data.totalPages,
-        };
-      });
-    } else {
+      if (data) {
+        set((state) => {
+          const existingIds = new Set(state.posts.map((post) => post.id));
+          const newPosts = data.results.filter(
+            (post) => !existingIds.has(post.id)
+          );
+
+          return {
+            posts: [...state.posts, ...newPosts],
+            loading: false,
+            page: data.currentPage,
+            hasMore: data.currentPage < data.totalPages,
+          };
+        });
+      } else {
+        set({ loading: false, hasMore: false });
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error);
       set({ loading: false, hasMore: false });
     }
   },
-  
 
   // Fetch a specific post by ID
   fetchPost: async (id) => {

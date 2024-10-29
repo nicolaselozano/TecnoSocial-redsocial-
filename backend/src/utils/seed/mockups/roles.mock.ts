@@ -12,4 +12,6 @@ export const MOCK_ROLES = [
   'Project Manager',
   'Scrum Master',
   'Tech Lead',
-];
+] as const;
+
+export type MockRole = (typeof MOCK_ROLES)[number];
