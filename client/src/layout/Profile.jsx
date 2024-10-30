@@ -51,7 +51,6 @@ const Profile = () => {
   const handleSubmitModal = async () => {
     await fetchUserDetail();
     setIsModalOpen(false);
-    console.log("User after modal submit:", userInstance.user);
   };
 
   return (
