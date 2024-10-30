@@ -69,9 +69,37 @@ class PostController {
   }
 
   public async getAllPostsByUser(req: Request, res: Response): Promise<void> {
+    const { limit, page } = getPaginatedParams(req);
     const { userid } = req.params;
-    const results = await postRepository.getAllPostsByUser(Number(userid));
-    res.json(results);
+
+    const totalPosts = await postRepository.getPostCountByUser(Number(userid));
+
+    if (totalPosts === 0) {
+      res.json({ results: [], totalPages: 0, currentPage: 0, totalPosts: 0 });
+      return;
+    }
+
+    const totalPages = Math.ceil(totalPosts / limit!);
+
+    if (page > totalPages || page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
+    const postsByUser = await postRepository.getAllPostsByUser({
+      skip: (page - 1) * limit,
+      userid: Number(userid),
+      limit,
+    });
+
+    const postsWithMoreInfo = await Promise.all(
+      postsByUser.map(async (post) => ({
+        ...post,
+        likesCount: await likeRepository.countLikes(post.id),
+        commentsCount: await commentRepository.countComments(post.id),
+      })),
+    );
+
+    res.json({ results: postsWithMoreInfo, totalPages, currentPage: page, totalPosts });
   }
 
   public async getPostById(req: Request, res: Response): Promise<void> {
