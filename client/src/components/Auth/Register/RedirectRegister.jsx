@@ -34,7 +34,6 @@ const RedirectRegister = () => {
                     else return setChallengesData('error');
                     localStorage.setItem("userdata", JSON.stringify(data.user));
                     console.log(JSON.stringify(data));
-                    await fetchUserDetail();
 
                 } catch (error) {
                     console.error(
@@ -54,6 +53,7 @@ const RedirectRegister = () => {
 
     const handleLoginRedirect = () => {
         navigate('/');
+        window.location.reload();
     };
 
     return (
