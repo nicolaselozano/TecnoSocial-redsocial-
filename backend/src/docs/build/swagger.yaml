@@ -358,6 +358,22 @@ paths:
           description: ID del usuario
           schema:
             type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            description: Número máximo de posts a devolver
+          required: false
+          description: Limita el número de posts devueltos (por defecto devuelve todos)
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            description: Número de posts a saltar antes de comenzar a devolver los resultados
+          required: false
+          description: Saltar los primeros 'n' posts (para paginación)
       responses:
         '200':
           description: usuario encontrado
@@ -366,13 +382,72 @@ paths:
               schema:
                 $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
               example:
-                id: 1
-                name: Martin
-                email: email@gmail.com
-                posts:
-                  - id: '1'
+                results:
+                  - id: 1
                     title: Primer post
                     content: Contenido del primer post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
+                  - id: 2
+                    title: Segundo post
+                    content: Contenido del segundo post
+                    user:
+                      id: 1
+                      name: username
+                      email: email@gmail.com
+                      authId: 1
+                      authName: user
+                      token: asdjgsad
+                      role: Business Analyst
+                      avatar: 'https://image-url'
+                      location: Buenos Aires
+                      job: Mercado libre
+                      created_at: '2024-10-24T00:28:22.893Z'
+                    technologies:
+                      - name: react
+                        color: '#ffffff'
+                      - name: express
+                        color: '#000000'
+                    images:
+                      - id: 1
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                      - id: 2
+                        url: 'https://image-url'
+                        alt: tecno image
+                        created_at: '2024-10-08T22:28:58.981Z'
+                    likesCount: 5
+                    commentsCount: 10
+                totalPages: 1
+                currentPage: 1
+                totalPosts: 2
         '404':
           description: usuario no encontrado
           content:
@@ -1155,6 +1230,55 @@ paths:
                 title: Mi primer usuario
                 content: Este es el contenido de mi primer usuario
                 user: '12345'
+  '/user/{id}/followed/{followedid}':
+    post:
+      summary: Seguir a un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del usuario que va a seguir
+          schema:
+            type: integer
+        - in: path
+          name: followedid
+          required: true
+          description: ID del usuario que va a ser seguido
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: usuario seguido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1user~1%7Bid%7D/put/requestBody/content/application~1json/schema'
+              example:
+                message: usuario seguido correctamente
+        '401':
+          description: usuario no autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no autorizado
+        '404':
+          description: usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: usuario no encontrado
   '/user/{id}/followers':
     get:
       summary: Obtiene todos los usuarios que siguen al usuario cliente

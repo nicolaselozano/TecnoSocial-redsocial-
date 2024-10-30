@@ -56,10 +56,12 @@ class PostRepository {
     return savedPost;
   }
 
-  public async getAllPostsByUser(userId: User['id']): Promise<Post[]> {
+  public async getAllPostsByUser({ limit, skip, userid }: PaginatedConfig & { userid: User['id'] }): Promise<Post[]> {
     const posts = await this.repository.find({
-      where: { user: { id: userId } },
       relations: ['images', 'user', 'technologies'],
+      where: { user: { id: userid } },
+      take: limit,
+      skip,
     });
     return posts;
   }

@@ -66,6 +66,8 @@ class ConnectionController {
     const { limit, page, search } = getPaginatedParams(req);
     const { id } = req.params;
 
+    console.log('Search: ', search);
+
     await userRepository.getUserById(Number(id));
     const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
 
@@ -98,6 +100,43 @@ class ConnectionController {
       totalUsers: totalFollowed,
       totalPages: totalFollowingPages,
     });
+  }
+
+  async createFollowed(req: Request, res: ResponseWithUserData) {
+    const { id, followedid } = req.params;
+
+    const search = '';
+    const limit = 10;
+    const page = 1;
+
+    let alreadyFollowed: boolean = false;
+
+    const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
+    if (totalFollowed > 0) {
+      const followed = await connectionRepository.getAllFollowed({
+        search,
+        userid: Number(id),
+        limit,
+        skip: (page - 1) * limit,
+      });
+
+      followed.map((f) => {
+        if (f.id === Number(followedid)) {
+          alreadyFollowed = true;
+        }
+      });
+
+      if (alreadyFollowed) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          message: 'Ya sigues a este usuario',
+        });
+      } else {
+        await connectionRepository.createConnection(Number(followedid), Number(id));
+        res.status(StatusCodes.CREATED).json({
+          message: 'followed created succesfully',
+        });
+      }
+    }
   }
 
   async deleteFollowed(req: Request, res: ResponseWithUserData) {
