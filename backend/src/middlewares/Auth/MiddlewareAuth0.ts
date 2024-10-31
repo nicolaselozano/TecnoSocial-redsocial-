@@ -39,8 +39,7 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
       };
 
       res.locals.userData = userData;
-      
-      console.log('Token Validado y Datos de Usuario Agregados al Contexto');
+
     }
     next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

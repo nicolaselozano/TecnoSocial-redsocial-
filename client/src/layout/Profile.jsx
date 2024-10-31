@@ -28,11 +28,21 @@ const Profile = () => {
       await fetchUserDetail();
       await getFollowers();
       await getFolloweds();
-      await fetchPosts(1);
       setIsLoading(false);
     };
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      setIsLoading(true);
+      await fetchPosts(0);
+      setIsLoading(false);
+      console.log(posts);
+      
+    };
+    fetchPostData();
+  },[fetchPosts])
 
   useEffect(() => {
     if (!isModalOpen) {
