@@ -1,27 +1,24 @@
+import envs from '@/config/envs';
 import axios from 'axios';
-import { CLIENT_HOST, CLIENT_ID, CLIENT_SECRET, DOMAIN } from '../../../config/vars_config';
-import { RefreshTokenDTO } from '../interface/RefreshTokenDTO';
-import { TokenDTO } from '../interface/TokenDTO';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import jose from 'node-jose';
+import { RefreshTokenDTO } from '../interface/RefreshTokenDTO';
+import { TokenDTO } from '../interface/TokenDTO';
 
 const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
   try {
-    console.log('EL CODIGO ES : ' + code);
-
     const formData = {
       grant_type: 'authorization_code',
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: envs.AUTH0.CLIENT_ID,
+      client_secret: envs.AUTH0.CLIENT_SECRET,
       code: code,
-      redirect_uri: `${CLIENT_HOST}/redirect`,
+      redirect_uri: `${envs.AUTH0.CLIENT_HOST}/redirect`,
     };
 
-    const { data }: { data: RefreshTokenDTO } = await axios.post(`https://${DOMAIN}/oauth/token`, formData);
-    // Manejo de la respuesta
-    console.log('Respuesta del token: ', data);
+    const { data }: { data: RefreshTokenDTO } = await axios.post(`https://${envs.AUTH0.DOMAIN}/oauth/token`, formData);
 
     return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error al obtener el token:', error.message);
     throw Error('Error al crear el token con el codigo');
@@ -30,21 +27,17 @@ const GetTokenWCode = async (code: string): Promise<RefreshTokenDTO> => {
 
 const GetTokenWRT = async (refreshToken: string): Promise<TokenDTO> => {
   try {
-    console.log('EL Refresh Token ES : ' + refreshToken);
-
     const formData = {
       grant_type: 'refresh_token',
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: envs.AUTH0.CLIENT_ID,
+      client_secret: envs.AUTH0.CLIENT_SECRET,
       refresh_token: refreshToken,
-      redirect_uri: `${CLIENT_HOST}/redirect`,
+      redirect_uri: `${envs.AUTH0.CLIENT_HOST}/redirect`,
     };
 
-    const { data }: { data: TokenDTO } = await axios.post(`https://${DOMAIN}/oauth/token`, formData);
-    // Manejo de la respuesta
-    console.log('Respuesta del token: ', data);
-
+    const { data }: { data: TokenDTO } = await axios.post(`https://${envs.AUTH0.DOMAIN}/oauth/token`, formData);
     return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error al obtener el token:', error.message);
     throw Error('Error al crear el token con el codigo');
@@ -71,9 +64,7 @@ interface JwksResponse {
 
 export async function ValidateToken(token: string): Promise<JwtPayload | null> {
   try {
-    console.log(`SOY EL TOKEN VALIDATETOKENASYNC ${token}`);
-
-    const authDomain = process.env.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
+    const authDomain = envs.AUTH0.DOMAIN; // Asegúrate de que DOMAIN esté definido en tu entorno
     const discoveryUrl = `https://${authDomain}/.well-known/openid-configuration`;
 
     const response = await axios.get<OpenIdConnectConfiguration>(discoveryUrl);
@@ -88,6 +79,7 @@ export async function ValidateToken(token: string): Promise<JwtPayload | null> {
     }
 
     // Busca la clave que coincide con el "kid" del token
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decodedToken: any = jwt.decode(token, { complete: true });
     const key = signingKeys.find((k) => k.kid === decodedToken.header.kid);
 
@@ -109,9 +101,10 @@ export async function ValidateToken(token: string): Promise<JwtPayload | null> {
     const validatedToken = jwt.verify(token, publicKey.toPEM(), { algorithms: ['RS256'] });
 
     return validatedToken as JwtPayload; // Retorna el token validado
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Token validation error:', error.message);
-    return null;
+    return Error('Token no validad');
   }
 }
 

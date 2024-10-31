@@ -9,8 +9,10 @@
   ],
   "scripts": {
     "lint": "npm run --workspace backend lint:staged",
-    "dev": "npm run docker:compose && lerna run db:seed --scope=backend && lerna run dev",
-    "docker:compose": "docker compose up -d"
+    "test": "npm run --workspace backend test",
+    "dev": "npm run docker:up && lerna run db:seed --scope=backend && lerna run dev",
+    "docker:up": "docker compose up -d tecno-db",
+    "hola":"npm run dev --workspace backend && npm run dev --workspace client"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +22,8 @@
     "@commitlint/config-conventional": "^19.5.0",
     "husky": "9.1.6",
     "lerna": "8.1.8"
+  },
+  "dependencies": {
+    "build-css": "^0.2.0"
   }
 }

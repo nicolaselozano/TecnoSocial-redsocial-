@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { APIDOMAIN, APIDOMAIN_VERSION } from '../../../../vars';
+import userProfileStore from '../../../context/users/user-store';
 
 const RedirectRegister = () => {
     const location = useLocation();
@@ -9,15 +10,14 @@ const RedirectRegister = () => {
     const { search } = location;
     const { code } = queryString.parse(search);
     const [challengesData, setChallengesData] = useState('none');
+    const { fetchUserDetail } = userProfileStore();
     let bandera = true;
 
 
     useEffect(() => {
         const getUser = async () => {
-            console.log('Authorization code');
             if (challengesData === 'none' && code) {
                 try {
-                    console.log(code);
                     const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/auth/register?code=${code}`, {
                         method: 'POST',
                         headers: {
@@ -28,10 +28,10 @@ const RedirectRegister = () => {
                     });
 
                     const data = await response.json();
-                    console.log(JSON.stringify(data));
-                    
-                    if (data.user.email) setChallengesData(JSON.stringify(data.user.email));
-                    else setChallengesData('error');
+                    if (data.user.email) await setChallengesData(JSON.stringify(data.user.email));
+                    else return setChallengesData('error');
+                    localStorage.setItem("userdata", JSON.stringify(data.user));
+
                 } catch (error) {
                     console.error(
                         'Error in the request:',
@@ -50,6 +50,7 @@ const RedirectRegister = () => {
 
     const handleLoginRedirect = () => {
         navigate('/');
+        window.location.reload();
     };
 
     return (

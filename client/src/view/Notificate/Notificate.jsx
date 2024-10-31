@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import FilterOptions from "../../components/Notifications/FilterOptions";
 import CardNotification from "../../components/Notifications/CardNotification";
 import LayouteMain from "../../layout/LayouteMain";
 import { getNotification } from "../../services/Notification/get-notifications";
@@ -80,11 +78,13 @@ const listNotify = [
 ];
 
 const Notification = () => {
-  const [isIndex, setIsIndex] = useState(0);
-  const [filterList, setFilterList] = useState(listNotify);
+  //const [isIndex, setIsIndex] = useState(0);
+  //const [filterList, setFilterList] = useState(listNotify);
   const [listNotifications, setListNotifications] = useState([]);
   const [isPage, setIspage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+
+  //console.log(list2);
 
   /* useEffect(() => {
     let newList = listNotify.filter((item) => {
@@ -223,26 +223,28 @@ const Notification = () => {
               </li>
             </ul>
           </article>
-        ) : <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
-        <ul className="flex flex-col h-fit">
-          {listNotifications ? (
-            listNotifications?.map((item, index) => (
-              <CardNotification
-                key={index}
-                username={item.user.username}
-                url={item.url}
-                isNew={item.date}
-                title={item.title}
-                description={item.description}
-                type={item.type}
-                filter={isIndex}
-              />
-            ))
-          ) : (
-            <div className="text-white text-2xl">No hay notificaciones</div>
-          )}
-        </ul>
-      </article>}
+        ) : (
+          <article className="bg-secondBlack-700 w-full h-full rounded-xl overflow-hidden">
+            <ul className="flex flex-col h-fit">
+              {listNotifications ? (
+                listNotifications?.map((item, index) => (
+                  <CardNotification
+                    key={index}
+                    username={item.user.username}
+                    url={item.url}
+                    isNew={item.date}
+                    title={item.title}
+                    description={item.description}
+                    type={item.type}
+                    /* filter={isIndex} */
+                  />
+                ))
+              ) : (
+                <div className="text-white text-2xl">No hay notificaciones</div>
+              )}
+            </ul>
+          </article>
+        )}
       </section>
     </LayouteMain>
   );

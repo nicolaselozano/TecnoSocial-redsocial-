@@ -43,9 +43,10 @@ export const PostsGrid = ({
   );
 
   useEffect(() => {
-    fetchPosts(1);
-  }, [fetchPosts]);
-
+    fetchPosts(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
   return (
     <div
       className="w-full"
@@ -95,10 +96,10 @@ export const PostsGrid = ({
 
 // PropTypes
 PostsGrid.propTypes = {
-  posts: PropTypes.array.isRequired,
-  page: PropTypes.number.isRequired,
+  posts: PropTypes.array,
+  page: PropTypes.number,
   isLoading: PropTypes.bool,
-  fetchPosts: PropTypes.func.isRequired,
-  hasMore: PropTypes.bool.isRequired,
+  fetchPosts: PropTypes.func,
+  hasMore: PropTypes.bool,
   isTwoColumns: PropTypes.bool,
 };

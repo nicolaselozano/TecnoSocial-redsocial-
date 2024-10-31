@@ -1,8 +1,42 @@
+import { APIDOMAIN, APIDOMAIN_VERSION } from "../../../vars";
 import { mock_user } from "../../data/profile/mockusers";
+import { checkAuth } from "../Auth/checkAuth";
 
 const getUserProfile = async () => {
     try {
-        const { projects, redes, page, totalPages, totalPosts, ...userData } = mock_user
+        // Replace mock_user with your actual JSON data
+        const userJsonString = localStorage.getItem('userdata');
+        // Check if the data exists in localStorage
+        if (!userJsonString) {
+            throw new Error("No user profile found in localStorage.");
+        }
+
+
+        const {message,user} = JSON.parse(userJsonString);
+
+        const userData = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            authId: user.authId,
+            authName: user.authName,
+            roles: user.roles || [],
+            avatar: user.avatar || "https://picsum.photos/id/1009/400/400",
+            location: user.location || "Unknown", 
+            job: user.job || "Not provided", 
+            createdAt: user.created_at,
+        };
+
+        const projects = [];
+        const redes = user.social_networks || [
+            { id: 1, github: "jperezdev" },
+            { id: 2, linkedin: "juan-perez-123" }
+        ]; 
+        const page = 1; // Default page
+        const totalPages = 1; // Since no pagination info is provided
+        const totalPosts = 0; // Default totalPosts, as it's not provided
+
+        // Return the required structure
         return {
             userData,
             projects,
@@ -13,9 +47,11 @@ const getUserProfile = async () => {
         };
 
     } catch (error) {
-        error("Error en la peticion del perfil del usuario :" + error.message);
+        console.error("Error in the user profile request:", error.message);
+        throw error; // You can handle the error more gracefully in your UI
     }
-}
+};
+
 const getUserLikedProyects = async (page) => {
     try {
 
@@ -35,10 +71,27 @@ const getUserLikedProyects = async (page) => {
 const getUserFollowed = async (page) => {
 
     try {
+        const userJsonString = localStorage.getItem('userdata');
+        
+        // Check if the data exists in localStorage
+        if (!userJsonString) {
+            throw new Error("No user profile found in localStorage.");
+        }
 
-        const followedUsers = await import(`../../data/profile/mock-followed-profile.json`);
 
-        return followedUsers.default;
+        const {message,user} = JSON.parse(userJsonString);
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${user.id}/followed`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        });
+        
+        const data = await response.json();        
+
+        return data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);
@@ -49,11 +102,29 @@ const getUserFollowed = async (page) => {
 const getUserFollowers = async (page) => {
 
     try {
+        const userJsonString = localStorage.getItem('userdata');
+        
+        // Check if the data exists in localStorage
+        if (!userJsonString) {
+            throw new Error("No user profile found in localStorage.");
+        }
 
 
-        const followersUsers = await import(`../../data/profile/mock-followers-profile.json`);
+        const {message,user} = await JSON.parse(userJsonString);
 
-        return followersUsers.default;
+
+        const response = await fetch(`${APIDOMAIN}${APIDOMAIN_VERSION}/user/${user.id}/followers`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        const data = await response.json();        
+
+        return data;
 
     } catch (error) {
         error("Error en la peticion del perfil del usuario :" + error.message);

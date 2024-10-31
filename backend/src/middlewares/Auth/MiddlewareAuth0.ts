@@ -1,20 +1,18 @@
+import { UnauthorizedError } from '@/utils/errors';
 import { NextFunction, Request, Response } from 'express';
-import { ManageToken } from './utils/ManageToken';
-import { RefreshTokenDTO } from './interface/RefreshTokenDTO';
-import { CookieConfig } from './utils/CookieConfig';
 import { JwtPayload } from 'jsonwebtoken';
+import { RefreshTokenDTO } from './interface/RefreshTokenDTO';
 import { TokenDTO } from './interface/TokenDTO';
 import { UserDataToken } from './interface/UserDataToken';
-import { UnauthorizedError } from '@/utils/errors';
+import { CookieConfig } from './utils/CookieConfig';
+import { ManageToken } from './utils/ManageToken';
 
 const tokenCookieName = 'token';
 
 const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.cookies);
 
     let token: string | undefined = req.cookies[tokenCookieName] || res.locals.token;
-    console.log(token);
 
     if (!token) {
       throw new UnauthorizedError('No token provided');
@@ -23,6 +21,7 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
     token = token.replace('Bearer ', '').trim();
 
     const validateToken: JwtPayload | null = await ManageToken.ValidateToken(token);
+
     if (!validateToken) {
       throw new UnauthorizedError('El token no es valido');
     }
@@ -40,14 +39,14 @@ const CheckToken = async (req: Request, res: Response, next: NextFunction) => {
       };
 
       res.locals.userData = userData;
-      console.log(res.locals['userData'] as UserDataToken);
 
-      console.log('Token Validado y Datos de Usuario Agregados al Contexto');
     }
     next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error('Error en el middleware CheckToken:', error.message);
+    for (const cookieName in req.cookies) {
+      res.clearCookie(cookieName);
+    }
     res.status(401).json({
       message: error.message || 'Error de autenticación',
     });
@@ -59,8 +58,6 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
   const refreshTokenCookieName = 'refresh-token';
 
   try {
-    console.log(req.cookies[tokenCookieName]);
-
     if (req.cookies[tokenCookieName] !== undefined) {
       console.log('Existe en las COOKIES EL TOKEN');
 
@@ -78,7 +75,7 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           refreshToken,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
         res.locals.token = `Bearer ${createToken.accessToken}`;
@@ -89,7 +86,6 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
       }
     } else {
       const code: string | undefined = req.query['code']?.toString();
-      console.log(code);
 
       if (code) {
         const createRToken: RefreshTokenDTO = await ManageToken.GetTokenWCode(code);
@@ -99,10 +95,9 @@ const SetToken = async (req: Request, res: Response, next: NextFunction) => {
           refreshTokenCookieName,
           createRToken.refresh_token,
           CookieConfig({
-            maxAge: 214748,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           }),
         );
-        console.log(createRToken.access_token);
 
         res.locals.token = `Bearer ${createRToken.access_token}`;
         console.log('TOKEN CREADO CON EL CODIGO');

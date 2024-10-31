@@ -5,13 +5,17 @@ import { Comment } from '@/features/comment/commentEntity';
 import { Connection } from '@/features/connection/ConnectionEntity';
 import { Image } from '@/features/image/imageEntity';
 import { Like } from '@/features/like/likeEntity';
+import { Notification } from '@/features/notification/notificationEntity';
+import { Post } from '@/features/post/postEntity';
+import { Project } from '@/features/project/projectEntity';
+import { ImageProject } from '@/features/projectImages/imageEntity';
+import { Role } from '@/features/role/roleEntity';
 import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { Technology } from '@/features/technology/technologyEntity';
+import { User } from '@/features/user/userEntity';
 import { UserProject } from '@/features/userProject/userProjectEntity';
 import mysql2 from 'mysql2';
-import { Post } from '../features/post/postEntity';
-import { Project } from '../features/project/projectEntity';
-import { Technology } from '../features/technology/technologyEntity';
-import { User } from '../features/user/userEntity';
+import { Message } from '@/features/messages/messageEntity';
 
 const con = new DataSource({
   type: 'mysql',
@@ -21,8 +25,23 @@ const con = new DataSource({
   username: envs.DB.USER,
   password: envs.DB.PASS,
   database: envs.DB.NAME,
+  entities: [
+    User,
+    Post,
+    SocialNetworks,
+    Project,
+    Image,
+    Technology,
+    Like,
+    Comment,
+    Connection,
+    UserProject,
+    ImageProject,
+    Notification,
+    Role,
+    Message,
+  ],
   synchronize: true,
-  entities: [User, Post, SocialNetworks, Project, Image, Technology, Like, Comment, Connection, UserProject],
 });
 
 export default con;

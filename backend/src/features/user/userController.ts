@@ -1,9 +1,10 @@
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
-import { BadRequestError } from '@/utils/errors';
+import { BadRequestError, NotFoundError } from '@/utils/errors';
 import { getPaginatedParams } from '@/utils/getPaginatedParams';
 import { getUserPutData } from '@/utils/getUserPutData';
 import { Request, Response } from 'express';
 import { connectionRepository } from '../connection/ConnectionRepository';
+import { postRepository } from '../post/postRepository';
 import { User } from './userEntity';
 import { userRepository } from './userRepository';
 
@@ -31,16 +32,62 @@ class UserController {
 
     const totalPages = Math.ceil(totalUsersCount / props.limit);
 
+    if (props.page > totalPages || props.page < 1) {
+      throw new BadRequestError('Página fuera de índice');
+    }
+
     const users = await userRepository.getAllUsers(options);
-    res.json({ users, totalPages, currentPage: props.page, totalUsers: totalUsersCount });
+
+    const usersWithExtraInfo = await Promise.all(
+      users.map(async (u) => {
+        const followersCount = await connectionRepository.getFollowersCount({ userid: u.id, search: '' });
+        const followedCount = await connectionRepository.getFollowedCount({ userid: u.id, search: '' });
+        const postCount = await postRepository.getPostCountByUser(u.id);
+
+        return { ...u, postCount, followersCount, followedCount };
+      }),
+    );
+
+    res.json({ users: usersWithExtraInfo, totalPages, currentPage: props.page, totalUsers: totalUsersCount });
   }
 
   public async getUserById(req: Request, res: Response): Promise<void> {
+    const { search, page = 1, limit = 10 } = getPaginatedParams(req); // Valores predeterminados para page y limit
     const { id } = req.params;
 
     const user = await userRepository.getUserById(Number(id));
-    res.json({ ...user, followerscount: await connectionRepository.getFollowersCount({ userid: Number(id) }) });
-    res.json({ ...user, followeds: await connectionRepository.getAllFollowed({ userid: Number(id) }) });
+    if (!user) {
+      throw new NotFoundError('Usuario no encontrado');
+    }
+    const followed = await connectionRepository.getAllFollowed({
+      search,
+      userid: Number(id),
+      skip: (page - 1) * limit,
+      limit,
+    });
+
+    const followers = await connectionRepository.getAllFollowers({
+      search,
+      userid: Number(id),
+      skip: (page - 1) * limit,
+      limit,
+    });
+    const totalFollowedPages = Math.ceil(followed.length / limit);
+    const totalFollowersPages = Math.ceil(followers.length / limit);
+
+    res.json({
+      user,
+      followers: {
+        results: followers,
+        currentPage: page,
+        totalPages: totalFollowersPages,
+      },
+      followed: {
+        results: followed,
+        currentPage: page,
+        totalPages: totalFollowedPages,
+      },
+    });
   }
 
   public async updateUser(req: Request, res: ResponseWithUserData): Promise<void> {
@@ -56,78 +103,10 @@ class UserController {
     res.json(response);
   }
 
-  async getAllFollowers(req: Request, res: Response): Promise<void> {
-    const { limit, page, search } = getPaginatedParams(req);
-    const { id } = req.params;
-
-    const totalFollowers = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
-
-    if (totalFollowers === 0) {
-      res.json({
-        followers: [],
-        currentPage: page,
-        totalUsers: 0,
-        totalPages: 0,
-      });
-      return;
-    }
-
-    const totalFollowersPages = Math.ceil(totalFollowers / limit);
-
-    if (page > totalFollowersPages || page < 1) {
-      throw new BadRequestError('Página fuera de índice');
-    }
-
-    const followers = await connectionRepository.getAllFollowers({
-      search,
-      userid: Number(id),
-      limit,
-      skip: (page - 1) * limit,
-    });
-
-    res.json({
-      followers,
-      currentPage: page,
-      totalUsers: totalFollowers,
-      totalPages: totalFollowersPages,
-    });
-  }
-
-  async getAllFollowed(req: Request, res: Response): Promise<void> {
-    const { limit, page, search } = getPaginatedParams(req);
-    const { id } = req.params;
-
-    const totalFollowed = await connectionRepository.getFollowedCount({ search, userid: Number(id) });
-
-    if (totalFollowed === 0) {
-      res.json({
-        followed: [],
-        currentPage: page,
-        totalUsers: 0,
-        totalPages: 0,
-      });
-      return;
-    }
-
-    const totalFollowingPages = Math.ceil(totalFollowed / limit);
-
-    if (page > totalFollowingPages || page < 1) {
-      throw new BadRequestError('Página fuera de índice');
-    }
-
-    const followed = await connectionRepository.getAllFollowed({
-      search,
-      userid: Number(id),
-      limit,
-      skip: (page - 1) * limit,
-    });
-
-    res.json({
-      followed,
-      currentPage: page,
-      totalUsers: totalFollowed,
-      totalPages: totalFollowingPages,
-    });
+  public async getUsersByRole(req: Request, res: Response): Promise<void> {
+    const { role } = req.params;
+    const users = await userRepository.getAllUsersByRole(role);
+    res.json(users);
   }
 }
 

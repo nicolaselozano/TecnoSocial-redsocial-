@@ -4,7 +4,14 @@ import { PostsGrid } from "../Posts/PostsGrid";
 import { Search } from "./Search";
 
 export const ExplorePage = () => {
-  const { posts, page, hasMore, isLoading, fetchPosts } = usePostsStore();
+  const {
+    posts,
+    page,
+    hasMore,
+    loading: isLoading,
+    fetchPosts,
+  } = usePostsStore();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,7 +19,7 @@ export const ExplorePage = () => {
   }, [isLoading]);
 
   return (
-    <div className="container mx-auto p-2 sm:p-0 mb-6">
+    <div className="container mx-auto p-2 sm:p-0 mb-6 w-full max-w-[1210px]">
       <Search />
       <PostsGrid
         posts={posts}

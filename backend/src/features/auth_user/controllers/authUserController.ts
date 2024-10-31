@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { userRepository } from '@/features/user/userRepository';
 import { UserDataToken } from '@/middlewares/Auth/interface/UserDataToken';
 import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
@@ -19,7 +21,6 @@ const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise
       message: 'Usuario creado exitosamente',
       user: userData,
     });
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   } catch (error: any) {
     console.error('Error al crear el usuario: ', error.message);
     res.status(500).json({
@@ -29,7 +30,7 @@ const CreateUserAuthC = async (req: Request, res: ResponseWithUserData): Promise
   }
 };
 
-const GetAuthenticatedUser = (req: Request, res: Response): void => {
+const GetAuthenticatedUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userData: UserDataToken = res.locals['userData'];
 
@@ -41,15 +42,19 @@ const GetAuthenticatedUser = (req: Request, res: Response): void => {
         res.clearCookie(cookieName);
       }
     }
-
+    const user = await userRepository.getUserByAuthId(userData.authId);
     if (userData.email) {
-      res.status(200).json({
-        user: userData.authName,
-        email: userData.email,
-        authId: userData.authId,
+      res.status(201).json({
+        message: 'Usuario logueado exitosamente',
+        user: user,
       });
     }
   } catch (error) {
+    console.log('Borrando cookie');
+    const cookies = req.cookies;
+    for (const cookieName in cookies) {
+      res.clearCookie(cookieName);
+    }
     console.log(error);
     res.status(401).json({ message: 'No estás autenticado' });
   }

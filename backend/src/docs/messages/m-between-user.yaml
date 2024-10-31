@@ -1,0 +1,78 @@
+get:
+  summary: Obtener mensajes entre el usuario autenticado y un receptor específico
+  tags:
+    - Mensajes
+  parameters:
+    - in: path
+      name: receiverId
+      required: true
+      description: ID del receptor
+      schema:
+        type: string
+    - in: query
+      name: limit
+      required: false
+      description: Número máximo de mensajes a devolver
+      schema:
+        type: integer
+        minimum: 1
+    - in: query
+      name: skip
+      required: false
+      description: Número de mensajes a omitir
+      schema:
+        type: integer
+        minimum: 0
+  responses:
+    '200':
+      description: Lista de mensajes entre el usuario autenticado y el receptor especificado
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                content:
+                  type: string
+                sender:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                receiver:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+    '404':
+      description: Usuario no encontrado.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+              message: Sender or Receiver not found
+    '500':
+      description: Error interno del servidor.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              error:
+                type: string
+            example:
+              message: Error fetching messages
+              error: 'Error details here'

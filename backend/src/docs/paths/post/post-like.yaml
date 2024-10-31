@@ -1,0 +1,82 @@
+post:
+  summary: Agregar like a un post
+  tags: [Posts]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del post
+      schema:
+        type: integer
+  responses:
+    '201':
+      description: like creado correctamente
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/user-schema.yaml'
+          example:
+            message: like creado correctamente
+
+    '404':
+      description: post no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: post no encontrado
+    '401':
+      description: usuario no autorizado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no autorizado
+delete:
+  summary: Eliminar like a un post
+  tags: [Posts]
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: ID del post
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: like eliminado correctamente
+      content:
+        application/json:
+          example:
+            message: like removed succesfully
+
+    '404':
+      description: like no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: user hasn`t liked this post
+    '401':
+      description: usuario no autorizado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: usuario no autorizado

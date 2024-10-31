@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import TagsInput from './TagsInput';
+import TagsInput from "./TagsInput";
+import { SetProfileService } from "../../../services/Profile/set-profile";
+import { uploadImage } from "../../../services/uploadFile/uploadFile";
 
-const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
+const EditProfileModal = ({
+  show,
+  handleClose,
+  handleSubmitModal,
+  userData,
+}) => {
   const [formData, setFormData] = useState({
-    name: userData.user.name,
-    country: userData.user.location,
-    job: userData.user.job,
-    roles:[...userData.user.roles],
-    email: userData.user.email,
+    name: userData.user.name || "",
+    username: userData.user.username || "ejemplo",
+    location: userData.user.location || "",
+    job: userData.user.job || "",
+    roles: userData.user.roles || [],
+    email: userData.user.email || "",
+    avatar: userData.user.avatar || "https://via.placeholder.com/150",
     socialLinks: {
-      github: 'www.github.com',
-      linkedin: 'www.linkedin.com',
-      facebook: 'www.facebook.com',
-      instagram: 'www.instagram.com',
+      github: userData.user.socialLinks?.github || "www.github.com",
+      linkedin: userData.user.socialLinks?.linkedin || "www.linkedin.com",
+      facebook: userData.user.socialLinks?.facebook || "www.facebook.com",
+      instagram: userData.user.socialLinks?.instagram || "www.instagram.com",
     },
   });
 
@@ -22,8 +31,7 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
   const handleRolesChange = (newRoles) => {
-    console.log(newRoles);
-    
+
     setFormData((prevData) => ({ ...prevData, roles: newRoles }));
   };
 
@@ -35,28 +43,54 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Datos actualizados:', formData);
-    handleSubmitModal();
-  };
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log('Archivo seleccionado:', file.name);
+
+    const update = SetProfileService.updateProfile(formData);
+    if (update) {
+      handleSubmitModal();
+    } else {
+      alert("No se actualizo el usuario");
     }
   };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      alert("Por favor, selecciona un archivo.");
+      return;
+    }
+    const imageData = new FormData();
+    imageData.append("file", file);
+    const response = await uploadImage(imageData);
+
+    if (response.fileUrls && response.fileUrls.length > 0) {
+      const imageUrl = response.fileUrls[0].fileUrl;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        avatar: imageUrl,
+      }));
+    } else {
+      console.error("No se recibió ninguna URL de imagen.");
+    }
+  };
+
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-secondBlack-900 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-secondBlack-700 p-2 rounded-lg shadow-lg w-1/2 max-w-md h-auto transform scale-[90%]">
-        <h2 className="text-sm font-bold text-primaryGreen-400 mb-2">Editar perfil</h2>
-        <form onSubmit={handleSubmit}
-          encType='multipart/form-data'>
-          <div className='flex flex-row
-          '>
-            <div className="w-[100vh] m-2 relative">
+    <div className="fixed inset-0 bg-secondBlack-900 bg-opacity-50 flex justify-center items-center backdrop-blur-md z-20">
+      <div className="bg-secondBlack-700 px-8 py-6 rounded-lg shadow-lg w-full max-w-[850px] transform h-fit">
+        <h2 className="text-sm font-bold text-primaryGreen-400 mb-2">
+          Editar perfil
+        </h2>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <div
+            className="flex flex-row w-full gap-x-5
+          "
+          >
+            <div className="size-fit relative">
               <input
                 type="file"
                 id="fileInput"
@@ -65,23 +99,30 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
               />
               <label
                 htmlFor="fileInput"
-                className="block w-full h-full bg-secondBlack-700 border border-secondBlack-400 rounded-lg cursor-pointer flex items-center justify-center"
+                className=" w-full h-full bg-secondBlack-700 border border-secondBlack-400 rounded-lg cursor-pointer flex items-center justify-center"
               >
-                <div className="flex flex-col
-                text-center justify-center items-center">
+                <div
+                  className="flex flex-col
+                text-center justify-center items-center size-[200px]"
+                >
                   <img
-                    src="https://via.placeholder.com/150" // Imagen de ejemplo
+                    src={formData.avatar} // Imagen de ejemplo
                     alt="Ejemplo"
-                    className="w-25 h-25 mb-2 rounded-lg"
+                    className="size-full rounded-t-lg object-cover"
                   />
-                  <span className="text-secondBlack-100 text-xs">Foto de perfil</span>
+                  <span className="text-secondBlack-100 text-xs py-1">
+                    Foto de perfil
+                  </span>
                 </div>
               </label>
             </div>
 
-            <div className='flex flex-col w-screen'>
+            <div className="flex flex-col w-full">
               <div className="mb-2">
-                <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="name">
+                <label
+                  className="block text-primaryGreen-400 text-xs font-bold mb-1"
+                  htmlFor="name"
+                >
                   Nombre
                 </label>
                 <input
@@ -95,13 +136,16 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
               </div>
 
               <div className="mb-2">
-                <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="country">
+                <label
+                  className="block text-secondBlack-100 text-xs font-bold mb-1"
+                  htmlFor="location"
+                >
                   País
                 </label>
                 <select
-                  id="country"
-                  name="country"
-                  value={formData.country}
+                  id="location"
+                  name="location"
+                  value={formData.location}
                   onChange={handleChange}
                   className="shadow appearance-none border border-secondBlack-400 rounded w-full py-1 px-1 bg-secondBlack-700 text-secondBlack-100 leading-tight focus:outline-none focus:border-primaryGreen-400 text-xs"
                 >
@@ -115,9 +159,11 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
             </div>
           </div>
 
-
           <div className="mb-2">
-            <label className="block text-secondBlack-100 text-xs font-bold mb-1" htmlFor="job">
+            <label
+              className="block text-secondBlack-100 text-xs font-bold mb-1"
+              htmlFor="job"
+            >
               Descripcion del perfil profesional
             </label>
             <textarea
@@ -131,24 +177,32 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
           </div>
 
           <div className="mb-2">
-            <label className="block text-secondBlack-100 text-xs font-bold mb-1">Rol</label>
+            <label className="block text-secondBlack-100 text-xs font-bold mb-1">
+              Rol
+            </label>
             <div className="flex space-x-1">
-              {formData.roles.map((role, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-primaryGreen-400 text-secondBlack-900 text-xs font-semibold rounded-full px-2 py-1"
-                >
-                  {role}
-                </span>
-              ))}
+              {Array.isArray(formData.roles)
+                ? formData?.roles?.map((role, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-primaryGreen-400 text-secondBlack-900 text-xs font-semibold rounded-full px-2 py-1"
+                    >
+                      {role.name}
+                    </span>
+                  ))
+                : null}
             </div>
           </div>
 
-          <TagsInput roles={formData.roles}
-          onChange={handleRolesChange}/>
+          <TagsInput
+            roles={formData.roles.map((role) => role.name) || []}
+            onChange={handleRolesChange}
+          />
 
           <div className="mb-2">
-            <label className="block text-secondBlack-100 text-xs font-bold mb-1">Redes sociales</label>
+            <label className="block text-secondBlack-100 text-xs font-bold mb-1">
+              Redes sociales
+            </label>
             <input
               type="text"
               name="github"
@@ -202,7 +256,6 @@ const EditProfileModal = ({ show, handleClose,handleSubmitModal,userData }) => {
       </div>
     </div>
   );
-
-}
+};
 
 export default EditProfileModal;

@@ -25,3 +25,15 @@ export class UnauthorizedError extends ApiError {
     super(StatusCodes.UNAUTHORIZED, message);
   }
 }
+
+export class ForbiddenError extends ApiError {
+  constructor(message: string) {
+    super(StatusCodes.FORBIDDEN, message);
+  }
+}
+
+export class ConflictErrors extends ApiError {
+  constructor(message: string) {
+    super(StatusCodes.CONFLICT, message);
+  }
+}

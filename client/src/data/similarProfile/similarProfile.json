@@ -1,0 +1,49 @@
+{
+  "response": [
+    {
+      "id": 1,
+      "image": "/images/image-useroerfil.png",
+      "name": "Carlitos Garris",
+      "rols": ["Software Developer", "DevOps Engineer"]
+    },
+    {
+      "id": 2,
+      "image": "",
+      "name": "Marcos Martinez",
+      "rols": ["Software Developer", "QA Engineer"]
+    },
+    {
+      "id": 3,
+      "image": "",
+      "name": "Angela Leiva",
+      "rols": ["Software Developer", "UI/UX Designer"]
+    },
+    {
+      "id": 4,
+      "image": "",
+      "name": "Eugenea Quevedo",
+      "rols": ["Business Analyst"]
+    },
+    {
+      "id": 5,
+      "image": "/images/image-useroerfil.png",
+      "name": "Carlos Gutierrez",
+      "rols": ["IT Project Manager"]
+    },
+    {
+      "id": 6,
+      "image": "",
+      "name": "Maria Becerra",
+      "rols": ["Product Manager", "Systems Administrator"]
+    },
+    {
+      "id": 7,
+      "image": "/images/image-useroerfil.png",
+      "name": "Lucas Cross",
+      "rols": ["Software Developer", "Cloud Architect"]
+    }
+  ],
+  "page": 1,
+  "totalSimilarProfiles": 10,
+  "totalPages": 4
+}

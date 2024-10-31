@@ -1,16 +1,8 @@
-import { User } from '@/features/user/userEntity';
-import { ITRole } from '@/types/roles.enum';
-
-type UserMock = Pick<User, 'name' | 'email' | 'role' | 'location' | 'job'> & {
-  social_networks: { [k: string]: string };
-};
-
-export const USERS_MOCK: UserMock[] = [
+export const MOCK_USERS = [
   {
     email: 'martin@gmail.com',
     name: 'martin',
     job: 'Diseñador Freelance',
-    role: ITRole.CLOUD_ARCHITECT,
     location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
@@ -22,7 +14,6 @@ export const USERS_MOCK: UserMock[] = [
     email: 'ezequiel@gmail.com',
     name: 'ezequiel',
     job: 'Consultora',
-    role: ITRole.DATABASE_ADMINISTRATOR,
     location: 'Buenos Aires',
     social_networks: {
       instagram: 'https://instagram.com',
@@ -34,7 +25,6 @@ export const USERS_MOCK: UserMock[] = [
     email: 'email@gmail.com',
     name: 'username',
     job: 'Mercado libre',
-    role: ITRole.BUSINESS_ANALYST,
     location: 'Buenos Aires',
     social_networks: {
       facebook: 'https://facebook.com',
@@ -42,4 +32,72 @@ export const USERS_MOCK: UserMock[] = [
       gitlab: 'https://gitlbab.com',
     },
   },
-];
+  {
+    email: 'sofia@gmail.com',
+    name: 'sofia',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+  {
+    email: 'marcos@gmail.com',
+    name: 'marcos',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+  {
+    email: 'fabricio@gmail.com',
+    name: 'fabricio',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+  {
+    email: 'melina@gmail.com',
+    name: 'melina',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+  {
+    email: 'felipe@gmail.com',
+    name: 'felipe',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+  {
+    email: 'santiago@gmail.com',
+    name: 'santiago',
+    job: 'Mercado libre',
+    location: 'Buenos Aires',
+    social_networks: {
+      facebook: 'https://facebook.com',
+      github: 'https://github.com',
+      gitlab: 'https://gitlbab.com',
+    },
+  },
+] as const;
+
+export type MockUser = (typeof MOCK_USERS)[number]['name'];

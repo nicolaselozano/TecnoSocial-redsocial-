@@ -1,164 +1,85 @@
+/**
+ * Seed data structure:
+ * https://app.diagrams.net/#G1gEjioZKXbyftsDmQMpOvVXhCd3iMHkkX#%7B%22pageId%22%3A%22_IJyscykdOZtyHfO5Qzm%22%7D
+ *
+ */
+
 import con from '@/config/database';
 import envs from '@/config/envs';
-import { Comment as CommentEntity } from '@/features/comment/commentEntity';
-import { Connection as ConnectionEntity } from '@/features/connection/ConnectionEntity';
-import { Image as ImageEntity } from '@/features/image/imageEntity';
-import { Like as LikeEntity } from '@/features/like/likeEntity';
-import { Post as PostEntity } from '@/features/post/postEntity';
-import { Project as ProjectEntity } from '@/features/project/projectEntity';
-import { SocialNetworks as SocialNetworkEntity } from '@/features/social_networks/socialNetworksEntity';
-import { User as UserEntity } from '@/features/user/userEntity';
-import { UserProject as UserProjectEntity } from '@/features/userProject/userProjectEntity';
-import { MOCK_POSTS } from './mockups/posts.mock';
-import { PROJECTS_MOCK } from './mockups/projects.mock';
-import { USERS_MOCK } from './mockups/users.mock';
+import { Comment } from '@/features/comment/commentEntity';
+import { Connection } from '@/features/connection/ConnectionEntity';
+import { Image } from '@/features/image/imageEntity';
+import { Like } from '@/features/like/likeEntity';
+import { Notification } from '@/features/notification/notificationEntity';
+import { Post } from '@/features/post/postEntity';
+import { Project } from '@/features/project/projectEntity';
+import { Role } from '@/features/role/roleEntity';
+import { SocialNetworks } from '@/features/social_networks/socialNetworksEntity';
+import { Technology } from '@/features/technology/technologyEntity';
+import { User } from '@/features/user/userEntity';
+import { UserProject } from '@/features/userProject/userProjectEntity';
+import { MOCK_ROLES } from './mockups/roles.mock';
+import { seedConnections } from './seedConnections';
+import { seedPosts } from './seedPosts';
+import { seedProjects } from './seedProjects';
+import { seedTechnology } from './seedTechnology';
+import { seedUsers } from './seedUsers';
 
-const SocialNetwork = con.getRepository(SocialNetworkEntity);
-const Post = con.getRepository(PostEntity);
-const Image = con.getRepository(ImageEntity);
-const User = con.getRepository(UserEntity);
-const Comment = con.getRepository(CommentEntity);
-const Connection = con.getRepository(ConnectionEntity);
-const Like = con.getRepository(LikeEntity);
-const Project = con.getRepository(ProjectEntity);
-const UserProject = con.getRepository(UserProjectEntity);
+export const project = con.getRepository(Project);
+export const userProject = con.getRepository(UserProject);
+export const connection = con.getRepository(Connection);
+export const like = con.getRepository(Like);
+export const socialNetwork = con.getRepository(SocialNetworks);
+export const post = con.getRepository(Post);
+export const image = con.getRepository(Image);
+export const comment = con.getRepository(Comment);
+export const notification = con.getRepository(Notification);
+export const user = con.getRepository(User);
+export const role = con.getRepository(Role);
+export const technology = con.getRepository(Technology);
 
-async function seed() {
-  if (!envs.SEED) {
-    console.log(envs.SEED);
-    throw new Error('This file must be used in seed mode');
-  }
+interface Options {
+  exit?: boolean;
+}
 
+export async function seed({ exit = true }: Options) {
   try {
     if (!con.isInitialized) {
       await con.initialize();
     }
 
-    const seededUsers = await seedUsers();
-
-    const connections = [
-      { follower: seededUsers[0], following: seededUsers[1] }, // User 0 follows User 1
-      { follower: seededUsers[1], following: seededUsers[0] }, // User 1 follows User 0
-      { follower: seededUsers[0], following: seededUsers[2] }, // User 0 follows User 2
-    ];
-
-    await Promise.all(
-      connections.map(async (connection) => {
-        const newConnection = Connection.create({
-          follower: connection.follower,
-          followed: connection.following,
-        });
-        await Connection.save(newConnection);
-      }),
-    );
-
-    const newUser = seededUsers[0];
-
-    const seededPosts = await seedPosts(newUser);
-
-    // User with id 1 likes post with id 1
-    const newLike = Like.create({
-      post: seededPosts[0],
-      user: newUser,
-    });
-
-    await Like.save(newLike);
-
-    // Add projects
-    await Promise.all(
-      PROJECTS_MOCK.map(async (project) => {
-        const newProject = Project.create({
-          description: project.description,
-          name: project.name,
-          url: project.url,
-        });
-
-        await Project.save(newProject);
-
-        const userProject = UserProject.create({
-          user: newUser,
-          project: newProject,
-          role: 'Developer',
-        });
-
-        await UserProject.save(userProject);
-      }),
-    );
+    await seedTechnology();
+    await seedRoles();
+    await seedUsers();
+    await seedConnections();
+    await seedPosts();
+    await seedProjects();
 
     console.log('🌱 -- Seeding completed successfully.');
-    process.exit();
+
+    if (exit) {
+      process.exit();
+    }
   } catch (error) {
     console.error('Error during seeding:', error);
   }
 }
 
-async function seedUsers(): Promise<UserEntity[]> {
-  const users = await Promise.all(
-    USERS_MOCK.map(async (user) => {
-      const { email, name, job, location, role } = user;
-
-      const newSocialsNetworks = SocialNetwork.create(user.social_networks);
-
-      await SocialNetwork.save(newSocialsNetworks);
-
-      const newUser = User.create({
-        email,
-        name,
-        job,
-        location,
-        role,
-        social_networks: newSocialsNetworks,
+async function seedRoles() {
+  const roles = await Promise.all(
+    MOCK_ROLES.map(async (r) => {
+      const newRole = role.create({
+        name: r,
       });
-
-      await User.save(newUser);
-      return newUser;
+      role.save(newRole);
+      return newRole;
     }),
   );
-  console.log('👥 -- Users seeded succesfully.');
-  return users;
+  return roles;
 }
 
-async function seedPosts(user: UserEntity): Promise<PostEntity[]> {
-  const posts = await Promise.all(
-    MOCK_POSTS.map(async (post) => {
-      const newPost = Post.create({
-        content: post.content,
-        title: post.title,
-        user,
-      });
-
-      // Cuando lo guardo, se le asigna un ID automatico
-      await Post.save(newPost);
-
-      if (post.comments) {
-        const comments = post.comments.map((com) =>
-          Comment.create({
-            content: com.content,
-            post: newPost,
-            user,
-          }),
-        );
-        // Cuando lo guardo, se le asigna un ID automatico
-        await Comment.save(comments);
-      }
-
-      if (post.images) {
-        const images = post.images.map((image) =>
-          Image.create({
-            alt: image.alt,
-            url: image.url,
-            post_id: newPost,
-          }),
-        );
-
-        await Image.save(images);
-      }
-
-      return newPost;
-    }),
-  );
-  console.log('📝 -- Posts seeded succesfully.');
-  return posts;
+if (envs.SEED) {
+  seed({ exit: true }).finally(() => {
+    process.exit();
+  });
 }
-
-seed();

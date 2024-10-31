@@ -9,8 +9,8 @@ const CardNotification = ({
   title,
   description,
   type,
-  filter,
   username,
+  filter,
 }) => {
   const dateNow = () => {
     let date = new Date();
@@ -23,7 +23,6 @@ const CardNotification = ({
       return `${year}-${month}-${day}`;
     }
   };
-  //console.log(username);
   const [isNewNotify, setIsNewNotify] = useState(true);
 
   return (

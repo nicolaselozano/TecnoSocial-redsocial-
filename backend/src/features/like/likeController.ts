@@ -1,27 +1,32 @@
+import { ResponseWithUserData } from '@/types/ResponseWithUserData.type';
+import { ConflictErrors, NotFoundError } from '@/utils/errors';
 import { Request, Response } from 'express';
-import { Like } from './likeEntity';
+import { StatusCodes } from 'http-status-codes';
+import { postRepository } from '../post/postRepository';
+import { userRepository } from '../user/userRepository';
 import { likeRepository } from './likeRepository';
 class LikeController {
-  public async createLike(req: Request, res: Response): Promise<void> {
-    try {
-      const { post_id, user_id, created_at } = req.body;
+  public async createLike(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { id } = req.params;
+    const { email } = res.locals.userData!;
 
-      // Validaciones
-      if (!post_id || !user_id || !created_at) {
-        res.status(400).json({ message: 'post_id, user_id y created_at son requeridos' });
-        return;
-      }
+    const post = await postRepository.getPostById(Number(id));
+    const user = await userRepository.getUserByEmail(email);
 
-      const like = new Like();
-      like.user.id = user_id;
-      like.post.id = post_id;
-      like.created_at = created_at;
+    const userHasLikedPost = await likeRepository.userHasLikedPost({ postid: post.id, userid: user.id });
 
-      const response = await likeRepository.createLike(like);
-      res.status(201).json(response); // Código de estado 201 para recurso creado
-    } catch (error) {
-      res.status(500).json({ message: 'Error al crear el like', error });
+    if (userHasLikedPost) {
+      throw new ConflictErrors('user has already liked this post');
     }
+
+    const like = likeRepository.createLike({
+      post,
+      user,
+    });
+
+    res.status(StatusCodes.CREATED).json({
+      like,
+    });
   }
 
   public async getAllLikes(req: Request, res: Response): Promise<void> {
@@ -48,41 +53,23 @@ class LikeController {
     }
   }
 
-  public async updateLike(req: Request, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const { created_at, post_id, user_id } = req.body;
+  public async deleteLike(req: Request, res: ResponseWithUserData): Promise<void> {
+    const { id } = req.params;
+    const { email } = res.locals.userData!;
 
-      const like = new Like();
-      like.id = Number(id); // Asegúrate de que `id` sea un número
-      like.user.id = user_id;
-      like.post.id = post_id;
-      like.created_at = created_at;
+    const user = await userRepository.getUserByEmail(email);
 
-      const response = await likeRepository.updateLike(Number(id), like);
-      if (!response) {
-        res.status(404).json({ message: 'Like no encontrado para actualizar' });
-        return;
-      }
-      res.json(response);
-    } catch (error) {
-      res.status(500).json({ message: 'Error al actualizar el like', error });
+    const result = await likeRepository.getLikeByPostAndUser(Number(id), user.id);
+
+    if (!result) {
+      throw new NotFoundError('user hasn`t liked this post');
     }
-  }
 
-  public async deleteLike(req: Request, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
+    await likeRepository.deleteLike(result.id);
 
-      const response = await likeRepository.deleteLike(Number(id));
-      if (!response) {
-        res.status(404).json({ message: 'Like no encontrado para eliminar' });
-        return;
-      }
-      res.json({ message: 'Like eliminado correctamente' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al eliminar el like', error });
-    }
+    res.status(StatusCodes.NO_CONTENT).json({
+      message: 'like removed succesfully',
+    });
   }
   public async getUserLikes(req: Request, res: Response): Promise<void> {
     try {
@@ -94,7 +81,10 @@ class LikeController {
         res.status(404).json({ message: 'No se encontraron likes para el usuario.' });
         return;
       }
-      res.json(likes);
+
+      res.json({
+        results: likes,
+      });
     } catch (error) {
       res.status(500).json({ message: 'Error al obtener los likes del usuario', error });
     }

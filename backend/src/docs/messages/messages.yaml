@@ -1,0 +1,114 @@
+post:
+  summary: Crear un nuevo mensaje
+  tags:
+    - Mensajes
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
+              type: string
+              description: Contenido del mensaje.
+            receiverId:
+              type: string
+              description: ID del receptor.
+          required:
+            - content
+            - receiverId
+  responses:
+    '201':
+      description: Mensaje creado exitosamente.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              content:
+                type: string
+              sender:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+              receiver:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+    '404':
+      description: Receptor no encontrado.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Receptor no encontrado
+get:
+  summary: Obtener mensajes de un usuario específico
+  tags:
+    - Mensajes
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+      required: false
+      description: Número máximo de mensajes a devolver
+    - in: query
+      name: skip
+      schema:
+        type: integer
+        minimum: 0
+      required: false
+      description: Número de mensajes a omitir
+  responses:
+    '200':
+      description: Lista de mensajes enviados y recibidos por el usuario
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              sentMessages:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    content:
+                      type: string
+                    receiver:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+              receivedMessages:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    content:
+                      type: string
+                    sender:
+                      type: object
+                      properties:
+                        id:
+                          type: string

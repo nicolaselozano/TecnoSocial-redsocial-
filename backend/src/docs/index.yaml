@@ -23,15 +23,24 @@ tags:
     description: API para gestionar comentarios
   - name: Social Networks
     description: API para gestionar las redes sociales de un usuario
+  - name: Notification
+    description: API para gestionar notificaciones
+  - name: Role
+    description: API para gestionar los roles
 paths:
   # Post endpoints
-  /post:
-    $ref: './paths/post.yaml'
+  /post/me:
+    $ref: './paths/post-me.yaml'
   /post/{id}:
     $ref: './paths/post-by-id.yaml'
+  /post/{id}/followed:
+    $ref: './paths/post-followed-by-id.yaml'
   /post/user/{userid}:
     $ref: './paths/post-user.yaml'
-
+  /post/{id}/like:
+    $ref: './paths/post/post-like.yaml'
+  /post:
+    $ref: './paths/post.yaml'
   # Project endpoints
   /project:
     $ref: './paths/project.yaml'
@@ -51,8 +60,14 @@ paths:
   # User endpoints
   /user:
     $ref: './paths/user.yaml'
+  /user/role/{role}:
+    $ref: './paths/user/user-role.yaml'
   /user/{id}:
     $ref: './paths/user-by-id.yaml'
+  /user/{id}/followed/{followedid}:
+    $ref: './paths/user/user-followed-by-id.yaml'
+
+
   /user/{id}/followers:
     $ref: './paths/user/user-followers.yaml'
   /user/{id}/followed:
@@ -79,3 +94,23 @@ paths:
   # Social networks endpoints
   /social-networks:
     $ref: './paths/social-networks.yaml'
+
+  #notificaciones  endpoints
+  /notification:
+    $ref: './paths/notification.yaml'
+  /notification/{id}:
+    $ref: './paths/notification-by-id.yaml'
+
+  # Fileupload endpoint
+  /fileupload:
+    $ref: './paths/fileupload.yaml'
+  /messages:
+    $ref: './messages/messages.yaml'
+  /messages/between/{receiverId}:
+    $ref: './messages/m-between-user.yaml'
+  /follow/{id}:
+    $ref: './connections/conn.yaml'
+
+  # Role  endpoints
+  /role:
+    $ref: './paths/role/role.yaml'
