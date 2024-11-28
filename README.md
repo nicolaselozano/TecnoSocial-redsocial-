@@ -3,7 +3,7 @@
 ## Descripción del Proyecto
 **TechSocial** es una red social orientada a la comunidad de programadores, desarrollada como parte de una pasantía-simulación en No Country entre octubre y noviembre de 2024. La plataforma permite a los usuarios crear perfiles personalizados, publicar, seguir a otros usuarios y comunicarse en tiempo real, fomentando el intercambio y la colaboración en temas de tecnología y desarrollo.
 
-| ![[Captura de pantalla 2024-03-02 210531](https://github.com/nicolaselozano/nicolaselozano/assets/103128953/171184d8-6549-457b-8d64-d7d0356a6193)](https://media.licdn.com/dms/image/v2/D4D2DAQHuK4zhGNyQgw/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1730768662385?e=1732032000&v=beta&t=gA3OiUQegbYtsD5GRcl-WTfcuSdPN072gt1uuKsFxfI) | ![[Captura de pantalla 2024-03-02 210552](https://github.com/nicolaselozano/nicolaselozano/assets/103128953/cfdda993-8431-4fc0-9375-495bdd7f8a06)](https://media.licdn.com/dms/image/v2/D4D2DAQH3jHBGgKFJ4g/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1730768671892?e=1732032000&v=beta&t=jqsUHw9qnx0PoVIVxd_XRdnX3Tf3i9i4wIQk7f6TiG0)
+| ![image](https://github.com/user-attachments/assets/68b69785-a3f3-466e-9761-e539a1f6cd33) | ![image](https://github.com/user-attachments/assets/62e46501-bcfd-43c2-ad9f-2a1b296a1a26)
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 ## Rol en el Proyecto
